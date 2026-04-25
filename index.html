@@ -3722,10 +3722,8 @@ Object.assign(window, { WritingIndexV4, ArticleV4, WorkV4, NowV4, ContactV4, Pre
 // useState, useEffect are in scope from motif.jsx
 
 function App() {
-  const [variation, setVariation] = useState("v4"); // v1..v4
   const [route, setRoute] = useState({ page: "home", slug: null });
   const [cursorColor, setCursorColor] = useState("#1F3DBF");
-  const [showSwitcher, setShowSwitcher] = useState(true);
   const [paletteId, setPaletteId] = useState("cobalt");
 
   function navigate(page, slug = null) {
@@ -3737,87 +3735,22 @@ function App() {
     setTimeout(() => window.scrollTo({ top: 0, behavior: "instant" }), 10);
   }
 
-  const palettes = { v1: PALETTE_V1, v2: PALETTE_V2, v3: PALETTE_V3, v4: PALETTE_V4 };
-  const palette = palettes[variation];
-  const pV4 = PALETTES_V4[paletteId];
+  const p = PALETTES_V4[paletteId];
+  const sharedProps = { palette: p, paletteId, setPaletteId, onNavigate: navigate, setCursorColor };
 
   let page;
-  if (route.page === "home") {
-    if (variation === "v1") page = <HomeV1 onNavigate={navigate} setCursorColor={setCursorColor} />;
-    else if (variation === "v2") page = <HomeV2 onNavigate={navigate} setCursorColor={setCursorColor} />;
-    else if (variation === "v3") page = <HomeV3 onNavigate={navigate} setCursorColor={setCursorColor} />;
-    else page = <HomeV4 onNavigate={navigate} setCursorColor={setCursorColor} paletteId={paletteId} setPaletteId={setPaletteId} />;
-  } else if (variation === "v4") {
-    if (route.page === "writing") page = <WritingIndexV4 palette={pV4} paletteId={paletteId} setPaletteId={setPaletteId} onNavigate={navigate} setCursorColor={setCursorColor} />;
-    else if (route.page === "essay") page = <ArticleV4 slug={route.slug || "edges"} palette={pV4} paletteId={paletteId} setPaletteId={setPaletteId} onNavigate={navigate} setCursorColor={setCursorColor} />;
-    else if (route.page === "work") page = <WorkV4 palette={pV4} paletteId={paletteId} setPaletteId={setPaletteId} onNavigate={navigate} setCursorColor={setCursorColor} />;
-    else if (route.page === "now") page = <NowV4 palette={pV4} paletteId={paletteId} setPaletteId={setPaletteId} onNavigate={navigate} setCursorColor={setCursorColor} />;
-    else if (route.page === "contact") page = <ContactV4 palette={pV4} paletteId={paletteId} setPaletteId={setPaletteId} onNavigate={navigate} setCursorColor={setCursorColor} />;
-    else page = <HomeV4 onNavigate={navigate} setCursorColor={setCursorColor} paletteId={paletteId} setPaletteId={setPaletteId} />;
-  } else if (route.page === "writing") {
-    page = <WritingIndex palette={palette} onNavigate={navigate} setCursorColor={setCursorColor} />;
-  } else if (route.page === "essay") {
-    page = <Article slug={route.slug || "edges"} palette={palette} onNavigate={navigate} setCursorColor={setCursorColor} />;
-  } else {
-    page = <Stub palette={palette} onNavigate={navigate} title={route.page} />;
-  }
+  if (route.page === "writing") page = <WritingIndexV4 {...sharedProps} />;
+  else if (route.page === "essay") page = <ArticleV4 slug={route.slug || "edges"} {...sharedProps} />;
+  else if (route.page === "work") page = <WorkV4 {...sharedProps} />;
+  else if (route.page === "now") page = <NowV4 {...sharedProps} />;
+  else if (route.page === "contact") page = <ContactV4 {...sharedProps} />;
+  else page = <HomeV4 onNavigate={navigate} setCursorColor={setCursorColor} paletteId={paletteId} setPaletteId={setPaletteId} />;
 
   return (
     <>
       <CustomCursor color={cursorColor} />
       {page}
-      <Switcher variation={variation} setVariation={setVariation} show={showSwitcher} setShow={setShowSwitcher} route={route} setRoute={setRoute} />
     </>
-  );
-}
-
-function Stub({ palette, onNavigate, title }) {
-  const p = palette;
-  return (
-    <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", padding: "4rem 2rem", textAlign: "center", fontFamily: "var(--f-body)" }}>
-      <div className="ui caps" style={{ color: p.muted, marginBottom: "1rem" }}>{title}</div>
-      <h1 className="display" style={{ fontSize: "3rem", margin: 0, fontWeight: 380 }}>Coming next round.</h1>
-      <p style={{ color: p.muted, maxWidth: "44ch", margin: "1.4rem auto" }}>This page is intentionally left blank. Round two: Work (annotated CV), Now (field journal), Contact (sparse).</p>
-      <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("home"); }} style={{ color: p.accent, fontFamily: "var(--f-ui)" }}>← Back home</a>
-    </div>
-  );
-}
-
-function Switcher({ variation, setVariation, show, setShow, route, setRoute }) {
-  const labels = {
-    v1: "Maggie-warm",
-    v2: "Robin-voicey",
-    v3: "Josh-delightful",
-    v4: "Rauno-precise",
-  };
-  if (!show) {
-    return (
-      <button onClick={() => setShow(true)} style={{ position: "fixed", bottom: 18, right: 18, zIndex: 9000, padding: "0.6rem 0.9rem", background: "#1A1A1A", color: "#fff", border: "none", fontFamily: "var(--f-ui)", fontSize: 12, cursor: "pointer", letterSpacing: "0.04em" }}>
-        SHOW VARIATIONS
-      </button>
-    );
-  }
-  return (
-    <div style={{ position: "fixed", bottom: 18, right: 18, zIndex: 9000, background: "#1A1A1A", color: "#F4EFDD", padding: "0.8rem 0.9rem", fontFamily: "var(--f-ui)", fontSize: 12, boxShadow: "0 12px 40px rgba(0,0,0,0.18)", maxWidth: 280 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.6rem" }}>
-        <span style={{ letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Direction</span>
-        <button onClick={() => setShow(false)} style={{ all: "unset", cursor: "pointer", opacity: 0.6, fontSize: 14 }}>×</button>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4, marginBottom: "0.6rem" }}>
-        {Object.entries(labels).map(([k, v]) => (
-          <button key={k} onClick={() => { setVariation(k); setRoute({ page: "home", slug: null }); }} style={{ all: "unset", cursor: "pointer", padding: "0.5rem 0.6rem", background: variation === k ? "#F4EFDD" : "transparent", color: variation === k ? "#1A1A1A" : "#F4EFDD", border: "1px solid rgba(244,239,221,0.25)", textAlign: "center", fontSize: 11 }}>
-            {v}
-          </button>
-        ))}
-      </div>
-      <div style={{ borderTop: "1px solid rgba(244,239,221,0.18)", paddingTop: "0.6rem", display: "flex", gap: 6, flexWrap: "wrap" }}>
-        {[["Home","home"], ["Writing","writing"], ["Work","work"], ["Now","now"], ["Contact","contact"], ["Essay: Edges","essay"]].map(([l, pg]) => (
-          <button key={pg} onClick={() => setRoute({ page: pg, slug: pg === "essay" ? "edges" : null })} style={{ all: "unset", cursor: "pointer", padding: "0.35rem 0.55rem", background: route.page === pg ? "#1F3DBF" : "transparent", color: "#F4EFDD", border: "1px solid rgba(244,239,221,0.25)", fontSize: 11 }}>
-            {l}
-          </button>
-        ))}
-      </div>
-    </div>
   );
 }
 
