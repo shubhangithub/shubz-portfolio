@@ -3366,14 +3366,17 @@ function WorkV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColo
 
   const builds = [
     { name: "Orion intelligence platform", scope: "founding-eng", role: "data infra, ML pipelines, backend services in Python + Golang", year: "2025 —" },
-    { name: "shubz-taylor-rec-engine", scope: "open", role: "six ML engines for Taylor Swift catalog discovery (TS rebuild of the R/Shiny original)", year: "2026" },
-    { name: "inbix22 — JAYA + crossover", scope: "open", role: "feature-selection variants for protein function ID; 96% best", year: "2022" },
+    { name: "fashion-web — trend prediction & speculation market", scope: "deployed · solo", role: "Next.js 16 / TS / Postgres / Pinecone — multi-source pipeline (Reddit, Bluesky, YouTube, editorial), composite scoring, Holt-Winters forecasts, portfolios + leaderboards", year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
+    { name: "platypus-learn — AI learning platform", scope: "deployed · solo", role: "Next.js / Supabase / Resend — ingests PDFs and YouTube, generates courses with Claude, weekly goals dashboard", year: "2025 —", url: "https://platypus-learn.vercel.app" },
+    { name: "shubz-taylor-rec-engine", scope: "open", role: "six ML recommendation engines for one songbook — TS rebuild of the R/Shiny original", year: "2026" },
+    { name: "inbix22 — JAYA + crossover", scope: "open", role: "feature-selection variants for protein function ID; 96% on the best dataset", year: "2022", url: "https://github.com/shubhangithub/inbix22" },
     { name: "MFoCS thesis: immune biomarkers", scope: "academic", role: "single-cell expression clustering, consensus, biomarker detection", year: "2024" },
-    { name: "Flipkart-Walmart merger NLP", scope: "academic", role: "theme extraction + sentiment mining (SpaCy / NLTK / Gensim / TextBlob)", year: "2024" },
+    { name: "Flipkart-Walmart merger NLP", scope: "academic", role: "theme extraction + sentiment mining — SpaCy, NLTK, Gensim, TextBlob", year: "2024" },
     { name: "GNSS water-vapour ML", scope: "honours thesis", role: "regression models vs traditional linear baselines", year: "2023" },
+    { name: "Nand2Tetris — 16-bit computer from gates up", scope: "coursework", role: "all 13 projects: HDL, assembly, VM, compiler, OS", year: "2022" },
     { name: "IoT Weather Bot", scope: "side", role: "C++ on a microcontroller, ThingSpeak, web dashboard", year: "2021" },
-    { name: "Cipher program", scope: "side", role: "Python+Numpy encryptor with five layers and a key", year: "2021" },
-    { name: "this site", scope: "open", role: "single-file HTML / CSS / inline React", year: "2026" },
+    { name: "Cipher program", scope: "side", role: "Python + NumPy five-layer encryptor with key schedule", year: "2021" },
+    { name: "this site", scope: "open", role: "single-file HTML / CSS / inline React", year: "2026", url: "https://github.com/shubhangithub/personal-site" },
   ];
 
   const speaking = [
@@ -3468,10 +3471,18 @@ function WorkV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColo
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {builds.map((b, i) => (
-                <a key={i} href="#" onClick={(e) => e.preventDefault()} style={{ display: "grid", gridTemplateColumns: "60px 1fr 140px 80px", gap: "1.4rem", padding: "1.1rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline", color: p.ink }}>
+                <a key={i}
+                   href={b.url || "#"}
+                   target={b.url ? "_blank" : undefined}
+                   rel={b.url ? "noreferrer" : undefined}
+                   onClick={(e) => { if (!b.url) e.preventDefault(); }}
+                   style={{ display: "grid", gridTemplateColumns: "60px 1fr 160px 80px", gap: "1.4rem", padding: "1.1rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline", color: p.ink }}>
                   <span className="mono" style={{ color: p.muted, fontSize: 11 }}>{String(i + 1).padStart(2, "0")}</span>
                   <div>
-                    <div className="link-underline" style={{ fontFamily: "var(--f-body)", fontSize: "1.05rem" }}>{b.name}</div>
+                    <div className={b.url ? "link-underline" : ""} style={{ fontFamily: "var(--f-body)", fontSize: "1.05rem" }}>
+                      {b.name}
+                      {b.url && <span style={{ color: p.accent, marginLeft: 8, fontSize: "0.85em" }}>↗</span>}
+                    </div>
                     <div style={{ fontSize: "0.9rem", color: p.muted, marginTop: 4 }}>{b.role}</div>
                   </div>
                   <span className="mono caps" style={{ color: p.accent, fontSize: 10, letterSpacing: "0.1em" }}>{b.scope}</span>
@@ -3533,13 +3544,15 @@ function NowV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColor
   const scrollPct = usePreciseScroll();
 
   const focuses = [
-    { kind: "Building", what: "Orion's intelligence platform — geospatial ML over H3 indexing, with confidence weighting baked in at every join." },
+    { kind: "Founding", what: "Orion's intelligence platform — geospatial ML over H3 indexing, with confidence weighting baked in at every join." },
+    { kind: "Shipping", what: "fashion-web — multi-source trend pipeline (Reddit, Bluesky, YouTube, editorial), composite scoring, Holt-Winters forecasts, with a small speculation market on top. Live at fashion-web-psi.vercel.app." },
     { kind: "Writing",  what: "Drafting \"What an H3 hexagon knows\" — the next essay. Half a year of building this at work, condensed." },
     { kind: "Re-building", what: "shubz-taylor-rec-engine — six recommendation engines for one songbook. Public on GitHub; I keep finding new things to try." },
     { kind: "Reading",  what: "A few papers on calibration, a novel I won't name yet, and the next chapter of any optimization survey I can find." },
   ];
 
   const journal = [
+    { date: "2026-04", note: "fashion-web's data pipeline finally feels complete — Reddit, Bluesky, YouTube, editorial, all flowing into one composite trend score with Holt-Winters on top. Now I can stop building and start watching what it predicts." },
     { date: "2026-02", note: "Elected MInstP. The certificate is small and unreasonably satisfying." },
     { date: "2025-12", note: "Started a second pass at the Taylor Swift recommender — TypeScript this time, six engines, all of them slightly wrong in interesting ways." },
     { date: "2025-08", note: "\"Decoding Flipkart-Walmart Merger\" picks up the Best Paper Award at IEEE ICCUBEA-2025. Co-authored with Prof. Chakraborty; four years from data scrape to award." },
@@ -3601,7 +3614,7 @@ function NowV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColor
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>02</span>
             Right now
           </h2>
-          <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>four concurrent threads</span>
+          <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>five concurrent threads</span>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
