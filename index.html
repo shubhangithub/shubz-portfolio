@@ -1685,34 +1685,54 @@ function Footer({ palette, line }) {
 
 const POSTS = [
   {
-    slug: "edges",
-    title: "Edges",
-    kicker: "Essay · Physics & skating",
-    dek: "Why figure skating is applied physics, and what a single millimeter of steel teaches me about precision.",
+    slug: "jaya",
+    title: "JAYA, with crossover",
+    kicker: "Essay · Optimization & Bioinformatics",
+    dek: "Modifying a parameter-free optimizer with genetic operators — and what 96% accuracy on protein-function classification taught me about \"parameter-free\" claims.",
+    minutes: 8,
+    illustration: "hex",
+    cardBg: "#E5E8F0",
+    accent: "#1F3DBF",
+  },
+  {
+    slug: "biomarkers",
+    title: "Counting cells, finding immunity",
+    kicker: "Essay · Computational biology",
+    dek: "Notes from an MFoCS thesis on automated immune biomarker detection — clustering single-cell expression with thresholds, consensus, and a healthy distrust of outlier-detection methods.",
+    minutes: 11,
+    illustration: "hex",
+    cardBg: "#EFEEE7",
+    accent: "#1F3DBF",
+  },
+  {
+    slug: "h3-confidence",
+    title: "What an H3 hexagon knows",
+    kicker: "Essay · Geospatial ML",
+    dek: "Indexing the world on hexagons, weighting events by confidence, and why \"where\" is rarely a point. Half a year of building this at Orion, condensed.",
     minutes: 7,
-    illustration: "skate",
-    cardBg: "#F1E5CC",
-    accent: "#B85C3C",
+    illustration: "hex",
+    cardBg: "#E9EAEF",
+    accent: "#1F3DBF",
   },
   {
-    slug: "mcp",
-    title: "MCP is just a protocol",
-    kicker: "Essay · Series · 1 of 7",
-    dek: "The first thing nobody tells you about the Model Context Protocol is how boring it is — and why that's the point.",
+    slug: "merger-themes",
+    title: "What the merger said",
+    kicker: "Essay · NLP & M&A",
+    dek: "Theme extraction and sentiment mining over Indian financial news on the Flipkart-Walmart merger. Best Paper at IEEE ICCUBEA-2025; the readers still beat the model on irony.",
     minutes: 9,
-    illustration: "protocol",
-    cardBg: "#E9E8DA",
-    accent: "#7A8A6B",
+    illustration: "wave",
+    cardBg: "#EFE8E5",
+    accent: "#1F3DBF",
   },
   {
-    slug: "writing-as-physicist",
-    title: "Writing as a physicist",
-    kicker: "Notes · Craft",
-    dek: "On making math-heavy thinking feel like reading a novel — and why the worst thing you can do to a physics paper is make it look like one.",
+    slug: "six-engines",
+    title: "Six engines for one songbook",
+    kicker: "Notes · Recommendation",
+    dek: "Building (and re-building) six recommendation engines for Taylor Swift's catalog. Why a corpus of two hundred songs is harder than two hundred million.",
     minutes: 5,
-    illustration: "physics",
-    cardBg: "#EFE6D2",
-    accent: "#9C7A3A",
+    illustration: "wave",
+    cardBg: "#EBE8EE",
+    accent: "#1F3DBF",
   },
 ];
 
@@ -2174,7 +2194,7 @@ function HomeV4({ onNavigate, setCursorColor, paletteId, setPaletteId }) {
             </h1>
 
             <p className="prose" style={{ fontSize: "1.08rem", lineHeight: 1.7, marginTop: "1.8rem", maxWidth: "52ch", color: p.ink }}>
-              Founding engineer at Orion. Oxford MFoCS. Member of the Institute of Physics. I work on geospatial ML over H3 hexagons — the precision of <em>where</em>, weighted by the confidence of <em>how do we know</em>. I write about physics, skating, and protocols.
+              Founding engineer at <em>Orion</em>, where I build geospatial-intelligence ML over H3 hexagons — the precision of <em>where</em>, weighted by the confidence of <em>how do we know</em>. Oxford MFoCS, BSc CS from FLAME, Member of the Institute of Physics. I write about optimization, bioinformatics, and the occasional Taylor Swift recommendation engine.
             </p>
 
             <div style={{ marginTop: "2rem", display: "flex", gap: "2rem", flexWrap: "wrap", alignItems: "center", fontFamily: "var(--f-ui)", fontSize: 13 }}>
@@ -2249,10 +2269,10 @@ function HomeV4({ onNavigate, setCursorColor, paletteId, setPaletteId }) {
         <div style={{ borderTop: `1px solid ${p.line}`, borderBottom: `1px solid ${p.line}`, padding: "1.4rem 0", display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", fontFamily: "var(--f-ui)", fontSize: 13 }}>
           <div style={{ gridColumn: "1 / span 2" }} className="caps">Now</div>
           <div style={{ gridColumn: "3 / span 5", color: p.ink }}>
-            Building geospatial ML at Orion · indexing the world on H3 hexagons.
+            Building geospatial ML at <em>Orion</em> · indexing the world on H3 hexagons.
           </div>
           <div style={{ gridColumn: "8 / span 3", color: p.muted }}>
-            Reading <em style={{ color: p.ink }}>Field Notes on the Visual Arts</em>. Listening to <em style={{ color: p.ink }}>Caroline Polachek</em>. Rowing, Thames, dawn.
+            Newly elected <em style={{ color: p.ink }}>MInstP</em>. STEM Ambassador at <em style={{ color: p.ink }}>InnovateHer</em>. Drafting the next essay.
           </div>
           <div style={{ gridColumn: "11 / span 2", color: p.muted, textAlign: "right" }} className="mono">London · 51.51°N</div>
         </div>
@@ -2294,9 +2314,8 @@ function PortraitAnnotations({ palette }) {
   // image (mix-blend so they read on dark or light areas).
   const p = palette;
   const items = [
-    { top: "12%", label: "b. Delhi, 1998" },
-    { top: "44%", label: "Oxford · MFoCS" },
-    { top: "76%", label: "→ London" },
+    { top: "22%", label: "Oxford · MFoCS" },
+    { top: "62%", label: "→ London" },
   ];
   return (
     <>
@@ -2342,11 +2361,11 @@ function kbdStyle(p) {
 function Timeline({ palette }) {
   const p = palette;
   const events = [
-    { year: "2026", what: "Founding engineer, Orion (geospatial ML / H3)", where: "London" },
-    { year: "2024", what: "MFoCS, Mathematical Foundations of Computer Science", where: "Oxford" },
-    { year: "2023", what: "Member of the Institute of Physics", where: "—" },
-    { year: "2022", what: "Research, condensed-matter & topological phases", where: "Oxford" },
-    { year: "2020", what: "Started writing essays at the seam of code & physics", where: "London" },
+    { year: "2026", what: "Elected MInstP — Member of the Institute of Physics", where: "London" },
+    { year: "2025", what: "Founding engineer at Orion (geospatial ML / H3)", where: "London" },
+    { year: "2025", what: "Best Paper · IEEE ICCUBEA — Flipkart-Walmart merger NLP", where: "co-author" },
+    { year: "2024", what: "MFoCS · Oxford · Lady Margaret Hall — thesis on immune biomarker detection", where: "Oxford" },
+    { year: "2023", what: "BSc CS (Hons) · Dean's Roll of Honour", where: "FLAME University" },
   ];
   return (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
@@ -2384,7 +2403,7 @@ function Colophon({ palette }) {
             Built in HTML and a small amount of React. Math by hand. Type set in <em style={{ color: p.ink }}>Fraunces</em> (display) and <em style={{ color: p.ink }}>Source Serif 4</em> (body); UI in <em style={{ color: p.ink }}>IBM Plex Sans</em>; numbers in <em style={{ color: p.ink }}>JetBrains Mono</em>. The hexagon is a Fourier reconstruction of an H3 cell at 20 epicycles. The cat in fig.03 is a real two-state quantum system — observation collapses it.
           </p>
           <p style={{ margin: "1rem 0 0", color: p.muted, fontSize: 12 }}>
-            <span className="mono">© 2026</span> · last edit <span className="mono">2026.04.25</span> · <a href="#" className="link-underline" style={{ color: p.accent }}>view source</a>
+            <span className="mono">© 2026 Shubhangi Sharma</span> · <a href="https://github.com/shubhangithub/personal-site" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>view source</a>
           </p>
         </div>
       </div>
@@ -2843,18 +2862,18 @@ function WritingIndexV4({ palette: p, paletteId, setPaletteId, onNavigate, setCu
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, [paletteId]);
   const scrollPct = usePreciseScroll();
 
-  // earlier notes (working drafts)
+  // earlier writing — real academic publications & posters
   const notes = [
-    ["The JAYA algorithm, redrawn",            "2025-11", "wn"],
-    ["What an H3 hexagon knows",               "2025-09", "wn"],
-    ["On reading Tufte without becoming Tufte","2024-12", "wn"],
-    ["Variational autoencoders, gently",       "2024-08", "wn"],
-    ["Why I left equations ranged-left",       "2024-04", "wn"],
-    ["A small grammar for confidence",         "2023-10", "wn"],
+    ["Decoding Flipkart-Walmart Merger (Best Paper, IEEE ICCUBEA-2025)", "2025-08", "paper"],
+    ["MFoCS thesis: Analysing and Advancing Automated Immune Biomarker Detection", "2024-09", "thesis"],
+    ["Improved JAYA algorithm for protein function ID (poster, Indian Conf. Bioinformatics 2022)", "2022-10", "poster"],
+    ["GNSS Water-Vapour estimation via ML (BSc honours thesis, FLAME)", "2023-05", "thesis"],
+    ["Explainable AI: Decoding protein sequences (research note)", "2023-04", "note"],
+    ["Novel technique to derive cloud information from INSAT-3D", "2022-01", "note"],
   ];
 
-  // tag chips, faux-controlled (purely presentational)
-  const tags = ["all", "physics", "ml", "craft", "protocols", "skating"];
+  // tag chips
+  const tags = ["all", "optimization", "biology", "ml", "geospatial", "nlp"];
   const [activeTag, setActiveTag] = React.useState("all");
 
   return (
@@ -3052,6 +3071,154 @@ function PreciseEssayRow({ post, palette: p, onNavigate, index, total }) {
 
 // ---------- ARTICLE (V4) ----------
 
+function JayaEssay({ palette: p }) {
+  return (
+    <>
+      <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
+        The thing they don't tell you about a "parameter-free" optimizer is that it has no parameters because <em>you</em> haven't added them yet.<span className="sidenote-number" style={{ color: p.accent }}>1</span> JAYA — Sanskrit for victory, named by R. Venkata Rao in 2016 — needs only a population size and a stopping rule, and that minimalism is exactly what makes it interesting to break.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>1.</strong> "Parameter-free" almost always means "the parameters are baked in." It's a design choice you cannot tune, which is a parameter pretending to be a virtue.
+        </span>
+      </p>
+
+      <p>In the summer of 2022 I was a research intern with Prof. Jayaraman Valadi, working on protein-function classification. The task: pick a small subset of features (out of thousands per protein) such that a downstream classifier hits respectable accuracy without overfitting. JAYA had a reputation for being good at this. We wanted to know if we could make it better by giving it some of the parameters it had bragged about not needing.</p>
+
+      <PullQuote color={p.accent}>"Parameter-free" almost always means the parameters are baked in.</PullQuote>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
+        <span>JAYA, briefly</span>
+      </h2>
+
+      <p>JAYA's update rule fits in a tweet. For each candidate <span className="mono">x_i</span> in the population, you nudge it toward the current best <span className="mono">x_b</span> and away from the current worst <span className="mono">x_w</span>:</p>
+
+      <p style={{ textAlign: "center", margin: "1.4rem 0", fontFamily: "var(--f-mono)", fontSize: "0.95rem", color: p.ink, padding: "0.8rem", border: `1px dashed ${p.line}`, background: `color-mix(in oklch, ${p.paper} 80%, white)` }}>
+        x_i' = x_i + r₁ (x_b − |x_i|) − r₂ (x_w − |x_i|)
+      </p>
+
+      <p>where <span className="mono">r₁</span> and <span className="mono">r₂</span> are uniform random in <span className="mono">[0,1]</span>. That's it. No inertia term. No crossover rate. No mutation rate. The only knobs are how many candidates and how long to run.<span className="sidenote-number" style={{ color: p.accent }}>2</span> This is an honestly good design.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>2.</strong> Compared with PSO (which needs an inertia weight, a cognitive coefficient, and a social coefficient) or GA (crossover rate, mutation rate, selection scheme), JAYA is dramatically less fiddly to set up. You can run it in twenty lines of Python.
+        </span>
+      </p>
+
+      <p>It is also a design that throws away most of what genetic algorithms learned in the 1970s about searching combinatorial spaces. Crossover lets two candidates trade genes. Mutation prevents premature convergence on a local optimum. JAYA replaces both with "be more like the best, less like the worst," which is closer to gradient descent than evolution.</p>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
+        <span>Adding crossover</span>
+      </h2>
+
+      <p>Our modification was unsubtle. After each JAYA update, we ran the candidates through a one-point crossover with probability <span className="mono">p_c</span>, then through a per-feature flip mutation with probability <span className="mono">p_m</span>. We tried several combinations.</p>
+
+      <p>The best variant — call it JAYA-XM — looked like this:</p>
+
+      <ol style={{ margin: "1.2rem 0", paddingLeft: "1.4rem", lineHeight: 1.7 }}>
+        <li>JAYA update on the whole population.</li>
+        <li>Pair candidates and crossover at a single random feature index, <span className="mono">p_c = 0.7</span>.</li>
+        <li>Per-feature flip mutation, <span className="mono">p_m = 0.05</span>.</li>
+        <li>Elitism: carry the top two candidates unchanged into the next generation.</li>
+      </ol>
+
+      <p>Now the algorithm has parameters. Three of them. The "parameter-free" branding is gone. The hope was that what we lost in elegance we'd gain in accuracy on real protein data.</p>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
+        <span>Three protein datasets</span>
+      </h2>
+
+      <p>We tested on three feature-rich protein-function datasets. The classifier was a simple SVM with an RBF kernel — kept stable across runs so the differences would come from the feature selection, not the model. We compared vanilla JAYA, JAYA-XM, and a few intermediate variants.</p>
+
+      <p>The result: JAYA-XM hit <strong style={{ color: p.accent }}>96% accuracy</strong> on the best of the three datasets, beating vanilla JAYA by a few points and matching the best published results we could find at the time. On the other two it was within a point of vanilla — the wins were dataset-dependent, which is a way of saying <em>your mileage may vary</em>.</p>
+
+      <p>We presented the work as a poster at the Indian Conference on Bioinformatics in October 2022, at VFSTR.<span className="sidenote-number" style={{ color: p.accent }}>3</span> The conversation around the poster mostly happened at the elbow — bioinformaticians asking what dataset, statisticians asking what's the variance over repeats, one optimization person quietly noting that we'd just rebuilt a 1990s memetic algorithm from a 2016 starting point. He was right. He also said it didn't matter. He was right about that too.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>3.</strong> Vignan's Foundation for Science, Technology and Research, Andhra Pradesh. The conference room had stunning posters, weak coffee, and a conversation density I haven't matched at any London meetup since.
+        </span>
+      </p>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§04</span>
+        <span>What 96% means</span>
+      </h2>
+
+      <p>Three years on, I think the lesson isn't really about JAYA. It's about "parameter-free" as a claim. A parameter-free algorithm makes a strong design choice — to not expose certain knobs to the user — and that choice is itself a parameter, just one you can't tune. When the choice is right, the simplicity is a gift. When it's wrong, you spend time grafting the missing knobs back on, and the elegance was always borrowed.</p>
+
+      <PullQuote color={p.accent}>The honest version is to say what your algorithm is committed to, and what it leaves open.</PullQuote>
+
+      <p>JAYA is committed to a population, a best-and-worst signal, and a uniform sampling distribution. It leaves open everything else. We added back crossover and mutation because the problem we were solving has structure — features correlate, subsets matter — that a pure best/worst signal can't see.</p>
+
+      <p>The repo is still up, lightly dusted, at <a href="https://github.com/shubhangithub/inbix22" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>github.com/shubhangithub/inbix22</a>.</p>
+
+      <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written between two stops at the British Library, on a Wednesday.</p>
+    </>
+  );
+}
+
+function DraftEssay({ post, palette: p, onNavigate }) {
+  return (
+    <>
+      <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
+        This essay is in the drawer. The kicker — <em>{post.kicker.replace(/^Essay · /, "").replace(/^Notes · /, "")}</em> — is real, the research is real, the argument is half-formed.
+      </p>
+
+      <p>Until I'm willing to defend it in print, here's what it'll cover:</p>
+
+      <p style={{ fontSize: "1.06rem", lineHeight: 1.7, color: p.ink, padding: "1.4rem 1.6rem", borderLeft: `2px solid ${p.accent}`, background: `color-mix(in oklch, ${p.paper} 75%, white)`, margin: "1.4rem 0" }}>
+        {post.dek}
+      </p>
+
+      <h2 className="display" style={{ fontSize: "1.4rem", fontWeight: 400, marginTop: "2.4rem", marginBottom: "1rem", color: p.muted }}>
+        While you wait
+      </h2>
+
+      <p>You can read <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", "jaya"); }} className="link-underline" style={{ color: p.accent }}>JAYA, with crossover</a> — published — or have a look at the <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} className="link-underline" style={{ color: p.accent }}>annotated CV</a> for the underlying research.</p>
+
+      <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— draft note, last touched {new Date().toISOString().slice(0, 10)}.</p>
+    </>
+  );
+}
+
+function essayMeta(slug) {
+  const meta = {
+    "jaya": {
+      tags: "optimization, bioinformatics",
+      toc: ["Header", "Lede", "JAYA, briefly", "Adding crossover", "Three protein datasets", "What 96% means"],
+      sources: [
+        ['[1] Rao, R. V. (2016). ', '"Jaya: A simple and new optimization algorithm." Int. J. Industrial Engineering Computations.'],
+        ['[2] Sharma, S., & Valadi, J. (2022). ', "Improved JAYA algorithm for protein function ID. Poster, Indian Conf. on Bioinformatics."],
+        ['[3] ', "github.com/shubhangithub/inbix22"],
+      ],
+      sidenotes: 3,
+    },
+    "biomarkers": {
+      tags: "computational biology, clustering",
+      toc: ["Header", "Draft in progress"],
+      sources: [],
+      sidenotes: 0,
+    },
+    "h3-confidence": {
+      tags: "geospatial, ml, calibration",
+      toc: ["Header", "Draft in progress"],
+      sources: [],
+      sidenotes: 0,
+    },
+    "merger-themes": {
+      tags: "nlp, m&a",
+      toc: ["Header", "Draft in progress"],
+      sources: [],
+      sidenotes: 0,
+    },
+    "six-engines": {
+      tags: "recommendation, music",
+      toc: ["Header", "Draft in progress"],
+      sources: [],
+      sidenotes: 0,
+    },
+  };
+  return meta[slug] || meta["jaya"];
+}
+
 function ArticleV4({ slug, palette: p, paletteId, setPaletteId, onNavigate, setCursorColor }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, [slug, paletteId]);
   const scrollPct = usePreciseScroll();
@@ -3085,7 +3252,7 @@ function ArticleV4({ slug, palette: p, paletteId, setPaletteId, onNavigate, setC
             <div style={{ marginTop: 12 }}>kind</div>
             <div style={{ color: p.ink }}>standalone essay</div>
             <div style={{ marginTop: 12 }}>tags</div>
-            <div style={{ color: p.ink }}>physics, skating</div>
+            <div style={{ color: p.ink }}>{essayMeta(post.slug).tags}</div>
           </div>
           <div style={{ gridColumn: "3 / span 7" }}>
             <h1 className="display" style={{ fontSize: "clamp(4rem, 9vw, 8rem)", margin: 0, fontWeight: 360, lineHeight: 0.9, letterSpacing: "-0.03em" }}>
@@ -3097,10 +3264,10 @@ function ArticleV4({ slug, palette: p, paletteId, setPaletteId, onNavigate, setC
           </div>
           <div style={{ gridColumn: "10 / span 3", paddingBottom: "0.6rem" }}>
             <div style={{ border: `1px solid ${p.line}`, padding: "0.8rem", aspectRatio: "1 / 1", display: "grid", placeItems: "center", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-              <FourierMotif shape="skate" size={200} density={26} strokeColor={p.accent} trailColor={`color-mix(in oklch, ${p.accent} 50%, transparent)`} epicycleColor={`color-mix(in oklch, ${p.ink} 8%, transparent)`} />
+              <FourierMotif shape={post.illustration === "wave" ? "wave" : "hex"} size={200} density={26} strokeColor={p.accent} trailColor={`color-mix(in oklch, ${p.accent} 50%, transparent)`} epicycleColor={`color-mix(in oklch, ${p.ink} 8%, transparent)`} />
             </div>
             <div className="mono" style={{ marginTop: 10, color: p.muted, fontSize: 10, display: "flex", justifyContent: "space-between" }}>
-              <span>fig.02 — fourier(blade)</span>
+              <span>fig.02 — fourier({post.illustration || "hex"})</span>
               <span>26 epi.</span>
             </div>
           </div>
@@ -3123,74 +3290,13 @@ function ArticleV4({ slug, palette: p, paletteId, setPaletteId, onNavigate, setC
 
           <div style={{ gridColumn: "1 / span 2" }}>
             <IndexRail palette={p} currentIdx={1}
-              items={["Header", "Lede", "Edges are vectors", "Fig 1 · the four edges", "The Fourier of a figure", "Fig 2 · reconstruction", "What the ice teaches"]}
-              telemetry={[["essay", "01/03"], ["read", `${post.minutes} min`], ["fig", "02"], ["sidenotes", "03"]]}
+              items={essayMeta(post.slug).toc}
+              telemetry={[["essay", `${String(POSTS.findIndex(x => x.slug === post.slug) + 1).padStart(2, "0")}/${String(POSTS.length).padStart(2, "0")}`], ["read", `${post.minutes} min`], ["sidenotes", String(essayMeta(post.slug).sidenotes).padStart(2, "0")]]}
               scrollPct={scrollPct} />
           </div>
 
           <div style={{ gridColumn: "3 / span 7" }}>
-            <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
-              An edge is a single millimeter of steel in contact with ice. Shift your ankle by two degrees and you are tracing a different curve.<span className="sidenote-number" style={{ color: p.accent }}>1</span> Lean too far and you fall.
-              <span className="sidenote">
-                <strong style={{ color: p.accent }}>1.</strong> Two degrees is not a metaphor. The blade has an inside edge and an outside edge, separated by a hollow ground into the steel — typically <span className="mono">7/16″</span>. Most of the geometry of a turn is determined by which edge is loaded.
-              </span>
-              The whole sport rests on this: sharpened metal and the physics of yielding surfaces.
-            </p>
-
-            <p>When I started skating seriously, I stopped being able to read papers the same way. Every figure became a shape I could trace with my boot. A Fourier decomposition is just a bunch of circles teaching a curve how to remember itself. Gradient descent is a skater finding the low spot in a rink after the Zamboni.</p>
-
-            <p>You don't need to see physics in skating to skate. But once you do, the ice feels like paper, and every jump is a sentence you are writing in real time — punctuation included.</p>
-
-            <PullQuote color={p.accent}>A Fourier decomposition is just a bunch of circles teaching a curve how to remember itself.</PullQuote>
-
-            <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-              <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
-              <span>Edges are vectors</span>
-            </h2>
-
-            <p>The first thing a coach will tell you is to stop thinking about feet and start thinking about <em>edges</em>. There are four of them on a pair of skates: left inside, left outside, right inside, right outside.<span className="sidenote-number" style={{ color: p.accent }}>2</span>
-              <span className="sidenote">
-                <strong style={{ color: p.accent }}>2.</strong> "Edge" is also a verb in the sport. To <em>edge</em> a turn is to commit a specific edge to the ice; it implies intention, not just contact.
-              </span>
-              Each one is a half-vector. They have a direction (forward or backward) and a sign (inside or outside the curve). Skating is the practice of composing these eight things into legible sentences.
-            </p>
-
-            <Figure caption="Figure 1 · The four primary edges. Hover an edge to see the curve it traces." palette={p}>
-              <EdgeDiagram palette={p} />
-            </Figure>
-
-            <p>The math is genuinely useful. A turn on an outside edge is a circular arc whose radius is set by the lean angle of the ankle and the speed at which you arrive. <span className="mono" style={{ background: `color-mix(in oklch, ${p.ink} 6%, transparent)`, padding: "0 4px" }}>r = v² / (g · tan θ)</span>. You memorize this without ever being told it; you call it "the feeling of a deep edge".</p>
-
-            <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-              <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
-              <span>The Fourier of a figure</span>
-            </h2>
-
-            <p>In the old days of the sport — and the reason it is still called <em>figure</em> skating — competitors would trace shapes in the ice and be judged on how close two repetitions of the same shape lay to each other. The compulsory figures.<span className="sidenote-number" style={{ color: p.accent }}>3</span>
-              <span className="sidenote">
-                <strong style={{ color: p.accent }}>3.</strong> Removed from competition in 1990. The sport has not entirely recovered from the trade.
-              </span>
-              A figure is a closed curve. A closed curve, decomposed in the Fourier sense, is a sum of rotating circles. Which means a perfect figure-eight is, mathematically, a particular cocktail of circular motions. Which means the body of a skater performing one is, in some honest sense, a low-dimensional analog computer for a Fourier series.
-            </p>
-
-            <Figure caption="Figure 2 · A Fourier reconstruction of a figure-eight, 1 to 14 epicycles." palette={p}>
-              <FourierFigure palette={p} />
-            </Figure>
-
-            <p>I am not saying skaters are doing math while they skate. I am saying skating is a physical proof that math is a language the body already speaks; we just translate it into chalk and Greek letters and call it a different thing.</p>
-
-            <PullQuote color={p.accent}>Skating is a physical proof that math is a language the body already speaks.</PullQuote>
-
-            <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-              <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
-              <span>What the ice teaches</span>
-            </h2>
-
-            <p>What I have learned, and have tried to bring back to my work as an engineer, is this: precision is not severity. A bracket turn is precise. It is also forgiving — the ice gives, the boot gives, the ankle gives. You make a small adjustment ten times rather than a large one once.</p>
-
-            <p>I have started writing software the same way. Tighten the loop. Make the smallest adjustment you can detect. Let the system tell you when you are leaning too far. Trust the surface to push back.</p>
-
-            <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written between two practice sessions at Streatham, on a Tuesday.</p>
+            {post.slug === "jaya" ? <JayaEssay palette={p} /> : <DraftEssay post={post} palette={p} onNavigate={onNavigate} />}
           </div>
 
           {/* right rail — endmatter / pull-out */}
@@ -3199,14 +3305,20 @@ function ArticleV4({ slug, palette: p, paletteId, setPaletteId, onNavigate, setC
             <div className="mono" style={{ color: p.ink, fontSize: 10, lineHeight: 1.6 }}>
               Sharma, S. (2026).<br/>
               <em>{post.title}</em>.<br/>
-              shubhangi.dev/{post.slug}
+              shubzsharma.com/{post.slug}
             </div>
-            <div className="caps mono" style={{ marginTop: 22, marginBottom: 8, letterSpacing: "0.12em" }}>Sources</div>
-            <div className="mono" style={{ color: p.ink, fontSize: 10, lineHeight: 1.6 }}>
-              [1] King, B. <em>Mechanics of figure skating.</em><br/>
-              [2] Streatham Ice & Leisure, field notes.<br/>
-              [3] ISU Communication 1932.
-            </div>
+            {essayMeta(post.slug).sources.length > 0 && (
+              <>
+                <div className="caps mono" style={{ marginTop: 22, marginBottom: 8, letterSpacing: "0.12em" }}>Sources</div>
+                <div className="mono" style={{ color: p.ink, fontSize: 10, lineHeight: 1.6 }}>
+                  {essayMeta(post.slug).sources.map(([prefix, body], i) => (
+                    <div key={i} style={{ marginBottom: 4 }}>
+                      <span>{prefix}</span><em>{body}</em>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
             <div className="caps mono" style={{ marginTop: 22, marginBottom: 8, letterSpacing: "0.12em" }}>Share</div>
             <div className="mono" style={{ fontSize: 10 }}>
               <a href="#" className="link-underline" style={{ color: p.accent }}>copy permalink</a><br/>
@@ -3240,27 +3352,35 @@ function WorkV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColo
   const scrollPct = usePreciseScroll();
 
   const events = [
-    { year: "2026 —", what: "Founding engineer", where: "Orion · London", note: "Geospatial ML over H3 hexagons. Confidence calibration is the whole job." },
-    { year: "2024", what: "MFoCS, Mathematical Foundations of Computer Science", where: "Oxford · Hertford", note: "Distinction. Thesis: continuity guarantees in spatial neural fields." },
-    { year: "2023", what: "Member of the Institute of Physics", where: "MInstP", note: "Elected route." },
-    { year: "2022", what: "Research, condensed-matter & topological phases", where: "Oxford · Theoretical Physics", note: "Two papers, one of which I still defend." },
-    { year: "2020", what: "Started writing essays at the seam of code & physics", where: "London", note: "First essay: 'Why I left equations ranged-left.'" },
-    { year: "2019", what: "BSc Physics, first class", where: "Imperial College London", note: "Audited every Mathematical Tripos lecture I could." },
-    { year: "1998 —", what: "Born", where: "Delhi → London (2003)", note: "" },
+    { year: "2026 —", what: "Elected MInstP, Member of the Institute of Physics", where: "London · Feb 2026", note: "Professional body for physics in the UK and Ireland. Elected route." },
+    { year: "2025 —", what: "Founding engineer, Orion", where: "London", note: "Geospatial intelligence over H3 indexing. Built the data infrastructure for high-volume, multi-source intelligence streams; ML pipelines for anomaly detection and intelligent filtering; backend services in Python and Golang. Previously: Data & ML Engineer (Nov 2024 – Aug 2025); Data Engineer, part-time (Apr 2024 – Nov 2024)." },
+    { year: "2025", what: "Best Paper Award · IEEE ICCUBEA-2025", where: "co-author · Aug 2025", note: "\"Decoding Flipkart-Walmart Merger: An Empirical Analysis of News using Theme Extraction, Sentiment Mining, for Indian M&A Insights.\" 1240 submissions, 220 selected, one Best Paper." },
+    { year: "2024", what: "MFoCS · Mathematical Foundations of Computer Science", where: "Oxford · Lady Margaret Hall", note: "Thesis: \"Analysing and Advancing Automated Immune Biomarker Detection.\" Modules included Geometric Deep Learning, Computational Game Theory, Quantum Information." },
+    { year: "2023", what: "ML Engineering Intern, Natter", where: "London", note: "Built models for bullying, mental-distress, and spam detection on social text. A user-matching recommender on top." },
+    { year: "2023", what: "BSc (Hons) Computer Science", where: "FLAME University", note: "CGPA 8.53/10. Dean's Roll of Honour: Rank 41 → Rank 24 → Rank 3 across years." },
+    { year: "2022", what: "Research intern · JAYA algorithm + protein function ID", where: "Prof. Jayaraman Valadi", note: "Modified the JAYA optimizer with crossover/mutation; one variant hit 96% accuracy. Poster at the Indian Conference on Bioinformatics 2022 (VFSTR)." },
+    { year: "2021", what: "Data Analyst & Researcher, Centre for Knowledge Alternatives", where: "Pune", note: "Cultural mapping of Kolhapur district for the Discover India Project. Tableau, government datasets, sector reports." },
+    { year: "2020", what: "Co-founder, UnisphereCo", where: "Hyderabad", note: "Online platform for the undergraduate-application process — mentors from 50+ universities, 200+ attendees per session." },
+    { year: "2019", what: "Founder, PrintedCraft", where: "Bangalore", note: "Personalised printing — built a python connector to a cloud product DB for real-time promotions." },
   ];
 
   const builds = [
-    { name: "Orion · spatial-ML platform", scope: "founding-eng", role: "co-author of the geospatial inference engine", year: "2026" },
-    { name: "Hex-confidence", scope: "internal", role: "calibrated likelihoods on H3", year: "2025" },
-    { name: "MCP-tour", scope: "essay series", role: "seven essays on protocol design", year: "2025" },
-    { name: "FourierFigure (this site)", scope: "open", role: "epicycle reconstruction toy", year: "2024" },
-    { name: "ranged-left.css", scope: "open", role: "tiny stylesheet for math typesetting", year: "2024" },
+    { name: "Orion intelligence platform", scope: "founding-eng", role: "data infra, ML pipelines, backend services in Python + Golang", year: "2025 —" },
+    { name: "shubz-taylor-rec-engine", scope: "open", role: "six ML engines for Taylor Swift catalog discovery (TS rebuild of the R/Shiny original)", year: "2026" },
+    { name: "inbix22 — JAYA + crossover", scope: "open", role: "feature-selection variants for protein function ID; 96% best", year: "2022" },
+    { name: "MFoCS thesis: immune biomarkers", scope: "academic", role: "single-cell expression clustering, consensus, biomarker detection", year: "2024" },
+    { name: "Flipkart-Walmart merger NLP", scope: "academic", role: "theme extraction + sentiment mining (SpaCy / NLTK / Gensim / TextBlob)", year: "2024" },
+    { name: "GNSS water-vapour ML", scope: "honours thesis", role: "regression models vs traditional linear baselines", year: "2023" },
+    { name: "IoT Weather Bot", scope: "side", role: "C++ on a microcontroller, ThingSpeak, web dashboard", year: "2021" },
+    { name: "Cipher program", scope: "side", role: "Python+Numpy encryptor with five layers and a key", year: "2021" },
+    { name: "this site", scope: "open", role: "single-file HTML / CSS / inline React", year: "2026" },
   ];
 
   const speaking = [
-    { event: "MFoCS · summer school", talk: "What an H3 hexagon knows", year: "2025" },
-    { event: "London Geospatial", talk: "Calibration is a feature, not a metric", year: "2024" },
-    { event: "Iceberg meetup", talk: "Skating, edges, and applied physics", year: "2024" },
+    { event: "Indian Conference on Bioinformatics", talk: "Improved JAYA algorithm for protein function ID (poster)", year: "2022" },
+    { event: "IEEE ICCUBEA-2025", talk: "Decoding Flipkart-Walmart Merger (Best Paper, co-author)", year: "2025" },
+    { event: "InnovateHer", talk: "STEM Ambassador — running sessions for under-represented students in tech", year: "2025 —" },
+    { event: "\"I'm a... Programme\"", talk: "Science communicator, CS & Mathematics", year: "2025 —" },
   ];
 
   return (
@@ -3298,7 +3418,7 @@ function WorkV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColo
             <div className="mono" style={{ fontSize: 11, color: p.muted, lineHeight: 1.8 }}>
               <div style={{ color: p.ink }}>fig.01 — record</div>
               <div>entries&nbsp;&nbsp;&nbsp;{events.length}</div>
-              <div>span&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;28 yr</div>
+              <div>span&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2019 — now</div>
               <div>updated&nbsp;{new Date().toISOString().slice(0, 10)}</div>
               <div style={{ marginTop: 12 }}>
                 <a href="uploads/Shubhangi-Sharma-Resume-20260211.pdf" target="_blank" className="link-underline" style={{ color: p.accent }}>cv.pdf ↗</a>
@@ -3315,7 +3435,7 @@ function WorkV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColo
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>02</span>
             Trajectory
           </h2>
-          <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>1998 — present</span>
+          <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>2019 — present</span>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
@@ -3389,10 +3509,10 @@ function WorkV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColo
       {/* contact CTA */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", borderTop: `1px solid ${p.line}`, paddingTop: "2rem" }}>
-          <div className="caps" style={{ gridColumn: "1 / span 2", fontFamily: "var(--f-ui)", fontSize: 11, color: p.muted, letterSpacing: "0.12em" }}>Hire / talk</div>
+          <div className="caps" style={{ gridColumn: "1 / span 2", fontFamily: "var(--f-ui)", fontSize: 11, color: p.muted, letterSpacing: "0.12em" }}>Get in touch</div>
           <div style={{ gridColumn: "3 / span 6" }}>
             <div className="display" style={{ fontSize: "1.6rem", fontWeight: 380, lineHeight: 1.3, color: p.ink }}>
-              Available for <em style={{ color: p.accent }}>three</em> deeply-scoped consulting engagements per year — geospatial ML, calibration, tooling.
+              Currently <em style={{ color: p.accent }}>founding</em> at Orion. Open to collaboration on geospatial ML, optimization, computational biology, or anything that crosses two of those.
             </div>
             <div style={{ marginTop: 18 }}>
               <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("contact"); }} className="link-underline" style={{ color: p.accent, fontFamily: "var(--f-ui)", fontSize: 14 }}>get in touch →</a>
@@ -3413,20 +3533,20 @@ function NowV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColor
   const scrollPct = usePreciseScroll();
 
   const focuses = [
-    { kind: "Building", what: "Hex-confidence v0.4 — calibrated likelihoods on H3 cells. The new sampler is half as fast and twice as honest." },
-    { kind: "Writing",  what: "MCP-tour 02/07 — drafting. The protocol is boring, which is the whole point of the essay." },
-    { kind: "Reading",  what: "Field Notes on the Visual Arts. Re-reading bits of Tufte. A novel I won't name yet." },
-    { kind: "Skating",  what: "Streatham Tuesday/Thursday 06:30. Working on bracket turns; my left outside is lying to me." },
-    { kind: "Listening",what: "Caroline Polachek · Pang. Ravel. The hum of the Thames at 5 a.m." },
+    { kind: "Building", what: "Orion's intelligence platform — geospatial ML over H3 indexing, with confidence weighting baked in at every join." },
+    { kind: "Writing",  what: "Drafting \"JAYA, with crossover\" — an essay on the parameter-free optimizer I modified for protein-function ID." },
+    { kind: "Re-building", what: "shubz-taylor-rec-engine — six recommendation engines for one songbook. Public on GitHub; I keep finding new things to try." },
+    { kind: "Volunteering", what: "STEM Ambassador at InnovateHer + Science Communicator at the \"I'm a...\" Programme." },
+    { kind: "Reading",  what: "A few papers on calibration, a novel I won't name yet, and the next chapter of any optimization survey I can find." },
   ];
 
   const journal = [
-    { date: "2026-04-25", note: "Portrait annotations finally land where they should. Tiny win, took most of an hour. Worth it." },
-    { date: "2026-04-22", note: "Refactored the geospatial-ML inference engine to stream over hex tiles instead of materializing the world. Memory down 6×; latency down 2×." },
-    { date: "2026-04-18", note: "Published 'Edges'. Three people emailed about the math, two about the skating, one about the typography. The typography person was right." },
-    { date: "2026-04-12", note: "Long walk on Hampstead Heath. Decided to stop apologizing for using semicolons." },
-    { date: "2026-04-04", note: "First serious sketch of the H3-confidence paper. The trick is to let the calibration object be a measure, not a number." },
-    { date: "2026-03-28", note: "Finished a draft of 'What an H3 hexagon knows' that I almost like. Will sleep on it for two weeks." },
+    { date: "2026-02", note: "Elected MInstP. The certificate is small and unreasonably satisfying." },
+    { date: "2025-12", note: "Started a second pass at the Taylor Swift recommender — TypeScript this time, six engines, all of them slightly wrong in interesting ways." },
+    { date: "2025-08", note: "\"Decoding Flipkart-Walmart Merger\" picks up the Best Paper Award at IEEE ICCUBEA-2025. Co-authored with Prof. Chakraborty; four years from data scrape to award." },
+    { date: "2025-08", note: "Promoted to Founding Engineer at Orion. The job description got shorter and the work got broader." },
+    { date: "2024-09", note: "MFoCS done. Thesis on automated immune biomarker detection — single-cell expression, clustering with a healthy distrust of outlier-detection." },
+    { date: "2022-10", note: "Presented the JAYA-with-crossover poster at the Indian Conference on Bioinformatics. One variant hit 96% — still my favourite hyperparameter combo." },
   ];
 
   // weather/london mock telemetry
@@ -3531,10 +3651,10 @@ function NowV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColor
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.6rem", fontFamily: "var(--f-ui)", fontSize: 13 }}>
               {[
-                ["Mood", "calm-ish", "tuesday-after-skating"],
-                ["Inbox", "62 unread", "non-emergency"],
-                ["Phone", "across the room", "by design"],
-                ["Tea", "Russian Caravan", "second pot"],
+                ["Mood", "writing-mode", "rare and protected"],
+                ["Inbox", "managed", "weekly batch"],
+                ["Reading", "calibration papers", "and one quiet novel"],
+                ["Tea", "masala chai", "always"],
               ].map(([k, v, sub], i) => (
                 <div key={i}>
                   <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.12em" }}>{k}</div>
@@ -3559,19 +3679,19 @@ function ContactV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorC
   const scrollPct = usePreciseScroll();
 
   const channels = [
-    { label: "Email",    handle: "shubhangi@orion.dev",      note: "Best — read once a day in the morning.",            href: "mailto:shubhangi@orion.dev" },
-    { label: "Mastodon", handle: "@shubhangi@hachyderm.io",  note: "Public-facing. Slow.",                                href: "#" },
-    { label: "Are.na",   handle: "are.na/shubhangi",         note: "Where I keep things I'm thinking with.",              href: "#" },
-    { label: "GitHub",   handle: "github.com/shubhangis",    note: "Mostly small tools and one stylesheet.",              href: "#" },
-    { label: "Signal",   handle: "by request",               note: "For people I already know.",                          href: "#" },
+    { label: "Email",    handle: "hello@shubzsharma.com",        note: "Best — read once a day in the morning.",                href: "mailto:hello@shubzsharma.com" },
+    { label: "Work",     handle: "shubhangi@oriongeo.com",       note: "For Orion-related things only.",                        href: "mailto:shubhangi@oriongeo.com" },
+    { label: "GitHub",   handle: "github.com/shubhangithub",     note: "Where the public repos live (a Taylor Swift rec engine and a JAYA paper, mostly).", href: "https://github.com/shubhangithub" },
+    { label: "LinkedIn", handle: "linkedin.com/in/shubhangithub",note: "Conventional channel; checked weekly-ish.",              href: "https://www.linkedin.com/in/shubhangithub" },
+    { label: "Phone",    handle: "+44 7522 124954",              note: "For people I already know.",                              href: "tel:+447522124954" },
   ];
 
   const policy = [
     ["Reply window",       "≤ 72 hours, on weekdays"],
-    ["Will read",          "anything from a stranger about physics, calibration, typography, or skating"],
-    ["Won't open",         "PDFs from strangers; pitches that begin with 'quick question'"],
-    ["Office hours",       "first Friday of the month · 14:00 GMT · book via email"],
-    ["Out of office",      "—"],
+    ["Will read",          "anything from a stranger about optimization, computational biology, geospatial ML, music recommendation, or science communication"],
+    ["Won't open",         "unsolicited PDFs from strangers; pitches that begin with 'quick question'"],
+    ["Available for",      "collaboration on research, advisory work, mentoring InnovateHer cohorts"],
+    ["Based",              "London — happy on calls in any reasonable timezone"],
   ];
 
   return (
@@ -3604,7 +3724,7 @@ function ContactV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorC
               </span>
             </h1>
             <p className="prose" style={{ fontSize: "1.06rem", lineHeight: 1.7, marginTop: "1.4rem", maxWidth: "54ch", color: p.ink }}>
-              I prefer email — it makes me think. Other channels are mostly for archive and signal. If you're writing about physics, calibration, typography, or skating, you will get a longer reply than you expect.
+              I prefer email — it makes me think. Other channels are mostly for archive and signal. If you're writing about optimization, computational biology, geospatial ML, or music recommendation, you will get a longer reply than you expect.
             </p>
           </div>
           <div style={{ gridColumn: "10 / span 3", paddingTop: "0.4rem" }}>
@@ -3678,7 +3798,7 @@ function ContactV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorC
           <div style={{ gridColumn: "3 / span 9" }}>
             <form onSubmit={(e) => e.preventDefault()} style={{ border: `1px solid ${p.line}`, padding: "1.4rem", background: `color-mix(in oklch, ${p.paper} 85%, white)`, fontFamily: "var(--f-ui)" }}>
               <div className="mono caps" style={{ color: p.muted, fontSize: 11, letterSpacing: "0.12em", marginBottom: 12, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: "1rem" }}>
-                <span>To: shubhangi@orion.dev</span>
+                <span>To: hello@shubzsharma.com</span>
                 <span></span>
                 <span style={{ color: p.accent }}>● ready</span>
               </div>
@@ -3740,7 +3860,7 @@ function App() {
 
   let page;
   if (route.page === "writing") page = <WritingIndexV4 {...sharedProps} />;
-  else if (route.page === "essay") page = <ArticleV4 slug={route.slug || "edges"} {...sharedProps} />;
+  else if (route.page === "essay") page = <ArticleV4 slug={route.slug || "jaya"} {...sharedProps} />;
   else if (route.page === "work") page = <WorkV4 {...sharedProps} />;
   else if (route.page === "now") page = <NowV4 {...sharedProps} />;
   else if (route.page === "contact") page = <ContactV4 {...sharedProps} />;
