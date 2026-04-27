@@ -1004,24 +1004,34 @@ Object.assign(window, { SchrodingerCat });
    accent-colored, math-driven motion. 12 themes, one per month.
    ======================================================================= */
 const SEASONAL_THEMES = [
-  { id: "quantum",   label: "Quantum",       caption: "interference of two stationary states" },
-  { id: "topology",  label: "Topology",      caption: "non-orientable surface · möbius" },
-  { id: "skating",   label: "Skating",       caption: "trochoid · wheel along a line" },
-  { id: "astronomy", label: "Astronomy",     caption: "Kepler orbit · e = 0.4" },
-  { id: "cellular",  label: "Cellular",      caption: "Wolfram rule 110 · 1-D automaton" },
-  { id: "fluids",    label: "Fluids",        caption: "Kármán vortex street · Re ≈ 100" },
-  { id: "chaos",     label: "Chaos",         caption: "Lorenz · σ=10, β=8/3, ρ=28" },
-  { id: "h3",        label: "H3 hexagons",   caption: "hex lattice · resolution 8" },
-  { id: "neural",    label: "Latent space",  caption: "random walk in 2-D embedding" },
-  { id: "optics",    label: "Optics",        caption: "double-slit · path difference" },
-  { id: "crypto",    label: "Lattices",      caption: "LLL basis reduction" },
-  { id: "relativity",label: "Relativity",    caption: "light cone · Minkowski" },
+  { id: "skating",   label: "Skating",       caption: "trochoid · wheel along a line",
+    why: "January, when the rinks are full." },
+  { id: "cellular",  label: "Cellular",      caption: "Wolfram rule 110 · 1-D automaton",
+    why: "February, after Darwin's birthday — the smallest rules that look like life." },
+  { id: "topology",  label: "Topology",      caption: "non-orientable surface · möbius",
+    why: "March, around Pi Day. A surface with one side." },
+  { id: "astronomy", label: "Astronomy",     caption: "Kepler orbit · e = 0.4",
+    why: "April is Global Astronomy Month. An ellipse, with the sun off-centre." },
+  { id: "chaos",     label: "Chaos",         caption: "Lorenz · σ=10, β=8/3, ρ=28",
+    why: "May, when the weather can't make up its mind." },
+  { id: "fluids",    label: "Fluids",        caption: "Kármán vortex street · Re ≈ 100",
+    why: "June, around World Oceans Day. Water past a column." },
+  { id: "relativity",label: "Relativity",    caption: "light cone · Minkowski",
+    why: "July, on the anniversary of Apollo 11. A light cone." },
+  { id: "optics",    label: "Optics",        caption: "double-slit · path difference",
+    why: "August, watching the Perseids. Two slits, one pattern." },
+  { id: "crypto",    label: "Lattices",      caption: "LLL basis reduction",
+    why: "September, Programmer's Day. Lattice basis reduction." },
+  { id: "h3",        label: "H3 hexagons",   caption: "hex lattice · resolution 8",
+    why: "October, Powers of Ten Day. Indexing the world on hexes." },
+  { id: "quantum",   label: "Quantum",       caption: "interference of two stationary states",
+    why: "November, around World Science Day. Two stationary states, beating." },
+  { id: "neural",    label: "Latent space",  caption: "random walk in 2-D embedding",
+    why: "December, taking stock. A random walk through latent space." },
 ];
 
-function SeasonalSpecimen({ month: monthProp, width = 200, height = 180, accent = "#1F3DBF", ink = "#0F1320", muted = "#6E7488", line = "#D5D6DC", showCycler = true }) {
-  const realMonth = new Date().getMonth();
-  const [month, setMonth] = React.useState(typeof monthProp === "number" ? monthProp : realMonth);
-  React.useEffect(() => { if (typeof monthProp === "number") setMonth(monthProp); }, [monthProp]);
+function SeasonalSpecimen({ width = 200, height = 180, accent = "#1F3DBF", ink = "#0F1320", muted = "#6E7488", line = "#D5D6DC" }) {
+  const month = new Date().getMonth();
 
   const [tick, setTick] = React.useState(0);
   React.useEffect(() => {
@@ -1049,17 +1059,9 @@ function SeasonalSpecimen({ month: monthProp, width = 200, height = 180, accent 
         <span>fig.04 — {theme.caption}</span>
         <span style={{ color: ink }}>{monthName.toLowerCase()}</span>
       </div>
-      {showCycler && (
-        <div style={{ marginTop: 6, display: "flex", justifyContent: "space-between", alignItems: "center", color: muted, fontSize: 10 }} className="mono">
-          <button onClick={() => setMonth((month + 11) % 12)} style={{ all: "unset", cursor: "pointer", color: muted, padding: "2px 6px", border: `1px solid ${line}` }}>‹ prev</button>
-          <span style={{ display: "flex", gap: 3 }}>
-            {SEASONAL_THEMES.map((_, i) => (
-              <span key={i} onClick={() => setMonth(i)} style={{ width: 8, height: 4, cursor: "pointer", background: i === month ? accent : line }} />
-            ))}
-          </span>
-          <button onClick={() => setMonth((month + 1) % 12)} style={{ all: "unset", cursor: "pointer", color: muted, padding: "2px 6px", border: `1px solid ${line}` }}>next ›</button>
-        </div>
-      )}
+      <div style={{ marginTop: 8, fontFamily: "var(--f-body)", fontSize: 12, color: muted, fontStyle: "italic", lineHeight: 1.5 }}>
+        {theme.why}
+      </div>
     </div>
   );
 }
@@ -1689,7 +1691,7 @@ const POSTS = [
     title: "JAYA, with crossover",
     kicker: "Essay · Optimization & Bioinformatics",
     dek: "Modifying a parameter-free optimizer with genetic operators — and what 96% accuracy on protein-function classification taught me about \"parameter-free\" claims.",
-    minutes: 8,
+    minutes: 12,
     illustration: "hex",
     cardBg: "#E5E8F0",
     accent: "#1F3DBF",
@@ -2051,46 +2053,24 @@ Object.assign(window, { HomeV3, PALETTE_V3, NavDark });
    Cool, obsessively detailed · whitespace tuned · micro-interactions on load
    ======================================================================= */
 
-const PALETTES_V4 = {
-  bone: {
-    id: "bone",
-    label: "bone + indigo",
-    paper: "#EFEDE7",
-    ink: "#1A1A1A",
-    muted: "#7A7A77",
-    accent: "#3F4B7E",
-    line: "#D6D3CB",
-  },
-  oxblood: {
-    id: "oxblood",
-    label: "off-white + oxblood",
-    paper: "#F6F3EC",
-    ink: "#161412",
-    muted: "#807A72",
-    accent: "#7A2A2A",
-    line: "#E0DACE",
-  },
-  cobalt: {
-    id: "cobalt",
-    label: "cool ivory + cobalt",
-    paper: "#F2F1EC",
-    ink: "#0F1320",
-    muted: "#6E7488",
-    accent: "#1F3DBF",
-    line: "#D5D6DC",
-  },
+const PALETTE_V4 = {
+  id: "cobalt",
+  label: "cool ivory + cobalt",
+  paper: "#F2F1EC",
+  ink: "#0F1320",
+  muted: "#6E7488",
+  accent: "#1F3DBF",
+  line: "#D5D6DC",
 };
 
-const PALETTE_V4 = PALETTES_V4.cobalt; // default export for app.jsx
-
-function HomeV4({ onNavigate, setCursorColor, paletteId, setPaletteId }) {
+function HomeV4({ onNavigate, setCursorColor }) {
   const { useEffect, useState, useRef } = React;
-  const p = PALETTES_V4[paletteId];
+  const p = PALETTE_V4;
 
   useEffect(() => {
     setCursorColor(p.accent);
     document.body.style.background = p.paper;
-  }, [paletteId]);
+  }, []);
 
   // ticker
   const [tickerIdx, setTickerIdx] = useState(0);
@@ -2101,24 +2081,8 @@ function HomeV4({ onNavigate, setCursorColor, paletteId, setPaletteId }) {
   }, []);
 
   // live cursor coords + scroll % for instrument margin (throttled)
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const [scrollPct, setScrollPct] = useState(0);
-  useEffect(() => {
-    let lastMove = 0;
-    const onMove = (e) => {
-      const now = performance.now();
-      if (now - lastMove < 100) return; // 10Hz
-      lastMove = now;
-      setCoords({ x: e.clientX, y: e.clientY });
-    };
-    const onScroll = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      setScrollPct(max > 0 ? Math.round((window.scrollY / max) * 100) : 0);
-    };
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("scroll", onScroll); };
-  }, []);
+  const coords = useCursorCoords();
+  const scrollPct = usePreciseScroll();
 
   // cat state for status copy
   const [catState, setCatState] = useState({ pAlive: 0.5, pDead: 0.5, observed: false });
@@ -2143,20 +2107,6 @@ function HomeV4({ onNavigate, setCursorColor, paletteId, setPaletteId }) {
           <span className="mono" style={{ color: p.ink }}>{ticker[tickerIdx]}</span>
         </span>
         <span style={{ display: "inline-flex", justifyContent: "flex-end", gap: 14, alignItems: "center" }}>
-          {/* palette swatches */}
-          <span style={{ display: "inline-flex", gap: 5, alignItems: "center" }}>
-            <span className="mono" style={{ opacity: 0.7 }}>palette:</span>
-            {Object.values(PALETTES_V4).map(pl => (
-              <button key={pl.id} onClick={() => setPaletteId(pl.id)} title={pl.label}
-                style={{
-                  all: "unset", cursor: "pointer", width: 14, height: 14,
-                  background: pl.paper, border: `1px solid ${paletteId === pl.id ? pl.ink : p.line}`,
-                  position: "relative", boxSizing: "border-box",
-                }}>
-                <span style={{ position: "absolute", inset: 3, background: pl.accent }} />
-              </button>
-            ))}
-          </span>
           <span className="mono">v.2026.04 · {hh}:{mm}:{ss} GMT</span>
         </span>
         <style>{`@keyframes blip { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }`}</style>
@@ -2174,7 +2124,6 @@ function HomeV4({ onNavigate, setCursorColor, paletteId, setPaletteId }) {
             <div>01 &nbsp; Hero</div>
             <div>02 &nbsp; Now</div>
             <div>03 &nbsp; Writing</div>
-            <div>04 &nbsp; Colophon</div>
             <div style={{ marginTop: 22, color: p.ink }} className="mono">↳ scroll to continue</div>
 
             {/* Instrument panel — live cursor coords + scroll */}
@@ -2186,20 +2135,19 @@ function HomeV4({ onNavigate, setCursorColor, paletteId, setPaletteId }) {
                 <span style={{ color: p.muted }}>ψ</span><span style={{ color: catState.observed ? p.accent : p.ink }}>
                   {catState.pAlive.toFixed(2)} / {catState.pDead.toFixed(2)}
                 </span>
-                <span style={{ color: p.muted }}>palette</span><span>{p.id}</span>
               </div>
             </div>
           </div>
 
           {/* col 3-9 — display + lede */}
           <div style={{ gridColumn: "3 / span 7" }}>
-            <h1 className="display" style={{ fontSize: "clamp(3rem, 6vw, 5.4rem)", margin: 0, fontWeight: 360, lineHeight: 0.96 }}>
-              <LetterReveal stagger={26}>Engineer of </LetterReveal>
-              <span style={{ fontStyle: "italic", color: p.accent }}><LetterReveal stagger={26} delay={460}>quiet </LetterReveal></span>
-              <LetterReveal stagger={26} delay={760}>systems —</LetterReveal>
+            <h1 className="display" style={{ fontSize: "clamp(2.6rem, 5.4vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 1.02 }}>
+              <LetterReveal stagger={26}>I build geospatial ML </LetterReveal>
+              <LetterReveal stagger={26} delay={460}>at Orion —</LetterReveal>
               <span style={{ display: "block" }}>
-                <LetterReveal stagger={26} delay={1080}>obsessive about </LetterReveal>
-                <span style={{ fontStyle: "italic", color: p.accent }}><LetterReveal stagger={26} delay={1480}>edges.</LetterReveal></span>
+                <LetterReveal stagger={26} delay={900}>and write about the </LetterReveal>
+                <span style={{ fontStyle: "italic", color: p.accent }}><LetterReveal stagger={26} delay={1280}>edges</LetterReveal></span>
+                <LetterReveal stagger={26} delay={1500}> I keep finding.</LetterReveal>
               </span>
             </h1>
 
@@ -2250,25 +2198,23 @@ function HomeV4({ onNavigate, setCursorColor, paletteId, setPaletteId }) {
 
           {/* col 10-12 — portrait + motif */}
           <div style={{ gridColumn: "10 / span 3", position: "relative" }}>
-            <div style={{ position: "relative" }}>
+            <div style={{ position: "relative", maxWidth: 220, marginLeft: "auto" }}>
               <img src="assets/portrait.png" alt="Shubhangi, in a black turtleneck against a warm textured backdrop." style={{ width: "100%", display: "block", filter: "grayscale(0.05) contrast(1.02)" }} />
               {[
                 { top: -8, left: -8 }, { top: -8, right: -8 }, { bottom: -8, left: -8 }, { bottom: -8, right: -8 }
               ].map((s, i) => (
                 <span key={i} style={{ position: "absolute", ...s, width: 14, height: 14, borderTop: i < 2 ? `1px solid ${p.muted}` : "none", borderBottom: i >= 2 ? `1px solid ${p.muted}` : "none", borderLeft: i % 2 === 0 ? `1px solid ${p.muted}` : "none", borderRight: i % 2 === 1 ? `1px solid ${p.muted}` : "none" }} />
               ))}
-              {/* portrait annotations — three subtle lines pointing to nothing in particular, captioning the image */}
-              <PortraitAnnotations palette={p} />
             </div>
-            <div className="mono" style={{ marginTop: 10, color: p.muted, fontSize: 11, display: "flex", justifyContent: "space-between" }}>
+            <div className="mono" style={{ marginTop: 10, color: p.muted, fontSize: 11, display: "flex", justifyContent: "space-between", maxWidth: 220, marginLeft: "auto" }}>
               <span>fig.01 — Sharma, S.</span>
               <span>2026 · London</span>
             </div>
 
             {/* small motif as adjacent figure */}
-            <div style={{ marginTop: "1.4rem", border: `1px solid ${p.line}`, padding: "0.8rem", color: p.accent, position: "relative" }}>
-              <FourierMotif shape="hex" size={180} density={20} strokeColor={p.accent} trailColor={`rgba(63,75,126,0.55)`} epicycleColor={`rgba(0,0,0,0.08)`} />
-              <div className="mono" style={{ marginTop: 6, color: p.muted, fontSize: 10 }}>fig.02 — fourier(hex), 20 epicycles</div>
+            <div style={{ marginTop: "1rem", border: `1px solid ${p.line}`, padding: "0.7rem", color: p.accent, position: "relative", maxWidth: 220, marginLeft: "auto" }}>
+              <FourierMotif shape="hex" size={140} density={18} strokeColor={p.accent} trailColor={`rgba(63,75,126,0.55)`} epicycleColor={`rgba(0,0,0,0.08)`} />
+              <div className="mono" style={{ marginTop: 6, color: p.muted, fontSize: 10 }}>fig.02 — fourier(hex), 18 epicycles</div>
             </div>
           </div>
         </div>
@@ -2310,52 +2256,8 @@ function HomeV4({ onNavigate, setCursorColor, paletteId, setPaletteId }) {
         </div>
       </section>
 
-      {/* Colophon */}
-      <Colophon palette={p} />
-
       <Footer palette={p} line="Made with care, in London. Set in Fraunces and Source Serif." />
     </div>
-  );
-}
-
-function PortraitAnnotations({ palette }) {
-  // three faint annotation labels anchored to the right edge of the
-  // portrait, with short leader lines pointing inward. Sits over the
-  // image (mix-blend so they read on dark or light areas).
-  const p = palette;
-  const items = [
-    { top: "22%", label: "Oxford · MFoCS" },
-    { top: "62%", label: "→ London" },
-  ];
-  return (
-    <>
-      {items.map((it, i) => (
-        <div key={i} style={{
-          position: "absolute",
-          right: 0,
-          top: it.top,
-          display: "flex",
-          alignItems: "center",
-          gap: 6,
-          padding: "2px 6px 2px 0",
-          fontFamily: "var(--f-mono)",
-          fontSize: 9.5,
-          color: p.paper,
-          background: `color-mix(in oklch, ${p.ink} 70%, transparent)`,
-          backdropFilter: "blur(2px)",
-          WebkitBackdropFilter: "blur(2px)",
-          letterSpacing: "0.02em",
-          whiteSpace: "nowrap",
-          opacity: 0,
-          animation: `annoIn 480ms var(--ease-out) forwards`,
-          animationDelay: `${1800 + i * 220}ms`,
-        }}>
-          <span style={{ width: 14, height: 1, background: p.paper, opacity: 0.7, marginRight: 2 }} />
-          <span>{it.label}</span>
-        </div>
-      ))}
-      <style>{`@keyframes annoIn { from { opacity: 0; transform: translateX(6px); } to { opacity: 1; transform: translateX(0); } }`}</style>
-    </>
   );
 }
 
@@ -2396,30 +2298,6 @@ function Timeline({ palette }) {
   );
 }
 
-function Colophon({ palette }) {
-  const p = palette;
-  return (
-    <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2rem 1.6rem 3rem", position: "relative", zIndex: 2 }}>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", borderTop: `1px solid ${p.line}`, paddingTop: "2rem" }}>
-        <div className="caps" style={{ gridColumn: "1 / span 2", fontFamily: "var(--f-ui)", fontSize: 12, color: p.muted, letterSpacing: "0.1em", textTransform: "uppercase" }}>Colophon</div>
-        <div style={{ gridColumn: "3 / span 4" }}>
-          <div style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", lineHeight: 1, color: p.ink, fontWeight: 360 }}>Aa Bb Cc</div>
-          <div className="mono" style={{ marginTop: 6, fontSize: 11, color: p.muted }}>Fraunces · variable · 9–144 opsz</div>
-          <div style={{ fontFamily: "Source Serif 4, serif", fontSize: "1.05rem", marginTop: 18, color: p.ink }}>The quick brown fox.</div>
-          <div className="mono" style={{ marginTop: 6, fontSize: 11, color: p.muted }}>Source Serif 4 · body · 8–60 opsz</div>
-        </div>
-        <div style={{ gridColumn: "8 / span 5", fontFamily: "var(--f-ui)", fontSize: 13, color: p.muted, lineHeight: 1.7 }}>
-          <p style={{ margin: 0 }}>
-            Built in HTML and a small amount of React. Math by hand. Type set in <em style={{ color: p.ink }}>Fraunces</em> (display) and <em style={{ color: p.ink }}>Source Serif 4</em> (body); UI in <em style={{ color: p.ink }}>IBM Plex Sans</em>; numbers in <em style={{ color: p.ink }}>JetBrains Mono</em>. The hexagon is a Fourier reconstruction of an H3 cell at 20 epicycles. The cat in fig.03 is a real two-state quantum system — observation collapses it.
-          </p>
-          <p style={{ margin: "1rem 0 0", color: p.muted, fontSize: 12 }}>
-            <span className="mono">© 2026 Shubhangi Sharma</span> · <a href="https://github.com/shubhangithub/personal-site" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>view source</a>
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function PreciseRow({ post, palette, onNavigate, index, total }) {
   const p = palette;
@@ -2439,7 +2317,7 @@ function PreciseRow({ post, palette, onNavigate, index, total }) {
   );
 }
 
-Object.assign(window, { HomeV4, PALETTE_V4, PALETTES_V4 });
+Object.assign(window, { HomeV4, PALETTE_V4 });
 
 
 /* ===== components/writing-index.jsx ===== */
@@ -2753,7 +2631,7 @@ Object.assign(window, { Article });
 
 
 /* ===== components/v4-precise-pages.jsx ===== */
-/* global React, LetterReveal, ReadingRuler, FourierMotif, FlourishLink, POSTS, PALETTES_V4, PullQuote, Figure, EdgeDiagram, FourierFigure */
+/* global React, LetterReveal, ReadingRuler, FourierMotif, FlourishLink, POSTS, PALETTE_V4, PullQuote, Figure, EdgeDiagram, FourierFigure */
 
 /* =======================================================================
    V4 — "Rauno-precise" sub-pages
@@ -2763,7 +2641,7 @@ Object.assign(window, { Article });
 
 // ---------- shared chrome ----------
 
-function PreciseTopBar({ palette: p, paletteId, setPaletteId, label }) {
+function PreciseTopBar({ palette: p, label }) {
   const [now, setNow] = React.useState(() => new Date());
   React.useEffect(() => { const id = setInterval(() => setNow(new Date()), 1000); return () => clearInterval(id); }, []);
   const hh = String(now.getUTCHours()).padStart(2, "0");
@@ -2777,17 +2655,6 @@ function PreciseTopBar({ palette: p, paletteId, setPaletteId, label }) {
         <span className="mono" style={{ color: p.ink }}>{label}</span>
       </span>
       <span style={{ display: "inline-flex", justifyContent: "flex-end", gap: 14, alignItems: "center" }}>
-        {setPaletteId ? (
-          <span style={{ display: "inline-flex", gap: 5, alignItems: "center" }}>
-            <span className="mono" style={{ opacity: 0.7 }}>palette:</span>
-            {Object.values(PALETTES_V4).map(pl => (
-              <button key={pl.id} onClick={() => setPaletteId(pl.id)} title={pl.label}
-                style={{ all: "unset", cursor: "pointer", width: 14, height: 14, background: pl.paper, border: `1px solid ${paletteId === pl.id ? pl.ink : p.line}`, position: "relative", boxSizing: "border-box" }}>
-                <span style={{ position: "absolute", inset: 3, background: pl.accent }} />
-              </button>
-            ))}
-          </span>
-        ) : null}
         <span className="mono">v.2026.04 · {hh}:{mm}:{ss} GMT</span>
       </span>
       <style>{`@keyframes blip { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }`}</style>
@@ -2866,11 +2733,32 @@ function usePreciseScroll() {
   return pct;
 }
 
+function useCursorCoords() {
+  const [coords, setCoords] = React.useState({ x: 0, y: 0 });
+  React.useEffect(() => {
+    let last = 0;
+    const onMove = (e) => {
+      const now = performance.now();
+      if (now - last < 100) return; // 10Hz
+      last = now;
+      setCoords({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
+  return coords;
+}
+
+function cursorTelemetry({ x, y }) {
+  return ["cursor", `${String(x).padStart(4, "0")}, ${String(y).padStart(4, "0")}`];
+}
+
 // ---------- WRITING INDEX (V4) ----------
 
-function WritingIndexV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColor }) {
-  React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, [paletteId]);
+function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
+  React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
+  const coords = useCursorCoords();
 
   // earlier writing — real academic publications & posters
   const notes = [
@@ -2890,7 +2778,7 @@ function WritingIndexV4({ palette: p, paletteId, setPaletteId, onNavigate, setCu
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
       <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
 
-      <PreciseTopBar palette={p} paletteId={paletteId} setPaletteId={setPaletteId} label="~/writing" />
+      <PreciseTopBar palette={p} label="~/writing" />
       <PreciseNav palette={p} current="writing" onNavigate={onNavigate} />
 
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
@@ -2899,7 +2787,7 @@ function WritingIndexV4({ palette: p, paletteId, setPaletteId, onNavigate, setCu
           <div style={{ gridColumn: "1 / span 2" }}>
             <IndexRail palette={p} currentIdx={0}
               items={["Header", "Lede + count", "Featured", "All essays", "Earlier notes", "Subscribe"]}
-              telemetry={[["page", "writing"], ["essays", String(POSTS.length).padStart(2, "0")], ["notes", "06"]]}
+              telemetry={[cursorTelemetry(coords), ["page", "writing"], ["essays", String(POSTS.length).padStart(2, "0")], ["notes", "06"]]}
               scrollPct={scrollPct} />
           </div>
 
@@ -3084,120 +2972,201 @@ function PreciseEssayRow({ post, palette: p, onNavigate, index, total }) {
 // ---- custom SVG diagrams (one per topic, sometimes two) ----
 
 function JayaSwarm({ palette: p }) {
-  const [t, setT] = React.useState(0);
   const [running, setRunning] = React.useState(true);
-  React.useEffect(() => {
-    if (!running) return;
-    const id = setInterval(() => setT(v => (v + 1) % 60), 90);
-    return () => clearInterval(id);
-  }, [running]);
-  // landscape: f(x,y) = -((x-0.7)^2 + (y-0.4)^2) — global max around (0.7, 0.4)
+  const [popSize, setPopSize] = React.useState(30);
+  const [crossover, setCrossover] = React.useState(0.4);
+  const [seed, setSeed] = React.useState(1);
+  const [pop, setPop] = React.useState(null);
+  const [gen, setGen] = React.useState(0);
+
+  // landscape: f(x, y) = -((x-0.7)^2 + (y-0.4)^2). Best at (0.7, 0.4) → fitness 0.
   const target = { x: 0.7, y: 0.4 };
-  const N = 14;
-  const pop = React.useMemo(() => {
-    let s = 11;
-    const r = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
-    return Array.from({ length: N }, () => ({ x: r(), y: r() }));
-  }, []);
-  // simulate: each tick, pull each point ~12% toward target with a tiny jitter
-  const positions = pop.map((pt, i) => {
-    let x = pt.x, y = pt.y;
-    const jitterScale = 0.012;
-    let s = i * 7 + 3;
-    for (let k = 0; k < t; k++) {
-      const pull = 0.12;
-      s = (s * 1103515245 + 12345) % 2147483647;
-      const j1 = ((s / 2147483647) - 0.5) * jitterScale;
-      s = (s * 1103515245 + 12345) % 2147483647;
-      const j2 = ((s / 2147483647) - 0.5) * jitterScale;
-      x = x + pull * (target.x - Math.abs(x)) + j1;
-      y = y + pull * (target.y - Math.abs(y)) + j2;
-    }
-    return { x, y };
-  });
+  const fit = React.useCallback((c) => -((c.x - target.x) ** 2 + (c.y - target.y) ** 2), []);
+
+  // (re)seed population whenever popSize or seed changes
+  React.useEffect(() => {
+    let s = seed * 9001 + 17;
+    const r = () => { s = (s * 1103515245 + 12345) % 2147483647; return s / 2147483647; };
+    const next = Array.from({ length: popSize }, () => ({ x: r(), y: r() }));
+    setPop(next);
+    setGen(0);
+  }, [popSize, seed]);
+
+  // step the JAYA + crossover update on a 90ms tick when running
+  React.useEffect(() => {
+    if (!running || !pop) return;
+    const id = setInterval(() => {
+      setPop(prev => {
+        if (!prev) return prev;
+        let bestI = 0, worstI = 0, bestF = -Infinity, worstF = Infinity;
+        for (let i = 0; i < prev.length; i++) {
+          const f = fit(prev[i]);
+          if (f > bestF) { bestF = f; bestI = i; }
+          if (f < worstF) { worstF = f; worstI = i; }
+        }
+        const xb = prev[bestI], xw = prev[worstI];
+        return prev.map((c, i) => {
+          // JAYA update on each coordinate
+          const r1x = Math.random(), r2x = Math.random();
+          const r1y = Math.random(), r2y = Math.random();
+          let nx = c.x + r1x * (xb.x - Math.abs(c.x)) - r2x * (xw.x - Math.abs(c.x));
+          let ny = c.y + r1y * (xb.y - Math.abs(c.y)) - r2y * (xw.y - Math.abs(c.y));
+          // single-point crossover with a random partner, fired with probability `crossover`
+          if (Math.random() < crossover) {
+            const partner = prev[(i + 1 + Math.floor(Math.random() * (prev.length - 1))) % prev.length];
+            // swap one coordinate at random
+            if (Math.random() < 0.5) nx = partner.x; else ny = partner.y;
+          }
+          return {
+            x: Math.max(0.02, Math.min(0.98, nx)),
+            y: Math.max(0.02, Math.min(0.98, ny)),
+          };
+        });
+      });
+      setGen(g => g + 1);
+    }, 90);
+    return () => clearInterval(id);
+  }, [running, pop, crossover, fit]);
+
   const W = 420, H = 260;
-  // draw contour rings around target
   const rings = [0.08, 0.18, 0.28, 0.4];
+  const bestFitness = pop ? Math.max(...pop.map(fit)) : 0;
+  const ctrlInputStyle = { width: "100%", accentColor: p.accent };
+  const ctrlLabelStyle = { fontFamily: "var(--f-mono)", fontSize: 10, color: p.muted, letterSpacing: "0.04em", display: "flex", justifyContent: "space-between", marginBottom: 2 };
+  const ctrlBlock = { marginBottom: 12 };
+
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "3fr 1fr", gap: "1rem", alignItems: "center" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 240, background: `color-mix(in oklch, ${p.paper} 88%, white)`, border: `1px solid ${p.line}` }}>
         {rings.map((r, i) => (
           <ellipse key={i} cx={target.x * W} cy={(1 - target.y) * H} rx={r * W * 0.9} ry={r * H * 0.9} fill="none" stroke={p.muted} strokeOpacity={0.18} strokeDasharray="2 4" />
         ))}
         <circle cx={target.x * W} cy={(1 - target.y) * H} r="4" fill={p.accent} />
         <text x={target.x * W + 8} y={(1 - target.y) * H + 4} fontFamily="var(--f-mono)" fontSize="9" fill={p.accent}>x_b</text>
-        {positions.map((pt, i) => (
+        {pop && pop.map((pt, i) => (
           <circle key={i} cx={pt.x * W} cy={(1 - pt.y) * H} r="3" fill={p.ink} opacity={0.7} style={{ transition: "all 240ms var(--ease-out)" }} />
         ))}
-        <text x="10" y={H - 8} fontFamily="var(--f-ui)" fontSize="10" fill={p.muted} className="mono">gen {t}</text>
+        <text x="10" y={H - 8} fontFamily="var(--f-ui)" fontSize="10" fill={p.muted} className="mono">gen {gen}</text>
       </svg>
-      <div style={{ fontFamily: "var(--f-ui)", fontSize: 12, lineHeight: 1.6 }}>
-        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Population</div>
-        <div style={{ marginBottom: 12, color: p.ink }}>14 candidates, pulled toward best each generation. No mutation, no crossover — just <em>be more like the best</em>.</div>
-        <button onClick={() => { setT(0); setRunning(r => !r); }} style={{ fontFamily: "var(--f-mono)", fontSize: 10, padding: "4px 10px", border: `1px solid ${p.line}`, background: "transparent", color: p.accent, cursor: "pointer", letterSpacing: "0.06em" }}>{running ? "RESET" : "RUN"}</button>
+      <div style={{ fontFamily: "var(--f-ui)", fontSize: 12, lineHeight: 1.5, color: p.ink }}>
+        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 10 }}>Controls</div>
+
+        <div style={ctrlBlock}>
+          <div style={ctrlLabelStyle}><span>population</span><span style={{ color: p.ink }}>{popSize}</span></div>
+          <input type="range" min={10} max={60} step={2} value={popSize} onChange={e => setPopSize(+e.target.value)} style={ctrlInputStyle} />
+        </div>
+
+        <div style={ctrlBlock}>
+          <div style={ctrlLabelStyle}><span>crossover</span><span style={{ color: p.ink }}>{crossover.toFixed(2)}</span></div>
+          <input type="range" min={0} max={1} step={0.05} value={crossover} onChange={e => setCrossover(+e.target.value)} style={ctrlInputStyle} />
+        </div>
+
+        <div style={{ display: "flex", gap: 6, marginTop: 14, marginBottom: 14 }}>
+          <button onClick={() => setRunning(r => !r)} style={{ flex: 1, fontFamily: "var(--f-mono)", fontSize: 10, padding: "4px 6px", border: `1px solid ${p.line}`, background: "transparent", color: p.accent, cursor: "pointer", letterSpacing: "0.06em" }}>{running ? "PAUSE" : "RUN"}</button>
+          <button onClick={() => setSeed(s => s + 1)} style={{ flex: 1, fontFamily: "var(--f-mono)", fontSize: 10, padding: "4px 6px", border: `1px solid ${p.line}`, background: "transparent", color: p.accent, cursor: "pointer", letterSpacing: "0.06em" }}>RESEED</button>
+        </div>
+
+        <div className="mono" style={{ borderTop: `1px solid ${p.line}`, paddingTop: 10, fontSize: 10, display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 8, rowGap: 4, color: p.ink }}>
+          <span style={{ color: p.muted }}>best f</span><span>{bestFitness.toFixed(4)}</span>
+          <span style={{ color: p.muted }}>gen</span><span>{gen}</span>
+        </div>
       </div>
     </div>
   );
 }
 
 function BiomarkerScatter({ palette: p }) {
-  const [highlight, setHighlight] = React.useState(null);
+  // intensities in 0..1, mapped to clinical units 0..10 for display
+  const [tx, setTx] = React.useState(0.475); // CD4 threshold (clinical 4.39 ≈ 0.475)
+  const [ty, setTy] = React.useState(0.475); // CD8 threshold (clinical 5.65 ≈ 0.475 in our normalised space)
+  const [drag, setDrag] = React.useState(null); // "x" | "y" | null
+  const svgRef = React.useRef(null);
+
   const cells = React.useMemo(() => {
     let s = 9;
     const r = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
     const groups = [
-      { range: [0.55, 0.95, 0.55, 0.95], n: 14, k: 2, label: "CD4+ CD8+", color: "#8B5A89" }, // double pos
-      { range: [0.55, 0.95, 0.05, 0.40], n: 18, k: 1, label: "CD4+ only",   color: "#5B7A4F" },
-      { range: [0.05, 0.40, 0.55, 0.95], n: 16, k: 0, label: "CD8+ only",   color: p.accent },
-      { range: [0.05, 0.40, 0.05, 0.40], n: 28, k: 3, label: "double−",     color: p.muted },
+      { range: [0.55, 0.95, 0.55, 0.95], n: 14, color: "#8B5A89" },
+      { range: [0.55, 0.95, 0.05, 0.40], n: 18, color: "#5B7A4F" },
+      { range: [0.05, 0.40, 0.55, 0.95], n: 16, color: p.accent },
+      { range: [0.05, 0.40, 0.05, 0.40], n: 28, color: p.muted },
     ];
     const out = [];
     groups.forEach(g => {
       for (let i = 0; i < g.n; i++) {
-        out.push({
-          x: g.range[0] + r() * (g.range[1] - g.range[0]),
-          y: g.range[2] + r() * (g.range[3] - g.range[2]),
-          k: g.k, color: g.color,
-        });
+        out.push({ x: g.range[0] + r() * (g.range[1] - g.range[0]), y: g.range[2] + r() * (g.range[3] - g.range[2]) });
       }
     });
     return out;
   }, [p.accent, p.muted]);
+
+  // classify each cell against the live thresholds
+  const classified = cells.map(c => ({ ...c, k: (c.x > tx ? 1 : 0) | ((c.y > ty ? 1 : 0) << 1) }));
+  // counts: k = (cd4High) | (cd8High << 1) → 0=double-neg, 1=CD4+, 2=CD8+, 3=CD4+CD8+
+  const counts = [0, 0, 0, 0];
+  classified.forEach(c => counts[c.k]++);
+  const total = classified.length;
+
   const W = 420, H = 320;
   const px = (v) => 50 + v * (W - 70);
   const py = (v) => H - 40 - v * (H - 70);
+  const pxToV = (vp) => (vp - 50) / (W - 70);
+  const pyToV = (vp) => 1 - (vp - py(1)) / (py(0) - py(1));
+
+  const onPointer = (e) => {
+    if (!drag || !svgRef.current) return;
+    const rect = svgRef.current.getBoundingClientRect();
+    const sx = ((e.clientX - rect.left) / rect.width) * W;
+    const sy = ((e.clientY - rect.top) / rect.height) * H;
+    if (drag === "x") setTx(Math.max(0.05, Math.min(0.95, pxToV(sx))));
+    else if (drag === "y") setTy(Math.max(0.05, Math.min(0.95, pyToV(sy))));
+  };
+
   const groups = [
-    { k: 2, label: "CD4+ CD8+ (double-positive)", color: "#8B5A89", note: "~5% of cells" },
-    { k: 1, label: "CD4+ only", color: "#5B7A4F", note: "helper T cells" },
-    { k: 0, label: "CD8+ only", color: p.accent, note: "cytotoxic T cells" },
-    { k: 3, label: "double−", color: p.muted, note: "background" },
+    { k: 3, label: "CD4+ CD8+ (double-positive)", color: "#8B5A89" },
+    { k: 1, label: "CD4+ only",                   color: "#5B7A4F" },
+    { k: 2, label: "CD8+ only",                   color: p.accent },
+    { k: 0, label: "double−",                     color: p.muted },
   ];
+
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "center" }}>
-      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 280 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
+      <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 280, cursor: drag ? "grabbing" : "default", userSelect: "none", touchAction: "none" }}
+           onMouseMove={onPointer} onMouseUp={() => setDrag(null)} onMouseLeave={() => setDrag(null)}>
         <line x1={px(0)} y1={py(0)} x2={px(1)} y2={py(0)} stroke={p.muted} strokeWidth="1" />
         <line x1={px(0)} y1={py(0)} x2={px(0)} y2={py(1)} stroke={p.muted} strokeWidth="1" />
-        <line x1={px(0.475)} y1={py(0)} x2={px(0.475)} y2={py(1)} stroke={p.accent} strokeDasharray="4 3" strokeWidth="1" opacity="0.5" />
-        <line x1={px(0)} y1={py(0.475)} x2={px(1)} y2={py(0.475)} stroke={p.accent} strokeDasharray="4 3" strokeWidth="1" opacity="0.5" />
         <text x={px(1)} y={py(0) + 18} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>CD4 expression →</text>
         <text x={px(0) - 6} y={py(1) - 4} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>CD8 ↑</text>
-        <text x={px(0.475)} y={py(1) - 6} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="9" fill={p.accent} opacity="0.85">CD4 &gt; 4.39</text>
-        <text x={px(0) - 6} y={py(0.475) - 4} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.accent} opacity="0.85">CD8 &gt; 5.65</text>
-        {cells.map((c, i) => (
-          <circle key={i} cx={px(c.x)} cy={py(c.y)} r={highlight === c.k ? 4.4 : 3} fill={c.color} opacity={highlight === null || highlight === c.k ? 0.85 : 0.18} style={{ transition: "all 220ms var(--ease-out)" }} />
-        ))}
+        {classified.map((c, i) => {
+          const fill = groups.find(g => g.k === c.k).color;
+          return <circle key={i} cx={px(c.x)} cy={py(c.y)} r={3} fill={fill} opacity={0.85} style={{ transition: "fill 200ms" }} />;
+        })}
+        {/* draggable threshold lines */}
+        <line x1={px(tx)} y1={py(0)} x2={px(tx)} y2={py(1)} stroke={p.accent} strokeDasharray="4 3" strokeWidth="1.2" opacity="0.7" />
+        <rect x={px(tx) - 6} y={py(0)} width={12} height={py(1) - py(0)} fill="transparent" style={{ cursor: "ew-resize" }} onMouseDown={() => setDrag("x")} />
+        <line x1={px(0)} y1={py(ty)} x2={px(1)} y2={py(ty)} stroke={p.accent} strokeDasharray="4 3" strokeWidth="1.2" opacity="0.7" />
+        <rect x={px(0)} y={py(ty) - 6} width={px(1) - px(0)} height={12} fill="transparent" style={{ cursor: "ns-resize" }} onMouseDown={() => setDrag("y")} />
+        <text x={px(tx)} y={py(1) - 6} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="9" fill={p.accent}>CD4 &gt; {(tx * 10).toFixed(2)}</text>
+        <text x={px(0) - 6} y={py(ty) - 4} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.accent}>CD8 &gt; {(ty * 10).toFixed(2)}</text>
       </svg>
-      <div style={{ fontFamily: "var(--f-ui)", fontSize: 12, lineHeight: 1.6 }}>
-        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Quadrants</div>
-        {groups.map(g => (
-          <div key={g.k} onMouseEnter={() => setHighlight(g.k)} onMouseLeave={() => setHighlight(null)} style={{ display: "flex", alignItems: "flex-start", gap: 8, padding: "5px 0", cursor: "pointer", color: highlight === g.k ? p.accent : p.ink, transition: "color 220ms" }}>
-            <span style={{ width: 10, height: 10, borderRadius: "50%", background: g.color, flexShrink: 0, marginTop: 4 }} />
-            <div style={{ flex: 1 }}>
-              <div>{g.label}</div>
-              <div style={{ color: p.muted, fontSize: 10 }}>{g.note}</div>
+      <div style={{ fontFamily: "var(--f-ui)", fontSize: 12, lineHeight: 1.55 }}>
+        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Quadrants · drag the dashed lines</div>
+        {groups.map(g => {
+          const pct = total ? (counts[g.k] / total) * 100 : 0;
+          return (
+            <div key={g.k} style={{ padding: "5px 0", color: p.ink }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ width: 10, height: 10, borderRadius: "50%", background: g.color, flexShrink: 0 }} />
+                <span style={{ flex: 1, fontSize: 11 }}>{g.label}</span>
+                <span className="mono" style={{ fontSize: 10, color: p.muted }}>{counts[g.k]} · {pct.toFixed(0)}%</span>
+              </div>
+              <div style={{ height: 2, background: p.line, marginTop: 4, position: "relative" }}>
+                <div style={{ position: "absolute", inset: 0, width: `${pct}%`, background: g.color, transition: "width 180ms var(--ease-out)" }} />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
+        <div style={{ marginTop: 10, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>Slide CD4 from 4.39 to 4.50 — the "double-positive" count drops by a fifth.</div>
       </div>
     </div>
   );
@@ -3262,7 +3231,6 @@ function ConsensusGrid({ palette: p }) {
 }
 
 function RecEngineSwarm({ palette: p }) {
-  const [active, setActive] = React.useState(null);
   const W = 480, H = 320;
   const cx = W / 2, cy = H / 2;
   const engines = [
@@ -3273,64 +3241,91 @@ function RecEngineSwarm({ palette: p }) {
     { id: "ssl",    label: "Contrastive SSL",     short: "SSL", angle: 150, color: "#4F7A8B" },
     { id: "ens",    label: "Ensemble (weighted)", short: "ENS", angle: 210, color: p.ink },
   ];
+  const [enabled, setEnabled] = React.useState(() => Object.fromEntries(engines.map(e => [e.id, true])));
+  const [hover, setHover] = React.useState(null); // song idx or null
   const radius = 110;
-  // recommendations: each engine surfaces a few songs; some overlap (consensus)
+
+  const titles = [
+    "All Too Well (10 Min)", "Cruel Summer", "August", "Cardigan", "Anti-Hero",
+    "Mirrorball", "Style", "Out of the Woods", "Champagne Problems", "The 1",
+    "Daylight", "Exile", "Willow", "Lavender Haze",
+  ];
+
   const songs = React.useMemo(() => {
     let s = 13;
     const r = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
     const out = [];
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < titles.length; i++) {
       const a = r() * Math.PI * 2;
-      out.push({ x: cx + Math.cos(a) * (radius + 50 + r() * 30), y: cy + Math.sin(a) * (radius + 40 + r() * 30), votes: 1 + Math.floor(r() * 3) });
+      out.push({
+        x: cx + Math.cos(a) * (radius + 50 + r() * 30),
+        y: cy + Math.sin(a) * (radius + 40 + r() * 30),
+        title: titles[i],
+      });
     }
     return out;
   }, [cx, cy]);
+
+  // each engine connects deterministically to a fixed subset of songs
+  const linksByEngine = React.useMemo(() => Object.fromEntries(engines.map((e, ei) => {
+    const set = new Set();
+    for (let k = 0; k < 5; k++) set.add((ei * 3 + k * 2 + 1) % songs.length);
+    return [e.id, [...set]];
+  })), [songs.length]);
+
+  // votes per song = count of currently-enabled engines that surface it
+  const votes = songs.map((_, idx) => engines.reduce((acc, e) => acc + (enabled[e.id] && linksByEngine[e.id].includes(idx) ? 1 : 0), 0));
+
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "center" }}>
-      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 300 }}>
-        {/* connections engine -> songs (consensus = thicker) */}
-        {engines.map((e, ei) => {
-          const ex = cx + Math.cos(e.angle * Math.PI / 180) * radius;
-          const ey = cy + Math.sin(e.angle * Math.PI / 180) * radius;
-          // each engine connects to ~4 songs, indices pseudo-randomly
-          const links = [(ei * 3) % songs.length, (ei * 3 + 1) % songs.length, (ei * 3 + 5) % songs.length];
-          return (
-            <g key={e.id} opacity={active === null || active === e.id ? 1 : 0.15} style={{ transition: "opacity 240ms" }}>
-              {links.map((sIdx, j) => (
-                <line key={j} x1={ex} y1={ey} x2={songs[sIdx].x} y2={songs[sIdx].y} stroke={e.color} strokeWidth={songs[sIdx].votes >= 2 ? 1.4 : 0.6} strokeOpacity={0.5} />
-              ))}
+    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
+      <div style={{ position: "relative" }}>
+        <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 300, background: `color-mix(in oklch, ${p.paper} 88%, white)`, border: `1px solid ${p.line}` }}>
+          {engines.map(e => {
+            if (!enabled[e.id]) return null;
+            const ex = cx + Math.cos(e.angle * Math.PI / 180) * radius;
+            const ey = cy + Math.sin(e.angle * Math.PI / 180) * radius;
+            return (
+              <g key={e.id} style={{ transition: "opacity 240ms" }}>
+                {linksByEngine[e.id].map((sIdx, j) => (
+                  <line key={j} x1={ex} y1={ey} x2={songs[sIdx].x} y2={songs[sIdx].y} stroke={e.color} strokeWidth={votes[sIdx] >= 2 ? 1.4 : 0.6} strokeOpacity={hover === sIdx ? 0.9 : 0.45} />
+                ))}
+              </g>
+            );
+          })}
+          <circle cx={cx} cy={cy} r="14" fill={p.paper} stroke={p.ink} strokeWidth="1.5" />
+          <text x={cx} y={cy + 4} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="9" fill={p.ink}>q</text>
+          {engines.map(e => {
+            const ex = cx + Math.cos(e.angle * Math.PI / 180) * radius;
+            const ey = cy + Math.sin(e.angle * Math.PI / 180) * radius;
+            const on = enabled[e.id];
+            return (
+              <g key={e.id} onClick={() => setEnabled(s => ({ ...s, [e.id]: !s[e.id] }))} style={{ cursor: "pointer", opacity: on ? 1 : 0.3, transition: "opacity 220ms" }}>
+                <line x1={cx} y1={cy} x2={ex} y2={ey} stroke={p.muted} strokeOpacity={0.25} />
+                <circle cx={ex} cy={ey} r="14" fill={on ? p.paper : "transparent"} stroke={e.color} strokeWidth="1.6" />
+                <text x={ex} y={ey + 3} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="8" fill={e.color}>{e.short}</text>
+              </g>
+            );
+          })}
+          {songs.map((s, i) => votes[i] === 0 ? null : (
+            <g key={i} onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)} style={{ cursor: "pointer" }}>
+              <circle cx={s.x} cy={s.y} r={votes[i] >= 2 ? 4.5 : 3} fill={votes[i] >= 2 ? p.accent : p.muted} opacity={hover === i ? 1 : 0.85} />
+              {hover === i && <circle cx={s.x} cy={s.y} r={9} fill="none" stroke={p.accent} strokeWidth="1" strokeOpacity="0.6" />}
             </g>
-          );
-        })}
-        {/* center query */}
-        <circle cx={cx} cy={cy} r="14" fill={p.paper} stroke={p.ink} strokeWidth="1.5" />
-        <text x={cx} y={cy + 4} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="9" fill={p.ink}>q</text>
-        {/* engines */}
-        {engines.map(e => {
-          const ex = cx + Math.cos(e.angle * Math.PI / 180) * radius;
-          const ey = cy + Math.sin(e.angle * Math.PI / 180) * radius;
-          return (
-            <g key={e.id} onMouseEnter={() => setActive(e.id)} onMouseLeave={() => setActive(null)} style={{ cursor: "pointer" }}>
-              <line x1={cx} y1={cy} x2={ex} y2={ey} stroke={p.muted} strokeOpacity={0.25} />
-              <circle cx={ex} cy={ey} r="14" fill={p.paper} stroke={e.color} strokeWidth="1.6" />
-              <text x={ex} y={ey + 3} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="8" fill={e.color}>{e.short}</text>
-            </g>
-          );
-        })}
-        {/* recommended songs */}
-        {songs.map((s, i) => (
-          <circle key={i} cx={s.x} cy={s.y} r={s.votes >= 2 ? 4.5 : 3} fill={s.votes >= 2 ? p.accent : p.muted} opacity={0.85} />
-        ))}
-      </svg>
+          ))}
+        </svg>
+        <div className="mono" style={{ position: "absolute", left: 8, bottom: 8, fontSize: 10, color: hover === null ? p.muted : p.ink, padding: "2px 6px", background: `color-mix(in oklch, ${p.paper} 92%, white)`, border: `1px solid ${p.line}`, minWidth: 180 }}>
+          {hover === null ? "hover a song · click an engine to toggle" : `♪ ${songs[hover].title} · ${votes[hover]}/${engines.filter(e => enabled[e.id]).length} surfaced`}
+        </div>
+      </div>
       <div style={{ fontFamily: "var(--f-ui)", fontSize: 12, lineHeight: 1.55 }}>
-        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Engines</div>
+        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Engines · click to toggle</div>
         {engines.map(e => (
-          <div key={e.id} onMouseEnter={() => setActive(e.id)} onMouseLeave={() => setActive(null)} style={{ display: "flex", alignItems: "center", gap: 8, padding: "3px 0", cursor: "pointer", color: active === e.id ? e.color : p.ink, transition: "color 220ms" }}>
-            <span style={{ width: 10, height: 10, borderRadius: "50%", background: e.color, flexShrink: 0 }} />
-            <span style={{ flex: 1, fontSize: 11 }}>{e.label}</span>
+          <div key={e.id} onClick={() => setEnabled(s => ({ ...s, [e.id]: !s[e.id] }))} style={{ display: "flex", alignItems: "center", gap: 8, padding: "3px 0", cursor: "pointer", color: enabled[e.id] ? p.ink : p.muted, transition: "color 220ms" }}>
+            <span style={{ width: 12, height: 12, border: `1px solid ${e.color}`, background: enabled[e.id] ? e.color : "transparent", flexShrink: 0, position: "relative" }} />
+            <span style={{ flex: 1, fontSize: 11, textDecoration: enabled[e.id] ? "none" : "line-through" }}>{e.label}</span>
           </div>
         ))}
-        <div style={{ marginTop: 10, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>Filled songs = surfaced by ≥2 engines (consensus boost).</div>
+        <div style={{ marginTop: 10, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>Filled songs = surfaced by ≥2 enabled engines. Toggle one off and the consensus shifts.</div>
       </div>
     </div>
   );
@@ -3432,40 +3427,70 @@ function TrendSignalFlow({ palette: p }) {
 
 function LMSRPriceCurve({ palette: p }) {
   const W = 460, H = 240;
-  const b = 100; // liquidity
-  // price for "yes" share when q_yes shares already exist (q_no = 0 for clarity)
+  const b = 100; // liquidity parameter
+  const [q, setQ] = React.useState(0);
+  const [view, setView] = React.useState("price"); // "price" | "cost"
+  const [dragging, setDragging] = React.useState(false);
+  const svgRef = React.useRef(null);
+
+  // marginal price (probability of YES) — sigmoid in q
   const price = (q) => 1 / (1 + Math.exp(-q / b));
+  // log-cost C(q) = b · ln(e^{q/b} + 1). Normalised by 4b for plot scale.
+  const cost = (q) => (b * Math.log(Math.exp(q / b) + 1)) / (4 * b);
+  const f = view === "price" ? price : cost;
+
   const left = 40, right = W - 30, top = 30, bottom = H - 40;
-  const xToPx = (x) => left + (x / 400) * (right - left);
+  const qMin = -200, qMax = 400;
+  const xToPx = (x) => left + ((x - qMin) / (qMax - qMin)) * (right - left);
+  const pxToQ = (px) => qMin + ((px - left) / (right - left)) * (qMax - qMin);
   const yToPx = (y) => bottom - y * (bottom - top);
+
   const pts = [];
-  for (let q = -200; q <= 400; q += 5) {
-    pts.push(`${q === -200 ? "M" : "L"} ${xToPx(q)} ${yToPx(price(q))}`);
+  for (let qi = qMin; qi <= qMax; qi += 5) {
+    pts.push(`${qi === qMin ? "M" : "L"} ${xToPx(qi)} ${yToPx(f(qi))}`);
   }
-  // markers
-  const marks = [
-    { q: 0, label: "0 shares", note: "p = 0.50" },
-    { q: 100, label: "100 yes", note: "p ≈ 0.73" },
-    { q: 250, label: "250 yes", note: "p ≈ 0.92" },
-  ];
+
+  const onPointer = (e) => {
+    if (!svgRef.current) return;
+    const rect = svgRef.current.getBoundingClientRect();
+    const px = ((e.clientX - rect.left) / rect.width) * W;
+    setQ(Math.max(qMin, Math.min(qMax, Math.round(pxToQ(px)))));
+  };
+  const onDown = (e) => { setDragging(true); onPointer(e); };
+  const onMove = (e) => { if (dragging) onPointer(e); };
+  const onUp = () => setDragging(false);
+
+  const cursorY = yToPx(f(q));
+  const cursorX = xToPx(q);
+
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 240 }}>
-      <line x1={left} y1={bottom} x2={right} y2={bottom} stroke={p.muted} strokeWidth="1" />
-      <line x1={left} y1={top} x2={left} y2={bottom} stroke={p.muted} strokeWidth="1" />
-      <line x1={left} y1={yToPx(0.5)} x2={right} y2={yToPx(0.5)} stroke={p.muted} strokeDasharray="3 4" opacity="0.4" />
-      <text x={right} y={bottom + 16} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>net YES shares →</text>
-      <text x={left - 6} y={top - 6} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>price (probability)</text>
-      <text x={left - 6} y={yToPx(0.5) + 4} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.muted}>0.5</text>
-      <path d={pts.join(" ")} stroke={p.accent} strokeWidth="2" fill="none" />
-      {marks.map((m, i) => (
-        <g key={i}>
-          <circle cx={xToPx(m.q)} cy={yToPx(price(m.q))} r="4" fill={p.accent} />
-          <text x={xToPx(m.q) + 8} y={yToPx(price(m.q)) - 8} fontFamily="var(--f-mono)" fontSize="10" fill={p.ink}>{m.label}</text>
-          <text x={xToPx(m.q) + 8} y={yToPx(price(m.q)) + 4} fontFamily="var(--f-mono)" fontSize="9" fill={p.muted}>{m.note}</text>
+    <div>
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: 6, marginBottom: 6, fontFamily: "var(--f-mono)", fontSize: 10 }}>
+        {[["price", "marginal price"], ["cost", "log-cost"]].map(([id, label]) => (
+          <button key={id} onClick={() => setView(id)} style={{ all: "unset", cursor: "pointer", padding: "2px 8px", border: `1px solid ${view === id ? p.accent : p.line}`, color: view === id ? p.accent : p.muted, letterSpacing: "0.04em" }}>{label}</button>
+        ))}
+      </div>
+      <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 240, cursor: dragging ? "grabbing" : "grab", userSelect: "none", touchAction: "none" }}
+           onMouseDown={onDown} onMouseMove={onMove} onMouseUp={onUp} onMouseLeave={onUp}>
+        <line x1={left} y1={bottom} x2={right} y2={bottom} stroke={p.muted} strokeWidth="1" />
+        <line x1={left} y1={top} x2={left} y2={bottom} stroke={p.muted} strokeWidth="1" />
+        {view === "price" && <line x1={left} y1={yToPx(0.5)} x2={right} y2={yToPx(0.5)} stroke={p.muted} strokeDasharray="3 4" opacity="0.4" />}
+        <text x={right} y={bottom + 16} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>net YES shares (q) →</text>
+        <text x={left - 6} y={top - 6} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>{view === "price" ? "price (probability)" : "log-cost (norm.)"}</text>
+        {view === "price" && <text x={left - 6} y={yToPx(0.5) + 4} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.muted}>0.5</text>}
+        <path d={pts.join(" ")} stroke={p.accent} strokeWidth="2" fill="none" />
+
+        {/* draggable cursor line + marker */}
+        <line x1={cursorX} y1={top} x2={cursorX} y2={bottom} stroke={p.ink} strokeWidth="0.6" strokeDasharray="2 3" opacity="0.5" />
+        <circle cx={cursorX} cy={cursorY} r="5" fill={p.accent} stroke={p.paper} strokeWidth="1.5" />
+
+        <text x={right - 4} y={top + 14} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.muted}>LMSR · b = {b}</text>
+        <g fontFamily="var(--f-mono)" fontSize="10">
+          <text x={cursorX + 8} y={cursorY - 10} fill={p.ink}>q = {q}</text>
+          <text x={cursorX + 8} y={cursorY + 4} fill={p.muted}>{view === "price" ? `p = ${price(q).toFixed(3)}` : `C̃ = ${cost(q).toFixed(3)}`}</text>
         </g>
-      ))}
-      <text x={right - 4} y={top + 14} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.muted}>LMSR · b = 100</text>
-    </svg>
+      </svg>
+    </div>
   );
 }
 
@@ -3479,7 +3504,11 @@ function JayaEssay({ palette: p }) {
         </span>
       </p>
 
-      <p>In the summer of 2022 I was a research intern with Prof. Jayaraman Valadi, working on protein-function classification. The task: pick a small subset of features (out of thousands per protein) such that a downstream classifier hits respectable accuracy without overfitting. JAYA had a reputation for being good at this. We wanted to know if we could make it better by giving it some of the parameters it had bragged about not needing.</p>
+      <p>In the summer of 2022 I was a research intern with Prof. Jayaraman Valadi at FLAME University, working on protein-function classification with four other students.<span className="sidenote-number" style={{ color: p.accent }}>2</span> The task: pick a small subset of features (out of thousands per protein) such that a downstream classifier hits respectable accuracy without overfitting. JAYA had a reputation for being good at this. We wanted to know if we could make it better by giving it some of the parameters it had bragged about not needing.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>2.</strong> The other four were Nandini Gandhi, Oom Rawat, Hrushikesh Bhosale, and Aamod Sane. The poster ended up listing all of us — feature-selection work isn't really a one-person sport, even when each of us was running our own variant on a corner of the design space.
+        </span>
+      </p>
 
       <PullQuote color={p.accent}>"Parameter-free" almost always means the parameters are baked in.</PullQuote>
 
@@ -3494,9 +3523,9 @@ function JayaEssay({ palette: p }) {
         x_i' = x_i + r₁ (x_b − |x_i|) − r₂ (x_w − |x_i|)
       </p>
 
-      <p>where <span className="mono">r₁</span> and <span className="mono">r₂</span> are uniform random in <span className="mono">[0,1]</span>. That's it. No inertia term. No crossover rate. No mutation rate. The only knobs are how many candidates and how long to run.<span className="sidenote-number" style={{ color: p.accent }}>2</span> This is an honestly good design.
+      <p>where <span className="mono">r₁</span> and <span className="mono">r₂</span> are uniform random in <span className="mono">[0,1]</span>. That's it. No inertia term. No crossover rate. No mutation rate. The only knobs are how many candidates and how long to run.<span className="sidenote-number" style={{ color: p.accent }}>3</span> This is an honestly good design.
         <span className="sidenote">
-          <strong style={{ color: p.accent }}>2.</strong> Compared with PSO (which needs an inertia weight, a cognitive coefficient, and a social coefficient) or GA (crossover rate, mutation rate, selection scheme), JAYA is dramatically less fiddly to set up. You can run it in twenty lines of Python.
+          <strong style={{ color: p.accent }}>3.</strong> Compared with PSO (which needs an inertia weight, a cognitive coefficient, and a social coefficient) or GA (crossover rate, mutation rate, selection scheme), JAYA is dramatically less fiddly to set up. You can run it in twenty lines of Python.
         </span>
       </p>
 
@@ -3524,23 +3553,56 @@ function JayaEssay({ palette: p }) {
 
       <p>Now the algorithm has parameters. Three of them. The "parameter-free" branding is gone. The hope was that what we lost in elegance we'd gain in accuracy on real protein data.</p>
 
+      <p>The other modification was less visible but probably did more work: we changed the fitness function. Vanilla JAYA, as published, will happily score a 50-feature subset and a 5-feature subset on accuracy alone — and accuracy almost always rewards more features, at least until the classifier overfits and falls off the cliff. We rewrote the fitness to penalise subset size:</p>
+
+      <p style={{ textAlign: "center", margin: "1.4rem 0", fontFamily: "var(--f-mono)", fontSize: "0.95rem", color: p.ink, padding: "0.8rem", border: `1px dashed ${p.line}`, background: `color-mix(in oklch, ${p.paper} 80%, white)` }}>
+        fitness = α · accuracy − β · |subset| / N
+      </p>
+
+      <p>with <span className="mono">α</span> and <span className="mono">β</span> chosen so a one-point accuracy gain was worth roughly ten extra features. Below that ratio you were paying for noise. The trade-off was the actual contribution of the work; the crossover and mutation were the showy half.</p>
+
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
         <span>Three protein datasets</span>
       </h2>
 
-      <p>We tested on three feature-rich protein-function datasets. The classifier was a simple SVM with an RBF kernel — kept stable across runs so the differences would come from the feature selection, not the model. We compared vanilla JAYA, JAYA-XM, and a few intermediate variants.</p>
+      <p>We tested on three feature-rich protein-function datasets, each with its own personality:</p>
 
-      <p>The result: JAYA-XM hit <strong style={{ color: p.accent }}>96% accuracy</strong> on the best of the three datasets, beating vanilla JAYA by a few points and matching the best published results we could find at the time. On the other two it was within a point of vanilla — the wins were dataset-dependent, which is a way of saying <em>your mileage may vary</em>.</p>
+      <ol style={{ margin: "1.2rem 0", paddingLeft: "1.4rem", lineHeight: 1.7 }}>
+        <li><strong>Apolipoprotein identification</strong> — distinguishing apolipoproteins from other plasma proteins. Classic two-class, moderately separable.</li>
+        <li><strong>Cancer-related protein identification</strong> — proteins associated with tumour pathways. Class imbalance is the obvious failure mode here; a model that always says "no" can score in the 80s.</li>
+        <li><strong>Toxin protein identification</strong> — protein toxins versus non-toxic background. Smaller dataset, sharper signal in a few key residues.</li>
+      </ol>
 
-      <p>We presented the work as a poster at the Indian Conference on Bioinformatics in October 2022, at VFSTR.<span className="sidenote-number" style={{ color: p.accent }}>3</span> The conversation around the poster mostly happened at the elbow — bioinformaticians asking what dataset, statisticians asking what's the variance over repeats, one optimization person quietly noting that we'd just rebuilt a 1990s memetic algorithm from a 2016 starting point. He was right. He also said it didn't matter. He was right about that too.
+      <p>The classifier was a Random Forest, kept stable across runs so the differences would come from the feature selection, not the model. We compared vanilla JAYA, JAYA-XM, and a few intermediate variants — JAYA with crossover only (no mutation), JAYA with elitism only, and so on. Eight cells in the cross.</p>
+
+      <p>The headline result: JAYA-XM hit <strong style={{ color: p.accent }}>96% accuracy</strong> on the best of the three datasets, beating vanilla JAYA by a few points and matching the best published results we could find at the time. On the other two it was within a point of vanilla — the wins were dataset-dependent, which is a way of saying <em>your mileage may vary</em>.</p>
+
+      <p>What didn't make the poster, but should have: the fitness-function change cut subset sizes by roughly half on every dataset, with no measurable accuracy loss. So even on the runs where JAYA-XM "tied" vanilla on accuracy, it was using fewer features to get there. For a downstream user — someone trying to build a wet-lab assay around the selected markers — that's the win that actually matters.</p>
+
+      <p>We presented the work as a poster at the Indian Conference on Bioinformatics in October 2022, at VFSTR.<span className="sidenote-number" style={{ color: p.accent }}>4</span> The conversation around the poster mostly happened at the elbow — bioinformaticians asking what dataset, statisticians asking what's the variance over repeats, one optimization person quietly noting that we'd just rebuilt a 1990s memetic algorithm from a 2016 starting point. He was right. He also said it didn't matter. He was right about that too.
         <span className="sidenote">
-          <strong style={{ color: p.accent }}>3.</strong> Vignan's Foundation for Science, Technology and Research, Andhra Pradesh. The conference room had stunning posters, weak coffee, and a conversation density I haven't matched at any London meetup since.
+          <strong style={{ color: p.accent }}>4.</strong> Vignan's Foundation for Science, Technology and Research, Andhra Pradesh. The conference room had stunning posters, weak coffee, and a conversation density I haven't matched at any London meetup since.
         </span>
       </p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§04</span>
+        <span>Where it earned its keep</span>
+      </h2>
+
+      <p>Three modifications, three different reasons they helped — and only the third was the one I expected.</p>
+
+      <p><strong>Crossover</strong> let candidates swap whole columns of the feature mask, which on protein data effectively means "trade your guesses about whole functional regions of the molecule." When two candidates had each found a different useful chunk, crossover combined them; when both were on weak ground, it produced a weaker child and elitism quietly killed it. Useful. Not transformative.</p>
+
+      <p><strong>Mutation</strong> at <span className="mono">p_m = 0.05</span> was barely visible most of the time, then crucial in the last 20% of generations when the population was cosying up to a local optimum. Without it, vanilla JAYA-with-crossover plateaued early and stopped improving. With it, you got another two or three accuracy points after the curve had visibly flattened.</p>
+
+      <p><strong>The fitness penalty</strong> on subset size did the most work, and we almost left it out. The first version of JAYA-XM I implemented inherited vanilla's accuracy-only fitness; the subsets it selected were huge — averaging 40-something features on the apolipoprotein task — and barely better than smaller selections. Adding the size penalty pulled the average subset to 18 features without changing the accuracy. That's the kind of result you'd accept from a much fancier method.</p>
+
+      <p>The lesson, if there is one: when a "parameter-free" algorithm doesn't quite fit your problem, the temptation is to add the fancy operators back — crossover, mutation, all the genetic-algorithm furniture. But the highest-leverage knob is usually the objective itself. Re-asking what you're actually optimising for tends to outperform re-engineering how.</p>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§05</span>
         <span>What 96% means</span>
       </h2>
 
@@ -3805,13 +3867,13 @@ function essayMeta(slug) {
   const meta = {
     "jaya": {
       tags: "optimization, bioinformatics",
-      toc: ["Header", "Lede", "JAYA, briefly", "Adding crossover", "Three protein datasets", "What 96% means"],
+      toc: ["Header", "Lede", "JAYA, briefly", "Adding crossover", "Three protein datasets", "Where it earned its keep", "What 96% means"],
       sources: [
         ['[1] Rao, R. V. (2016). ', '"Jaya: A simple and new optimization algorithm." Int. J. Industrial Engineering Computations.'],
-        ['[2] Sharma, S., & Valadi, J. (2022). ', "Improved JAYA algorithm for protein function ID. Poster, Indian Conf. on Bioinformatics."],
+        ['[2] Gandhi, N., Sharma, S., Rawat, O., Bhosale, H., Sane, A., & Jayaraman, V. K. (2022). ', '"Improved Jaya algorithm for identification of protein functions." Poster PP-28, INBIX\'22, VFSTR.'],
         ['[3] ', "github.com/shubhangithub/inbix22"],
       ],
-      sidenotes: 3,
+      sidenotes: 4,
     },
     "biomarkers": {
       tags: "computational biology, clustering",
@@ -3860,16 +3922,17 @@ function essayMeta(slug) {
   return meta[slug] || meta["jaya"];
 }
 
-function ArticleV4({ slug, palette: p, paletteId, setPaletteId, onNavigate, setCursorColor }) {
-  React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, [slug, paletteId]);
+function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
+  React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, [slug]);
   const scrollPct = usePreciseScroll();
+  const coords = useCursorCoords();
   const post = POSTS.find(x => x.slug === slug) || POSTS[0];
 
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
       <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.18 }} />
       <ReadingRuler color={p.accent} />
-      <PreciseTopBar palette={p} paletteId={paletteId} setPaletteId={setPaletteId} label={`~/writing/${slug}`} />
+      <PreciseTopBar palette={p} label={`~/writing/${slug}`} />
       <PreciseNav palette={p} current="writing" onNavigate={onNavigate} />
 
       {/* metadata strip */}
@@ -3932,7 +3995,7 @@ function ArticleV4({ slug, palette: p, paletteId, setPaletteId, onNavigate, setC
           <div style={{ gridColumn: "1 / span 2" }}>
             <IndexRail palette={p} currentIdx={1}
               items={essayMeta(post.slug).toc}
-              telemetry={[["essay", `${String(POSTS.findIndex(x => x.slug === post.slug) + 1).padStart(2, "0")}/${String(POSTS.length).padStart(2, "0")}`], ["read", `${post.minutes} min`], ["sidenotes", String(essayMeta(post.slug).sidenotes).padStart(2, "0")]]}
+              telemetry={[cursorTelemetry(coords), ["essay", `${String(POSTS.findIndex(x => x.slug === post.slug) + 1).padStart(2, "0")}/${String(POSTS.length).padStart(2, "0")}`], ["read", `${post.minutes} min`], ["sidenotes", String(essayMeta(post.slug).sidenotes).padStart(2, "0")]]}
               scrollPct={scrollPct} />
           </div>
 
@@ -3989,16 +4052,17 @@ function ArticleV4({ slug, palette: p, paletteId, setPaletteId, onNavigate, setC
         </div>
       </section>
 
-      <PreciseFooter palette={p} line="Set in Fraunces and Source Serif. Drop cap by hand." />
+      <PreciseFooter palette={p} line="Written in London. Footnotes by hand." />
     </div>
   );
 }
 
 // ---------- WORK — annotated CV ----------
 
-function WorkV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColor }) {
-  React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, [paletteId]);
+function WorkV4({ palette: p, onNavigate, setCursorColor }) {
+  React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
+  const coords = useCursorCoords();
 
   const events = [
     { year: "2026 —", what: "Elected MInstP, Member of the Institute of Physics", where: "London · Feb 2026", note: "Professional body for physics in the UK and Ireland. Elected route." },
@@ -4038,7 +4102,7 @@ function WorkV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColo
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
       <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
-      <PreciseTopBar palette={p} paletteId={paletteId} setPaletteId={setPaletteId} label="~/work" />
+      <PreciseTopBar palette={p} label="~/work" />
       <PreciseNav palette={p} current="work" onNavigate={onNavigate} />
 
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
@@ -4046,7 +4110,7 @@ function WorkV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColo
           <div style={{ gridColumn: "1 / span 2" }}>
             <IndexRail palette={p} currentIdx={0}
               items={["Header", "Trajectory", "Selected work", "Speaking", "Tooling", "Get in touch"]}
-              telemetry={[["page", "work"], ["entries", String(events.length).padStart(2, "0")], ["builds", String(builds.length).padStart(2, "0")]]}
+              telemetry={[cursorTelemetry(coords), ["page", "work"], ["entries", String(events.length).padStart(2, "0")], ["builds", String(builds.length).padStart(2, "0")]]}
               scrollPct={scrollPct} />
           </div>
           <div style={{ gridColumn: "3 / span 7" }}>
@@ -4188,9 +4252,10 @@ function WorkV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColo
 
 // ---------- NOW — field journal ----------
 
-function NowV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColor }) {
-  React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, [paletteId]);
+function NowV4({ palette: p, onNavigate, setCursorColor }) {
+  React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
+  const coords = useCursorCoords();
 
   const focuses = [
     { kind: "Founding", what: "Orion's intelligence platform — geospatial ML over H3 indexing, with confidence weighting baked in at every join." },
@@ -4216,7 +4281,7 @@ function NowV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColor
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
       <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
-      <PreciseTopBar palette={p} paletteId={paletteId} setPaletteId={setPaletteId} label="~/now" />
+      <PreciseTopBar palette={p} label="~/now" />
       <PreciseNav palette={p} current="now" onNavigate={onNavigate} />
 
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
@@ -4224,7 +4289,7 @@ function NowV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColor
           <div style={{ gridColumn: "1 / span 2" }}>
             <IndexRail palette={p} currentIdx={0}
               items={["Header", "Right now", "Field journal", "Conditions"]}
-              telemetry={[["page", "now"], ["entries", String(journal.length).padStart(2, "0")], ["focuses", String(focuses.length).padStart(2, "0")]]}
+              telemetry={[cursorTelemetry(coords), ["page", "now"], ["entries", String(journal.length).padStart(2, "0")], ["focuses", String(focuses.length).padStart(2, "0")]]}
               scrollPct={scrollPct} />
           </div>
           <div style={{ gridColumn: "3 / span 7" }}>
@@ -4333,9 +4398,10 @@ function NowV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColor
 
 // ---------- CONTACT ----------
 
-function ContactV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColor }) {
-  React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, [paletteId]);
+function ContactV4({ palette: p, onNavigate, setCursorColor }) {
+  React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
+  const coords = useCursorCoords();
 
   const channels = [
     { label: "Email",    handle: "hello@shubzsharma.com",        note: "Best — read once a day in the morning.",                href: "mailto:hello@shubzsharma.com" },
@@ -4356,7 +4422,7 @@ function ContactV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorC
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
       <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
-      <PreciseTopBar palette={p} paletteId={paletteId} setPaletteId={setPaletteId} label="~/contact" />
+      <PreciseTopBar palette={p} label="~/contact" />
       <PreciseNav palette={p} current="contact" onNavigate={onNavigate} />
 
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
@@ -4364,7 +4430,7 @@ function ContactV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorC
           <div style={{ gridColumn: "1 / span 2" }}>
             <IndexRail palette={p} currentIdx={0}
               items={["Header", "Channels", "Policy", "Compose"]}
-              telemetry={[["page", "contact"], ["channels", String(channels.length).padStart(2, "0")], ["reply", "≤72h"]]}
+              telemetry={[cursorTelemetry(coords), ["page", "contact"], ["channels", String(channels.length).padStart(2, "0")], ["reply", "≤72h"]]}
               scrollPct={scrollPct} />
           </div>
           <div style={{ gridColumn: "3 / span 7" }}>
@@ -4496,14 +4562,13 @@ Object.assign(window, { WritingIndexV4, ArticleV4, WorkV4, NowV4, ContactV4, Pre
 
 
 /* ===== components/app.jsx ===== */
-/* global React, ReactDOM, CustomCursor, HomeV1, HomeV2, HomeV3, HomeV4, WritingIndex, Article, WritingIndexV4, ArticleV4, WorkV4, NowV4, ContactV4, PALETTE_V1, PALETTE_V2, PALETTE_V3, PALETTE_V4, PALETTES_V4 */
+/* global React, ReactDOM, CustomCursor, HomeV1, HomeV2, HomeV3, HomeV4, WritingIndex, Article, WritingIndexV4, ArticleV4, WorkV4, NowV4, ContactV4, PALETTE_V1, PALETTE_V2, PALETTE_V3, PALETTE_V4 */
 
 // useState, useEffect are in scope from motif.jsx
 
 function App() {
   const [route, setRoute] = useState({ page: "home", slug: null });
-  const [cursorColor, setCursorColor] = useState("#1F3DBF");
-  const [paletteId, setPaletteId] = useState("cobalt");
+  const [cursorColor, setCursorColor] = useState(PALETTE_V4.accent);
 
   function navigate(page, slug = null) {
     if (document.startViewTransition) {
@@ -4514,8 +4579,8 @@ function App() {
     setTimeout(() => window.scrollTo({ top: 0, behavior: "instant" }), 10);
   }
 
-  const p = PALETTES_V4[paletteId];
-  const sharedProps = { palette: p, paletteId, setPaletteId, onNavigate: navigate, setCursorColor };
+  const p = PALETTE_V4;
+  const sharedProps = { palette: p, onNavigate: navigate, setCursorColor };
 
   let page;
   if (route.page === "writing") page = <WritingIndexV4 {...sharedProps} />;
@@ -4523,7 +4588,7 @@ function App() {
   else if (route.page === "work") page = <WorkV4 {...sharedProps} />;
   else if (route.page === "now") page = <NowV4 {...sharedProps} />;
   else if (route.page === "contact") page = <ContactV4 {...sharedProps} />;
-  else page = <HomeV4 onNavigate={navigate} setCursorColor={setCursorColor} paletteId={paletteId} setPaletteId={setPaletteId} />;
+  else page = <HomeV4 onNavigate={navigate} setCursorColor={setCursorColor} />;
 
   return (
     <>
