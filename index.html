@@ -165,13 +165,14 @@ a { color: inherit; text-decoration: none; }
 }
 .link-underline:hover::after { transform: scaleX(1); }
 
-/* Sidenote (Tufte) */
+/* Sidenote — render inline-below-paragraph (the article body has a right
+   rail occupying the margin where Tufte-style sidenotes would float, so a
+   floating sidenote collides with cite/sources content). */
 .sidenote {
-  float: right;
-  clear: right;
-  width: 18rem;
-  margin-right: -20rem;
-  margin-top: 0.3rem;
+  display: block;
+  margin: 0.6rem 0 1.1rem 0;
+  padding-left: 0.9rem;
+  border-left: 2px solid currentColor;
   font-family: var(--f-ui);
   font-size: 0.82rem;
   line-height: 1.5;
@@ -183,9 +184,6 @@ a { color: inherit; text-decoration: none; }
   vertical-align: super;
   cursor: help;
   padding: 0 0.1em;
-}
-@media (max-width: 1100px) {
-  .sidenote { float: none; width: auto; margin: 0.6rem 0 1.1rem 0; padding-left: 0.9rem; border-left: 1px solid currentColor; }
 }
 
 /* Marginalia anchor */
@@ -254,6 +252,17 @@ body { transition: background 600ms cubic-bezier(0.25, 0.1, 0.25, 1); }
 
   /* Hide rails entirely (IndexRail, right-side cite/sources, fig.01 summary) */
   .v4-rail-hide { display: none !important; }
+
+  /* Hide the fixed 12-col background grid pattern (looks noisy without the matching layout) */
+  .v4-bg-grid { display: none !important; }
+
+  /* Kill horizontal overflow at the page level */
+  html, body { overflow-x: hidden !important; }
+  h1.display { overflow-wrap: break-word; word-break: break-word; }
+
+  /* Narrow-row pattern (fixed-px grid lists) — stack vertically on mobile */
+  .v4-stack-row { grid-template-columns: 1fr !important; gap: 0.4rem !important; }
+  .v4-stack-row > * { text-align: left !important; max-width: 100% !important; }
 
   /* Pull-quote: lose the negative margin that pushes off the viewport */
   .pull-quote { margin: 2rem 0 !important; padding-left: 1rem !important; font-size: 1.5rem !important; }
@@ -2156,7 +2165,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
       {/* fixed-grid baseline (desktop only — looks noisy on mobile) */}
       {!isMobile && (
-        <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
+        <div aria-hidden="true" className="v4-bg-grid" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
       )}
 
       {/* top precision bar */}
@@ -2949,7 +2958,7 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
 
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
-      <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
+      <div aria-hidden="true" className="v4-bg-grid" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
 
       <PreciseTopBar palette={p} label="~/writing" />
       <PreciseNav palette={p} current="writing" onNavigate={onNavigate} />
@@ -2970,7 +2979,7 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
               <span className="mono" style={{ color: p.accent, marginRight: 8 }}>§02</span>
               The Garden · essays, notes, half-formed ideas
             </div>
-            <h1 className="display" style={{ fontSize: "clamp(2.6rem, 5.4vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em" }}>
+            <h1 className="display" style={{ fontSize: "clamp(1.9rem, 7vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em" }}>
               <LetterReveal stagger={26}>An essay garden,</LetterReveal>
               <span style={{ display: "block" }}>
                 <LetterReveal stagger={26} delay={520}>growing </LetterReveal>
@@ -3053,7 +3062,7 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {notes.map(([t, d, k], i) => (
-                <a key={i} href="#" onClick={(e) => e.preventDefault()}
+                <a key={i} href="#" onClick={(e) => e.preventDefault()} className="v4-stack-row"
                   style={{ display: "grid", gridTemplateColumns: "60px 1fr 100px 80px", gap: "1.2rem", alignItems: "baseline", padding: "0.8rem 0", borderBottom: `1px solid ${p.line}`, color: p.ink }}>
                   <span className="mono" style={{ color: p.muted, fontSize: 11 }}>{String(i + 1).padStart(2, "0")}</span>
                   <span className="link-underline" style={{ fontFamily: "var(--f-body)", fontSize: "1rem" }}>{t}</span>
@@ -3125,7 +3134,7 @@ function PreciseEssayRow({ post, palette: p, onNavigate, index, total }) {
   const [hover, setHover] = React.useState(false);
   return (
     <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
-       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} className="v4-stack-row"
        style={{ display: "grid", gridTemplateColumns: "60px 1fr 200px 60px", gap: "1.4rem", alignItems: "baseline", padding: "1.4rem 0", borderTop: `1px solid ${p.line}`, color: p.ink, position: "relative" }}>
       <span className="mono" style={{ color: p.muted, fontSize: 11 }}>{String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>
       <div>
@@ -4113,7 +4122,7 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
 
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
-      <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.18 }} />
+      <div aria-hidden="true" className="v4-bg-grid" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.18 }} />
       <ReadingRuler color={p.accent} />
       <PreciseTopBar palette={p} label={`~/writing/${slug}`} />
       <PreciseNav palette={p} current="writing" onNavigate={onNavigate} />
@@ -4298,7 +4307,7 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
 
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
-      <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
+      <div aria-hidden="true" className="v4-bg-grid" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
       <PreciseTopBar palette={p} label="~/work" />
       <PreciseNav palette={p} current="work" onNavigate={onNavigate} />
 
@@ -4316,7 +4325,7 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
               <span className="mono" style={{ color: p.accent, marginRight: 8 }}>§03</span>
               Work · CV · annotated, in chronological reverse
             </div>
-            <h1 className="display" style={{ fontSize: "clamp(2.6rem, 5.4vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em" }}>
+            <h1 className="display" style={{ fontSize: "clamp(1.9rem, 7vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em" }}>
               <LetterReveal stagger={26}>Things I've </LetterReveal>
               <span style={{ fontStyle: "italic", color: p.accent }}><LetterReveal stagger={26} delay={520}>built </LetterReveal></span>
               <LetterReveal stagger={26} delay={820}>and almost</LetterReveal>
@@ -4355,13 +4364,16 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {events.map((e, i) => (
-                <div key={i} style={{ display: "grid", gridTemplateColumns: "100px 1fr 200px", gap: "1.6rem", padding: "1.1rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline" }}>
-                  <span className="mono" style={{ color: p.accent, fontSize: 12 }}>{e.year}</span>
+                <div key={i} style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "100px 1fr 200px", gap: isMobile ? "0.3rem" : "1.6rem", padding: "1.1rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline" }}>
+                  <div style={{ display: isMobile ? "flex" : "contents", justifyContent: "space-between", alignItems: "baseline", gap: "0.8rem" }}>
+                    <span className="mono" style={{ color: p.accent, fontSize: 12 }}>{e.year}</span>
+                    {isMobile && <span className="mono" style={{ color: p.muted, fontSize: 11 }}>{e.where}</span>}
+                  </div>
                   <div>
                     <div style={{ fontFamily: "var(--f-body)", fontSize: "1.05rem", color: p.ink }}>{e.what}</div>
                     {e.note && <div style={{ fontSize: "0.92rem", color: p.muted, marginTop: 4, fontStyle: "italic", maxWidth: "60ch" }}>{e.note}</div>}
                   </div>
-                  <span className="mono" style={{ color: p.muted, fontSize: 11, textAlign: "right" }}>{e.where}</span>
+                  {!isMobile && <span className="mono" style={{ color: p.muted, fontSize: 11, textAlign: "right" }}>{e.where}</span>}
                 </div>
               ))}
             </div>
@@ -4381,7 +4393,25 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
-              {builds.map((b, i) => (
+              {builds.map((b, i) => isMobile ? (
+                <a key={i}
+                   href={b.url || "#"}
+                   target={b.url ? "_blank" : undefined}
+                   rel={b.url ? "noreferrer" : undefined}
+                   onClick={(e) => { if (!b.url) e.preventDefault(); }}
+                   style={{ display: "block", padding: "1.1rem 0", borderBottom: `1px solid ${p.line}`, color: p.ink }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
+                    <span className="mono" style={{ color: p.muted, fontSize: 11 }}>{String(i + 1).padStart(2, "0")}</span>
+                    <span className="mono caps" style={{ color: p.accent, fontSize: 10, letterSpacing: "0.1em" }}>{b.scope}</span>
+                  </div>
+                  <div className={b.url ? "link-underline" : ""} style={{ fontFamily: "var(--f-body)", fontSize: "1.05rem" }}>
+                    {b.name}
+                    {b.url && <span style={{ color: p.accent, marginLeft: 8, fontSize: "0.85em" }}>↗</span>}
+                  </div>
+                  <div style={{ fontSize: "0.9rem", color: p.muted, marginTop: 4 }}>{b.role}</div>
+                  <div className="mono" style={{ color: p.muted, fontSize: 11, marginTop: 6 }}>{b.year}</div>
+                </a>
+              ) : (
                 <a key={i}
                    href={b.url || "#"}
                    target={b.url ? "_blank" : undefined}
@@ -4417,7 +4447,7 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {speaking.map((s, i) => (
-                <div key={i} style={{ display: "grid", gridTemplateColumns: "200px 1fr 80px", gap: "1.4rem", padding: "0.9rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline", color: p.ink, fontFamily: "var(--f-body)", fontSize: "1rem" }}>
+                <div key={i} className="v4-stack-row" style={{ display: "grid", gridTemplateColumns: "200px 1fr 80px", gap: "1.4rem", padding: "0.9rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline", color: p.ink, fontFamily: "var(--f-body)", fontSize: "1rem" }}>
                   <span className="mono caps" style={{ color: p.muted, fontSize: 11, letterSpacing: "0.08em" }}>{s.event}</span>
                   <span style={{ fontStyle: "italic" }}>{s.talk}</span>
                   <span className="mono" style={{ color: p.muted, fontSize: 11, textAlign: "right" }}>{s.year}</span>
@@ -4480,7 +4510,7 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
 
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
-      <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
+      <div aria-hidden="true" className="v4-bg-grid" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
       <PreciseTopBar palette={p} label="~/now" />
       <PreciseNav palette={p} current="now" onNavigate={onNavigate} />
 
@@ -4498,7 +4528,7 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
               <span className="mono" style={{ color: p.accent, marginRight: 8 }}>§04</span>
               Now · field journal · updated weekly-ish
             </div>
-            <h1 className="display" style={{ fontSize: "clamp(2.6rem, 5.4vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em" }}>
+            <h1 className="display" style={{ fontSize: "clamp(1.9rem, 7vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em" }}>
               <LetterReveal stagger={26}>What I'm </LetterReveal>
               <span style={{ fontStyle: "italic", color: p.accent }}><LetterReveal stagger={26} delay={420}>actually</LetterReveal></span>
               <span style={{ display: "block" }}>
@@ -4535,10 +4565,13 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {focuses.map((f, i) => (
-                <div key={i} style={{ display: "grid", gridTemplateColumns: "120px 1fr 60px", gap: "1.4rem", padding: "1.1rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline" }}>
-                  <span className="caps mono" style={{ color: p.accent, fontSize: 11, letterSpacing: "0.1em" }}>{f.kind}</span>
+                <div key={i} style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "120px 1fr 60px", gap: isMobile ? "0.3rem" : "1.4rem", padding: "1.1rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline" }}>
+                  <div style={{ display: isMobile ? "flex" : "contents", justifyContent: "space-between", alignItems: "baseline" }}>
+                    <span className="caps mono" style={{ color: p.accent, fontSize: 11, letterSpacing: "0.1em" }}>{f.kind}</span>
+                    {isMobile && <span className="mono" style={{ color: p.muted, fontSize: 11 }}>0{i + 1}/0{focuses.length}</span>}
+                  </div>
                   <span style={{ fontFamily: "var(--f-body)", fontSize: "1.02rem", color: p.ink, lineHeight: 1.55 }}>{f.what}</span>
-                  <span className="mono" style={{ color: p.muted, fontSize: 11, textAlign: "right" }}>0{i + 1}/0{focuses.length}</span>
+                  {!isMobile && <span className="mono" style={{ color: p.muted, fontSize: 11, textAlign: "right" }}>0{i + 1}/0{focuses.length}</span>}
                 </div>
               ))}
             </div>
@@ -4559,7 +4592,7 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {journal.map((j, i) => (
-                <div key={i} style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: "1.4rem", padding: "1.1rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline" }}>
+                <div key={i} className="v4-stack-row" style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: "1.4rem", padding: "1.1rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline" }}>
                   <span className="mono" style={{ color: p.muted, fontSize: 12 }}>{j.date}</span>
                   <span style={{ fontFamily: "var(--f-body)", fontSize: "1rem", color: p.ink, lineHeight: 1.6 }}>{j.note}</span>
                 </div>
@@ -4574,7 +4607,7 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", borderTop: `1px solid ${p.line}`, paddingTop: "2rem" }}>
           <div className="caps" style={{ gridColumn: "1 / span 2", fontFamily: "var(--f-ui)", fontSize: 11, color: p.muted, letterSpacing: "0.12em" }}>Conditions</div>
           <div style={{ gridColumn: "3 / span 9" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.6rem", fontFamily: "var(--f-ui)", fontSize: 13 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "1.6rem", fontFamily: "var(--f-ui)", fontSize: 13 }}>
               {[
                 ["Mood", "writing-mode", "rare and protected"],
                 ["Inbox", "managed", "weekly batch"],
@@ -4624,7 +4657,7 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
 
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
-      <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
+      <div aria-hidden="true" className="v4-bg-grid" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
       <PreciseTopBar palette={p} label="~/contact" />
       <PreciseNav palette={p} current="contact" onNavigate={onNavigate} />
 
@@ -4642,7 +4675,7 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
               <span className="mono" style={{ color: p.accent, marginRight: 8 }}>§05</span>
               Contact · sparse on purpose
             </div>
-            <h1 className="display" style={{ fontSize: "clamp(2.6rem, 5.4vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em" }}>
+            <h1 className="display" style={{ fontSize: "clamp(1.9rem, 7vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em" }}>
               <LetterReveal stagger={26}>Say </LetterReveal>
               <span style={{ fontStyle: "italic", color: p.accent }}><LetterReveal stagger={26} delay={320}>hello.</LetterReveal></span>
               <span style={{ display: "block" }}>
@@ -4680,7 +4713,7 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {channels.map((c, i) => (
-                <a key={i} href={c.href} onClick={(e) => { if (c.href === "#") e.preventDefault(); }} style={{ display: "grid", gridTemplateColumns: "120px 1fr 1fr 60px", gap: "1.4rem", padding: "1.1rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline", color: p.ink }}>
+                <a key={i} href={c.href} onClick={(e) => { if (c.href === "#") e.preventDefault(); }} className="v4-stack-row" style={{ display: "grid", gridTemplateColumns: "120px 1fr 1fr 60px", gap: "1.4rem", padding: "1.1rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline", color: p.ink }}>
                   <span className="caps mono" style={{ color: p.accent, fontSize: 11, letterSpacing: "0.1em" }}>{c.label}</span>
                   <span className="mono link-underline" style={{ fontSize: 13 }}>{c.handle}</span>
                   <span style={{ fontFamily: "var(--f-body)", fontSize: "0.95rem", color: p.muted, fontStyle: "italic" }}>{c.note}</span>
@@ -4705,7 +4738,7 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {policy.map(([k, v], i) => (
-                <div key={i} style={{ display: "grid", gridTemplateColumns: "200px 1fr", gap: "1.4rem", padding: "1rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline" }}>
+                <div key={i} className="v4-stack-row" style={{ display: "grid", gridTemplateColumns: "200px 1fr", gap: "1.4rem", padding: "1rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline" }}>
                   <span className="caps mono" style={{ color: p.muted, fontSize: 11, letterSpacing: "0.1em" }}>{k}</span>
                   <span style={{ fontFamily: "var(--f-body)", fontSize: "1rem", color: p.ink }}>{v}</span>
                 </div>
