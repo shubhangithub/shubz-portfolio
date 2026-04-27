@@ -27,3 +27,10 @@ Vercel auto-detects this as a static site — no build step needed. `index.html`
 ## Notes
 
 JSX is compiled in the browser via `@babel/standalone`. Fine for a prototype; a future iteration could pre-compile and ship plain JS for a smaller, faster payload.
+
+## Design language
+
+The site has a deliberate voice and a specific set of conventions for essays
+and custom SVG diagrams. Anyone (human or agent) editing prose, adding an
+essay, or building a new diagram must read [`AGENTS.md`](./AGENTS.md) first.
+`CLAUDE.md` redirects to the same file.
