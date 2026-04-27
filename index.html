@@ -1695,6 +1695,16 @@ const POSTS = [
     accent: "#1F3DBF",
   },
   {
+    slug: "fashion-trends",
+    title: "Pricing the next scarf",
+    kicker: "Essay · Forecasting & Markets",
+    dek: "A platform that pairs five-source signal forecasting with an LMSR prediction market for fashion micro-trends. Why neither half works without the other.",
+    minutes: 9,
+    illustration: "wave",
+    cardBg: "#ECEAE3",
+    accent: "#1F3DBF",
+  },
+  {
     slug: "biomarkers",
     title: "Counting cells, finding immunity",
     kicker: "Essay · Computational biology",
@@ -1702,6 +1712,16 @@ const POSTS = [
     minutes: 11,
     illustration: "hex",
     cardBg: "#EFEEE7",
+    accent: "#1F3DBF",
+  },
+  {
+    slug: "six-engines",
+    title: "Six engines for one songbook",
+    kicker: "Essay · Recommendation",
+    dek: "Five base models plus an ensemble, on 801 songs (341 Taylor + 460 cross-artist). Why a small corpus is harder than a huge one — and what the disagreements between engines reveal.",
+    minutes: 7,
+    illustration: "wave",
+    cardBg: "#EBE8EE",
     accent: "#1F3DBF",
   },
   {
@@ -1722,16 +1742,6 @@ const POSTS = [
     minutes: 9,
     illustration: "wave",
     cardBg: "#EFE8E5",
-    accent: "#1F3DBF",
-  },
-  {
-    slug: "six-engines",
-    title: "Six engines for one songbook",
-    kicker: "Notes · Recommendation",
-    dek: "Building (and re-building) six recommendation engines for Taylor Swift's catalog. Why a corpus of two hundred songs is harder than two hundred million.",
-    minutes: 5,
-    illustration: "wave",
-    cardBg: "#EBE8EE",
     accent: "#1F3DBF",
   },
 ];
@@ -3071,6 +3081,394 @@ function PreciseEssayRow({ post, palette: p, onNavigate, index, total }) {
 
 // ---------- ARTICLE (V4) ----------
 
+// ---- custom SVG diagrams (one per topic, sometimes two) ----
+
+function JayaSwarm({ palette: p }) {
+  const [t, setT] = React.useState(0);
+  const [running, setRunning] = React.useState(true);
+  React.useEffect(() => {
+    if (!running) return;
+    const id = setInterval(() => setT(v => (v + 1) % 60), 90);
+    return () => clearInterval(id);
+  }, [running]);
+  // landscape: f(x,y) = -((x-0.7)^2 + (y-0.4)^2) — global max around (0.7, 0.4)
+  const target = { x: 0.7, y: 0.4 };
+  const N = 14;
+  const pop = React.useMemo(() => {
+    let s = 11;
+    const r = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+    return Array.from({ length: N }, () => ({ x: r(), y: r() }));
+  }, []);
+  // simulate: each tick, pull each point ~12% toward target with a tiny jitter
+  const positions = pop.map((pt, i) => {
+    let x = pt.x, y = pt.y;
+    const jitterScale = 0.012;
+    let s = i * 7 + 3;
+    for (let k = 0; k < t; k++) {
+      const pull = 0.12;
+      s = (s * 1103515245 + 12345) % 2147483647;
+      const j1 = ((s / 2147483647) - 0.5) * jitterScale;
+      s = (s * 1103515245 + 12345) % 2147483647;
+      const j2 = ((s / 2147483647) - 0.5) * jitterScale;
+      x = x + pull * (target.x - Math.abs(x)) + j1;
+      y = y + pull * (target.y - Math.abs(y)) + j2;
+    }
+    return { x, y };
+  });
+  const W = 420, H = 260;
+  // draw contour rings around target
+  const rings = [0.08, 0.18, 0.28, 0.4];
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "3fr 1fr", gap: "1rem", alignItems: "center" }}>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 240, background: `color-mix(in oklch, ${p.paper} 88%, white)`, border: `1px solid ${p.line}` }}>
+        {rings.map((r, i) => (
+          <ellipse key={i} cx={target.x * W} cy={(1 - target.y) * H} rx={r * W * 0.9} ry={r * H * 0.9} fill="none" stroke={p.muted} strokeOpacity={0.18} strokeDasharray="2 4" />
+        ))}
+        <circle cx={target.x * W} cy={(1 - target.y) * H} r="4" fill={p.accent} />
+        <text x={target.x * W + 8} y={(1 - target.y) * H + 4} fontFamily="var(--f-mono)" fontSize="9" fill={p.accent}>x_b</text>
+        {positions.map((pt, i) => (
+          <circle key={i} cx={pt.x * W} cy={(1 - pt.y) * H} r="3" fill={p.ink} opacity={0.7} style={{ transition: "all 240ms var(--ease-out)" }} />
+        ))}
+        <text x="10" y={H - 8} fontFamily="var(--f-ui)" fontSize="10" fill={p.muted} className="mono">gen {t}</text>
+      </svg>
+      <div style={{ fontFamily: "var(--f-ui)", fontSize: 12, lineHeight: 1.6 }}>
+        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Population</div>
+        <div style={{ marginBottom: 12, color: p.ink }}>14 candidates, pulled toward best each generation. No mutation, no crossover — just <em>be more like the best</em>.</div>
+        <button onClick={() => { setT(0); setRunning(r => !r); }} style={{ fontFamily: "var(--f-mono)", fontSize: 10, padding: "4px 10px", border: `1px solid ${p.line}`, background: "transparent", color: p.accent, cursor: "pointer", letterSpacing: "0.06em" }}>{running ? "RESET" : "RUN"}</button>
+      </div>
+    </div>
+  );
+}
+
+function BiomarkerScatter({ palette: p }) {
+  const [highlight, setHighlight] = React.useState(null);
+  const cells = React.useMemo(() => {
+    let s = 9;
+    const r = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+    const groups = [
+      { range: [0.55, 0.95, 0.55, 0.95], n: 14, k: 2, label: "CD4+ CD8+", color: "#8B5A89" }, // double pos
+      { range: [0.55, 0.95, 0.05, 0.40], n: 18, k: 1, label: "CD4+ only",   color: "#5B7A4F" },
+      { range: [0.05, 0.40, 0.55, 0.95], n: 16, k: 0, label: "CD8+ only",   color: p.accent },
+      { range: [0.05, 0.40, 0.05, 0.40], n: 28, k: 3, label: "double−",     color: p.muted },
+    ];
+    const out = [];
+    groups.forEach(g => {
+      for (let i = 0; i < g.n; i++) {
+        out.push({
+          x: g.range[0] + r() * (g.range[1] - g.range[0]),
+          y: g.range[2] + r() * (g.range[3] - g.range[2]),
+          k: g.k, color: g.color,
+        });
+      }
+    });
+    return out;
+  }, [p.accent, p.muted]);
+  const W = 420, H = 320;
+  const px = (v) => 50 + v * (W - 70);
+  const py = (v) => H - 40 - v * (H - 70);
+  const groups = [
+    { k: 2, label: "CD4+ CD8+ (double-positive)", color: "#8B5A89", note: "~5% of cells" },
+    { k: 1, label: "CD4+ only", color: "#5B7A4F", note: "helper T cells" },
+    { k: 0, label: "CD8+ only", color: p.accent, note: "cytotoxic T cells" },
+    { k: 3, label: "double−", color: p.muted, note: "background" },
+  ];
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "center" }}>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 280 }}>
+        <line x1={px(0)} y1={py(0)} x2={px(1)} y2={py(0)} stroke={p.muted} strokeWidth="1" />
+        <line x1={px(0)} y1={py(0)} x2={px(0)} y2={py(1)} stroke={p.muted} strokeWidth="1" />
+        <line x1={px(0.475)} y1={py(0)} x2={px(0.475)} y2={py(1)} stroke={p.accent} strokeDasharray="4 3" strokeWidth="1" opacity="0.5" />
+        <line x1={px(0)} y1={py(0.475)} x2={px(1)} y2={py(0.475)} stroke={p.accent} strokeDasharray="4 3" strokeWidth="1" opacity="0.5" />
+        <text x={px(1)} y={py(0) + 18} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>CD4 expression →</text>
+        <text x={px(0) - 6} y={py(1) - 4} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>CD8 ↑</text>
+        <text x={px(0.475)} y={py(1) - 6} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="9" fill={p.accent} opacity="0.85">CD4 &gt; 4.39</text>
+        <text x={px(0) - 6} y={py(0.475) - 4} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.accent} opacity="0.85">CD8 &gt; 5.65</text>
+        {cells.map((c, i) => (
+          <circle key={i} cx={px(c.x)} cy={py(c.y)} r={highlight === c.k ? 4.4 : 3} fill={c.color} opacity={highlight === null || highlight === c.k ? 0.85 : 0.18} style={{ transition: "all 220ms var(--ease-out)" }} />
+        ))}
+      </svg>
+      <div style={{ fontFamily: "var(--f-ui)", fontSize: 12, lineHeight: 1.6 }}>
+        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Quadrants</div>
+        {groups.map(g => (
+          <div key={g.k} onMouseEnter={() => setHighlight(g.k)} onMouseLeave={() => setHighlight(null)} style={{ display: "flex", alignItems: "flex-start", gap: 8, padding: "5px 0", cursor: "pointer", color: highlight === g.k ? p.accent : p.ink, transition: "color 220ms" }}>
+            <span style={{ width: 10, height: 10, borderRadius: "50%", background: g.color, flexShrink: 0, marginTop: 4 }} />
+            <div style={{ flex: 1 }}>
+              <div>{g.label}</div>
+              <div style={{ color: p.muted, fontSize: 10 }}>{g.note}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ConsensusGrid({ palette: p }) {
+  // three clustering methods over the same 8x8 patch, then a consensus blend
+  const W = 480, H = 200;
+  const cells = React.useMemo(() => {
+    let s = 21;
+    const r = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+    return Array.from({ length: 64 }, (_, i) => ({ i, r: r(), s: r(), t: r() }));
+  }, []);
+  const methods = [
+    { label: "Birch", pick: (c) => c.r > 0.62 ? 1 : c.r > 0.32 ? 2 : 0 },
+    { label: "Agglomerative", pick: (c) => c.s > 0.58 ? 1 : c.s > 0.30 ? 2 : 0 },
+    { label: "Spectral", pick: (c) => c.t > 0.60 ? 1 : c.t > 0.34 ? 2 : 0 },
+  ];
+  const palette3 = [p.muted, p.accent, "#8B5A89"];
+  // consensus: majority vote across the three methods per cell
+  const consensus = cells.map(c => {
+    const votes = [0, 0, 0];
+    methods.forEach(m => votes[m.pick(c)]++);
+    let max = 0, idx = 0, agree = 0;
+    votes.forEach((v, i) => { if (v > max) { max = v; idx = i; } });
+    agree = max / 3;
+    return { idx, agree };
+  });
+  const cell = 18, gap = 1;
+  const grid = (offset, picker) => (
+    <g transform={`translate(${offset}, 30)`}>
+      {cells.map((c, i) => {
+        const x = (i % 8) * (cell + gap);
+        const y = Math.floor(i / 8) * (cell + gap);
+        const k = picker(c);
+        return <rect key={i} x={x} y={y} width={cell} height={cell} fill={palette3[k]} opacity={0.78} />;
+      })}
+    </g>
+  );
+  const consensusGrid = (offset) => (
+    <g transform={`translate(${offset}, 30)`}>
+      {cells.map((c, i) => {
+        const x = (i % 8) * (cell + gap);
+        const y = Math.floor(i / 8) * (cell + gap);
+        const cn = consensus[i];
+        return <rect key={i} x={x} y={y} width={cell} height={cell} fill={palette3[cn.idx]} opacity={0.4 + cn.agree * 0.6} />;
+      })}
+    </g>
+  );
+  const labels = ["Birch", "Agglomerative", "Spectral", "Consensus"];
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 200 }}>
+      {[0, 120, 240, 360].map((off, i) => (
+        <g key={i}>
+          <text x={off + 76} y={20} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="10" fill={i === 3 ? p.accent : p.muted}>{labels[i]}</text>
+          {i < 3 ? grid(off + 8, methods[i].pick) : consensusGrid(off + 8)}
+        </g>
+      ))}
+      <text x="60" y={H - 6} fontFamily="var(--f-ui)" fontSize="9" fill={p.muted}>three views, then a vote — opacity = agreement</text>
+    </svg>
+  );
+}
+
+function RecEngineSwarm({ palette: p }) {
+  const [active, setActive] = React.useState(null);
+  const W = 480, H = 320;
+  const cx = W / 2, cy = H / 2;
+  const engines = [
+    { id: "lyrics", label: "Lyrics-Transformer",  short: "LYR", angle: -90, color: p.accent },
+    { id: "vae",    label: "Audio VAE (384→16D)", short: "VAE", angle: -30, color: "#8B5A89" },
+    { id: "graph",  label: "Graph node2vec",      short: "GRP", angle: 30,  color: "#5B7A4F" },
+    { id: "ncf",    label: "Neural Collab",       short: "NCF", angle: 90,  color: "#C68A4F" },
+    { id: "ssl",    label: "Contrastive SSL",     short: "SSL", angle: 150, color: "#4F7A8B" },
+    { id: "ens",    label: "Ensemble (weighted)", short: "ENS", angle: 210, color: p.ink },
+  ];
+  const radius = 110;
+  // recommendations: each engine surfaces a few songs; some overlap (consensus)
+  const songs = React.useMemo(() => {
+    let s = 13;
+    const r = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+    const out = [];
+    for (let i = 0; i < 14; i++) {
+      const a = r() * Math.PI * 2;
+      out.push({ x: cx + Math.cos(a) * (radius + 50 + r() * 30), y: cy + Math.sin(a) * (radius + 40 + r() * 30), votes: 1 + Math.floor(r() * 3) });
+    }
+    return out;
+  }, [cx, cy]);
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "center" }}>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 300 }}>
+        {/* connections engine -> songs (consensus = thicker) */}
+        {engines.map((e, ei) => {
+          const ex = cx + Math.cos(e.angle * Math.PI / 180) * radius;
+          const ey = cy + Math.sin(e.angle * Math.PI / 180) * radius;
+          // each engine connects to ~4 songs, indices pseudo-randomly
+          const links = [(ei * 3) % songs.length, (ei * 3 + 1) % songs.length, (ei * 3 + 5) % songs.length];
+          return (
+            <g key={e.id} opacity={active === null || active === e.id ? 1 : 0.15} style={{ transition: "opacity 240ms" }}>
+              {links.map((sIdx, j) => (
+                <line key={j} x1={ex} y1={ey} x2={songs[sIdx].x} y2={songs[sIdx].y} stroke={e.color} strokeWidth={songs[sIdx].votes >= 2 ? 1.4 : 0.6} strokeOpacity={0.5} />
+              ))}
+            </g>
+          );
+        })}
+        {/* center query */}
+        <circle cx={cx} cy={cy} r="14" fill={p.paper} stroke={p.ink} strokeWidth="1.5" />
+        <text x={cx} y={cy + 4} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="9" fill={p.ink}>q</text>
+        {/* engines */}
+        {engines.map(e => {
+          const ex = cx + Math.cos(e.angle * Math.PI / 180) * radius;
+          const ey = cy + Math.sin(e.angle * Math.PI / 180) * radius;
+          return (
+            <g key={e.id} onMouseEnter={() => setActive(e.id)} onMouseLeave={() => setActive(null)} style={{ cursor: "pointer" }}>
+              <line x1={cx} y1={cy} x2={ex} y2={ey} stroke={p.muted} strokeOpacity={0.25} />
+              <circle cx={ex} cy={ey} r="14" fill={p.paper} stroke={e.color} strokeWidth="1.6" />
+              <text x={ex} y={ey + 3} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="8" fill={e.color}>{e.short}</text>
+            </g>
+          );
+        })}
+        {/* recommended songs */}
+        {songs.map((s, i) => (
+          <circle key={i} cx={s.x} cy={s.y} r={s.votes >= 2 ? 4.5 : 3} fill={s.votes >= 2 ? p.accent : p.muted} opacity={0.85} />
+        ))}
+      </svg>
+      <div style={{ fontFamily: "var(--f-ui)", fontSize: 12, lineHeight: 1.55 }}>
+        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Engines</div>
+        {engines.map(e => (
+          <div key={e.id} onMouseEnter={() => setActive(e.id)} onMouseLeave={() => setActive(null)} style={{ display: "flex", alignItems: "center", gap: 8, padding: "3px 0", cursor: "pointer", color: active === e.id ? e.color : p.ink, transition: "color 220ms" }}>
+            <span style={{ width: 10, height: 10, borderRadius: "50%", background: e.color, flexShrink: 0 }} />
+            <span style={{ flex: 1, fontSize: 11 }}>{e.label}</span>
+          </div>
+        ))}
+        <div style={{ marginTop: 10, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>Filled songs = surfaced by ≥2 engines (consensus boost).</div>
+      </div>
+    </div>
+  );
+}
+
+function EnsembleConsensus({ palette: p }) {
+  const W = 480, H = 200;
+  const weights = [
+    { label: "Lyrics-Transformer", w: 0.30, color: p.accent },
+    { label: "Audio VAE",           w: 0.20, color: "#8B5A89" },
+    { label: "Graph node2vec",      w: 0.20, color: "#5B7A4F" },
+    { label: "Neural Collab",       w: 0.15, color: "#C68A4F" },
+    { label: "Contrastive SSL",     w: 0.15, color: "#4F7A8B" },
+  ];
+  const barH = 22, gap = 6;
+  const startY = 30;
+  const left = 150, barMax = 240;
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 200 }}>
+      <text x="20" y="20" fontFamily="var(--f-mono)" fontSize="10" fill={p.muted}>final_score = Σ w_i · s_i  +  consensus_boost</text>
+      {weights.map((wt, i) => (
+        <g key={i}>
+          <text x={left - 8} y={startY + i * (barH + gap) + 15} textAnchor="end" fontFamily="var(--f-ui)" fontSize="11" fill={p.ink}>{wt.label}</text>
+          <rect x={left} y={startY + i * (barH + gap)} width={wt.w * barMax} height={barH} fill={wt.color} opacity="0.85" />
+          <text x={left + wt.w * barMax + 8} y={startY + i * (barH + gap) + 15} fontFamily="var(--f-mono)" fontSize="11" fill={p.muted}>{wt.w.toFixed(2)}</text>
+        </g>
+      ))}
+      {/* consensus boost callout */}
+      <line x1={left} y1={startY + 5 * (barH + gap) + 6} x2={left + barMax} y2={startY + 5 * (barH + gap) + 6} stroke={p.muted} strokeOpacity={0.25} />
+      <text x={left} y={startY + 5 * (barH + gap) + 22} fontFamily="var(--f-ui)" fontSize="11" fill={p.accent}>+ consensus boost (×0.10) for songs surfaced by ≥2 engines</text>
+    </svg>
+  );
+}
+
+function TrendSignalFlow({ palette: p }) {
+  const [t, setT] = React.useState(0);
+  React.useEffect(() => {
+    const id = setInterval(() => setT(v => (v + 1) % 200), 60);
+    return () => clearInterval(id);
+  }, []);
+  const W = 520, H = 280;
+  const sources = [
+    { id: "ig",   label: "Instagram saves",  color: p.accent },
+    { id: "tt",   label: "TikTok mentions",  color: "#8B5A89" },
+    { id: "rt",   label: "Resale velocity",  color: "#5B7A4F" },
+    { id: "se",   label: "Search trends",    color: "#C68A4F" },
+    { id: "ed",   label: "Editorial buzz",   color: "#4F7A8B" },
+  ];
+  // synthetic signal lines per source
+  const path = (i, phase) => {
+    const points = [];
+    for (let x = 0; x <= 200; x += 4) {
+      const y = 30 + i * 36
+        + Math.sin((x + phase) * 0.06 + i) * 6
+        + Math.sin((x + phase) * 0.13 + i * 1.7) * 3.5;
+      points.push(`${x === 0 ? "M" : "L"} ${20 + x} ${y}`);
+    }
+    return points.join(" ");
+  };
+  // composite + forecast
+  const compositePath = () => {
+    const points = [];
+    const baseY = 100;
+    for (let x = 0; x <= 320; x += 4) {
+      const sumOsc = sources.reduce((acc, _, i) => acc + Math.sin((x + t * 2) * 0.05 + i * 1.3) * (i % 2 ? 5 : 4), 0);
+      // upward trend + oscillation
+      const trend = x * 0.18;
+      const y = baseY + sumOsc - trend * 0.25;
+      points.push(`${x === 0 ? "M" : "L"} ${240 + x * 0.5} ${y + 30}`);
+    }
+    return points.join(" ");
+  };
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "0.5rem" }}>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 260 }}>
+        {/* source lanes */}
+        {sources.map((s, i) => (
+          <g key={s.id}>
+            <text x="10" y={36 + i * 36} fontFamily="var(--f-ui)" fontSize="10" fill={s.color} textAnchor="start">{s.label}</text>
+            <path d={path(i, t * 2)} stroke={s.color} strokeWidth="1.4" fill="none" opacity={0.75} />
+          </g>
+        ))}
+        {/* merge bracket */}
+        <path d={`M 220 30 L 240 130 L 220 230`} stroke={p.muted} strokeWidth="1" fill="none" opacity={0.5} strokeDasharray="3 3" />
+        {/* composite + forecast */}
+        <line x1="395" y1="20" x2="395" y2={H - 30} stroke={p.muted} strokeDasharray="2 4" opacity="0.4" />
+        <text x="395" y="14" textAnchor="middle" fontFamily="var(--f-mono)" fontSize="9" fill={p.muted}>now</text>
+        <text x={395 + 40} y={H - 14} fontFamily="var(--f-mono)" fontSize="9" fill={p.accent}>→ 30-day forecast</text>
+        <path d={compositePath()} stroke={p.accent} strokeWidth="1.8" fill="none" />
+        {/* moving pulse on composite */}
+        <circle r="3" fill={p.accent}>
+          <animateMotion dur="3s" repeatCount="indefinite" path={compositePath()} />
+        </circle>
+      </svg>
+      <div style={{ fontFamily: "var(--f-ui)", fontSize: 11, color: p.muted, textAlign: "center" }}>five sources → composite → Holt-Winters forecast</div>
+    </div>
+  );
+}
+
+function LMSRPriceCurve({ palette: p }) {
+  const W = 460, H = 240;
+  const b = 100; // liquidity
+  // price for "yes" share when q_yes shares already exist (q_no = 0 for clarity)
+  const price = (q) => 1 / (1 + Math.exp(-q / b));
+  const left = 40, right = W - 30, top = 30, bottom = H - 40;
+  const xToPx = (x) => left + (x / 400) * (right - left);
+  const yToPx = (y) => bottom - y * (bottom - top);
+  const pts = [];
+  for (let q = -200; q <= 400; q += 5) {
+    pts.push(`${q === -200 ? "M" : "L"} ${xToPx(q)} ${yToPx(price(q))}`);
+  }
+  // markers
+  const marks = [
+    { q: 0, label: "0 shares", note: "p = 0.50" },
+    { q: 100, label: "100 yes", note: "p ≈ 0.73" },
+    { q: 250, label: "250 yes", note: "p ≈ 0.92" },
+  ];
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 240 }}>
+      <line x1={left} y1={bottom} x2={right} y2={bottom} stroke={p.muted} strokeWidth="1" />
+      <line x1={left} y1={top} x2={left} y2={bottom} stroke={p.muted} strokeWidth="1" />
+      <line x1={left} y1={yToPx(0.5)} x2={right} y2={yToPx(0.5)} stroke={p.muted} strokeDasharray="3 4" opacity="0.4" />
+      <text x={right} y={bottom + 16} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>net YES shares →</text>
+      <text x={left - 6} y={top - 6} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>price (probability)</text>
+      <text x={left - 6} y={yToPx(0.5) + 4} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.muted}>0.5</text>
+      <path d={pts.join(" ")} stroke={p.accent} strokeWidth="2" fill="none" />
+      {marks.map((m, i) => (
+        <g key={i}>
+          <circle cx={xToPx(m.q)} cy={yToPx(price(m.q))} r="4" fill={p.accent} />
+          <text x={xToPx(m.q) + 8} y={yToPx(price(m.q)) - 8} fontFamily="var(--f-mono)" fontSize="10" fill={p.ink}>{m.label}</text>
+          <text x={xToPx(m.q) + 8} y={yToPx(price(m.q)) + 4} fontFamily="var(--f-mono)" fontSize="9" fill={p.muted}>{m.note}</text>
+        </g>
+      ))}
+      <text x={right - 4} y={top + 14} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.muted}>LMSR · b = 100</text>
+    </svg>
+  );
+}
+
 function JayaEssay({ palette: p }) {
   return (
     <>
@@ -3103,6 +3501,10 @@ function JayaEssay({ palette: p }) {
       </p>
 
       <p>It is also a design that throws away most of what genetic algorithms learned in the 1970s about searching combinatorial spaces. Crossover lets two candidates trade genes. Mutation prevents premature convergence on a local optimum. JAYA replaces both with "be more like the best, less like the worst," which is closer to gradient descent than evolution.</p>
+
+      <Figure caption="A 14-candidate JAYA population on a smooth landscape. The cluster moves toward the marked optimum each generation; nothing else is doing the work." palette={p}>
+        <JayaSwarm palette={p} />
+      </Figure>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
@@ -3155,6 +3557,226 @@ function JayaEssay({ palette: p }) {
   );
 }
 
+function BiomarkersEssay({ palette: p }) {
+  return (
+    <>
+      <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
+        The slide came up at week six.<span className="sidenote-number" style={{ color: p.accent }}>1</span> A scatter plot of single cells from a tumour sample, axes labelled CD4 and CD8 — two well-known T-cell markers — and a clean four-quadrant story. The clinician giving the talk circled the upper-right corner with a laser pointer and called those cells "double-positive," like that settled the matter. It did not.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>1.</strong> MFoCS thesis, Oxford · Lady Margaret Hall, 2024 — "Analysing and Advancing Automated Immune Biomarker Detection." Flow cytometry data on tumour-associated immune populations.
+        </span>
+      </p>
+
+      <p>My thesis took that scatter plot seriously and asked a more boring question: <em>where exactly do you put the threshold?</em> Move the CD4 cutoff from 4.39 to 4.50 and the "double-positive" population shrinks by a fifth. Move it the other way and you import a slice of background noise. The biology is the same. The category is not.</p>
+
+      <PullQuote color={p.accent}>The biology is the same. The category is not.</PullQuote>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
+        <span>Six markers, one panel</span>
+      </h2>
+
+      <p>The dataset was a flow cytometry panel of six markers — CD4, CD8, FoxP3, CTLA4, PD1, Ki67 — measured on tumour-infiltrating lymphocytes across a small cohort of patient samples.<span className="sidenote-number" style={{ color: p.accent }}>2</span> Each cell is a 6-vector. Each sample is roughly 20,000 cells. Each clinician wants a clean answer about which subpopulations are present and at what proportion.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>2.</strong> CD4/CD8 split helper vs cytotoxic T cells. FoxP3 marks regulatory T cells. CTLA4 and PD1 are exhaustion markers. Ki67 is proliferation. Each tells a different fragment of a story about how the immune system is engaging the tumour.
+        </span>
+      </p>
+
+      <Figure caption="Cells in CD4 × CD8 space. The dashed lines are the clinical thresholds (4.39, 5.65). Slide them and the four populations resize." palette={p}>
+        <BiomarkerScatter palette={p} />
+      </Figure>
+
+      <p>The clinical workflow is to drop a threshold per marker — chosen by eye on log-transformed intensity histograms — and read off the proportions in each gate. It works. It also throws away most of the geometry. A cell sitting just inside the CD4+ gate and a cell sitting deep inside it count the same. Nuance lives below the resolution of a bin.</p>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
+        <span>Three clusterings, one consensus</span>
+      </h2>
+
+      <p>The cleaner question is unsupervised: <em>given the cells in 6-D marker space, what populations actually exist?</em> The answer depends on the clustering algorithm, and that's the problem. Birch is fast and tends to split. Agglomerative respects local density. Spectral catches non-convex shapes. Run them on the same cells and you get three different stories.</p>
+
+      <p>So I ran all three, then took a consensus.<span className="sidenote-number" style={{ color: p.accent }}>3</span> A cell's cluster identity is the majority vote across the three methods, and the confidence is the agreement fraction. Cells where all three methods agree are robust. Cells where two-of-three agree are interesting boundary cases. Cells where each method picks a different label are background — or a real subpopulation that nobody's named yet.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>3.</strong> Consensus clustering as proposed by Monti et al. (2003). The trick isn't picking the "right" algorithm — it's getting an honest measure of how stable a partition is across reasonable algorithmic choices.
+        </span>
+      </p>
+
+      <Figure caption="Three clustering methods on the same 8×8 patch, then a majority-vote consensus. Opacity in the rightmost panel encodes agreement strength." palette={p}>
+        <ConsensusGrid palette={p} />
+      </Figure>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
+        <span>What CTLA4 told us</span>
+      </h2>
+
+      <p>The most useful single number from the project: a binary classifier for CTLA4-high cells, trained on the other five markers, hit an F1 of 0.70 at threshold tuning.<span className="sidenote-number" style={{ color: p.accent }}>4</span> Translation: from the easier-to-measure surface markers, you can recover most of an exhaustion signal that's normally read off a separate stain. That's not a discovery, but it's a small dent in the cost of running the panel.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>4.</strong> 5-fold cross-validation; gradient-boosted trees; class-balanced. F1 of 0.70 isn't clinical-grade, but for a six-marker panel on a small cohort it suggests the joint signal is real.
+        </span>
+      </p>
+
+      <p>The bigger lesson — and the one I think generalises — is that thresholds in biology are decisions, not measurements. A scatter plot with a gate drawn on it looks like data. It is, partly. But the gate is a choice: someone, somewhere, decided that 4.39 was the boundary between negative and positive. That choice is rarely re-examined. Re-examining it was most of the thesis.</p>
+
+      <PullQuote color={p.accent}>Thresholds in biology are decisions, not measurements.</PullQuote>
+
+      <p>The full thesis ("Analysing and Advancing Automated Immune Biomarker Detection") sits in the Oxford repository. The code lives at <a href="https://github.com/shubhangithub" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>github.com/shubhangithub</a>, in the <span className="mono">biomarker-discovery</span> repo (private — message me).</p>
+
+      <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written from the King's Cross flat, the day before viva.</p>
+    </>
+  );
+}
+
+function SixEnginesEssay({ palette: p }) {
+  return (
+    <>
+      <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
+        I am, mortifyingly, the kind of Taylor Swift listener who has opinions about which 2019 demos should have stayed unreleased.<span className="sidenote-number" style={{ color: p.accent }}>1</span> So when I built a recommender for her catalogue I was the worst possible audience: any model that surfaced something obvious would feel patronising, and any model that surfaced something stupid would feel personal.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>1.</strong> The original Lover demos. Don't @ me.
+        </span>
+      </p>
+
+      <p>The constraint, then, was: build something whose <em>recommendations themselves</em> would be the test. If I rolled it out to friends and they said "yeah, that one too," good. If they said "why this," bad. The architecture had to earn that, not the other way around.</p>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
+        <span>Six engines, one query</span>
+      </h2>
+
+      <p>I ended up with six recommendation models, each looking at a different facet of a song. Five base engines plus an ensemble that learned how to weight them.</p>
+
+      <ol style={{ margin: "1.2rem 0", paddingLeft: "1.4rem", lineHeight: 1.7 }}>
+        <li><strong>Lyrics-Transformer.</strong> A small fine-tuned transformer over Genius-scraped lyrics. Cosine similarity in CLS-token space.</li>
+        <li><strong>Audio VAE.</strong> A variational autoencoder over Spotify audio features, compressed to a 16-dimensional latent.<span className="sidenote-number" style={{ color: p.accent }}>2</span> Distance in latent space picks up sonic neighbours.</li>
+        <li><strong>Graph node2vec.</strong> Build a song-co-listen graph, run node2vec for 64-D embeddings, retrieve nearest neighbours.</li>
+        <li><strong>Neural Collab Filtering.</strong> Classic two-tower model on user-song interactions.</li>
+        <li><strong>Contrastive SSL.</strong> Self-supervised pretext: same song, two augmentations of its audio, pull together; different songs, push apart.</li>
+        <li><strong>Ensemble.</strong> Weighted blend of the five, with a consensus boost for songs surfaced by ≥2 engines.</li>
+      </ol>
+
+      <p style={{ fontSize: "0.85rem", color: p.muted, marginTop: "-0.5rem", lineHeight: 1.55 }}>
+        <strong style={{ color: p.accent }}>2.</strong> The compression ratio matters: 384 raw audio descriptors → 16 latent dims. Anything that survives that bottleneck is doing real work.
+      </p>
+
+      <Figure caption="A query song q routes to six engines; each surfaces ~3 candidates. Songs touched by multiple engines (filled) get a consensus boost in the final ranking." palette={p}>
+        <RecEngineSwarm palette={p} />
+      </Figure>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
+        <span>The dataset that made it tractable</span>
+      </h2>
+
+      <p>801 songs total: 341 from Taylor's discography (all eras, including Vault tracks), 460 from a hand-curated cross-artist set chosen to neighbour her in lyrical or sonic space.<span className="sidenote-number" style={{ color: p.accent }}>3</span> The cross-artist songs are what make the recommender useful — without them every output would be intra-catalogue, which is the same as suggesting an album shuffle.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>3.</strong> Phoebe Bridgers, boygenius, Lorde, Aimee Mann, Joni Mitchell, Carole King for the lyrical neighbourhood. Jack Antonoff and Aaron Dessner productions for the sonic neighbourhood.
+        </span>
+      </p>
+
+      <p>The original was an R/Shiny app I'd written in 2023 — pretty, slow, single-user. The 2025 rebuild is a TypeScript + Next.js + Python-API stack that loads in under a second and serves real recommendations in ~150ms.</p>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02b</span>
+        <span>Why the ensemble works</span>
+      </h2>
+
+      <p>Each engine has a failure mode that the others compensate for. Lyrics-only will surface "songs that mention rain" when you wanted "songs that <em>feel like</em> rain." Audio-only will surface acoustic ballads when you wanted lyrical heartbreak. Collaborative filtering will surface whatever's popular this week. The ensemble is less a fusion of strengths than an averaging-out of weaknesses.</p>
+
+      <Figure caption="Final score is a fixed-weight blend with a small consensus boost for cross-engine agreement. The weights are tuned by leave-one-out on a small held-out playlist." palette={p}>
+        <EnsembleConsensus palette={p} />
+      </Figure>
+
+      <PullQuote color={p.accent}>The ensemble is less a fusion of strengths than an averaging-out of weaknesses.</PullQuote>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
+        <span>What the demo actually feels like</span>
+      </h2>
+
+      <p>Type a song. Six engines return their picks in parallel. The UI shows you the ensemble's top 10, but lets you toggle "show me what each engine thought" so you can see the disagreements. The disagreements are usually the interesting part: the lyrics-transformer wants you to listen to <em>The Manuscript</em>; the audio VAE thinks you'd rather have <em>You're On Your Own, Kid</em>; the graph engine sends you to a Phoebe Bridgers deep cut. They're all defensible, in their own register.</p>
+
+      <p>The site is at <a href="https://shubz-taylor-rec-engine.vercel.app" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>shubz-taylor-rec-engine.vercel.app</a>. Bring your own opinions about the Lover demos.</p>
+
+      <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written on the train back from a Tortoise live show.</p>
+    </>
+  );
+}
+
+function FashionEssay({ palette: p }) {
+  return (
+    <>
+      <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
+        Fashion forecasting is what you call it when you're respectable.<span className="sidenote-number" style={{ color: p.accent }}>1</span> What it actually is, most weeks, is a few people in a Slack channel arguing about whether scarves-as-tops survives the autumn. The instinct is real. The methodology is improvised. We thought a prediction market sitting on top of a few timeseries models might make the instinct legible — to the people having it, and to the buyers who have to act on it.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>1.</strong> "Trend" sits oddly in this sentence. The industry word; carrying both "what's in" and "what's measurable." A market should be able to handle both.
+        </span>
+      </p>
+
+      <p>The thing we're building is a markets-style platform for fashion micro-trends: scoot scarves, cherry-red bags, "tomato-girl summer," whatever has half-named itself in the last fortnight. Traders take positions on whether the trend continues. Prices reveal a soft consensus in advance of the resale data catching up. That's the bet.</p>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
+        <span>Five signals, one composite</span>
+      </h2>
+
+      <p>The forecasting half of the platform reads from five sources and merges them into a single trend index per item:</p>
+
+      <ol style={{ margin: "1.2rem 0", paddingLeft: "1.4rem", lineHeight: 1.7 }}>
+        <li>Instagram saves and tagged-post velocity.</li>
+        <li>TikTok mentions and sound-overlay use.</li>
+        <li>Resale-platform velocity (Depop, Vestiaire, Vinted).</li>
+        <li>Search trend volume.</li>
+        <li>Editorial buzz — manually scored from a small set of trade publications.</li>
+      </ol>
+
+      <p>None of these is reliable on its own. Instagram saves spike on a single influencer post; TikTok mentions over-index on Gen Z; resale velocity lags by ~3 weeks; search trends are noisy at the long tail; editorial buzz is biased. <em>Together</em>, in a Holt-Winters-style level + trend decomposition, they're tolerable.<span className="sidenote-number" style={{ color: p.accent }}>2</span>
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>2.</strong> Holt-Winters because we want a baseline level and a velocity term, but we don't (yet) have enough signal to model annual seasonality cleanly. When we do, we'll graduate to STL or Prophet.
+        </span>
+      </p>
+
+      <Figure caption="Five source signals merge into a composite, then a 30-day forecast extends past 'now'. Each lane is independently noisy; the composite smooths out single-source spikes." palette={p}>
+        <TrendSignalFlow palette={p} />
+      </Figure>
+
+      <PullQuote color={p.accent}>None of these is reliable on its own. Together, they're tolerable.</PullQuote>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
+        <span>Why a market sits on top</span>
+      </h2>
+
+      <p>A forecast is a number. A market is a number with skin in the game. The forecasting models give us a baseline; the market lets traders disagree, and price-in things the model can't see — a designer cameo at fashion week, a celebrity dating rumour, a TikTok creator pivoting genre.</p>
+
+      <p>The market mechanism is LMSR — Hanson's logarithmic market scoring rule.<span className="sidenote-number" style={{ color: p.accent }}>3</span> The advantage over a CLOB (continuous limit order book) is that LMSR provides automatic liquidity even when the market is thin, which it always is at launch. The disadvantage is that the price function is exponential in net shares, so you have to think carefully about the liquidity parameter <span className="mono">b</span>.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>3.</strong> Hanson, R. (2003). "Combinatorial Information Market Design." A market maker that quotes prices via a cost function C(q) = b · log(Σ exp(q_i / b)). Automatic liquidity, bounded loss, well-calibrated to subjective probabilities.
+        </span>
+      </p>
+
+      <Figure caption="Price for a YES share rises as net YES position grows. Steeper around p = 0.5, asymptotic at the bounds. b controls how much the price moves per unit volume." palette={p}>
+        <LMSRPriceCurve palette={p} />
+      </Figure>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
+        <span>What we're optimising for</span>
+      </h2>
+
+      <p>Calibration, mostly. A trend platform that says "this will be big" 100 times wants the things it predicted to actually be big roughly 70 times when its prices say 0.7, 30 times when its prices say 0.3. That's the only honest measure. Everything else — engagement, traders-on-platform, "feels right" — is downstream.</p>
+
+      <p>The team is small. The data is sparse. The fashion calendar is unforgiving. But there's something genuinely interesting about the corner of the world where statistical timeseries models meet a community that has always priced things in private — at fashion-week dinners, in trade-publication editorial meetings, on group chats. We're trying to make that pricing public, and quantitative, without ruining what makes it work.</p>
+
+      <PullQuote color={p.accent}>Calibration, mostly.</PullQuote>
+
+      <p>If you're an early-stage trader, designer, or buyer who wants to look at the alpha, write to me at <a href="mailto:shubhangis@duck.com" className="link-underline" style={{ color: p.accent }}>shubhangis@duck.com</a>.</p>
+
+      <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written between meetings, on a stolen Friday afternoon.</p>
+    </>
+  );
+}
+
 function DraftEssay({ post, palette: p, onNavigate }) {
   return (
     <>
@@ -3193,9 +3815,13 @@ function essayMeta(slug) {
     },
     "biomarkers": {
       tags: "computational biology, clustering",
-      toc: ["Header", "Draft in progress"],
-      sources: [],
-      sidenotes: 0,
+      toc: ["Header", "Lede", "Six markers, one panel", "Three clusterings, one consensus", "What CTLA4 told us"],
+      sources: [
+        ['[1] Monti, S., et al. (2003). ', '"Consensus Clustering: A resampling-based method." Machine Learning 52(1).'],
+        ['[2] ', "Tumour-infiltrating lymphocyte flow-cytometry panel — internal data, n ≈ 14 patient samples."],
+        ['[3] Sharma, S. (2024). ', "Analysing and Advancing Automated Immune Biomarker Detection. MFoCS thesis, Oxford · Lady Margaret Hall."],
+      ],
+      sidenotes: 4,
     },
     "h3-confidence": {
       tags: "geospatial, ml, calibration",
@@ -3211,9 +3837,24 @@ function essayMeta(slug) {
     },
     "six-engines": {
       tags: "recommendation, music",
-      toc: ["Header", "Draft in progress"],
-      sources: [],
-      sidenotes: 0,
+      toc: ["Header", "Lede", "Six engines, one query", "The dataset that made it tractable", "Why the ensemble works", "What the demo actually feels like"],
+      sources: [
+        ['[1] Mikolov, T., et al. (2013). ', "Efficient estimation of word representations in vector space."],
+        ['[2] Grover, A., & Leskovec, J. (2016). ', "node2vec: Scalable feature learning for networks. KDD."],
+        ['[3] He, X., et al. (2017). ', "Neural Collaborative Filtering. WWW."],
+        ['[4] ', "shubz-taylor-rec-engine.vercel.app · 801 songs (341 + 460)."],
+      ],
+      sidenotes: 3,
+    },
+    "fashion-trends": {
+      tags: "forecasting, prediction markets",
+      toc: ["Header", "Lede", "Five signals, one composite", "Why a market sits on top", "What we're optimising for"],
+      sources: [
+        ['[1] Hanson, R. (2003). ', '"Combinatorial Information Market Design." Information Systems Frontiers.'],
+        ['[2] Hyndman, R., & Athanasopoulos, G. ', "Forecasting: Principles and Practice — Holt-Winters chapter."],
+        ['[3] ', "Internal product spec, Fashion-Trends platform, 2025."],
+      ],
+      sidenotes: 3,
     },
   };
   return meta[slug] || meta["jaya"];
@@ -3296,7 +3937,15 @@ function ArticleV4({ slug, palette: p, paletteId, setPaletteId, onNavigate, setC
           </div>
 
           <div style={{ gridColumn: "3 / span 7" }}>
-            {post.slug === "jaya" ? <JayaEssay palette={p} /> : <DraftEssay post={post} palette={p} onNavigate={onNavigate} />}
+            {(() => {
+              switch (post.slug) {
+                case "jaya": return <JayaEssay palette={p} />;
+                case "biomarkers": return <BiomarkersEssay palette={p} />;
+                case "six-engines": return <SixEnginesEssay palette={p} />;
+                case "fashion-trends": return <FashionEssay palette={p} />;
+                default: return <DraftEssay post={post} palette={p} onNavigate={onNavigate} />;
+              }
+            })()}
           </div>
 
           {/* right rail — endmatter / pull-out */}
@@ -3368,9 +4017,9 @@ function WorkV4({ palette: p, paletteId, setPaletteId, onNavigate, setCursorColo
     { name: "Orion intelligence platform", scope: "founding-eng", role: "data infra, ML pipelines, backend services in Python + Golang", year: "2025 —" },
     { name: "fashion-web — trend prediction & speculation market", scope: "deployed · solo", role: "Next.js 16 / TS / Postgres / Pinecone — multi-source pipeline (Reddit, Bluesky, YouTube, editorial), composite scoring, Holt-Winters forecasts, portfolios + leaderboards", year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
     { name: "platypus-learn — AI learning platform", scope: "deployed · solo", role: "Next.js / Supabase / Resend — ingests PDFs and YouTube, generates courses with Claude, weekly goals dashboard", year: "2025 —", url: "https://platypus-learn.vercel.app" },
-    { name: "shubz-taylor-rec-engine", scope: "open", role: "six ML recommendation engines for one songbook — TS rebuild of the R/Shiny original", year: "2026" },
+    { name: "shubz-taylor-rec-engine", scope: "open", role: "six engines (lyrics-transformer, audio VAE 384→16D, graph node2vec, neural collab, contrastive SSL, ensemble) on 801 songs · 341 Taylor + 460 cross-artist · TS rebuild of the R/Shiny original", year: "2026", url: "https://shubz-taylor-rec-engine.vercel.app" },
     { name: "inbix22 — JAYA + crossover", scope: "open", role: "feature-selection variants for protein function ID; 96% on the best dataset", year: "2022", url: "https://github.com/shubhangithub/inbix22" },
-    { name: "MFoCS thesis: immune biomarkers", scope: "academic", role: "single-cell expression clustering, consensus, biomarker detection", year: "2024" },
+    { name: "MFoCS thesis: immune biomarkers", scope: "academic", role: "consensus clustering (Birch + Agglomerative + Spectral) on 6-marker flow cytometry · CTLA4 surface-marker recovery at F1 = 0.70", year: "2024" },
     { name: "Flipkart-Walmart merger NLP", scope: "academic", role: "theme extraction + sentiment mining — SpaCy, NLTK, Gensim, TextBlob", year: "2024" },
     { name: "GNSS water-vapour ML", scope: "honours thesis", role: "regression models vs traditional linear baselines", year: "2023" },
     { name: "Nand2Tetris — 16-bit computer from gates up", scope: "coursework", role: "all 13 projects: HDL, assembly, VM, compiler, OS", year: "2022" },
