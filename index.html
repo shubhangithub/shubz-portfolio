@@ -225,6 +225,22 @@ figcaption {
 ::selection { background: #B85C3C; color: #F4ECDD; }
 body { transition: background 600ms cubic-bezier(0.25, 0.1, 0.25, 1); }
 
+/* Touch & accessibility — global (any viewport) */
+* { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 2px solid #1F3DBF; outline-offset: 2px; border-radius: 1px; }
+.skip-link {
+  position: absolute; left: 0.5rem; top: -100px;
+  padding: 0.5rem 0.9rem; background: #0F1320; color: #F2F1EC;
+  font-family: var(--f-ui); font-size: 13px; font-weight: 500;
+  z-index: 100; transition: top 180ms var(--ease-out);
+}
+.skip-link:focus { top: 0.5rem; }
+
+/* Press feedback on touch — opacity-only, no layout shift */
+@media (hover: none) {
+  a:active, button:active { opacity: 0.55; transition: opacity 80ms; }
+}
+
 /* ========== RESPONSIVE — phones (≤ 768px) ==========
    Strategy: tag desktop 12-col grids with .v4-grid (auto-stacks on mobile),
    tag rails-to-disappear with .v4-rail-hide. !important needed because layout
@@ -252,9 +268,18 @@ body { transition: background 600ms cubic-bezier(0.25, 0.1, 0.25, 1); }
   /* Diagram + legend pairs: stack on mobile */
   .v4-diagram-pair { grid-template-columns: 1fr !important; gap: 1rem !important; }
 
+  /* Diagram captions + axis labels — bump from 9-10px → 11px on mobile */
+  .v4-diagram-pair text { font-size: 11px !important; }
+  .v4-diagram-pair .mono { font-size: 11px !important; }
+
   /* Sliders + buttons inside diagrams: bigger touch targets */
-  .v4-diagram-pair input[type="range"] { height: 28px; }
+  .v4-diagram-pair input[type="range"] { height: 28px; accent-color: #1F3DBF; }
+  .v4-diagram-pair input[type="range"]::-webkit-slider-thumb { width: 22px; height: 22px; }
+  .v4-diagram-pair input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border: none; }
   .v4-diagram-pair button { min-height: 32px; }
+
+  /* Tap-target audit — scoped: nav, footer, mono, caps. Doesn't touch inline prose links. */
+  nav a, footer a, .mono a, .caps a { min-height: 32px; display: inline-flex; align-items: center; }
 }
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
@@ -2152,6 +2177,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
       <Nav palette={p} onNavigate={onNavigate} />
 
       {/* HERO — 12-col on desktop · single-column stack on mobile */}
+      <main id="main" tabIndex={-1} style={{ display: "block" }}>
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "1.2rem 1rem 1.6rem" : "1.6rem 1.6rem 2rem", position: "relative", zIndex: 2 }}>
         <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: isMobile ? "1.4rem" : "1.6rem", alignItems: "start" }}>
 
@@ -2296,6 +2322,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
           {POSTS.map((post, i) => <PreciseRow key={post.slug} post={post} palette={p} onNavigate={onNavigate} index={i} total={POSTS.length} isMobile={isMobile} />)}
         </div>
       </section>
+      </main>
 
       <Footer palette={p} line="Made with care, in London. Set in Fraunces and Source Serif." />
     </div>
@@ -2927,6 +2954,7 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
       <PreciseTopBar palette={p} label="~/writing" />
       <PreciseNav palette={p} current="writing" onNavigate={onNavigate} />
 
+      <main id="main" tabIndex={-1} style={{ display: "block" }}>
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
 
@@ -2954,7 +2982,7 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
             </p>
           </div>
 
-          <div style={{ gridColumn: "10 / span 3", paddingTop: "0.4rem" }}>
+          <div className="v4-rail-hide" style={{ gridColumn: "10 / span 3", paddingTop: "0.4rem" }}>
             <div className="mono" style={{ fontSize: 11, color: p.muted, lineHeight: 1.8 }}>
               <div style={{ color: p.ink }}>fig.01 — index</div>
               <div>essays&nbsp;&nbsp;&nbsp;{POSTS.length}</div>
@@ -3059,6 +3087,7 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
           </div>
         </div>
       </section>
+      </main>
 
       <PreciseFooter palette={p} line="The garden is small, on purpose." />
     </div>
@@ -3290,8 +3319,14 @@ function BiomarkerScatter({ palette: p }) {
         {/* draggable threshold lines (wider hit areas for touch) */}
         <line x1={px(tx)} y1={py(0)} x2={px(tx)} y2={py(1)} stroke={p.accent} strokeDasharray="4 3" strokeWidth="1.2" opacity="0.7" />
         <rect x={px(tx) - 14} y={py(0)} width={28} height={py(1) - py(0)} fill="transparent" style={{ cursor: "ew-resize", touchAction: "none" }} onPointerDown={(e) => { e.currentTarget.setPointerCapture && e.currentTarget.setPointerCapture(e.pointerId); setDrag("x"); }} />
+        {/* visible drag handle on the CD4 line */}
+        <circle cx={px(tx)} cy={py(0.5)} r={6} fill={p.paper} stroke={p.accent} strokeWidth="1.5" pointerEvents="none" />
+        <circle cx={px(tx)} cy={py(0.5)} r={2.5} fill={p.accent} pointerEvents="none" />
         <line x1={px(0)} y1={py(ty)} x2={px(1)} y2={py(ty)} stroke={p.accent} strokeDasharray="4 3" strokeWidth="1.2" opacity="0.7" />
         <rect x={px(0)} y={py(ty) - 14} width={px(1) - px(0)} height={28} fill="transparent" style={{ cursor: "ns-resize", touchAction: "none" }} onPointerDown={(e) => { e.currentTarget.setPointerCapture && e.currentTarget.setPointerCapture(e.pointerId); setDrag("y"); }} />
+        {/* visible drag handle on the CD8 line */}
+        <circle cx={px(0.5)} cy={py(ty)} r={6} fill={p.paper} stroke={p.accent} strokeWidth="1.5" pointerEvents="none" />
+        <circle cx={px(0.5)} cy={py(ty)} r={2.5} fill={p.accent} pointerEvents="none" />
         <text x={px(tx)} y={py(1) - 6} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="9" fill={p.accent}>CD4 &gt; {(tx * 10).toFixed(2)}</text>
         <text x={px(0) - 6} y={py(ty) - 4} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.accent}>CD8 &gt; {(ty * 10).toFixed(2)}</text>
       </svg>
@@ -4083,8 +4118,15 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
       <PreciseTopBar palette={p} label={`~/writing/${slug}`} />
       <PreciseNav palette={p} current="writing" onNavigate={onNavigate} />
 
-      {/* metadata strip */}
-      <section style={{ maxWidth: 1280, margin: "0 auto", padding: "1.4rem 1.6rem 0", position: "relative", zIndex: 2, fontFamily: "var(--f-ui)", fontSize: 12 }}>
+      <main id="main" tabIndex={-1} style={{ display: "block" }}>
+      {/* metadata strip — compact 2 rows on mobile, full 12-col on desktop */}
+      <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "1rem 1rem 0" : "1.4rem 1.6rem 0", position: "relative", zIndex: 2, fontFamily: "var(--f-ui)", fontSize: 12 }}>
+        {isMobile ? (
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", color: p.muted, paddingBottom: "0.6rem", borderBottom: `1px dashed ${p.line}`, gap: "0.6rem" }}>
+            <span className="mono" style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>essay · {post.minutes} min · ~{Math.round(post.minutes * 240)} words</span>
+            <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} className="link-underline" style={{ color: p.accent, whiteSpace: "nowrap" }}>↤ index</a>
+          </div>
+        ) : (
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", color: p.muted, paddingBottom: "0.8rem", borderBottom: `1px dashed ${p.line}` }}>
           <span style={{ gridColumn: "1 / span 2" }} className="mono">essay · 01 of 03</span>
           <span style={{ gridColumn: "3 / span 3" }}>{post.kicker}</span>
@@ -4092,6 +4134,7 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
           <span style={{ gridColumn: "8 / span 2" }} className="mono">~{Math.round(post.minutes * 240)} words · {post.minutes} min</span>
           <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} style={{ gridColumn: "10 / span 3", textAlign: "right", color: p.accent }} className="link-underline">↤ back to index</a>
         </div>
+        )}
       </section>
 
       {/* HEADER — 12-col, asymmetric */}
@@ -4159,10 +4202,13 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
             })()}
           </div>
 
-          {/* right rail — endmatter / pull-out */}
-          <div style={{ gridColumn: "11 / span 2", fontFamily: "var(--f-ui)", fontSize: 11, color: p.muted, lineHeight: 1.7, position: "sticky", top: "1.2rem" }}>
+          {/* right rail on desktop · "Endnotes" block at the bottom on mobile */}
+          <aside style={{ gridColumn: isMobile ? "1 / -1" : "11 / span 2", fontFamily: "var(--f-ui)", fontSize: 11, color: p.muted, lineHeight: 1.7, position: isMobile ? "static" : "sticky", top: "1.2rem", marginTop: isMobile ? "2.4rem" : 0, paddingTop: isMobile ? "1.6rem" : 0, borderTop: isMobile ? `1px solid ${p.line}` : "none" }}>
+            {isMobile && (
+              <div className="caps" style={{ color: p.muted, marginBottom: 18, letterSpacing: "0.14em", fontSize: 11 }}>Endnotes</div>
+            )}
             <div className="caps mono" style={{ marginBottom: 8, letterSpacing: "0.12em" }}>Cite as</div>
-            <div className="mono" style={{ color: p.ink, fontSize: 10, lineHeight: 1.6 }}>
+            <div className="mono" style={{ color: p.ink, fontSize: isMobile ? 11 : 10, lineHeight: 1.6 }}>
               Sharma, S. (2026).<br/>
               <em>{post.title}</em>.<br/>
               shubzsharma.com/{post.slug}
@@ -4170,7 +4216,7 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
             {essayMeta(post.slug).sources.length > 0 && (
               <>
                 <div className="caps mono" style={{ marginTop: 22, marginBottom: 8, letterSpacing: "0.12em" }}>Sources</div>
-                <div className="mono" style={{ color: p.ink, fontSize: 10, lineHeight: 1.6 }}>
+                <div className="mono" style={{ color: p.ink, fontSize: isMobile ? 11 : 10, lineHeight: 1.6 }}>
                   {essayMeta(post.slug).sources.map(([prefix, body], i) => (
                     <div key={i} style={{ marginBottom: 4 }}>
                       <span>{prefix}</span><em>{body}</em>
@@ -4180,11 +4226,12 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
               </>
             )}
             <div className="caps mono" style={{ marginTop: 22, marginBottom: 8, letterSpacing: "0.12em" }}>Share</div>
-            <div className="mono" style={{ fontSize: 10 }}>
-              <a href="#" className="link-underline" style={{ color: p.accent }}>copy permalink</a><br/>
+            <div className="mono" style={{ fontSize: isMobile ? 11 : 10, display: "flex", flexDirection: isMobile ? "row" : "column", gap: isMobile ? "1rem" : 0 }}>
+              <a href="#" className="link-underline" style={{ color: p.accent }}>copy permalink</a>
+              {!isMobile && <br/>}
               <a href="#" className="link-underline" style={{ color: p.accent }}>email this</a>
             </div>
-          </div>
+          </aside>
         </div>
       </article>
 
@@ -4199,6 +4246,7 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
           </div>
         </div>
       </section>
+      </main>
 
       <PreciseFooter palette={p} line="Written in London. Footnotes by hand." />
     </div>
@@ -4254,6 +4302,7 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
       <PreciseTopBar palette={p} label="~/work" />
       <PreciseNav palette={p} current="work" onNavigate={onNavigate} />
 
+      <main id="main" tabIndex={-1} style={{ display: "block" }}>
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
           <div className="v4-rail-hide" style={{ gridColumn: "1 / span 2" }}>
@@ -4279,7 +4328,7 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
               The CV with marginalia. Each entry has a footnote — what I actually did, what I would change, what I learned. Available in <a href="uploads/Shubhangi-Sharma-Resume-20260211.pdf" target="_blank" className="link-underline" style={{ color: p.accent }}>PDF</a> for the more conventional version.
             </p>
           </div>
-          <div style={{ gridColumn: "10 / span 3", paddingTop: "0.4rem" }}>
+          <div className="v4-rail-hide" style={{ gridColumn: "10 / span 3", paddingTop: "0.4rem" }}>
             <div className="mono" style={{ fontSize: 11, color: p.muted, lineHeight: 1.8 }}>
               <div style={{ color: p.ink }}>fig.01 — record</div>
               <div>entries&nbsp;&nbsp;&nbsp;{events.length}</div>
@@ -4393,6 +4442,7 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
           </div>
         </div>
       </section>
+      </main>
 
       <PreciseFooter palette={p} line="Each entry is a sentence I am still writing." />
     </div>
@@ -4434,6 +4484,7 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
       <PreciseTopBar palette={p} label="~/now" />
       <PreciseNav palette={p} current="now" onNavigate={onNavigate} />
 
+      <main id="main" tabIndex={-1} style={{ display: "block" }}>
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
           <div className="v4-rail-hide" style={{ gridColumn: "1 / span 2" }}>
@@ -4458,7 +4509,7 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
               A <a className="link-underline" style={{ color: p.accent }} href="https://nownownow.com/about" target="_blank" rel="noreferrer">/now</a> page in the <em>Derek Sivers</em> sense. What's on my plate, what I'm reading, where my attention actually goes when nobody is watching.
             </p>
           </div>
-          <div style={{ gridColumn: "10 / span 3", paddingTop: "0.4rem" }}>
+          <div className="v4-rail-hide" style={{ gridColumn: "10 / span 3", paddingTop: "0.4rem" }}>
             <div className="mono" style={{ fontSize: 11, color: p.muted, lineHeight: 1.8 }}>
               <div style={{ color: p.ink }}>fig.01 — london</div>
               <div>lat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;51.51°N</div>
@@ -4540,6 +4591,7 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
           </div>
         </div>
       </section>
+      </main>
 
       <PreciseFooter palette={p} line="A snapshot, not a profile. Returns to its prior state when refreshed." />
     </div>
@@ -4576,6 +4628,7 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
       <PreciseTopBar palette={p} label="~/contact" />
       <PreciseNav palette={p} current="contact" onNavigate={onNavigate} />
 
+      <main id="main" tabIndex={-1} style={{ display: "block" }}>
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
           <div className="v4-rail-hide" style={{ gridColumn: "1 / span 2" }}>
@@ -4603,7 +4656,7 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
               I prefer email — it makes me think. Other channels are mostly for archive and signal. If you're writing about optimization, computational biology, geospatial ML, or music recommendation, you will get a longer reply than you expect.
             </p>
           </div>
-          <div style={{ gridColumn: "10 / span 3", paddingTop: "0.4rem" }}>
+          <div className="v4-rail-hide" style={{ gridColumn: "10 / span 3", paddingTop: "0.4rem" }}>
             <div className="mono" style={{ fontSize: 11, color: p.muted, lineHeight: 1.8 }}>
               <div style={{ color: p.ink }}>fig.01 — protocol</div>
               <div>preferred&nbsp;email</div>
@@ -4699,6 +4752,7 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
           </div>
         </div>
       </section>
+      </main>
 
       <PreciseFooter palette={p} line="Hello back, eventually." />
     </div>
@@ -4743,6 +4797,7 @@ function App() {
 
   return (
     <>
+      <a href="#main" className="skip-link">Skip to content</a>
       <CustomCursor color={cursorColor} />
       {page}
     </>
