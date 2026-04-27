@@ -224,6 +224,38 @@ figcaption {
 
 ::selection { background: #B85C3C; color: #F4ECDD; }
 body { transition: background 600ms cubic-bezier(0.25, 0.1, 0.25, 1); }
+
+/* ========== RESPONSIVE — phones (≤ 768px) ==========
+   Strategy: tag desktop 12-col grids with .v4-grid (auto-stacks on mobile),
+   tag rails-to-disappear with .v4-rail-hide. !important needed because layout
+   grids are set via inline JSX styles. */
+@media (max-width: 768px) {
+  body { font-size: 18px; line-height: 1.65; }
+
+  /* Stack any 12-col grid on mobile */
+  .v4-grid { grid-template-columns: 1fr !important; gap: 1.2rem !important; }
+  .v4-grid > * { grid-column: 1 / -1 !important; text-align: left !important; position: static !important; max-width: 100% !important; }
+
+  /* Hide rails entirely (IndexRail, right-side cite/sources, fig.01 summary) */
+  .v4-rail-hide { display: none !important; }
+
+  /* Pull-quote: lose the negative margin that pushes off the viewport */
+  .pull-quote { margin: 2rem 0 !important; padding-left: 1rem !important; font-size: 1.5rem !important; }
+  blockquote { margin-left: 0 !important; margin-right: 0 !important; }
+
+  /* Drop-cap: smaller on narrow */
+  .drop-cap::first-letter { font-size: 4em !important; padding: 0.06em 0.1em 0 0 !important; }
+
+  /* Display headlines: tighter on mobile */
+  h2.display { font-size: clamp(1.35rem, 5.5vw, 1.9rem) !important; }
+
+  /* Diagram + legend pairs: stack on mobile */
+  .v4-diagram-pair { grid-template-columns: 1fr !important; gap: 1rem !important; }
+
+  /* Sliders + buttons inside diagrams: bigger touch targets */
+  .v4-diagram-pair input[type="range"] { height: 28px; }
+  .v4-diagram-pair button { min-height: 32px; }
+}
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
@@ -1659,14 +1691,14 @@ function Nav({ palette, onNavigate, current }) {
   const p = palette;
   const items = [["Home","home"],["Writing","writing"],["Work","work"],["Now","now"],["Contact","contact"]];
   return (
-    <nav style={{ position: "relative", zIndex: 5, padding: "1.6rem 2.2rem", maxWidth: 1240, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "var(--f-ui)", fontSize: 14 }}>
+    <nav style={{ position: "relative", zIndex: 5, padding: "clamp(0.9rem, 2.5vw, 1.6rem) clamp(1rem, 4vw, 2.2rem)", maxWidth: 1240, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", rowGap: "0.6rem", fontFamily: "var(--f-ui)", fontSize: 14 }}>
       <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("home"); }} style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", color: p.ink }}>
         <span style={{ width: 22, height: 22, display: "inline-block" }}>
           <svg viewBox="0 0 22 22"><polygon points="11,1 20.5,6 20.5,16 11,21 1.5,16 1.5,6" fill="none" stroke="currentColor" strokeWidth="1.2" /><circle cx="11" cy="11" r="2" fill="currentColor" /></svg>
         </span>
         <span style={{ fontFamily: "var(--f-display)", fontSize: 17, letterSpacing: "-0.01em" }}>Shubhangi Sharma</span>
       </a>
-      <div style={{ display: "flex", gap: "1.6rem" }}>
+      <div style={{ display: "flex", gap: "clamp(1rem, 3vw, 1.6rem)", flexWrap: "wrap", rowGap: "0.4rem" }}>
         {items.map(([label, key]) => (
           <a key={key} href="#" onClick={(e) => { e.preventDefault(); onNavigate(key); }} className="link-underline" style={{ color: current === key ? p.accent : p.ink }}>{label}</a>
         ))}
@@ -2081,8 +2113,9 @@ function HomeV4({ onNavigate, setCursorColor }) {
   }, []);
 
   // live cursor coords + scroll % for instrument margin (throttled)
-  const coords = useCursorCoords();
+  const telemetryRow = useTelemetry(); // ['cursor', 'x,y'] desktop · ['viewport', 'WxH'] touch
   const scrollPct = usePreciseScroll();
+  const isMobile = useIsMobile();
 
   // cat state for status copy
   const [catState, setCatState] = useState({ pAlive: 0.5, pDead: 0.5, observed: false });
@@ -2096,52 +2129,58 @@ function HomeV4({ onNavigate, setCursorColor }) {
 
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
-      {/* fixed-grid baseline */}
-      <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
+      {/* fixed-grid baseline (desktop only — looks noisy on mobile) */}
+      {!isMobile && (
+        <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
+      )}
 
       {/* top precision bar */}
-      <div style={{ borderBottom: `1px solid ${p.line}`, position: "relative", zIndex: 5, fontFamily: "var(--f-ui)", fontSize: 12, color: p.muted, padding: "0.7rem 1.6rem", display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", letterSpacing: "0.04em" }}>
+      <div style={{ borderBottom: `1px solid ${p.line}`, position: "relative", zIndex: 5, fontFamily: "var(--f-ui)", fontSize: isMobile ? 11 : 12, color: p.muted, padding: isMobile ? "0.5rem 1rem" : "0.7rem 1.6rem", display: "grid", gridTemplateColumns: isMobile ? "1fr auto" : "1fr auto 1fr", gap: isMobile ? "0.4rem 0.8rem" : "0", alignItems: "center", letterSpacing: "0.04em" }}>
         <span className="mono">SHUBHANGI SHARMA</span>
-        <span style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem" }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", justifySelf: isMobile ? "end" : "center" }}>
           <span style={{ width: 6, height: 6, borderRadius: "50%", background: p.accent, animation: "blip 2s ease-in-out infinite" }} />
           <span className="mono" style={{ color: p.ink }}>{ticker[tickerIdx]}</span>
         </span>
-        <span style={{ display: "inline-flex", justifyContent: "flex-end", gap: 14, alignItems: "center" }}>
-          <span className="mono">v.2026.04 · {hh}:{mm}:{ss} GMT</span>
-        </span>
+        {!isMobile && (
+          <span style={{ display: "inline-flex", justifyContent: "flex-end", gap: 14, alignItems: "center" }}>
+            <span className="mono">v.2026.04 · {hh}:{mm}:{ss} GMT</span>
+          </span>
+        )}
         <style>{`@keyframes blip { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }`}</style>
       </div>
 
       <Nav palette={p} onNavigate={onNavigate} />
 
-      {/* HERO — 12-col aware, asymmetric */}
-      <section style={{ maxWidth: 1280, margin: "0 auto", padding: "1.6rem 1.6rem 2rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
+      {/* HERO — 12-col on desktop · single-column stack on mobile */}
+      <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "1.2rem 1rem 1.6rem" : "1.6rem 1.6rem 2rem", position: "relative", zIndex: 2 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: isMobile ? "1.4rem" : "1.6rem", alignItems: "start" }}>
 
-          {/* col 1-2 — index + instrument panel */}
-          <div style={{ gridColumn: "1 / span 2", paddingTop: "0.8rem", fontFamily: "var(--f-ui)", fontSize: 12, color: p.muted, lineHeight: 1.7 }}>
-            <div className="caps" style={{ marginBottom: 8 }}>Index</div>
-            <div>01 &nbsp; Hero</div>
-            <div>02 &nbsp; Now</div>
-            <div>03 &nbsp; Writing</div>
-            <div style={{ marginTop: 22, color: p.ink }} className="mono">↳ scroll to continue</div>
+          {/* col 1-2 — index + instrument panel (desktop only) */}
+          {!isMobile && (
+            <div style={{ gridColumn: "1 / span 2", paddingTop: "0.8rem", fontFamily: "var(--f-ui)", fontSize: 12, color: p.muted, lineHeight: 1.7 }}>
+              <div className="caps" style={{ marginBottom: 8 }}>Index</div>
+              <div>01 &nbsp; Hero</div>
+              <div>02 &nbsp; Now</div>
+              <div>03 &nbsp; Writing</div>
+              <div style={{ marginTop: 22, color: p.ink }} className="mono">↳ scroll to continue</div>
 
-            {/* Instrument panel — live cursor coords + scroll */}
-            <div style={{ marginTop: 36, borderTop: `1px solid ${p.line}`, paddingTop: 14, fontSize: 11 }}>
-              <div className="caps" style={{ color: p.muted, marginBottom: 8, letterSpacing: "0.1em" }}>Telemetry</div>
-              <div className="mono" style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 8, rowGap: 4, color: p.ink }}>
-                <span style={{ color: p.muted }}>cursor</span><span>{String(coords.x).padStart(4, "0")}, {String(coords.y).padStart(4, "0")}</span>
-                <span style={{ color: p.muted }}>scroll</span><span>{String(scrollPct).padStart(3, "0")}%</span>
-                <span style={{ color: p.muted }}>ψ</span><span style={{ color: catState.observed ? p.accent : p.ink }}>
-                  {catState.pAlive.toFixed(2)} / {catState.pDead.toFixed(2)}
-                </span>
+              {/* Instrument panel — live cursor coords + scroll */}
+              <div style={{ marginTop: 36, borderTop: `1px solid ${p.line}`, paddingTop: 14, fontSize: 11 }}>
+                <div className="caps" style={{ color: p.muted, marginBottom: 8, letterSpacing: "0.1em" }}>Telemetry</div>
+                <div className="mono" style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 8, rowGap: 4, color: p.ink }}>
+                  <span style={{ color: p.muted }}>{telemetryRow[0]}</span><span>{telemetryRow[1]}</span>
+                  <span style={{ color: p.muted }}>scroll</span><span>{String(scrollPct).padStart(3, "0")}%</span>
+                  <span style={{ color: p.muted }}>ψ</span><span style={{ color: catState.observed ? p.accent : p.ink }}>
+                    {catState.pAlive.toFixed(2)} / {catState.pDead.toFixed(2)}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
-          {/* col 3-9 — display + lede */}
-          <div style={{ gridColumn: "3 / span 7" }}>
-            <h1 className="display" style={{ fontSize: "clamp(2.6rem, 5.4vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 1.02 }}>
+          {/* col 3-9 — display + lede (or full width on mobile) */}
+          <div style={{ gridColumn: isMobile ? "1" : "3 / span 7" }}>
+            <h1 className="display" style={{ fontSize: "clamp(2rem, 7.5vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 1.02 }}>
               <LetterReveal stagger={26}>I build geospatial ML </LetterReveal>
               <LetterReveal stagger={26} delay={460}>at Orion —</LetterReveal>
               <span style={{ display: "block" }}>
@@ -2151,42 +2190,42 @@ function HomeV4({ onNavigate, setCursorColor }) {
               </span>
             </h1>
 
-            <p className="prose" style={{ fontSize: "1.08rem", lineHeight: 1.7, marginTop: "1.8rem", maxWidth: "52ch", color: p.ink }}>
+            <p className="prose" style={{ fontSize: isMobile ? "1rem" : "1.08rem", lineHeight: 1.7, marginTop: isMobile ? "1.4rem" : "1.8rem", maxWidth: "52ch", color: p.ink }}>
               Founding engineer at <em>Orion</em>, where I build geospatial-intelligence ML over H3 hexagons — the precision of <em>where</em>, weighted by the confidence of <em>how do we know</em>. Oxford MFoCS, BSc CS from FLAME, Member of the Institute of Physics. I write about optimization, bioinformatics, and the occasional Taylor Swift recommendation engine.
             </p>
 
-            <div style={{ marginTop: "2rem", display: "flex", gap: "2rem", flexWrap: "wrap", alignItems: "center", fontFamily: "var(--f-ui)", fontSize: 13 }}>
+            <div style={{ marginTop: isMobile ? "1.6rem" : "2rem", display: "flex", gap: isMobile ? "1.4rem" : "2rem", flexWrap: "wrap", alignItems: "center", fontFamily: "var(--f-ui)", fontSize: 13 }}>
               <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} className="link-underline" style={{ color: p.accent }}>writing →</a>
               <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} className="link-underline">work</a>
               <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("now"); }} className="link-underline">now</a>
               <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("contact"); }} className="link-underline">contact</a>
             </div>
 
-            {/* keyboard hint */}
-            <div className="mono" style={{ marginTop: 28, fontSize: 11, color: p.muted, display: "flex", gap: 18, flexWrap: "wrap" }}>
-              <span><kbd style={kbdStyle(p)}>g</kbd> <kbd style={kbdStyle(p)}>w</kbd> writing</span>
-              <span><kbd style={kbdStyle(p)}>g</kbd> <kbd style={kbdStyle(p)}>n</kbd> now</span>
-              <span><kbd style={kbdStyle(p)}>?</kbd> shortcuts</span>
-            </div>
+            {/* keyboard hints — desktop only (no keyboard on phones) */}
+            {!isMobile && (
+              <div className="mono" style={{ marginTop: 28, fontSize: 11, color: p.muted, display: "flex", gap: 18, flexWrap: "wrap" }}>
+                <span><kbd style={kbdStyle(p)}>g</kbd> <kbd style={kbdStyle(p)}>w</kbd> writing</span>
+                <span><kbd style={kbdStyle(p)}>g</kbd> <kbd style={kbdStyle(p)}>n</kbd> now</span>
+                <span><kbd style={kbdStyle(p)}>?</kbd> shortcuts</span>
+              </div>
+            )}
 
-            {/* SPECIMEN PAIR — cat + seasonal animation, side by side */}
-            <div style={{ marginTop: "2.4rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", alignItems: "start" }}>
-              {/* cat */}
+            {/* SPECIMEN PAIR — cat + seasonal: side-by-side desktop, stacked mobile */}
+            <div style={{ marginTop: isMobile ? "1.8rem" : "2.4rem", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "1rem", alignItems: "start" }}>
               <div style={{ border: `1px solid ${p.line}`, padding: "0.8rem 0.4rem 0.8rem", position: "relative", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
                 <SchrodingerCat
-                  width={240}
-                  height={200}
+                  width={isMobile ? 320 : 240}
+                  height={isMobile ? 240 : 200}
                   strokeColor={p.ink}
                   mutedColor={p.muted}
                   accentColor={p.accent}
                   onStateChange={setCatState}
                 />
               </div>
-              {/* seasonal specimen */}
               <div style={{ border: `1px solid ${p.line}`, padding: "0.8rem 0.8rem 0.7rem", position: "relative", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
                 <SeasonalSpecimen
-                  width={240}
-                  height={200}
+                  width={isMobile ? 320 : 240}
+                  height={isMobile ? 240 : 200}
                   accent={p.accent}
                   ink={p.ink}
                   muted={p.muted}
@@ -2196,9 +2235,9 @@ function HomeV4({ onNavigate, setCursorColor }) {
             </div>
           </div>
 
-          {/* col 10-12 — portrait + motif */}
-          <div style={{ gridColumn: "10 / span 3", position: "relative" }}>
-            <div style={{ position: "relative", maxWidth: 220, marginLeft: "auto" }}>
+          {/* portrait + motif — col 10-12 desktop · stacked below body on mobile */}
+          <div style={{ gridColumn: isMobile ? "1" : "10 / span 3", position: "relative", marginTop: isMobile ? "2rem" : 0 }}>
+            <div style={{ position: "relative", maxWidth: isMobile ? 200 : 220, marginLeft: isMobile ? 0 : "auto" }}>
               <img src="assets/portrait.png" alt="Shubhangi, in a black turtleneck against a warm textured backdrop." style={{ width: "100%", display: "block", filter: "grayscale(0.05) contrast(1.02)" }} />
               {[
                 { top: -8, left: -8 }, { top: -8, right: -8 }, { bottom: -8, left: -8 }, { bottom: -8, right: -8 }
@@ -2206,53 +2245,55 @@ function HomeV4({ onNavigate, setCursorColor }) {
                 <span key={i} style={{ position: "absolute", ...s, width: 14, height: 14, borderTop: i < 2 ? `1px solid ${p.muted}` : "none", borderBottom: i >= 2 ? `1px solid ${p.muted}` : "none", borderLeft: i % 2 === 0 ? `1px solid ${p.muted}` : "none", borderRight: i % 2 === 1 ? `1px solid ${p.muted}` : "none" }} />
               ))}
             </div>
-            <div className="mono" style={{ marginTop: 10, color: p.muted, fontSize: 11, display: "flex", justifyContent: "space-between", maxWidth: 220, marginLeft: "auto" }}>
+            <div className="mono" style={{ marginTop: 10, color: p.muted, fontSize: 11, display: "flex", justifyContent: "space-between", maxWidth: isMobile ? 200 : 220, marginLeft: isMobile ? 0 : "auto" }}>
               <span>fig.01 — Sharma, S.</span>
               <span>2026 · London</span>
             </div>
 
-            {/* small motif as adjacent figure */}
-            <div style={{ marginTop: "1rem", border: `1px solid ${p.line}`, padding: "0.7rem", color: p.accent, position: "relative", maxWidth: 220, marginLeft: "auto" }}>
-              <FourierMotif shape="hex" size={140} density={18} strokeColor={p.accent} trailColor={`rgba(63,75,126,0.55)`} epicycleColor={`rgba(0,0,0,0.08)`} />
-              <div className="mono" style={{ marginTop: 6, color: p.muted, fontSize: 10 }}>fig.02 — fourier(hex), 18 epicycles</div>
-            </div>
+            {/* small motif as adjacent figure — desktop only (saves vertical space on mobile) */}
+            {!isMobile && (
+              <div style={{ marginTop: "1rem", border: `1px solid ${p.line}`, padding: "0.7rem", color: p.accent, position: "relative", maxWidth: 220, marginLeft: "auto" }}>
+                <FourierMotif shape="hex" size={140} density={18} strokeColor={p.accent} trailColor={`rgba(63,75,126,0.55)`} epicycleColor={`rgba(0,0,0,0.08)`} />
+                <div className="mono" style={{ marginTop: 6, color: p.muted, fontSize: 10 }}>fig.02 — fourier(hex), 18 epicycles</div>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
       {/* NOW row */}
-      <section style={{ maxWidth: 1280, margin: "0 auto", padding: "0 1.6rem", position: "relative", zIndex: 2 }}>
-        <div style={{ borderTop: `1px solid ${p.line}`, borderBottom: `1px solid ${p.line}`, padding: "1.4rem 0", display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", fontFamily: "var(--f-ui)", fontSize: 13 }}>
-          <div style={{ gridColumn: "1 / span 2" }} className="caps">Now</div>
-          <div style={{ gridColumn: "3 / span 5", color: p.ink }}>
+      <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "0 1rem" : "0 1.6rem", position: "relative", zIndex: 2 }}>
+        <div style={{ borderTop: `1px solid ${p.line}`, borderBottom: `1px solid ${p.line}`, padding: "1.2rem 0", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: isMobile ? "0.6rem" : "1.6rem", fontFamily: "var(--f-ui)", fontSize: 13 }}>
+          <div style={{ gridColumn: isMobile ? "1" : "1 / span 2" }} className="caps">Now</div>
+          <div style={{ gridColumn: isMobile ? "1" : "3 / span 5", color: p.ink }}>
             Building geospatial ML at <em>Orion</em> · indexing the world on H3 hexagons.
           </div>
-          <div style={{ gridColumn: "8 / span 3", color: p.muted }}>
+          <div style={{ gridColumn: isMobile ? "1" : "8 / span 3", color: p.muted }}>
             <em style={{ color: p.ink }}>"JAYA, with crossover"</em> is up. Drafting the next.
           </div>
-          <div style={{ gridColumn: "11 / span 2", color: p.muted, textAlign: "right" }} className="mono">London · 51.51°N</div>
+          <div style={{ gridColumn: isMobile ? "1" : "11 / span 2", color: p.muted, textAlign: isMobile ? "left" : "right" }} className="mono">London · 51.51°N</div>
         </div>
       </section>
 
       {/* Mini timeline — annotated CV preview */}
-      <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.4rem" }}>
-          <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.9rem", margin: 0, fontWeight: 380 }}>Trajectory</h2>
-          <span className="caps" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontFamily: "var(--f-ui)", fontSize: 12 }}>Five points / full CV ↗</span>
+      <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "2.2rem 1rem 0" : "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.4rem", alignItems: "baseline" }}>
+          <h2 className="display" style={{ gridColumn: isMobile ? "1" : "3 / span 5", fontSize: isMobile ? "1.7rem" : "1.9rem", margin: 0, fontWeight: 380 }}>Trajectory</h2>
+          <span className="caps" style={{ gridColumn: isMobile ? "1" : "10 / span 3", color: p.muted, alignSelf: "baseline", fontFamily: "var(--f-ui)", fontSize: 12 }}>Five points / full CV ↗</span>
         </div>
 
-        <Timeline palette={p} />
+        <Timeline palette={p} isMobile={isMobile} />
       </section>
 
       {/* WRITING — list with measured rules */}
-      <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 4rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.4rem" }}>
-          <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.9rem", margin: 0, fontWeight: 380 }}>Recent writing</h2>
-          <span className="caps" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontFamily: "var(--f-ui)", fontSize: 12 }}>Three / index ↗</span>
+      <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "2.2rem 1rem 3rem" : "3rem 1.6rem 4rem", position: "relative", zIndex: 2 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.4rem", alignItems: "baseline" }}>
+          <h2 className="display" style={{ gridColumn: isMobile ? "1" : "3 / span 5", fontSize: isMobile ? "1.7rem" : "1.9rem", margin: 0, fontWeight: 380 }}>Recent writing</h2>
+          <span className="caps" style={{ gridColumn: isMobile ? "1" : "10 / span 3", color: p.muted, alignSelf: "baseline", fontFamily: "var(--f-ui)", fontSize: 12 }}>Three / index ↗</span>
         </div>
 
         <div>
-          {POSTS.map((post, i) => <PreciseRow key={post.slug} post={post} palette={p} onNavigate={onNavigate} index={i} total={POSTS.length} />)}
+          {POSTS.map((post, i) => <PreciseRow key={post.slug} post={post} palette={p} onNavigate={onNavigate} index={i} total={POSTS.length} isMobile={isMobile} />)}
         </div>
       </section>
 
@@ -2270,7 +2311,7 @@ function kbdStyle(p) {
   };
 }
 
-function Timeline({ palette }) {
+function Timeline({ palette, isMobile }) {
   const p = palette;
   const events = [
     { year: "2026", what: "Elected MInstP — Member of the Institute of Physics", where: "London" },
@@ -2280,17 +2321,20 @@ function Timeline({ palette }) {
     { year: "2023", what: "BSc CS (Hons) · Dean's Roll of Honour", where: "FLAME University" },
   ];
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
-      <div style={{ gridColumn: "3 / span 9", borderTop: `1px solid ${p.line}` }}>
+    <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: "1.6rem" }}>
+      <div style={{ gridColumn: isMobile ? "1" : "3 / span 9", borderTop: `1px solid ${p.line}` }}>
         {events.map((e, i) => (
           <div key={i} style={{
-            display: "grid", gridTemplateColumns: "80px 1fr auto", gap: "1.6rem",
+            display: "grid", gridTemplateColumns: isMobile ? "60px 1fr" : "80px 1fr auto", gap: isMobile ? "0.8rem" : "1.6rem",
             padding: "0.9rem 0", borderBottom: `1px solid ${p.line}`,
-            fontFamily: "var(--f-ui)", fontSize: 14, alignItems: "baseline",
+            fontFamily: "var(--f-ui)", fontSize: isMobile ? 13 : 14, alignItems: "baseline",
           }}>
             <span className="mono" style={{ color: p.muted, fontSize: 12 }}>{e.year}</span>
-            <span style={{ color: p.ink }}>{e.what}</span>
-            <span className="mono" style={{ color: p.muted, fontSize: 12 }}>{e.where}</span>
+            <span style={{ color: p.ink }}>
+              {e.what}
+              {isMobile && <span className="mono" style={{ color: p.muted, fontSize: 11, display: "block", marginTop: 2 }}>{e.where}</span>}
+            </span>
+            {!isMobile && <span className="mono" style={{ color: p.muted, fontSize: 12 }}>{e.where}</span>}
           </div>
         ))}
       </div>
@@ -2299,9 +2343,24 @@ function Timeline({ palette }) {
 }
 
 
-function PreciseRow({ post, palette, onNavigate, index, total }) {
+function PreciseRow({ post, palette, onNavigate, index, total, isMobile }) {
   const p = palette;
   const [hover, setHover] = React.useState(false);
+  if (isMobile) {
+    return (
+      <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
+         style={{ display: "block", padding: "1.2rem 0", borderTop: `1px solid ${p.line}`, color: p.ink }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
+          <span className="mono" style={{ color: p.muted, fontSize: 11 }}>0{index + 1} / 0{total}</span>
+          <span className="mono" style={{ color: p.muted, fontSize: 11 }}>{post.minutes}m</span>
+        </div>
+        <h3 className="display" style={{ fontSize: "1.35rem", margin: "0 0 0.4rem", fontWeight: 380 }}>
+          {post.title} <span style={{ color: p.accent }}>↗</span>
+        </h3>
+        <p style={{ fontSize: "0.9rem", lineHeight: 1.5, color: p.muted, margin: 0 }}>{post.dek}</p>
+      </a>
+    );
+  }
   return (
     <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
        onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
@@ -2580,7 +2639,7 @@ function EdgeDiagram({ palette }) {
     { id: "ri", label: "Right Inside", color: p.muted, path: "M 320 140 C 360 180, 460 180, 500 140", reverse: true },
   ];
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "center" }}>
+    <div className="v4-diagram-pair" style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "center" }}>
       <svg viewBox="0 0 560 260" style={{ width: "100%", height: 240 }}>
         <line x1="20" y1="120" x2="540" y2="120" stroke={p.muted} strokeDasharray="3 4" opacity="0.5" />
         {edges.map(e => (
@@ -2644,19 +2703,23 @@ Object.assign(window, { Article });
 function PreciseTopBar({ palette: p, label }) {
   const [now, setNow] = React.useState(() => new Date());
   React.useEffect(() => { const id = setInterval(() => setNow(new Date()), 1000); return () => clearInterval(id); }, []);
+  const isMobile = useIsMobile();
   const hh = String(now.getUTCHours()).padStart(2, "0");
   const mm = String(now.getUTCMinutes()).padStart(2, "0");
   const ss = String(now.getUTCSeconds()).padStart(2, "0");
+  // mobile: stack to two rows — name + label, then time. Drop "GMT" tail.
   return (
-    <div style={{ borderBottom: `1px solid ${p.line}`, position: "relative", zIndex: 5, fontFamily: "var(--f-ui)", fontSize: 12, color: p.muted, padding: "0.7rem 1.6rem", display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", letterSpacing: "0.04em" }}>
+    <div style={{ borderBottom: `1px solid ${p.line}`, position: "relative", zIndex: 5, fontFamily: "var(--f-ui)", fontSize: isMobile ? 11 : 12, color: p.muted, padding: isMobile ? "0.5rem 1rem" : "0.7rem 1.6rem", display: "grid", gridTemplateColumns: isMobile ? "1fr auto" : "1fr auto 1fr", alignItems: "center", gap: isMobile ? "0.4rem 0.8rem" : "0", letterSpacing: "0.04em" }}>
       <span className="mono">SHUBHANGI SHARMA</span>
-      <span style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem" }}>
+      <span style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", justifySelf: isMobile ? "end" : "center" }}>
         <span style={{ width: 6, height: 6, borderRadius: "50%", background: p.accent, animation: "blip 2s ease-in-out infinite" }} />
         <span className="mono" style={{ color: p.ink }}>{label}</span>
       </span>
-      <span style={{ display: "inline-flex", justifyContent: "flex-end", gap: 14, alignItems: "center" }}>
-        <span className="mono">v.2026.04 · {hh}:{mm}:{ss} GMT</span>
-      </span>
+      {!isMobile && (
+        <span style={{ display: "inline-flex", justifyContent: "flex-end", gap: 14, alignItems: "center" }}>
+          <span className="mono">v.2026.04 · {hh}:{mm}:{ss} GMT</span>
+        </span>
+      )}
       <style>{`@keyframes blip { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }`}</style>
     </div>
   );
@@ -2664,6 +2727,29 @@ function PreciseTopBar({ palette: p, label }) {
 
 function PreciseNav({ palette: p, current, onNavigate }) {
   const items = [["Home", "home"], ["Writing", "writing"], ["Work", "work"], ["Now", "now"], ["Contact", "contact"]];
+  const isMobile = useIsMobile();
+  if (isMobile) {
+    return (
+      <nav style={{ position: "relative", zIndex: 5, padding: "0.9rem 1rem 0.6rem", maxWidth: 1280, margin: "0 auto", fontFamily: "var(--f-ui)", fontSize: 13, borderBottom: `1px dashed ${p.line}` }}>
+        <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("home"); }} style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", color: p.ink, marginBottom: "0.7rem" }}>
+          <span style={{ width: 16, height: 16, display: "inline-block", color: p.accent }}>
+            <svg viewBox="0 0 22 22"><polygon points="11,1 20.5,6 20.5,16 11,21 1.5,16 1.5,6" fill="none" stroke="currentColor" strokeWidth="1.2" /><circle cx="11" cy="11" r="2" fill="currentColor" /></svg>
+          </span>
+          <span style={{ fontFamily: "var(--f-display)", fontSize: 15, letterSpacing: "-0.01em", fontWeight: 380 }}>Shubhangi Sharma</span>
+        </a>
+        <div style={{ display: "flex", gap: "1.4rem", overflowX: "auto", scrollbarWidth: "none", WebkitOverflowScrolling: "touch", paddingBottom: 2, marginRight: "-1rem", paddingRight: "1rem" }}>
+          {items.map(([label, key], i) => (
+            <a key={key} href="#" onClick={(e) => { e.preventDefault(); onNavigate(key); }}
+               className="link-underline"
+               style={{ color: current === key ? p.accent : p.ink, display: "inline-flex", alignItems: "baseline", gap: 5, whiteSpace: "nowrap", flexShrink: 0 }}>
+              <span className="mono" style={{ fontSize: 10, color: p.muted }}>0{i + 1}</span>
+              <span>{label}</span>
+            </a>
+          ))}
+        </div>
+      </nav>
+    );
+  }
   return (
     <nav style={{ position: "relative", zIndex: 5, padding: "1.2rem 1.6rem 1.4rem", maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "center", fontFamily: "var(--f-ui)", fontSize: 13, borderBottom: `1px dashed ${p.line}` }}>
       <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("home"); }} style={{ gridColumn: "1 / span 3", display: "inline-flex", alignItems: "center", gap: "0.55rem", color: p.ink }}>
@@ -2712,7 +2798,7 @@ function IndexRail({ palette: p, items, currentIdx, telemetry, scrollPct }) {
 
 function PreciseFooter({ palette: p, line = "Made with care, in London. Set in Fraunces and Source Serif." }) {
   return (
-    <footer style={{ maxWidth: 1280, margin: "3rem auto 0", padding: "2rem 1.6rem 2.4rem", borderTop: `1px solid ${p.line}`, color: p.muted, fontFamily: "var(--f-ui)", fontSize: 12, display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", letterSpacing: "0.02em" }}>
+    <footer className="v4-grid" style={{ maxWidth: 1280, margin: "3rem auto 0", padding: "2rem 1.6rem 2.4rem", borderTop: `1px solid ${p.line}`, color: p.muted, fontFamily: "var(--f-ui)", fontSize: 12, display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", letterSpacing: "0.02em" }}>
       <span style={{ gridColumn: "1 / span 6", fontStyle: "italic", fontFamily: "var(--f-body)", fontSize: 14, color: p.ink }}>{line}</span>
       <span className="mono" style={{ gridColumn: "10 / span 3", textAlign: "right" }}>© 2026 · last edit 2026.04.25</span>
     </footer>
@@ -2733,6 +2819,53 @@ function usePreciseScroll() {
   return pct;
 }
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = React.useState(() => typeof window !== "undefined" && window.innerWidth <= breakpoint);
+  React.useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    const onChange = (e) => setIsMobile(e.matches);
+    setIsMobile(mq.matches);
+    if (mq.addEventListener) mq.addEventListener("change", onChange);
+    else mq.addListener(onChange);
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener("change", onChange);
+      else mq.removeListener(onChange);
+    };
+  }, [breakpoint]);
+  return isMobile;
+}
+
+function useIsTouch() {
+  const [isTouch, setIsTouch] = React.useState(() => typeof window !== "undefined" && window.matchMedia && window.matchMedia("(hover: none)").matches);
+  React.useEffect(() => {
+    if (!window.matchMedia) return;
+    const mq = window.matchMedia("(hover: none)");
+    const onChange = (e) => setIsTouch(e.matches);
+    setIsTouch(mq.matches);
+    if (mq.addEventListener) mq.addEventListener("change", onChange);
+    else mq.addListener(onChange);
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener("change", onChange);
+      else mq.removeListener(onChange);
+    };
+  }, []);
+  return isTouch;
+}
+
+function useViewportSize() {
+  const [size, setSize] = React.useState(() => ({
+    w: typeof window !== "undefined" ? window.innerWidth : 0,
+    h: typeof window !== "undefined" ? window.innerHeight : 0,
+  }));
+  React.useEffect(() => {
+    const onResize = () => setSize({ w: window.innerWidth, h: window.innerHeight });
+    window.addEventListener("resize", onResize, { passive: true });
+    onResize();
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  return size;
+}
+
 function useCursorCoords() {
   const [coords, setCoords] = React.useState({ x: 0, y: 0 });
   React.useEffect(() => {
@@ -2749,6 +2882,18 @@ function useCursorCoords() {
   return coords;
 }
 
+function useTelemetry() {
+  // returns the [label, value] tuple to slot into IndexRail telemetry.
+  // desktop → live cursor coords; touch → live viewport WxH (always fresh, no fake 0,0).
+  const isTouch = useIsTouch();
+  const coords = useCursorCoords();
+  const viewport = useViewportSize();
+  if (isTouch) {
+    return ["viewport", `${String(viewport.w).padStart(4, "0")}×${String(viewport.h).padStart(4, "0")}`];
+  }
+  return ["cursor", `${String(coords.x).padStart(4, "0")}, ${String(coords.y).padStart(4, "0")}`];
+}
+
 function cursorTelemetry({ x, y }) {
   return ["cursor", `${String(x).padStart(4, "0")}, ${String(y).padStart(4, "0")}`];
 }
@@ -2758,7 +2903,8 @@ function cursorTelemetry({ x, y }) {
 function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
-  const coords = useCursorCoords();
+  const telemetryRow = useTelemetry();
+  const isMobile = useIsMobile();
 
   // earlier writing — real academic publications & posters
   const notes = [
@@ -2782,12 +2928,12 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
       <PreciseNav palette={p} current="writing" onNavigate={onNavigate} />
 
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
 
-          <div style={{ gridColumn: "1 / span 2" }}>
+          <div className="v4-rail-hide" style={{ gridColumn: "1 / span 2" }}>
             <IndexRail palette={p} currentIdx={0}
               items={["Header", "Lede + count", "Featured", "All essays", "Earlier notes", "Subscribe"]}
-              telemetry={[cursorTelemetry(coords), ["page", "writing"], ["essays", String(POSTS.length).padStart(2, "0")], ["notes", "06"]]}
+              telemetry={[telemetryRow, ["page", "writing"], ["essays", String(POSTS.length).padStart(2, "0")], ["notes", "06"]]}
               scrollPct={scrollPct} />
           </div>
 
@@ -2825,7 +2971,7 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
 
       {/* tag bar */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "baseline" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "baseline" }}>
           <span className="caps" style={{ gridColumn: "1 / span 2", fontFamily: "var(--f-ui)", fontSize: 11, color: p.muted, letterSpacing: "0.12em" }}>Filter</span>
           <div style={{ gridColumn: "3 / span 9", display: "flex", gap: 6, flexWrap: "wrap", fontFamily: "var(--f-ui)", fontSize: 12 }}>
             {tags.map(t => (
@@ -2840,7 +2986,7 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
 
       {/* featured */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2.4rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>03</span>
             Featured
@@ -2852,14 +2998,14 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
 
       {/* full list */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2.4rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>04</span>
             All essays
           </h2>
           <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>{POSTS.length} entries</span>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
             {POSTS.map((post, i) => <PreciseEssayRow key={post.slug} post={post} palette={p} onNavigate={onNavigate} index={i} total={POSTS.length} />)}
           </div>
@@ -2868,14 +3014,14 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
 
       {/* earlier notes */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2.4rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>05</span>
             Earlier · working notes
           </h2>
           <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>private until linked</span>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {notes.map(([t, d, k], i) => (
@@ -2894,7 +3040,7 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
 
       {/* subscribe */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", borderTop: `1px solid ${p.line}`, paddingTop: "2rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", borderTop: `1px solid ${p.line}`, paddingTop: "2rem" }}>
           <div className="caps" style={{ gridColumn: "1 / span 2", fontFamily: "var(--f-ui)", fontSize: 11, color: p.muted, letterSpacing: "0.12em" }}>Subscribe</div>
           <div style={{ gridColumn: "3 / span 6" }}>
             <div className="display" style={{ fontSize: "1.4rem", fontWeight: 380, lineHeight: 1.3, color: p.ink }}>
@@ -2922,7 +3068,7 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
 function FeaturedPrecise({ post, palette: p, onNavigate }) {
   const [hover, setHover] = React.useState(false);
   return (
-    <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
+    <a href="#" className="v4-grid" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
        onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
        style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", padding: "1.6rem 0", borderTop: `1px solid ${p.line}`, borderBottom: `1px solid ${p.line}`, color: p.ink, alignItems: "start" }}>
       <span className="mono" style={{ gridColumn: "1 / span 2", color: p.muted, fontSize: 11 }}>fig.{String(1).padStart(2, "0")}<br/>featured</span>
@@ -3036,7 +3182,7 @@ function JayaSwarm({ palette: p }) {
   const ctrlBlock = { marginBottom: 12 };
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
+    <div className="v4-diagram-pair" style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 240, background: `color-mix(in oklch, ${p.paper} 88%, white)`, border: `1px solid ${p.line}` }}>
         {rings.map((r, i) => (
           <ellipse key={i} cx={target.x * W} cy={(1 - target.y) * H} rx={r * W * 0.9} ry={r * H * 0.9} fill="none" stroke={p.muted} strokeOpacity={0.18} strokeDasharray="2 4" />
@@ -3130,9 +3276,9 @@ function BiomarkerScatter({ palette: p }) {
   ];
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
+    <div className="v4-diagram-pair" style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
       <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 280, cursor: drag ? "grabbing" : "default", userSelect: "none", touchAction: "none" }}
-           onMouseMove={onPointer} onMouseUp={() => setDrag(null)} onMouseLeave={() => setDrag(null)}>
+           onPointerMove={onPointer} onPointerUp={() => setDrag(null)} onPointerLeave={() => setDrag(null)} onPointerCancel={() => setDrag(null)}>
         <line x1={px(0)} y1={py(0)} x2={px(1)} y2={py(0)} stroke={p.muted} strokeWidth="1" />
         <line x1={px(0)} y1={py(0)} x2={px(0)} y2={py(1)} stroke={p.muted} strokeWidth="1" />
         <text x={px(1)} y={py(0) + 18} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>CD4 expression →</text>
@@ -3141,11 +3287,11 @@ function BiomarkerScatter({ palette: p }) {
           const fill = groups.find(g => g.k === c.k).color;
           return <circle key={i} cx={px(c.x)} cy={py(c.y)} r={3} fill={fill} opacity={0.85} style={{ transition: "fill 200ms" }} />;
         })}
-        {/* draggable threshold lines */}
+        {/* draggable threshold lines (wider hit areas for touch) */}
         <line x1={px(tx)} y1={py(0)} x2={px(tx)} y2={py(1)} stroke={p.accent} strokeDasharray="4 3" strokeWidth="1.2" opacity="0.7" />
-        <rect x={px(tx) - 6} y={py(0)} width={12} height={py(1) - py(0)} fill="transparent" style={{ cursor: "ew-resize" }} onMouseDown={() => setDrag("x")} />
+        <rect x={px(tx) - 14} y={py(0)} width={28} height={py(1) - py(0)} fill="transparent" style={{ cursor: "ew-resize", touchAction: "none" }} onPointerDown={(e) => { e.currentTarget.setPointerCapture && e.currentTarget.setPointerCapture(e.pointerId); setDrag("x"); }} />
         <line x1={px(0)} y1={py(ty)} x2={px(1)} y2={py(ty)} stroke={p.accent} strokeDasharray="4 3" strokeWidth="1.2" opacity="0.7" />
-        <rect x={px(0)} y={py(ty) - 6} width={px(1) - px(0)} height={12} fill="transparent" style={{ cursor: "ns-resize" }} onMouseDown={() => setDrag("y")} />
+        <rect x={px(0)} y={py(ty) - 14} width={px(1) - px(0)} height={28} fill="transparent" style={{ cursor: "ns-resize", touchAction: "none" }} onPointerDown={(e) => { e.currentTarget.setPointerCapture && e.currentTarget.setPointerCapture(e.pointerId); setDrag("y"); }} />
         <text x={px(tx)} y={py(1) - 6} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="9" fill={p.accent}>CD4 &gt; {(tx * 10).toFixed(2)}</text>
         <text x={px(0) - 6} y={py(ty) - 4} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.accent}>CD8 &gt; {(ty * 10).toFixed(2)}</text>
       </svg>
@@ -3277,7 +3423,7 @@ function RecEngineSwarm({ palette: p }) {
   const votes = songs.map((_, idx) => engines.reduce((acc, e) => acc + (enabled[e.id] && linksByEngine[e.id].includes(idx) ? 1 : 0), 0));
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
+    <div className="v4-diagram-pair" style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
       <div style={{ position: "relative" }}>
         <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 300, background: `color-mix(in oklch, ${p.paper} 88%, white)`, border: `1px solid ${p.line}` }}>
           {engines.map(e => {
@@ -3471,7 +3617,8 @@ function LMSRPriceCurve({ palette: p }) {
         ))}
       </div>
       <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 240, cursor: dragging ? "grabbing" : "grab", userSelect: "none", touchAction: "none" }}
-           onMouseDown={onDown} onMouseMove={onMove} onMouseUp={onUp} onMouseLeave={onUp}>
+           onPointerDown={(e) => { e.currentTarget.setPointerCapture && e.currentTarget.setPointerCapture(e.pointerId); onDown(e); }}
+           onPointerMove={onMove} onPointerUp={onUp} onPointerLeave={onUp} onPointerCancel={onUp}>
         <line x1={left} y1={bottom} x2={right} y2={bottom} stroke={p.muted} strokeWidth="1" />
         <line x1={left} y1={top} x2={left} y2={bottom} stroke={p.muted} strokeWidth="1" />
         {view === "price" && <line x1={left} y1={yToPx(0.5)} x2={right} y2={yToPx(0.5)} stroke={p.muted} strokeDasharray="3 4" opacity="0.4" />}
@@ -3925,7 +4072,8 @@ function essayMeta(slug) {
 function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, [slug]);
   const scrollPct = usePreciseScroll();
-  const coords = useCursorCoords();
+  const telemetryRow = useTelemetry();
+  const isMobile = useIsMobile();
   const post = POSTS.find(x => x.slug === slug) || POSTS[0];
 
   return (
@@ -3937,7 +4085,7 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
 
       {/* metadata strip */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "1.4rem 1.6rem 0", position: "relative", zIndex: 2, fontFamily: "var(--f-ui)", fontSize: 12 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", color: p.muted, paddingBottom: "0.8rem", borderBottom: `1px dashed ${p.line}` }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", color: p.muted, paddingBottom: "0.8rem", borderBottom: `1px dashed ${p.line}` }}>
           <span style={{ gridColumn: "1 / span 2" }} className="mono">essay · 01 of 03</span>
           <span style={{ gridColumn: "3 / span 3" }}>{post.kicker}</span>
           <span style={{ gridColumn: "6 / span 2" }}>April 2026</span>
@@ -3948,7 +4096,7 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
 
       {/* HEADER — 12-col, asymmetric */}
       <header style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "end" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "end" }}>
           <div style={{ gridColumn: "1 / span 2", fontFamily: "var(--f-ui)", fontSize: 11, color: p.muted, lineHeight: 1.7 }}>
             <div className="caps mono" style={{ marginBottom: 8 }}>fig.01</div>
             <div>title</div>
@@ -3980,7 +4128,7 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
 
       {/* author strip */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "1.4rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}`, fontFamily: "var(--f-ui)", fontSize: 13, color: p.muted, alignItems: "baseline" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}`, fontFamily: "var(--f-ui)", fontSize: 13, color: p.muted, alignItems: "baseline" }}>
           <span style={{ gridColumn: "1 / span 2" }} className="caps mono">By</span>
           <span style={{ gridColumn: "3 / span 5", color: p.ink }}>Shubhangi Sharma · founding-eng @ Orion · London</span>
           <span style={{ gridColumn: "8 / span 2" }} className="mono">first published · 2026.04.18</span>
@@ -3990,12 +4138,12 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
 
       {/* BODY — proper 12-col, body in 7, telemetry in left rail */}
       <article className="prose" style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 4rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
 
-          <div style={{ gridColumn: "1 / span 2" }}>
+          <div className="v4-rail-hide" style={{ gridColumn: "1 / span 2" }}>
             <IndexRail palette={p} currentIdx={1}
               items={essayMeta(post.slug).toc}
-              telemetry={[cursorTelemetry(coords), ["essay", `${String(POSTS.findIndex(x => x.slug === post.slug) + 1).padStart(2, "0")}/${String(POSTS.length).padStart(2, "0")}`], ["read", `${post.minutes} min`], ["sidenotes", String(essayMeta(post.slug).sidenotes).padStart(2, "0")]]}
+              telemetry={[telemetryRow, ["essay", `${String(POSTS.findIndex(x => x.slug === post.slug) + 1).padStart(2, "0")}/${String(POSTS.length).padStart(2, "0")}`], ["read", `${post.minutes} min`], ["sidenotes", String(essayMeta(post.slug).sidenotes).padStart(2, "0")]]}
               scrollPct={scrollPct} />
           </div>
 
@@ -4042,7 +4190,7 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
 
       {/* read next */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "0 1.6rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", borderTop: `1px solid ${p.line}`, paddingTop: "2rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", borderTop: `1px solid ${p.line}`, paddingTop: "2rem" }}>
           <div className="caps" style={{ gridColumn: "1 / span 2", fontFamily: "var(--f-ui)", fontSize: 11, color: p.muted, letterSpacing: "0.12em" }}>Read next</div>
           <div style={{ gridColumn: "3 / span 9" }}>
             {POSTS.filter(x => x.slug !== slug).map((other, i) => (
@@ -4062,7 +4210,8 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
 function WorkV4({ palette: p, onNavigate, setCursorColor }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
-  const coords = useCursorCoords();
+  const telemetryRow = useTelemetry();
+  const isMobile = useIsMobile();
 
   const events = [
     { year: "2026 —", what: "Elected MInstP, Member of the Institute of Physics", where: "London · Feb 2026", note: "Professional body for physics in the UK and Ireland. Elected route." },
@@ -4106,11 +4255,11 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
       <PreciseNav palette={p} current="work" onNavigate={onNavigate} />
 
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
-          <div style={{ gridColumn: "1 / span 2" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
+          <div className="v4-rail-hide" style={{ gridColumn: "1 / span 2" }}>
             <IndexRail palette={p} currentIdx={0}
               items={["Header", "Trajectory", "Selected work", "Speaking", "Tooling", "Get in touch"]}
-              telemetry={[cursorTelemetry(coords), ["page", "work"], ["entries", String(events.length).padStart(2, "0")], ["builds", String(builds.length).padStart(2, "0")]]}
+              telemetry={[telemetryRow, ["page", "work"], ["entries", String(events.length).padStart(2, "0")], ["builds", String(builds.length).padStart(2, "0")]]}
               scrollPct={scrollPct} />
           </div>
           <div style={{ gridColumn: "3 / span 7" }}>
@@ -4146,14 +4295,14 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
 
       {/* trajectory */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>02</span>
             Trajectory
           </h2>
           <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>2019 — present</span>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {events.map((e, i) => (
@@ -4173,14 +4322,14 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
 
       {/* selected work */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>03</span>
             Selected work
           </h2>
           <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>open · internal · founding</span>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {builds.map((b, i) => (
@@ -4209,13 +4358,13 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
 
       {/* speaking */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>04</span>
             Speaking
           </h2>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {speaking.map((s, i) => (
@@ -4232,7 +4381,7 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
 
       {/* contact CTA */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", borderTop: `1px solid ${p.line}`, paddingTop: "2rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", borderTop: `1px solid ${p.line}`, paddingTop: "2rem" }}>
           <div className="caps" style={{ gridColumn: "1 / span 2", fontFamily: "var(--f-ui)", fontSize: 11, color: p.muted, letterSpacing: "0.12em" }}>Get in touch</div>
           <div style={{ gridColumn: "3 / span 6" }}>
             <div className="display" style={{ fontSize: "1.6rem", fontWeight: 380, lineHeight: 1.3, color: p.ink }}>
@@ -4255,7 +4404,8 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
 function NowV4({ palette: p, onNavigate, setCursorColor }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
-  const coords = useCursorCoords();
+  const telemetryRow = useTelemetry();
+  const isMobile = useIsMobile();
 
   const focuses = [
     { kind: "Founding", what: "Orion's intelligence platform — geospatial ML over H3 indexing, with confidence weighting baked in at every join." },
@@ -4285,11 +4435,11 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
       <PreciseNav palette={p} current="now" onNavigate={onNavigate} />
 
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
-          <div style={{ gridColumn: "1 / span 2" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
+          <div className="v4-rail-hide" style={{ gridColumn: "1 / span 2" }}>
             <IndexRail palette={p} currentIdx={0}
               items={["Header", "Right now", "Field journal", "Conditions"]}
-              telemetry={[cursorTelemetry(coords), ["page", "now"], ["entries", String(journal.length).padStart(2, "0")], ["focuses", String(focuses.length).padStart(2, "0")]]}
+              telemetry={[telemetryRow, ["page", "now"], ["entries", String(journal.length).padStart(2, "0")], ["focuses", String(focuses.length).padStart(2, "0")]]}
               scrollPct={scrollPct} />
           </div>
           <div style={{ gridColumn: "3 / span 7" }}>
@@ -4323,14 +4473,14 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
 
       {/* right now */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>02</span>
             Right now
           </h2>
           <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>five concurrent threads</span>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {focuses.map((f, i) => (
@@ -4347,14 +4497,14 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
 
       {/* field journal */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>03</span>
             Field journal
           </h2>
           <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>shortest entry · 1 line</span>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {journal.map((j, i) => (
@@ -4370,7 +4520,7 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
 
       {/* conditions */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", borderTop: `1px solid ${p.line}`, paddingTop: "2rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", borderTop: `1px solid ${p.line}`, paddingTop: "2rem" }}>
           <div className="caps" style={{ gridColumn: "1 / span 2", fontFamily: "var(--f-ui)", fontSize: 11, color: p.muted, letterSpacing: "0.12em" }}>Conditions</div>
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.6rem", fontFamily: "var(--f-ui)", fontSize: 13 }}>
@@ -4401,7 +4551,8 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
 function ContactV4({ palette: p, onNavigate, setCursorColor }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
-  const coords = useCursorCoords();
+  const telemetryRow = useTelemetry();
+  const isMobile = useIsMobile();
 
   const channels = [
     { label: "Email",    handle: "hello@shubzsharma.com",        note: "Best — read once a day in the morning.",                href: "mailto:hello@shubzsharma.com" },
@@ -4426,11 +4577,11 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
       <PreciseNav palette={p} current="contact" onNavigate={onNavigate} />
 
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
-          <div style={{ gridColumn: "1 / span 2" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
+          <div className="v4-rail-hide" style={{ gridColumn: "1 / span 2" }}>
             <IndexRail palette={p} currentIdx={0}
               items={["Header", "Channels", "Policy", "Compose"]}
-              telemetry={[cursorTelemetry(coords), ["page", "contact"], ["channels", String(channels.length).padStart(2, "0")], ["reply", "≤72h"]]}
+              telemetry={[telemetryRow, ["page", "contact"], ["channels", String(channels.length).padStart(2, "0")], ["reply", "≤72h"]]}
               scrollPct={scrollPct} />
           </div>
           <div style={{ gridColumn: "3 / span 7" }}>
@@ -4466,13 +4617,13 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
 
       {/* channels */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>02</span>
             Channels
           </h2>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {channels.map((c, i) => (
@@ -4490,14 +4641,14 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
 
       {/* policy */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>03</span>
             Policy
           </h2>
           <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>plain language, no fuss</span>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ borderTop: `1px solid ${p.line}` }}>
               {policy.map(([k, v], i) => (
@@ -4513,13 +4664,13 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
 
       {/* compose box */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>04</span>
             Compose
           </h2>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginTop: "1rem" }}>
+        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginTop: "1rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
             <form onSubmit={(e) => e.preventDefault()} style={{ border: `1px solid ${p.line}`, padding: "1.4rem", background: `color-mix(in oklch, ${p.paper} 85%, white)`, fontFamily: "var(--f-ui)" }}>
               <div className="mono caps" style={{ color: p.muted, fontSize: 11, letterSpacing: "0.12em", marginBottom: 12, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: "1rem" }}>
