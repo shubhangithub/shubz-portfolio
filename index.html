@@ -1623,7 +1623,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
   const isMobile = useIsMobile();
 
   // gradient descent state for status copy
-  const [gdState, setGdState] = useState({ loss: 0, step: 0, converged: false });
+  // gdState removed — specimens moved to /now
 
   // local time tick
   const [now, setNow] = useState(() => new Date());
@@ -1677,9 +1677,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
                 <div className="mono" style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 8, rowGap: 4, color: p.ink }}>
                   <span style={{ color: p.muted }}>{telemetryRow[0]}</span><span>{telemetryRow[1]}</span>
                   <span style={{ color: p.muted }}>scroll</span><span>{String(scrollPct).padStart(3, "0")}%</span>
-                  <span style={{ color: p.muted }}>∇f</span><span style={{ color: gdState.converged ? p.accent : p.ink }}>
-                    {gdState.loss.toFixed(3)} · {gdState.step}
-                  </span>
+                  <span style={{ color: p.muted }}>essays</span><span>{POSTS.filter(x => x.slug !== "merger-themes").length} polished</span>
                 </div>
               </div>
             </div>
@@ -1743,15 +1741,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
               </div>
             )}
 
-            {/* specimen pair — stacked in right rail (desktop) or inline (mobile) */}
-            <div style={{ marginTop: "1rem", display: "grid", gap: "0.6rem", maxWidth: isMobile ? "100%" : 220, marginLeft: isMobile ? 0 : "auto" }}>
-              <div style={{ border: `1px solid ${p.line}`, padding: "0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-                <GradientDescentViz width={isMobile ? 280 : 190} height={isMobile ? 200 : 140} strokeColor={p.ink} mutedColor={p.muted} accentColor={p.accent} onStateChange={setGdState} />
-              </div>
-              <div style={{ border: `1px solid ${p.line}`, padding: "0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-                <SeasonalSpecimen width={isMobile ? 280 : 190} height={isMobile ? 200 : 140} accent={p.accent} ink={p.ink} muted={p.muted} line={p.line} />
-              </div>
-            </div>
+            {/* specimens live on /now — rail stays clean with portrait + motif only */}
           </div>
         </div>
       </section>
