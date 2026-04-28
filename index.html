@@ -1649,6 +1649,9 @@ function HomeV4({ onNavigate, setCursorColor }) {
         {!isMobile && (
           <span style={{ display: "inline-flex", justifyContent: "flex-end", gap: 14, alignItems: "center" }}>
             <span className="mono">v.2026.04 · {hh}:{mm}:{ss} GMT</span>
+            <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("contact"); }} style={{ display: "inline-block", width: 28, height: 28, borderRadius: "50%", overflow: "hidden", border: `1.5px solid ${p.line}`, flexShrink: 0, transition: "border-color 240ms var(--ease-out)" }} onMouseEnter={(e) => e.currentTarget.style.borderColor = p.accent} onMouseLeave={(e) => e.currentTarget.style.borderColor = p.line}>
+              <img src="assets/portrait.png" alt="Contact" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </a>
           </span>
         )}
         <style>{`@keyframes blip { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }`}</style>
@@ -1699,12 +1702,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
               I'm a founding engineer at <em>Orion</em>, where I build geospatial ML indexed on H3 hexagons — software that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths at Oxford and physics at FLAME. I am also, in inconvenient order: a figure skater, a Thames rower at dawn, and an essayist who thinks interactive diagrams are the point.
             </p>
 
-            <div style={{ marginTop: isMobile ? "1.6rem" : "2rem", display: "flex", gap: isMobile ? "1.4rem" : "2rem", flexWrap: "wrap", alignItems: "center", fontFamily: "var(--f-ui)", fontSize: 13 }}>
-              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} className="link-underline" style={{ color: p.accent }}>writing →</a>
-              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} className="link-underline">work</a>
-              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("now"); }} className="link-underline">now</a>
-              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("contact"); }} className="link-underline">contact</a>
-            </div>
+            {/* nav links removed — top nav bar handles navigation */}
 
             {/* SPECIMEN PAIR — above the fold, side by side */}
             <div style={{ marginTop: isMobile ? "1.6rem" : "2.2rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: isMobile ? "0.6rem" : "1rem", alignItems: "start" }}>
@@ -1730,32 +1728,25 @@ function HomeV4({ onNavigate, setCursorColor }) {
               </div>
             </div>
 
-            {/* keyboard hints — desktop only */}
-            {!isMobile && (
-              <div className="mono" style={{ marginTop: 18, fontSize: 11, color: p.muted, display: "flex", gap: 18, flexWrap: "wrap" }}>
-                <span><kbd style={kbdStyle(p)}>g</kbd> <kbd style={kbdStyle(p)}>w</kbd> writing</span>
-                <span><kbd style={kbdStyle(p)}>g</kbd> <kbd style={kbdStyle(p)}>n</kbd> now</span>
-                <span><kbd style={kbdStyle(p)}>?</kbd> shortcuts</span>
-              </div>
-            )}
+            {/* keyboard hints removed — declutter */}
           </div>
 
-          {/* portrait + motif — col 10-12 desktop · stacked below body on mobile */}
-          <div style={{ gridColumn: isMobile ? "1" : "10 / span 3", position: "relative", marginTop: isMobile ? "2rem" : 0 }}>
-            <div style={{ position: "relative", maxWidth: isMobile ? 200 : 220, marginLeft: isMobile ? 0 : "auto" }}>
-              <img src="assets/portrait.png" alt="Shubhangi, in a black turtleneck against a warm textured backdrop." style={{ width: "100%", display: "block", filter: "grayscale(0.05) contrast(1.02)" }} />
-              {[
-                { top: -8, left: -8 }, { top: -8, right: -8 }, { bottom: -8, left: -8 }, { bottom: -8, right: -8 }
-              ].map((s, i) => (
-                <span key={i} style={{ position: "absolute", ...s, width: 14, height: 14, borderTop: i < 2 ? `1px solid ${p.muted}` : "none", borderBottom: i >= 2 ? `1px solid ${p.muted}` : "none", borderLeft: i % 2 === 0 ? `1px solid ${p.muted}` : "none", borderRight: i % 2 === 1 ? `1px solid ${p.muted}` : "none" }} />
-              ))}
+          {/* col 10-12 — selected builds in right rail */}
+          <div style={{ gridColumn: isMobile ? "1" : "10 / span 3", marginTop: isMobile ? "1.6rem" : 0 }}>
+            <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 10, display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+              <span>Selected builds</span>
+              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} className="link-underline" style={{ color: p.accent, fontSize: 10 }}>CV →</a>
             </div>
-            <div className="mono" style={{ marginTop: 10, color: p.muted, fontSize: 11, display: "flex", justifyContent: "space-between", maxWidth: isMobile ? 200 : 220, marginLeft: isMobile ? 0 : "auto" }}>
-              <span>fig.01 — Sharma, S.</span>
-              <span>2026 · London</span>
-            </div>
-
-            {/* motif removed — specimens are in the hero now */}
+            {[
+              { name: "fashion-web", role: "ML trend + LMSR exchange", url: "https://fashion-web-psi.vercel.app" },
+              { name: "taylor-rec-engine", role: "six recommendation engines", url: "https://shubz-taylor-recommendation-engine.vercel.app" },
+              { name: "platypus-learn", role: "AI learning platform", url: "https://platypus-learn.vercel.app" },
+            ].map((b, i) => (
+              <a key={i} href={b.url} target="_blank" rel="noreferrer" style={{ display: "block", padding: "0.6rem 0", borderTop: `1px solid ${p.line}`, fontSize: 11, fontFamily: "var(--f-ui)", color: p.ink, lineHeight: 1.5 }}>
+                <span className="mono" style={{ color: p.accent, fontSize: 10 }}>{b.name} ↗</span>
+                <div style={{ color: p.muted, marginTop: 2 }}>{b.role}</div>
+              </a>
+            ))}
           </div>
         </div>
       </section>
@@ -1803,30 +1794,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
         );
       })()}
 
-      {/* WORK — sneak peek: deployed builds */}
-      <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "0 1rem 3rem" : "0 1.6rem 4rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem", alignItems: "baseline" }}>
-          <h2 className="display" style={{ gridColumn: isMobile ? "1" : "3 / span 5", fontSize: isMobile ? "1.7rem" : "1.9rem", margin: 0, fontWeight: 380 }}>Selected builds</h2>
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} className="link-underline caps" style={{ gridColumn: isMobile ? "1" : "10 / span 3", color: p.accent, alignSelf: "baseline", fontFamily: "var(--f-ui)", fontSize: 12 }}>annotated CV →</a>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: "1.6rem" }}>
-          <div style={{ gridColumn: isMobile ? "1" : "3 / span 9", borderTop: `1px solid ${p.line}` }}>
-            {[
-              { name: "fashion-web", role: "ML trend intelligence + LMSR exchange", year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
-              { name: "shubz-taylor-rec-engine", role: "six recommendation engines for Taylor's catalogue", year: "2026", url: "https://shubz-taylor-recommendation-engine.vercel.app" },
-              { name: "platypus-learn", role: "AI learning platform — ingest PDFs + YouTube, generate courses", year: "2025 —", url: "https://platypus-learn.vercel.app" },
-            ].map((b, i) => (
-              <a key={i} href={b.url} target="_blank" rel="noreferrer" style={{ display: "block", padding: isMobile ? "1rem" : "1.1rem 1.2rem", marginBottom: "0.6rem", background: `color-mix(in oklch, ${p.paper} 80%, white)`, border: `1px solid ${p.line}`, transition: "border-color 240ms var(--ease-out)", color: p.ink }} onMouseEnter={(e) => e.currentTarget.style.borderColor = p.accent} onMouseLeave={(e) => e.currentTarget.style.borderColor = p.line}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 4 }}>
-                  <span className="mono" style={{ fontSize: 12, color: p.accent, letterSpacing: "0.04em" }}>{b.name} ↗</span>
-                  <span className="mono" style={{ fontSize: 10, color: p.muted }}>{b.year}</span>
-                </div>
-                <span style={{ fontFamily: "var(--f-body)", fontSize: "0.95rem", color: p.muted, lineHeight: 1.5 }}>{b.role}</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* builds moved to right rail */}
       </main>
 
       <Footer palette={p} line="Made in London." />
