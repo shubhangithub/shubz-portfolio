@@ -1006,7 +1006,9 @@ const SEASONAL_THEMES = [
 ];
 
 function SeasonalSpecimen({ width = 200, height = 180, accent = "#1F3DBF", ink = "#0F1320", muted = "#6E7488", line = "#D5D6DC" }) {
-  const month = new Date().getMonth();
+  // Show May (Lotka–Volterra) starting today; from May 1 onwards the natural
+  // calendar month takes over.
+  const month = Math.max(4, new Date().getMonth());
   const theme = SEASONAL_THEMES[month];
   const monthName = new Date(2026, month, 1).toLocaleString("en", { month: "long" });
   // Some months have a fully-interactive variant (sliders, drag, etc) — those
