@@ -1754,9 +1754,9 @@ function Footer({ palette, line }) {
 const POSTS = [
   {
     slug: "jaya",
-    title: "JAYA, with crossover",
-    kicker: "Essay · Optimization & Bioinformatics",
-    dek: "Modifying a parameter-free optimizer with genetic operators — and what 96% accuracy on protein-function classification taught me about \"parameter-free\" claims.",
+    title: "JAYA, improved",
+    kicker: "Essay · Optimisation & Bioinformatics",
+    dek: "Improving a parameter-free optimiser for protein feature selection with a fitness trade-off and elitism — and what \"parameter-free\" really means.",
     minutes: 12,
     illustration: "hex",
     cardBg: "#E5E8F0",
@@ -1766,40 +1766,40 @@ const POSTS = [
     slug: "fashion-trends",
     title: "Pricing the next scarf",
     kicker: "Essay · Forecasting & Markets",
-    dek: "A platform that pairs five-source signal forecasting with an LMSR prediction market for fashion micro-trends. Why neither half works without the other.",
+    dek: "Five-source trend forecasting with Holt smoothing, an LMSR prediction market in virtual currency, and computer vision that tells you what you're wearing.",
     minutes: 9,
     illustration: "wave",
     cardBg: "#ECEAE3",
     accent: "#1F3DBF",
   },
   {
-    slug: "biomarkers",
-    title: "Counting cells, finding immunity",
+    slug: "threshold-gate",
+    title: "Positive by how much",
     kicker: "Essay · Computational biology",
-    dek: "Notes from an MFoCS thesis on automated immune biomarker detection — clustering single-cell expression with thresholds, consensus, and a healthy distrust of outlier-detection methods.",
-    minutes: 11,
+    dek: "Four automated methods try to replicate a pathologist's threshold on immune cell data. One marker — CTLA-4 — breaks every one of them.",
+    minutes: 9,
     illustration: "hex",
     cardBg: "#EFEEE7",
+    accent: "#1F3DBF",
+  },
+  {
+    slug: "constraint-clustering",
+    title: "Cells that can't exist",
+    kicker: "Essay · Computational biology",
+    dek: "A standard clustering algorithm groups neutrophils with T cells. Teaching it immunology helps — nine new parameters and an honest second-place finish.",
+    minutes: 10,
+    illustration: "hex",
+    cardBg: "#EDE9E4",
     accent: "#1F3DBF",
   },
   {
     slug: "six-engines",
     title: "Six engines for one songbook",
     kicker: "Essay · Recommendation",
-    dek: "Five base models plus an ensemble, on 801 songs (341 Taylor + 460 cross-artist). Why a small corpus is harder than a huge one — and what the disagreements between engines reveal.",
+    dek: "Five base models plus an ensemble on Taylor's full catalogue, with editorial bridges to neighbouring artists. Why the disagreements between engines are the interesting part.",
     minutes: 7,
     illustration: "wave",
     cardBg: "#EBE8EE",
-    accent: "#1F3DBF",
-  },
-  {
-    slug: "h3-confidence",
-    title: "What an H3 hexagon knows",
-    kicker: "Essay · Geospatial ML",
-    dek: "Indexing the world on hexagons, weighting events by confidence, and why \"where\" is rarely a point. Half a year of building this at Orion, condensed.",
-    minutes: 7,
-    illustration: "hex",
-    cardBg: "#E9EAEF",
     accent: "#1F3DBF",
   },
   {
@@ -1881,7 +1881,7 @@ function HomeV2({ onNavigate, setCursorColor }) {
           </li>
           <li style={{ display: "flex", gap: "0.8rem" }}>
             <span style={{ color: p.accent, paddingTop: 2 }}>—</span>
-            <span>a small obsession with the <FlourishLink href="#">JAYA algorithm</FlourishLink> (96% accuracy on a protein-function task; I'll spare you the details for now);</span>
+            <span>a small obsession with the <FlourishLink href="#">JAYA algorithm</FlourishLink> (improved feature selection for protein identification; I'll spare you the details for now);</span>
           </li>
           <li style={{ display: "flex", gap: "0.8rem" }}>
             <span style={{ color: p.accent, paddingTop: 2 }}>—</span>
@@ -2304,7 +2304,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
             Building geospatial ML at <em>Orion</em> · indexing the world on H3 hexagons.
           </div>
           <div style={{ gridColumn: isMobile ? "1" : "8 / span 3", color: p.muted }}>
-            <em style={{ color: p.ink }}>"JAYA, with crossover"</em> is up. Drafting the next.
+            <em style={{ color: p.ink }}>"JAYA, improved"</em> is up. Drafting the next.
           </div>
           <div style={{ gridColumn: isMobile ? "1" : "11 / span 2", color: p.muted, textAlign: isMobile ? "left" : "right" }} className="mono">London · 51.51°N</div>
         </div>
@@ -3259,164 +3259,612 @@ function JayaSwarm({ palette: p }) {
   );
 }
 
-function BiomarkerScatter({ palette: p }) {
-  // intensities in 0..1, mapped to clinical units 0..10 for display
-  const [tx, setTx] = React.useState(0.475); // CD4 threshold (clinical 4.39 ≈ 0.475)
-  const [ty, setTy] = React.useState(0.475); // CD8 threshold (clinical 5.65 ≈ 0.475 in our normalised space)
-  const [drag, setDrag] = React.useState(null); // "x" | "y" | null
+function FeatureSelectionViz({ palette: p }) {
+  const [running, setRunning] = React.useState(true);
+  const [gen, setGen] = React.useState(0);
+  const [tradeOff, setTradeOff] = React.useState(0.55); // slope of trade-off line
+  const [dragging, setDragging] = React.useState(false);
   const svgRef = React.useRef(null);
 
-  const cells = React.useMemo(() => {
-    let s = 9;
-    const r = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
-    const groups = [
-      { range: [0.55, 0.95, 0.55, 0.95], n: 14, color: "#8B5A89" },
-      { range: [0.55, 0.95, 0.05, 0.40], n: 18, color: "#5B7A4F" },
-      { range: [0.05, 0.40, 0.55, 0.95], n: 16, color: p.accent },
-      { range: [0.05, 0.40, 0.05, 0.40], n: 28, color: p.muted },
-    ];
-    const out = [];
-    groups.forEach(g => {
-      for (let i = 0; i < g.n; i++) {
-        out.push({ x: g.range[0] + r() * (g.range[1] - g.range[0]), y: g.range[2] + r() * (g.range[3] - g.range[2]) });
-      }
-    });
-    return out;
-  }, [p.accent, p.muted]);
+  // seeded population: subset-size (x) vs accuracy (y)
+  const [pop, setPop] = React.useState(null);
+  const [seed, setSeed] = React.useState(1);
 
-  // classify each cell against the live thresholds
-  const classified = cells.map(c => ({ ...c, k: (c.x > tx ? 1 : 0) | ((c.y > ty ? 1 : 0) << 1) }));
-  // counts: k = (cd4High) | (cd8High << 1) → 0=double-neg, 1=CD4+, 2=CD8+, 3=CD4+CD8+
-  const counts = [0, 0, 0, 0];
-  classified.forEach(c => counts[c.k]++);
-  const total = classified.length;
+  React.useEffect(() => {
+    let s = seed * 7919 + 13;
+    const r = () => { s = (s * 1103515245 + 12345) % 2147483647; return s / 2147483647; };
+    const next = Array.from({ length: 36 }, () => ({
+      x: 0.1 + r() * 0.85, // subset fraction 0.1..0.95
+      y: 0.2 + r() * 0.7,  // accuracy 0.2..0.9
+    }));
+    setPop(next);
+    setGen(0);
+  }, [seed]);
 
-  const W = 420, H = 320;
-  const px = (v) => 50 + v * (W - 70);
-  const py = (v) => H - 40 - v * (H - 70);
-  const pxToV = (vp) => (vp - 50) / (W - 70);
-  const pyToV = (vp) => 1 - (vp - py(1)) / (py(0) - py(1));
+  // Pareto-optimal direction: move toward lower x (smaller subset) and higher y (better accuracy)
+  React.useEffect(() => {
+    if (!running || !pop) return;
+    const id = setInterval(() => {
+      setPop(prev => {
+        if (!prev) return prev;
+        return prev.map(c => {
+          // nudge toward the Pareto front: lower-left → upper-left
+          const target = { x: 0.08 + Math.random() * 0.15, y: 0.75 + Math.random() * 0.18 };
+          const nx = c.x + (target.x - c.x) * (0.03 + Math.random() * 0.04);
+          const ny = c.y + (target.y - c.y) * (0.03 + Math.random() * 0.04);
+          // add noise so they don't all converge to one point
+          return {
+            x: Math.max(0.05, Math.min(0.95, nx + (Math.random() - 0.5) * 0.02)),
+            y: Math.max(0.15, Math.min(0.95, ny + (Math.random() - 0.5) * 0.02)),
+          };
+        });
+      });
+      setGen(g => g + 1);
+    }, 90);
+    return () => clearInterval(id);
+  }, [running, pop]);
+
+  const W = 380, H = 280;
+  const left = 44, right = W - 14, top = 16, bottom = H - 30;
+  const px = (v) => left + v * (right - left);
+  const py = (v) => bottom - v * (bottom - top);
+
+  // trade-off line: y = tradeOff + slope * (1 - x)  — points ABOVE survive
+  const lineY = (x) => tradeOff * 0.6 + (1 - x) * tradeOff * 0.7;
+  const survives = (c) => c.y > lineY(c.x);
+  const surviving = pop ? pop.filter(survives).length : 0;
 
   const onPointer = (e) => {
-    if (!drag || !svgRef.current) return;
+    if (!svgRef.current) return;
     const rect = svgRef.current.getBoundingClientRect();
-    const sx = ((e.clientX - rect.left) / rect.width) * W;
     const sy = ((e.clientY - rect.top) / rect.height) * H;
-    if (drag === "x") setTx(Math.max(0.05, Math.min(0.95, pxToV(sx))));
-    else if (drag === "y") setTy(Math.max(0.05, Math.min(0.95, pyToV(sy))));
+    const v = 1 - (sy - top) / (bottom - top);
+    setTradeOff(Math.max(0.2, Math.min(0.9, v)));
   };
-
-  const groups = [
-    { k: 3, label: "CD4+ CD8+ (double-positive)", color: "#8B5A89" },
-    { k: 1, label: "CD4+ only",                   color: "#5B7A4F" },
-    { k: 2, label: "CD8+ only",                   color: p.accent },
-    { k: 0, label: "double−",                     color: p.muted },
-  ];
 
   return (
     <div className="v4-diagram-pair" style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
-      <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 280, cursor: drag ? "grabbing" : "default", userSelect: "none", touchAction: "none" }}
-           onPointerMove={onPointer} onPointerUp={() => setDrag(null)} onPointerLeave={() => setDrag(null)} onPointerCancel={() => setDrag(null)}>
-        <line x1={px(0)} y1={py(0)} x2={px(1)} y2={py(0)} stroke={p.muted} strokeWidth="1" />
-        <line x1={px(0)} y1={py(0)} x2={px(0)} y2={py(1)} stroke={p.muted} strokeWidth="1" />
-        <text x={px(1)} y={py(0) + 18} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>CD4 expression →</text>
-        <text x={px(0) - 6} y={py(1) - 4} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>CD8 ↑</text>
-        {classified.map((c, i) => {
-          const fill = groups.find(g => g.k === c.k).color;
-          return <circle key={i} cx={px(c.x)} cy={py(c.y)} r={3} fill={fill} opacity={0.85} style={{ transition: "fill 200ms" }} />;
+      <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 260, cursor: dragging ? "grabbing" : "default", userSelect: "none", touchAction: "none" }}
+           onPointerMove={(e) => { if (dragging) onPointer(e); }} onPointerUp={() => setDragging(false)} onPointerLeave={() => setDragging(false)}>
+        <line x1={left} y1={bottom} x2={right} y2={bottom} stroke={p.muted} strokeWidth="1" />
+        <line x1={left} y1={top} x2={left} y2={bottom} stroke={p.muted} strokeWidth="1" />
+        <text x={right} y={bottom + 16} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>subset size →</text>
+        <text x={left - 6} y={top - 4} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>accuracy ↑</text>
+        {/* trade-off line */}
+        <line x1={px(0)} y1={py(lineY(0))} x2={px(1)} y2={py(lineY(1))} stroke={p.accent} strokeWidth="1.4" strokeDasharray="5 4" opacity="0.7" />
+        {/* drag hit area */}
+        <rect x={left} y={top} width={right - left} height={bottom - top} fill="transparent" style={{ cursor: "ns-resize", touchAction: "none" }} onPointerDown={(e) => { e.currentTarget.setPointerCapture && e.currentTarget.setPointerCapture(e.pointerId); setDragging(true); onPointer(e); }} />
+        {/* drag handle on the line's left end */}
+        <circle cx={px(0)} cy={py(lineY(0))} r={6} fill={p.paper} stroke={p.accent} strokeWidth="1.5" pointerEvents="none" />
+        <circle cx={px(0)} cy={py(lineY(0))} r={2.5} fill={p.accent} pointerEvents="none" />
+        {/* candidates */}
+        {pop && pop.map((c, i) => {
+          const alive = survives(c);
+          return <circle key={i} cx={px(c.x)} cy={py(c.y)} r={alive ? 4 : 2.5} fill={alive ? p.accent : p.muted} opacity={alive ? 0.85 : 0.3} style={{ transition: "all 240ms var(--ease-out)" }} />;
         })}
-        {/* draggable threshold lines (wider hit areas for touch) */}
-        <line x1={px(tx)} y1={py(0)} x2={px(tx)} y2={py(1)} stroke={p.accent} strokeDasharray="4 3" strokeWidth="1.2" opacity="0.7" />
-        <rect x={px(tx) - 14} y={py(0)} width={28} height={py(1) - py(0)} fill="transparent" style={{ cursor: "ew-resize", touchAction: "none" }} onPointerDown={(e) => { e.currentTarget.setPointerCapture && e.currentTarget.setPointerCapture(e.pointerId); setDrag("x"); }} />
-        {/* visible drag handle on the CD4 line */}
-        <circle cx={px(tx)} cy={py(0.5)} r={6} fill={p.paper} stroke={p.accent} strokeWidth="1.5" pointerEvents="none" />
-        <circle cx={px(tx)} cy={py(0.5)} r={2.5} fill={p.accent} pointerEvents="none" />
-        <line x1={px(0)} y1={py(ty)} x2={px(1)} y2={py(ty)} stroke={p.accent} strokeDasharray="4 3" strokeWidth="1.2" opacity="0.7" />
-        <rect x={px(0)} y={py(ty) - 14} width={px(1) - px(0)} height={28} fill="transparent" style={{ cursor: "ns-resize", touchAction: "none" }} onPointerDown={(e) => { e.currentTarget.setPointerCapture && e.currentTarget.setPointerCapture(e.pointerId); setDrag("y"); }} />
-        {/* visible drag handle on the CD8 line */}
-        <circle cx={px(0.5)} cy={py(ty)} r={6} fill={p.paper} stroke={p.accent} strokeWidth="1.5" pointerEvents="none" />
-        <circle cx={px(0.5)} cy={py(ty)} r={2.5} fill={p.accent} pointerEvents="none" />
-        <text x={px(tx)} y={py(1) - 6} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="9" fill={p.accent}>CD4 &gt; {(tx * 10).toFixed(2)}</text>
-        <text x={px(0) - 6} y={py(ty) - 4} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.accent}>CD8 &gt; {(ty * 10).toFixed(2)}</text>
+        <text x={left + 6} y={bottom - 6} fontFamily="var(--f-mono)" fontSize="9" fill={p.muted}>gen {gen}</text>
+        <text x={right - 4} y={top + 14} textAnchor="end" fontFamily="var(--f-mono)" fontSize="8" fill={p.accent}>↑ above line = selected</text>
       </svg>
-      <div style={{ fontFamily: "var(--f-ui)", fontSize: 12, lineHeight: 1.55 }}>
-        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Quadrants · drag the dashed lines</div>
-        {groups.map(g => {
-          const pct = total ? (counts[g.k] / total) * 100 : 0;
-          return (
-            <div key={g.k} style={{ padding: "5px 0", color: p.ink }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ width: 10, height: 10, borderRadius: "50%", background: g.color, flexShrink: 0 }} />
-                <span style={{ flex: 1, fontSize: 11 }}>{g.label}</span>
-                <span className="mono" style={{ fontSize: 10, color: p.muted }}>{counts[g.k]} · {pct.toFixed(0)}%</span>
-              </div>
-              <div style={{ height: 2, background: p.line, marginTop: 4, position: "relative" }}>
-                <div style={{ position: "absolute", inset: 0, width: `${pct}%`, background: g.color, transition: "width 180ms var(--ease-out)" }} />
-              </div>
-            </div>
-          );
-        })}
-        <div style={{ marginTop: 10, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>Slide CD4 from 4.39 to 4.50 — the "double-positive" count drops by a fifth.</div>
+      <div style={{ fontFamily: "var(--f-ui)", fontSize: 12, lineHeight: 1.55, color: p.ink }}>
+        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 10 }}>Controls</div>
+        <div style={{ display: "flex", gap: 6, marginBottom: 14 }}>
+          <button onClick={() => setRunning(r => !r)} style={{ flex: 1, fontFamily: "var(--f-mono)", fontSize: 10, padding: "4px 6px", border: `1px solid ${p.line}`, background: "transparent", color: p.accent, cursor: "pointer", letterSpacing: "0.06em" }}>{running ? "PAUSE" : "RUN"}</button>
+          <button onClick={() => setSeed(s => s + 1)} style={{ flex: 1, fontFamily: "var(--f-mono)", fontSize: 10, padding: "4px 6px", border: `1px solid ${p.line}`, background: "transparent", color: p.accent, cursor: "pointer", letterSpacing: "0.06em" }}>RESEED</button>
+        </div>
+        <div className="mono" style={{ borderTop: `1px solid ${p.line}`, paddingTop: 10, fontSize: 10, display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 8, rowGap: 4, color: p.ink }}>
+          <span style={{ color: p.muted }}>gen</span><span>{gen}</span>
+          <span style={{ color: p.muted }}>selected</span><span>{surviving} / {pop ? pop.length : 0}</span>
+          <span style={{ color: p.muted }}>trade-off</span><span>{tradeOff.toFixed(2)}</span>
+        </div>
+        <div style={{ marginTop: 12, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>Drag the dashed line to change the trade-off. Higher = stricter on accuracy. Candidates above the line survive.</div>
       </div>
     </div>
   );
 }
 
-function ConsensusGrid({ palette: p }) {
-  // three clustering methods over the same 8x8 patch, then a consensus blend
-  const W = 480, H = 200;
-  const cells = React.useMemo(() => {
-    let s = 21;
-    const r = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
-    return Array.from({ length: 64 }, (_, i) => ({ i, r: r(), s: r(), t: r() }));
-  }, []);
-  const methods = [
-    { label: "Birch", pick: (c) => c.r > 0.62 ? 1 : c.r > 0.32 ? 2 : 0 },
-    { label: "Agglomerative", pick: (c) => c.s > 0.58 ? 1 : c.s > 0.30 ? 2 : 0 },
-    { label: "Spectral", pick: (c) => c.t > 0.60 ? 1 : c.t > 0.34 ? 2 : 0 },
+function ThresholdMethods({ palette: p }) {
+  const markers = [
+    { id: "cd66b", label: "CD66b", shape: "bimodal", valley: 0.42 },
+    { id: "cd4",   label: "CD4",   shape: "skew-right", valley: 0.38 },
+    { id: "cd8",   label: "CD8",   shape: "bimodal-wide", valley: 0.44 },
+    { id: "ctla4", label: "CTLA-4", shape: "flat", valley: 0.35 },
+    { id: "cd56",  label: "CD56",  shape: "right-tail", valley: 0.40 },
+    { id: "cd20",  label: "CD20",  shape: "sharp-peak", valley: 0.30 },
   ];
-  const palette3 = [p.muted, p.accent, "#8B5A89"];
-  // consensus: majority vote across the three methods per cell
-  const consensus = cells.map(c => {
-    const votes = [0, 0, 0];
-    methods.forEach(m => votes[m.pick(c)]++);
-    let max = 0, idx = 0, agree = 0;
-    votes.forEach((v, i) => { if (v > max) { max = v; idx = i; } });
-    agree = max / 3;
-    return { idx, agree };
-  });
-  const cell = 18, gap = 1;
-  const grid = (offset, picker) => (
-    <g transform={`translate(${offset}, 30)`}>
-      {cells.map((c, i) => {
-        const x = (i % 8) * (cell + gap);
-        const y = Math.floor(i / 8) * (cell + gap);
-        const k = picker(c);
-        return <rect key={i} x={x} y={y} width={cell} height={cell} fill={palette3[k]} opacity={0.78} />;
-      })}
-    </g>
+  const methods = [
+    { id: "pathologist", label: "Pathologist", color: p.ink, dash: "" },
+    { id: "otsu",    label: "Otsu",    color: p.accent, dash: "" },
+    { id: "isodata", label: "IsoData", color: "#5B7A4F", dash: "" },
+    { id: "gmm",     label: "GMM",     color: "#8B5A89", dash: "4 3" },
+  ];
+  const [activeMarker, setActiveMarker] = React.useState("cd66b");
+  const [hover, setHover] = React.useState(null);
+
+  // seeded PRNG for reproducible synthetic histograms
+  const histData = React.useMemo(() => {
+    const out = {};
+    markers.forEach(mk => {
+      let s = mk.id.charCodeAt(0) * 137 + 31;
+      const rng = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+      // box-muller helper
+      const gauss = (mu, sd) => { const u1 = Math.max(1e-6, rng()), u2 = rng(); return mu + sd * Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2); };
+      const bins = new Array(40).fill(0);
+      const N = 600;
+      for (let i = 0; i < N; i++) {
+        let v;
+        if (mk.shape === "bimodal") { v = rng() < 0.65 ? gauss(0.22, 0.09) : gauss(0.68, 0.11); }
+        else if (mk.shape === "bimodal-wide") { v = rng() < 0.55 ? gauss(0.25, 0.12) : gauss(0.72, 0.14); }
+        else if (mk.shape === "skew-right") { v = rng() < 0.70 ? gauss(0.20, 0.08) : gauss(0.60, 0.15); }
+        else if (mk.shape === "flat") { v = gauss(0.38, 0.22); }
+        else if (mk.shape === "right-tail") { v = rng() < 0.78 ? gauss(0.18, 0.07) : gauss(0.65, 0.18); }
+        else { v = rng() < 0.82 ? gauss(0.15, 0.06) : gauss(0.55, 0.10); }
+        const bin = Math.max(0, Math.min(39, Math.floor(v * 40)));
+        bins[bin]++;
+      }
+      // method thresholds (synthetic, plausible, NOT real)
+      const base = mk.valley;
+      const spread = mk.shape === "flat" ? 0.12 : 0.04;
+      out[mk.id] = {
+        bins, max: Math.max(...bins),
+        thresholds: {
+          pathologist: base,
+          otsu: base + (mk.shape === "flat" ? -0.08 : 0.01),
+          isodata: base + (mk.shape === "flat" ? 0.05 : -0.01),
+          gmm: base + (mk.shape === "flat" ? 0.10 : 0.02),
+        },
+      };
+    });
+    return out;
+  }, []);
+
+  const mk = markers.find(m => m.id === activeMarker);
+  const hd = histData[activeMarker];
+  const W = 420, H = 220;
+  const left = 30, right = W - 10, bottom = H - 30, top = 16;
+  const barW = (right - left) / 40;
+
+  return (
+    <div className="v4-diagram-pair" style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
+      <div>
+        <div style={{ display: "flex", gap: 4, marginBottom: 8, flexWrap: "wrap" }}>
+          {markers.map(m => (
+            <button key={m.id} onClick={() => setActiveMarker(m.id)} style={{ all: "unset", cursor: "pointer", fontFamily: "var(--f-mono)", fontSize: 10, padding: "2px 8px", border: `1px solid ${activeMarker === m.id ? p.accent : p.line}`, color: activeMarker === m.id ? p.accent : p.muted, letterSpacing: "0.04em", transition: "all 240ms var(--ease-out)" }}>{m.label}</button>
+          ))}
+        </div>
+        <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 220 }}>
+          {hd.bins.map((count, i) => {
+            const x = left + i * barW;
+            const h = hd.max > 0 ? (count / hd.max) * (bottom - top) : 0;
+            return <rect key={i} x={x} y={bottom - h} width={barW - 1} height={h} fill={p.muted} opacity={0.3} />;
+          })}
+          {methods.map(m => {
+            const tx = hd.thresholds[m.id];
+            const px = left + tx * (right - left);
+            const isHov = hover === m.id;
+            return (
+              <g key={m.id} onMouseEnter={() => setHover(m.id)} onMouseLeave={() => setHover(null)} style={{ cursor: "pointer" }}>
+                <line x1={px} y1={top} x2={px} y2={bottom} stroke={m.color} strokeWidth={isHov ? 2.4 : 1.4} strokeDasharray={m.dash} opacity={isHov ? 1 : 0.7} style={{ transition: "all 240ms var(--ease-out)" }} />
+                <text x={px} y={top - 3} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="8" fill={m.color} opacity={isHov ? 1 : 0.6}>{m.id === "pathologist" ? "PATH" : m.id.toUpperCase()}</text>
+              </g>
+            );
+          })}
+          <line x1={left} y1={bottom} x2={right} y2={bottom} stroke={p.muted} strokeWidth="1" />
+          <text x={right} y={bottom + 16} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>intensity →</text>
+          <text x={left} y={bottom + 16} fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>0</text>
+        </svg>
+      </div>
+      <div style={{ fontFamily: "var(--f-ui)", fontSize: 12, lineHeight: 1.55 }}>
+        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Methods · hover to highlight</div>
+        {methods.map(m => (
+          <div key={m.id} onMouseEnter={() => setHover(m.id)} onMouseLeave={() => setHover(null)} style={{ display: "flex", alignItems: "center", gap: 8, padding: "4px 0", cursor: "pointer", color: hover === m.id ? m.color : p.ink, transition: "color 240ms var(--ease-out)" }}>
+            <span style={{ width: 16, height: 2, background: m.color, display: "inline-block", opacity: hover === m.id ? 1 : 0.6 }} />
+            <span style={{ fontSize: 11 }}>{m.label}</span>
+          </div>
+        ))}
+        <div style={{ marginTop: 12, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>
+          {mk.shape === "flat"
+            ? "CTLA-4: no valley. The methods scatter — each guesses differently."
+            : mk.shape === "bimodal"
+            ? "Clean bimodal valley. All methods converge within a narrow band."
+            : "Methods agree roughly, but small differences shift populations."}
+        </div>
+      </div>
+    </div>
   );
-  const consensusGrid = (offset) => (
-    <g transform={`translate(${offset}, 30)`}>
-      {cells.map((c, i) => {
-        const x = (i % 8) * (cell + gap);
-        const y = Math.floor(i / 8) * (cell + gap);
-        const cn = consensus[i];
-        return <rect key={i} x={x} y={y} width={cell} height={cell} fill={palette3[cn.idx]} opacity={0.4 + cn.agree * 0.6} />;
-      })}
-    </g>
-  );
-  const labels = ["Birch", "Agglomerative", "Spectral", "Consensus"];
+}
+
+function CtlaDistribution({ palette: p }) {
+  const [hover, setHover] = React.useState(null); // "cd66b" | "ctla4" | null
+  // synthetic histograms — CD66b (clean bimodal) vs CTLA-4 (flat/ambiguous)
+  const data = React.useMemo(() => {
+    const mkHist = (seed, gen) => {
+      let s = seed;
+      const rng = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+      const gauss = (mu, sd) => { const u1 = Math.max(1e-6, rng()), u2 = rng(); return mu + sd * Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2); };
+      const bins = new Array(32).fill(0);
+      for (let i = 0; i < 500; i++) {
+        const v = gen(rng, gauss);
+        const bin = Math.max(0, Math.min(31, Math.floor(v * 32)));
+        bins[bin]++;
+      }
+      return bins;
+    };
+    return {
+      cd66b: mkHist(42, (r, g) => r() < 0.6 ? g(0.18, 0.07) : g(0.72, 0.09)),
+      ctla4: mkHist(77, (r, g) => g(0.36, 0.20)),
+    };
+  }, []);
+
+  const methodLines = {
+    cd66b: [
+      { label: "Otsu", x: 0.41, color: p.accent },
+      { label: "IsoData", x: 0.43, color: "#5B7A4F" },
+      { label: "GMM", x: 0.44, color: "#8B5A89" },
+    ],
+    ctla4: [
+      { label: "Otsu", x: 0.25, color: p.accent },
+      { label: "IsoData", x: 0.40, color: "#5B7A4F" },
+      { label: "GMM", x: 0.52, color: "#8B5A89" },
+    ],
+  };
+
+  const W = 480, H = 200;
+  const drawPanel = (bins, key, xOff, panelW) => {
+    const max = Math.max(...bins);
+    const barW = (panelW - 20) / bins.length;
+    const bottom = H - 30, tp = 30;
+    const isHov = hover === key;
+    const lines = methodLines[key];
+    return (
+      <g style={{ opacity: hover && !isHov ? 0.4 : 1, transition: "opacity 240ms var(--ease-out)" }}>
+        <text x={xOff + panelW / 2} y={18} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="11" fill={isHov ? p.accent : p.ink}>{key === "cd66b" ? "CD66b" : "CTLA-4"}</text>
+        <text x={xOff + panelW / 2} y={H - 6} textAnchor="middle" fontFamily="var(--f-ui)" fontSize="9" fill={p.muted}>{key === "cd66b" ? "clean valley — methods converge" : "no valley — methods scatter"}</text>
+        <rect x={xOff} y={tp} width={panelW} height={bottom - tp} fill="none" stroke={p.line} strokeWidth="0.5" onMouseEnter={() => setHover(key)} onMouseLeave={() => setHover(null)} style={{ cursor: "pointer" }} />
+        {bins.map((count, i) => {
+          const x = xOff + 10 + i * barW;
+          const h = max > 0 ? (count / max) * (bottom - tp - 10) : 0;
+          return <rect key={i} x={x} y={bottom - h} width={barW - 0.5} height={h} fill={p.muted} opacity={0.3} />;
+        })}
+        {lines.map((ln, j) => {
+          const px = xOff + 10 + ln.x * (panelW - 20);
+          return (
+            <g key={j}>
+              <line x1={px} y1={tp + 4} x2={px} y2={bottom} stroke={ln.color} strokeWidth="1.4" strokeDasharray="3 3" />
+              <text x={px} y={tp + 2} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="7" fill={ln.color}>{ln.label}</text>
+            </g>
+          );
+        })}
+      </g>
+    );
+  };
+
   return (
     <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 200 }}>
-      {[0, 120, 240, 360].map((off, i) => (
-        <g key={i}>
-          <text x={off + 76} y={20} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="10" fill={i === 3 ? p.accent : p.muted}>{labels[i]}</text>
-          {i < 3 ? grid(off + 8, methods[i].pick) : consensusGrid(off + 8)}
-        </g>
-      ))}
-      <text x="60" y={H - 6} fontFamily="var(--f-ui)" fontSize="9" fill={p.muted}>three views, then a vote — opacity = agreement</text>
+      {drawPanel(data.cd66b, "cd66b", 0, 228)}
+      <line x1="238" y1="40" x2="238" y2={H - 35} stroke={p.line} strokeDasharray="2 4" />
+      {drawPanel(data.ctla4, "ctla4", 248, 228)}
     </svg>
+  );
+}
+
+function GateSensitivity({ palette: p }) {
+  const [thresh, setThresh] = React.useState(0.44); // normalised 0..1
+  const [dragging, setDragging] = React.useState(false);
+  const svgRef = React.useRef(null);
+
+  // synthetic CD4-like distribution: skewed bimodal
+  const bins = React.useMemo(() => {
+    let s = 55;
+    const rng = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+    const gauss = (mu, sd) => { const u1 = Math.max(1e-6, rng()), u2 = rng(); return mu + sd * Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2); };
+    const b = new Array(50).fill(0);
+    for (let i = 0; i < 800; i++) {
+      const v = rng() < 0.68 ? gauss(0.22, 0.09) : gauss(0.62, 0.13);
+      const bin = Math.max(0, Math.min(49, Math.floor(v * 50)));
+      b[bin]++;
+    }
+    return b;
+  }, []);
+
+  const total = bins.reduce((a, b) => a + b, 0);
+  const threshBin = Math.floor(thresh * 50);
+  const pos = bins.slice(threshBin).reduce((a, b) => a + b, 0);
+  const neg = total - pos;
+  const posPct = total > 0 ? (pos / total * 100) : 0;
+  const negPct = 100 - posPct;
+
+  const W = 420, H = 250;
+  const left = 36, right = W - 10, bottom = 160, top = 20;
+  const barW = (right - left) / 50;
+  const max = Math.max(...bins);
+
+  const onPointer = (e) => {
+    if (!svgRef.current) return;
+    const rect = svgRef.current.getBoundingClientRect();
+    const sx = ((e.clientX - rect.left) / rect.width) * W;
+    const v = (sx - left) / (right - left);
+    setThresh(Math.max(0.05, Math.min(0.95, v)));
+  };
+
+  return (
+    <div className="v4-diagram-pair" style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
+      <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 250, cursor: dragging ? "grabbing" : "default", userSelect: "none", touchAction: "none" }}
+           onPointerMove={(e) => { if (dragging) onPointer(e); }} onPointerUp={() => setDragging(false)} onPointerLeave={() => setDragging(false)}>
+        {bins.map((count, i) => {
+          const x = left + i * barW;
+          const h = max > 0 ? (count / max) * (bottom - top) : 0;
+          const isPos = i >= threshBin;
+          return <rect key={i} x={x} y={bottom - h} width={barW - 0.5} height={h} fill={isPos ? p.accent : p.muted} opacity={0.45} style={{ transition: "fill 120ms" }} />;
+        })}
+        {/* threshold line + drag handle */}
+        {(() => {
+          const tx = left + thresh * (right - left);
+          return (
+            <g>
+              <line x1={tx} y1={top} x2={tx} y2={bottom} stroke={p.accent} strokeWidth="1.6" strokeDasharray="4 3" />
+              <rect x={tx - 14} y={top} width={28} height={bottom - top} fill="transparent" style={{ cursor: "ew-resize", touchAction: "none" }} onPointerDown={(e) => { e.currentTarget.setPointerCapture && e.currentTarget.setPointerCapture(e.pointerId); setDragging(true); onPointer(e); }} />
+              <circle cx={tx} cy={(top + bottom) / 2} r={6} fill={p.paper} stroke={p.accent} strokeWidth="1.5" pointerEvents="none" />
+              <circle cx={tx} cy={(top + bottom) / 2} r={2.5} fill={p.accent} pointerEvents="none" />
+              <text x={tx} y={top - 4} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="9" fill={p.accent}>gate = {(thresh * 10).toFixed(2)}</text>
+            </g>
+          );
+        })()}
+        <line x1={left} y1={bottom} x2={right} y2={bottom} stroke={p.muted} strokeWidth="1" />
+        <text x={right} y={bottom + 14} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>CD4 intensity →</text>
+        {/* population bars */}
+        <rect x={left} y={bottom + 26} width={(right - left) * negPct / 100} height={10} fill={p.muted} opacity={0.5} style={{ transition: "width 120ms" }} />
+        <rect x={left + (right - left) * negPct / 100} y={bottom + 26} width={(right - left) * posPct / 100} height={10} fill={p.accent} opacity={0.6} style={{ transition: "all 120ms" }} />
+        <text x={left} y={bottom + 50} fontFamily="var(--f-mono)" fontSize="9" fill={p.muted}>negative {negPct.toFixed(1)}%</text>
+        <text x={right} y={bottom + 50} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.accent}>positive {posPct.toFixed(1)}%</text>
+      </svg>
+      <div style={{ fontFamily: "var(--f-ui)", fontSize: 12, lineHeight: 1.55 }}>
+        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Gate position · drag the line</div>
+        <div className="mono" style={{ borderTop: `1px solid ${p.line}`, paddingTop: 10, fontSize: 10, display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 8, rowGap: 6, color: p.ink }}>
+          <span style={{ color: p.muted }}>gate</span><span>{(thresh * 10).toFixed(2)}</span>
+          <span style={{ color: p.muted }}>positive</span><span>{pos} cells · {posPct.toFixed(1)}%</span>
+          <span style={{ color: p.muted }}>negative</span><span>{neg} cells · {negPct.toFixed(1)}%</span>
+        </div>
+        <div style={{ marginTop: 12, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>Drag the gate from 4.39 to 4.50 — a fifth of the "positive" population vanishes.</div>
+      </div>
+    </div>
+  );
+}
+
+function ViolationNetwork({ palette: p }) {
+  const [active, setActive] = React.useState(null); // clicked node
+  const [pulseKey, setPulseKey] = React.useState(0); // reset pulse animation
+  const nodes = [
+    { id: "CD66b",  angle: -90  },
+    { id: "CD56",   angle: -30  },
+    { id: "CD8",    angle: 30   },
+    { id: "CD20",   angle: 90   },
+    { id: "CTLA-4", angle: 150  },
+    { id: "CD4",    angle: 210  },
+  ];
+  const cannotLink = [
+    ["CD66b", "CD4"], ["CD66b", "CD8"], ["CD66b", "CD20"], ["CD56", "CD20"],
+  ];
+  const lessLikely = [
+    ["CD4", "CD8"], ["CD66b", "CD56"],
+  ];
+  const W = 420, H = 300;
+  const cx = W / 2, cy = H / 2, radius = 95;
+  const pos = Object.fromEntries(nodes.map(n => [n.id, {
+    x: cx + Math.cos(n.angle * Math.PI / 180) * radius,
+    y: cy + Math.sin(n.angle * Math.PI / 180) * radius,
+  }]));
+
+  const isInvolved = (nodeId) => {
+    if (!active) return false;
+    return cannotLink.some(([a, b]) => (a === active || b === active) && (a === nodeId || b === nodeId))
+        || lessLikely.some(([a, b]) => (a === active || b === active) && (a === nodeId || b === nodeId));
+  };
+
+  const handleClick = (id) => {
+    setActive(prev => prev === id ? null : id);
+    setPulseKey(k => k + 1);
+  };
+
+  // edge-tracing pulse: animated circle travelling along constraint edges from the active node
+  const pulseEdges = React.useMemo(() => {
+    if (!active) return [];
+    const edges = [];
+    cannotLink.forEach(([a, b]) => {
+      if (a === active || b === active) {
+        const from = a === active ? a : b;
+        const to = a === active ? b : a;
+        edges.push({ from, to, type: "cannot", color: "#C2452A" });
+      }
+    });
+    lessLikely.forEach(([a, b]) => {
+      if (a === active || b === active) {
+        const from = a === active ? a : b;
+        const to = a === active ? b : a;
+        edges.push({ from, to, type: "less", color: "#C68A4F" });
+      }
+    });
+    return edges;
+  }, [active]);
+
+  // pulse animation keyframes (injected once)
+  const pulseStyle = `@keyframes vn-pulse { 0% { offset-distance: 0%; opacity: 1; } 80% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }`;
+
+  return (
+    <div className="v4-diagram-pair" style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 280 }}>
+        <style>{pulseStyle}</style>
+        {cannotLink.map(([a, b], i) => {
+          const pa = pos[a], pb = pos[b];
+          const isActive = active && (active === a || active === b);
+          return <line key={`c${i}`} x1={pa.x} y1={pa.y} x2={pb.x} y2={pb.y} stroke="#C2452A" strokeWidth={isActive ? 2.4 : 1.4} opacity={isActive ? 0.9 : 0.35} style={{ transition: "all 240ms var(--ease-out)" }} />;
+        })}
+        {lessLikely.map(([a, b], i) => {
+          const pa = pos[a], pb = pos[b];
+          const isActive = active && (active === a || active === b);
+          return <line key={`l${i}`} x1={pa.x} y1={pa.y} x2={pb.x} y2={pb.y} stroke="#C68A4F" strokeWidth={isActive ? 2.4 : 1.4} strokeDasharray="5 4" opacity={isActive ? 0.9 : 0.35} style={{ transition: "all 240ms var(--ease-out)" }} />;
+        })}
+        {/* animated pulse dots along edges from active node */}
+        {pulseEdges.map((edge, i) => {
+          const pa = pos[edge.from], pb = pos[edge.to];
+          const pathD = `M ${pa.x} ${pa.y} L ${pb.x} ${pb.y}`;
+          return (
+            <g key={`pulse-${pulseKey}-${i}`}>
+              <path id={`vn-path-${pulseKey}-${i}`} d={pathD} fill="none" stroke="none" />
+              <circle r="5" fill={edge.color} opacity="0" style={{ offsetPath: `path("${pathD}")`, animation: `vn-pulse 500ms ${i * 120}ms ease-out forwards` }} />
+              <circle r="3" fill={edge.color} opacity="0" style={{ offsetPath: `path("${pathD}")`, animation: `vn-pulse 500ms ${i * 120 + 100}ms ease-out forwards` }} />
+            </g>
+          );
+        })}
+        {nodes.map(n => {
+          const pt = pos[n.id];
+          const isActive = active === n.id;
+          const involved = isInvolved(n.id);
+          return (
+            <g key={n.id} onClick={() => handleClick(n.id)} onMouseEnter={() => !active && setActive(n.id)} onMouseLeave={() => !active && setActive(null)} style={{ cursor: "pointer" }}>
+              <circle cx={pt.x} cy={pt.y} r={isActive ? 24 : 20} fill={p.paper} stroke={isActive ? p.accent : involved ? p.ink : p.muted} strokeWidth={isActive ? 2.4 : 1.2} style={{ transition: "all 240ms var(--ease-out)" }} />
+              {isActive && <circle cx={pt.x} cy={pt.y} r={28} fill="none" stroke={p.accent} strokeWidth="1" opacity="0.3" style={{ transition: "all 240ms var(--ease-out)" }} />}
+              <text x={pt.x} y={pt.y + 4} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="9" fill={isActive ? p.accent : p.ink} style={{ pointerEvents: "none" }}>{n.id}</text>
+            </g>
+          );
+        })}
+        <text x={cx} y={cy + 4} textAnchor="middle" fontFamily="var(--f-ui)" fontSize="9" fill={p.muted}>{active ? `${active} constraints` : "click a marker"}</text>
+      </svg>
+      <div style={{ fontFamily: "var(--f-ui)", fontSize: 12, lineHeight: 1.55 }}>
+        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Constraint types</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "4px 0" }}>
+          <span style={{ width: 16, height: 2, background: "#C2452A", display: "inline-block" }} />
+          <span style={{ fontSize: 11, color: p.ink }}>cannot co-express</span>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "4px 0" }}>
+          <span style={{ width: 16, height: 2, background: "#C68A4F", display: "inline-block", borderBottom: "1px dashed #C68A4F" }} />
+          <span style={{ fontSize: 11, color: p.ink }}>unlikely to co-express</span>
+        </div>
+        <div style={{ marginTop: 12, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>
+          {active
+            ? `${active}: ${cannotLink.filter(([a,b]) => a===active||b===active).length} cannot-link, ${lessLikely.filter(([a,b]) => a===active||b===active).length} less-likely. Click again to deselect.`
+            : "Click a marker to see its constraints animate. CD66b has the most — neutrophils can't be lymphocytes."}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ConstraintEffect({ palette: p }) {
+  const [view, setView] = React.useState("before"); // "before" | "after"
+  // synthetic 2-D scatter: cells with cluster assignments
+  const cells = React.useMemo(() => {
+    let s = 33;
+    const rng = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+    const gauss = (mu, sd) => { const u1 = Math.max(1e-6, rng()), u2 = rng(); return mu + sd * Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2); };
+    const out = [];
+    // cluster 0: "no marker" — tight, bottom-left
+    for (let i = 0; i < 40; i++) out.push({ x: gauss(0.18, 0.05), y: gauss(0.18, 0.05), before: 0, after: 0 });
+    // cluster 1: CD4+ — mid-left
+    for (let i = 0; i < 25; i++) out.push({ x: gauss(0.35, 0.06), y: gauss(0.55, 0.07), before: 1, after: 1 });
+    // cluster 2: CD8+ — mid-right
+    for (let i = 0; i < 22; i++) out.push({ x: gauss(0.65, 0.06), y: gauss(0.50, 0.07), before: 2, after: 2 });
+    // cluster 3: CD66b — top-right
+    for (let i = 0; i < 18; i++) out.push({ x: gauss(0.75, 0.05), y: gauss(0.80, 0.05), before: 3, after: 3 });
+    // "violation" cells — before: wrongly merged with cluster 1; after: correctly split out
+    for (let i = 0; i < 8; i++) out.push({ x: gauss(0.42, 0.04), y: gauss(0.70, 0.05), before: 1, after: 4 });
+    // outlier cells — before: in cluster 0; after: reassigned or flagged
+    for (let i = 0; i < 5; i++) out.push({ x: gauss(0.50, 0.08), y: gauss(0.22, 0.04), before: 0, after: 5 });
+    return out;
+  }, []);
+
+  const clusterColors = [p.muted, "#5B7A4F", p.accent, "#C68A4F", "#C2452A", "#4F7A8B"];
+  const clusterLabels = ["no marker", "CD4+", "CD8+", "CD66b", "violation (split)", "outlier (flagged)"];
+  const W = 360, H = 280;
+  const px = (v) => 30 + v * (W - 50);
+  const py = (v) => H - 30 - v * (H - 50);
+
+  const activeClusters = view === "before" ? [0, 1, 2, 3] : [0, 1, 2, 3, 4, 5];
+
+  return (
+    <div className="v4-diagram-pair" style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
+      <div>
+        <div style={{ display: "flex", gap: 6, marginBottom: 8, fontFamily: "var(--f-mono)", fontSize: 10 }}>
+          {[["before", "standard"], ["after", "constraint-aware"]].map(([id, label]) => (
+            <button key={id} onClick={() => setView(id)} style={{ all: "unset", cursor: "pointer", padding: "2px 8px", border: `1px solid ${view === id ? p.accent : p.line}`, color: view === id ? p.accent : p.muted, letterSpacing: "0.04em" }}>{label}</button>
+          ))}
+        </div>
+        <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 260 }}>
+          {cells.map((c, i) => {
+            const k = view === "before" ? c.before : c.after;
+            const isViolation = view === "after" && (k === 4 || k === 5);
+            return (
+              <circle key={i} cx={px(c.x)} cy={py(c.y)} r={isViolation ? 4 : 3} fill={clusterColors[k]} opacity={0.8} stroke={isViolation ? p.ink : "none"} strokeWidth={isViolation ? 0.8 : 0} style={{ transition: "all 300ms var(--ease-out)" }} />
+            );
+          })}
+          {view === "before" && (
+            <g>
+              <ellipse cx={px(0.38)} cy={py(0.60)} rx={55} ry={45} fill="none" stroke="#C2452A" strokeWidth="1.2" strokeDasharray="4 3" opacity="0.6" />
+              <text x={px(0.38) + 58} y={py(0.60)} fontFamily="var(--f-mono)" fontSize="8" fill="#C2452A">violation?</text>
+            </g>
+          )}
+          <text x={px(0)} y={H - 6} fontFamily="var(--f-ui)" fontSize="9" fill={p.muted}>UMAP dimension 1 →</text>
+        </svg>
+      </div>
+      <div style={{ fontFamily: "var(--f-ui)", fontSize: 12, lineHeight: 1.55 }}>
+        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Clusters · toggle view</div>
+        {activeClusters.map(k => (
+          <div key={k} style={{ display: "flex", alignItems: "center", gap: 8, padding: "3px 0" }}>
+            <span style={{ width: 10, height: 10, borderRadius: "50%", background: clusterColors[k], flexShrink: 0 }} />
+            <span style={{ fontSize: 11, color: p.ink }}>{clusterLabels[k]}</span>
+          </div>
+        ))}
+        <div style={{ marginTop: 10, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>
+          {view === "before"
+            ? "Standard clustering merges biologically impossible cells into the CD4+ group. The dashed ring marks the violations."
+            : "Constraint-aware clustering splits violations out and flags outliers. The biology is respected."}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MethodRanking({ palette: p }) {
+  const [hover, setHover] = React.useState(null);
+  const methods = [
+    { id: "agg",      label: "Agglomerative",  score: 0.82, note: "Simple hierarchy. Best overall — no constraints needed.", color: "#5B7A4F" },
+    { id: "ours",     label: "Our approach",    score: 0.74, note: "Constraint-aware spectral. Beat most, not the simplest.", color: p.accent },
+    { id: "spectral", label: "Spectral",        score: 0.66, note: "Good at non-convex shapes. Sensitive to kernel tuning.", color: "#8B5A89" },
+    { id: "birch",    label: "BIRCH",           score: 0.62, note: "Fast. Tends to over-split in marker space.", color: "#C68A4F" },
+    { id: "kmeans",   label: "KMeans",          score: 0.55, note: "Assumes spherical clusters. Immune data is not spherical.", color: "#4F7A8B" },
+    { id: "meanshift",label: "Mean-Shift",      score: 0.48, note: "Bandwidth-sensitive. Missed small populations.", color: p.muted },
+    { id: "hdbscan",  label: "HDBSCAN",         score: 0.40, note: "Density-based. Labelled too many cells as noise.", color: p.muted },
+  ];
+  const W = 460, H = 240;
+  const left = 140, right = W - 30, top = 20, rowH = 28;
+
+  return (
+    <div className="v4-diagram-pair" style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 240 }}>
+        <text x={left - 4} y={14} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.muted}>method</text>
+        <text x={right} y={14} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.muted}>relative performance →</text>
+        <line x1={left} y1={top} x2={left} y2={top + methods.length * rowH} stroke={p.line} strokeWidth="0.5" />
+        {methods.map((m, i) => {
+          const y = top + i * rowH + rowH / 2;
+          const barEnd = left + m.score * (right - left);
+          const isHov = hover === m.id;
+          const isOurs = m.id === "ours";
+          return (
+            <g key={m.id} onMouseEnter={() => setHover(m.id)} onMouseLeave={() => setHover(null)} style={{ cursor: "pointer" }}>
+              <text x={left - 8} y={y + 4} textAnchor="end" fontFamily="var(--f-ui)" fontSize={isOurs ? 11 : 10} fill={isHov ? m.color : isOurs ? p.accent : p.ink} fontWeight={isOurs ? 600 : 400} style={{ transition: "fill 240ms" }}>{m.label}</text>
+              <line x1={left} y1={y} x2={barEnd} y2={y} stroke={m.color} strokeWidth={isHov || isOurs ? 3 : 2} strokeLinecap="round" opacity={isHov ? 1 : 0.7} style={{ transition: "all 240ms var(--ease-out)" }} />
+              <circle cx={barEnd} cy={y} r={isHov || isOurs ? 5 : 3.5} fill={m.color} opacity={isHov ? 1 : 0.85} style={{ transition: "all 240ms var(--ease-out)" }} />
+            </g>
+          );
+        })}
+      </svg>
+      <div style={{ fontFamily: "var(--f-ui)", fontSize: 12, lineHeight: 1.55 }}>
+        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Ranking · hover for detail</div>
+        <div style={{ minHeight: 60, fontSize: 11, color: hover ? p.ink : p.muted, transition: "color 200ms", lineHeight: 1.5 }}>
+          {hover ? methods.find(m => m.id === hover).note : "Hover a method to see what it got right — and what it missed."}
+        </div>
+        <div style={{ marginTop: 10, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>Scale is relative, not absolute. Our method sits second — ahead of the textbooks, behind the simplest hierarchy.</div>
+      </div>
+    </div>
   );
 }
 
@@ -3522,31 +3970,86 @@ function RecEngineSwarm({ palette: p }) {
 }
 
 function EnsembleConsensus({ palette: p }) {
-  const W = 480, H = 200;
-  const weights = [
-    { label: "Lyrics-Transformer", w: 0.30, color: p.accent },
-    { label: "Audio VAE",           w: 0.20, color: "#8B5A89" },
-    { label: "Graph node2vec",      w: 0.20, color: "#5B7A4F" },
-    { label: "Neural Collab",       w: 0.15, color: "#C68A4F" },
-    { label: "Contrastive SSL",     w: 0.15, color: "#4F7A8B" },
+  const engineDefs = [
+    { id: "lyrics", label: "Lyrics",       color: p.accent },
+    { id: "vae",    label: "Audio VAE",    color: "#8B5A89" },
+    { id: "graph",  label: "Graph",        color: "#5B7A4F" },
+    { id: "ncf",    label: "Collab",       color: "#C68A4F" },
+    { id: "ssl",    label: "SSL",          color: "#4F7A8B" },
   ];
-  const barH = 22, gap = 6;
-  const startY = 30;
-  const left = 150, barMax = 240;
+  const [weights, setWeights] = React.useState({ lyrics: 0.30, vae: 0.20, graph: 0.20, ncf: 0.15, ssl: 0.15 });
+  const [hover, setHover] = React.useState(null);
+
+  // synthetic song scores per engine (deterministic)
+  const songs = React.useMemo(() => {
+    let s = 77;
+    const r = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+    return [
+      { title: "All Too Well (10 Min)", scores: { lyrics: 0.92, vae: 0.55, graph: 0.78, ncf: 0.60, ssl: 0.45 } },
+      { title: "August",               scores: { lyrics: 0.65, vae: 0.88, graph: 0.50, ncf: 0.72, ssl: 0.80 } },
+      { title: "Anti-Hero",            scores: { lyrics: 0.40, vae: 0.70, graph: 0.85, ncf: 0.90, ssl: 0.55 } },
+      { title: "Cardigan",             scores: { lyrics: 0.85, vae: 0.75, graph: 0.42, ncf: 0.35, ssl: 0.68 } },
+      { title: "Cruel Summer",         scores: { lyrics: 0.50, vae: 0.82, graph: 0.65, ncf: 0.78, ssl: 0.90 } },
+      { title: "Mirrorball",           scores: { lyrics: 0.78, vae: 0.60, graph: 0.30, ncf: 0.42, ssl: 0.72 } },
+    ];
+  }, []);
+
+  // compute ensemble score for each song
+  const ranked = songs.map(song => {
+    const total = Object.values(weights).reduce((a, b) => a + b, 0) || 1;
+    const score = engineDefs.reduce((acc, e) => acc + (weights[e.id] / total) * song.scores[e.id], 0);
+    // consensus boost: count engines with score > 0.6
+    const surfaced = engineDefs.filter(e => song.scores[e.id] > 0.6).length;
+    const boost = surfaced >= 2 ? 0.10 : 0;
+    return { ...song, score: score + boost, surfaced };
+  }).sort((a, b) => b.score - a.score);
+
+  const sliderStyle = { width: "100%", height: 4 };
+
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 200 }}>
-      <text x="20" y="20" fontFamily="var(--f-mono)" fontSize="10" fill={p.muted}>final_score = Σ w_i · s_i  +  consensus_boost</text>
-      {weights.map((wt, i) => (
-        <g key={i}>
-          <text x={left - 8} y={startY + i * (barH + gap) + 15} textAnchor="end" fontFamily="var(--f-ui)" fontSize="11" fill={p.ink}>{wt.label}</text>
-          <rect x={left} y={startY + i * (barH + gap)} width={wt.w * barMax} height={barH} fill={wt.color} opacity="0.85" />
-          <text x={left + wt.w * barMax + 8} y={startY + i * (barH + gap) + 15} fontFamily="var(--f-mono)" fontSize="11" fill={p.muted}>{wt.w.toFixed(2)}</text>
-        </g>
-      ))}
-      {/* consensus boost callout */}
-      <line x1={left} y1={startY + 5 * (barH + gap) + 6} x2={left + barMax} y2={startY + 5 * (barH + gap) + 6} stroke={p.muted} strokeOpacity={0.25} />
-      <text x={left} y={startY + 5 * (barH + gap) + 22} fontFamily="var(--f-ui)" fontSize="11" fill={p.accent}>+ consensus boost (×0.10) for songs surfaced by ≥2 engines</text>
-    </svg>
+    <div className="v4-diagram-pair" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", alignItems: "start" }}>
+      <div>
+        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Engine weights · drag to rebalance</div>
+        {engineDefs.map(e => (
+          <div key={e.id} style={{ marginBottom: 10 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "var(--f-mono)", fontSize: 10, color: p.muted, marginBottom: 2 }}>
+              <span style={{ color: e.color }}>{e.label}</span>
+              <span style={{ color: p.ink }}>{weights[e.id].toFixed(2)}</span>
+            </div>
+            <input type="range" min={0} max={0.5} step={0.01} value={weights[e.id]} onChange={ev => setWeights(w => ({ ...w, [e.id]: +ev.target.value }))} style={{ ...sliderStyle, accentColor: e.color }} />
+          </div>
+        ))}
+        <div className="mono" style={{ fontSize: 9, color: p.muted, marginTop: 4 }}>final_score = Σ w_i · s_i + consensus_boost</div>
+      </div>
+      <div>
+        <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 8 }}>Ranking · updates live</div>
+        {ranked.map((song, i) => {
+          const isHov = hover === song.title;
+          return (
+            <div key={song.title} onMouseEnter={() => setHover(song.title)} onMouseLeave={() => setHover(null)} style={{ display: "flex", alignItems: "center", gap: 8, padding: "5px 0", borderBottom: `1px solid ${p.line}`, cursor: "pointer", transition: "background 200ms", background: isHov ? `color-mix(in oklch, ${p.accent} 6%, transparent)` : "transparent" }}>
+              <span className="mono" style={{ fontSize: 10, color: p.muted, width: 16 }}>{i + 1}</span>
+              <span style={{ flex: 1, fontFamily: "var(--f-ui)", fontSize: 11, color: p.ink, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{song.title}</span>
+              <span className="mono" style={{ fontSize: 10, color: p.accent }}>{song.score.toFixed(2)}</span>
+            </div>
+          );
+        })}
+        {hover && (() => {
+          const song = songs.find(s => s.title === hover);
+          if (!song) return null;
+          return (
+            <div style={{ marginTop: 8, fontSize: 10, color: p.muted, lineHeight: 1.5, fontFamily: "var(--f-ui)" }}>
+              {engineDefs.map(e => (
+                <span key={e.id} style={{ marginRight: 8 }}>
+                  <span style={{ color: e.color }}>{e.label}</span>
+                  <span className="mono" style={{ marginLeft: 3 }}>{song.scores[e.id].toFixed(2)}</span>
+                </span>
+              ))}
+            </div>
+          );
+        })()}
+        {!hover && <div style={{ marginTop: 8, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>Hover a song to see per-engine scores. Drag a weight to watch the ranking shift.</div>}
+      </div>
+    </div>
   );
 }
 
@@ -3558,11 +4061,11 @@ function TrendSignalFlow({ palette: p }) {
   }, []);
   const W = 520, H = 280;
   const sources = [
-    { id: "ig",   label: "Instagram saves",  color: p.accent },
-    { id: "tt",   label: "TikTok mentions",  color: "#8B5A89" },
-    { id: "rt",   label: "Resale velocity",  color: "#5B7A4F" },
-    { id: "se",   label: "Search trends",    color: "#C68A4F" },
-    { id: "ed",   label: "Editorial buzz",   color: "#4F7A8B" },
+    { id: "gt",   label: "Google Trends",     color: p.accent },
+    { id: "bs",   label: "Bluesky firehose", color: "#8B5A89" },
+    { id: "pt",   label: "Pinterest trends", color: "#5B7A4F" },
+    { id: "rd",   label: "Reddit mentions",  color: "#C68A4F" },
+    { id: "yt",   label: "YouTube volume",   color: "#4F7A8B" },
   ];
   // synthetic signal lines per source
   const path = (i, phase) => {
@@ -3695,9 +4198,9 @@ function JayaEssay({ palette: p }) {
         </span>
       </p>
 
-      <p>In the summer of 2022 I was a research intern with Prof. Jayaraman Valadi at FLAME University, working on protein-function classification with four other students.<span className="sidenote-number" style={{ color: p.accent }}>2</span> The task: pick a small subset of features (out of thousands per protein) such that a downstream classifier hits respectable accuracy without overfitting. JAYA had a reputation for being good at this. We wanted to know if we could make it better by giving it some of the parameters it had bragged about not needing.
+      <p>In the summer of 2022 I was a research intern with Prof. Jayaraman Valadi at FLAME University, working on feature selection for protein-function identification with four other students.<span className="sidenote-number" style={{ color: p.accent }}>2</span> The task: given a dataset with hundreds of attributes per protein, find the small subset that carries maximum information — and discard the rest before the classifier overfits on noise. JAYA had a reputation for being good at this kind of stochastic search. We wanted to know if a couple of targeted modifications could push it further.
         <span className="sidenote">
-          <strong style={{ color: p.accent }}>2.</strong> The other four were Nandini Gandhi, Oom Rawat, Hrushikesh Bhosale, and Aamod Sane. The poster ended up listing all of us — feature-selection work isn't really a one-person sport, even when each of us was running our own variant on a corner of the design space.
+          <strong style={{ color: p.accent }}>2.</strong> The other four were Nandini Gandhi, Oom Rawat, Hrushikesh Bhosale, and Aamod Sane. The poster ended up listing all of us — feature-selection work isn't really a one-person sport.
         </span>
       </p>
 
@@ -3728,154 +4231,244 @@ function JayaEssay({ palette: p }) {
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
-        <span>Adding crossover</span>
+        <span>Two modifications</span>
       </h2>
 
-      <p>Our modification was unsubtle. After each JAYA update, we ran the candidates through a one-point crossover with probability <span className="mono">p_c</span>, then through a per-feature flip mutation with probability <span className="mono">p_m</span>. We tried several combinations.</p>
+      <p>Our modifications were aimed at two things the original JAYA doesn't account for when doing feature selection.</p>
 
-      <p>The best variant — call it JAYA-XM — looked like this:</p>
+      <p>First, <strong>the fitness function</strong>. Vanilla JAYA, used for feature selection, will happily score a 50-feature subset and a 5-feature subset on accuracy alone — and accuracy almost always rewards more features, at least until the classifier overfits and falls off the cliff. We defined a fitness function that characterises the trade-off between subset size and accuracy, so the algorithm is rewarded for finding smaller subsets that still classify well. This was the modification that did the most work.</p>
 
-      <ol style={{ margin: "1.2rem 0", paddingLeft: "1.4rem", lineHeight: 1.7 }}>
-        <li>JAYA update on the whole population.</li>
-        <li>Pair candidates and crossover at a single random feature index, <span className="mono">p_c = 0.7</span>.</li>
-        <li>Per-feature flip mutation, <span className="mono">p_m = 0.05</span>.</li>
-        <li>Elitism: carry the top two candidates unchanged into the next generation.</li>
-      </ol>
+      <Figure caption="Feature selection as a trade-off: each dot is a candidate subset. x = how many features, y = how accurate. The dashed line is the fitness threshold — drag it to see which candidates survive. Over generations, the population drifts toward smaller, more accurate subsets." palette={p}>
+        <FeatureSelectionViz palette={p} />
+      </Figure>
 
-      <p>Now the algorithm has parameters. Three of them. The "parameter-free" branding is gone. The hope was that what we lost in elegance we'd gain in accuracy on real protein data.</p>
-
-      <p>The other modification was less visible but probably did more work: we changed the fitness function. Vanilla JAYA, as published, will happily score a 50-feature subset and a 5-feature subset on accuracy alone — and accuracy almost always rewards more features, at least until the classifier overfits and falls off the cliff. We rewrote the fitness to penalise subset size:</p>
-
-      <p style={{ textAlign: "center", margin: "1.4rem 0", fontFamily: "var(--f-mono)", fontSize: "0.95rem", color: p.ink, padding: "0.8rem", border: `1px dashed ${p.line}`, background: `color-mix(in oklch, ${p.paper} 80%, white)` }}>
-        fitness = α · accuracy − β · |subset| / N
-      </p>
-
-      <p>with <span className="mono">α</span> and <span className="mono">β</span> chosen so a one-point accuracy gain was worth roughly ten extra features. Below that ratio you were paying for noise. The trade-off was the actual contribution of the work; the crossover and mutation were the showy half.</p>
+      <p>Second, <strong>elitism</strong>: preserving the best individuals across iterations rather than letting them be overwritten by the stochastic update. Without it, a good solution found early can be lost to random drift in later generations. With it, the population has a floor — the best solution so far is always in the mix.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
         <span>Three protein datasets</span>
       </h2>
 
-      <p>We tested on three feature-rich protein-function datasets, each with its own personality:</p>
+      <p>We tested on three datasets, each posing a different feature-selection challenge:</p>
 
       <ol style={{ margin: "1.2rem 0", paddingLeft: "1.4rem", lineHeight: 1.7 }}>
-        <li><strong>Apolipoprotein identification</strong> — distinguishing apolipoproteins from other plasma proteins. Classic two-class, moderately separable.</li>
-        <li><strong>Cancer-related protein identification</strong> — proteins associated with tumour pathways. Class imbalance is the obvious failure mode here; a model that always says "no" can score in the 80s.</li>
-        <li><strong>Toxin protein identification</strong> — protein toxins versus non-toxic background. Smaller dataset, sharper signal in a few key residues.</li>
+        <li><strong>Apolipoprotein identification</strong> — distinguishing apolipoproteins from other plasma proteins.</li>
+        <li><strong>Cancer-related protein identification</strong> — proteins associated with tumour pathways.</li>
+        <li><strong>Toxin protein identification</strong> — protein toxins versus non-toxic background.</li>
       </ol>
 
-      <p>The classifier was a Random Forest, kept stable across runs so the differences would come from the feature selection, not the model. We compared vanilla JAYA, JAYA-XM, and a few intermediate variants — JAYA with crossover only (no mutation), JAYA with elitism only, and so on. Eight cells in the cross.</p>
-
-      <p>The headline result: JAYA-XM hit <strong style={{ color: p.accent }}>96% accuracy</strong> on the best of the three datasets, beating vanilla JAYA by a few points and matching the best published results we could find at the time. On the other two it was within a point of vanilla — the wins were dataset-dependent, which is a way of saying <em>your mileage may vary</em>.</p>
-
-      <p>What didn't make the poster, but should have: the fitness-function change cut subset sizes by roughly half on every dataset, with no measurable accuracy loss. So even on the runs where JAYA-XM "tied" vanilla on accuracy, it was using fewer features to get there. For a downstream user — someone trying to build a wet-lab assay around the selected markers — that's the win that actually matters.</p>
-
-      <p>We presented the work as a poster at the Indian Conference on Bioinformatics in October 2022, at VFSTR.<span className="sidenote-number" style={{ color: p.accent }}>4</span> The conversation around the poster mostly happened at the elbow — bioinformaticians asking what dataset, statisticians asking what's the variance over repeats, one optimization person quietly noting that we'd just rebuilt a 1990s memetic algorithm from a 2016 starting point. He was right. He also said it didn't matter. He was right about that too.
+      <p>The classifier was a Random Forest, kept stable across runs so the differences would come from the feature selection, not the model. The result: the improved JAYA obtained improvements either in the size of the selected attribute subset, or in accuracy, or both — depending on the dataset.<span className="sidenote-number" style={{ color: p.accent }}>4</span>
         <span className="sidenote">
-          <strong style={{ color: p.accent }}>4.</strong> Vignan's Foundation for Science, Technology and Research, Andhra Pradesh. The conference room had stunning posters, weak coffee, and a conversation density I haven't matched at any London meetup since.
+          <strong style={{ color: p.accent }}>4.</strong> The wins were dataset-dependent, which is a way of saying <em>your mileage may vary</em> — and also that feature selection is always a conversation between the algorithm and the structure of the data it's searching.
         </span>
       </p>
 
+      <p>We presented the work as poster PP-28 at INBIX'22, the Indian Conference on Bioinformatics, at VFSTR. The conclusion, as we wrote it: a simple algorithm like JAYA with an appropriate fitness function and preserved elite solutions can provide good performance in feature-selection tasks. That sentence is less exciting than it sounds, and more useful than it looks.</p>
+
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§04</span>
-        <span>Where it earned its keep</span>
-      </h2>
-
-      <p>Three modifications, three different reasons they helped — and only the third was the one I expected.</p>
-
-      <p><strong>Crossover</strong> let candidates swap whole columns of the feature mask, which on protein data effectively means "trade your guesses about whole functional regions of the molecule." When two candidates had each found a different useful chunk, crossover combined them; when both were on weak ground, it produced a weaker child and elitism quietly killed it. Useful. Not transformative.</p>
-
-      <p><strong>Mutation</strong> at <span className="mono">p_m = 0.05</span> was barely visible most of the time, then crucial in the last 20% of generations when the population was cosying up to a local optimum. Without it, vanilla JAYA-with-crossover plateaued early and stopped improving. With it, you got another two or three accuracy points after the curve had visibly flattened.</p>
-
-      <p><strong>The fitness penalty</strong> on subset size did the most work, and we almost left it out. The first version of JAYA-XM I implemented inherited vanilla's accuracy-only fitness; the subsets it selected were huge — averaging 40-something features on the apolipoprotein task — and barely better than smaller selections. Adding the size penalty pulled the average subset to 18 features without changing the accuracy. That's the kind of result you'd accept from a much fancier method.</p>
-
-      <p>The lesson, if there is one: when a "parameter-free" algorithm doesn't quite fit your problem, the temptation is to add the fancy operators back — crossover, mutation, all the genetic-algorithm furniture. But the highest-leverage knob is usually the objective itself. Re-asking what you're actually optimising for tends to outperform re-engineering how.</p>
-
-      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§05</span>
-        <span>What 96% means</span>
+        <span>What "improved" means</span>
       </h2>
 
       <p>Three years on, I think the lesson isn't really about JAYA. It's about "parameter-free" as a claim. A parameter-free algorithm makes a strong design choice — to not expose certain knobs to the user — and that choice is itself a parameter, just one you can't tune. When the choice is right, the simplicity is a gift. When it's wrong, you spend time grafting the missing knobs back on, and the elegance was always borrowed.</p>
 
       <PullQuote color={p.accent}>The honest version is to say what your algorithm is committed to, and what it leaves open.</PullQuote>
 
-      <p>JAYA is committed to a population, a best-and-worst signal, and a uniform sampling distribution. It leaves open everything else. We added back crossover and mutation because the problem we were solving has structure — features correlate, subsets matter — that a pure best/worst signal can't see.</p>
+      <p>The highest-leverage modification wasn't anything exotic — it was rewriting the objective. Re-asking <em>what</em> you're optimising for tends to outperform re-engineering <em>how</em>. The fitness function that penalises large subsets did more than any operator change could. Elitism kept the search honest. Together, they turned a parameter-free algorithm into a slightly-less-parameter-free algorithm that knew what it was looking for.</p>
 
-      <p>The repo is still up, lightly dusted, at <a href="https://github.com/shubhangithub/inbix22" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>github.com/shubhangithub/inbix22</a>.</p>
+      <p>The poster is still up at <a href="https://github.com/shubhangithub/inbix22" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>github.com/shubhangithub/inbix22</a>.</p>
 
       <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written between two stops at the British Library, on a Wednesday.</p>
     </>
   );
 }
 
-function BiomarkersEssay({ palette: p }) {
+function ThresholdEssay({ palette: p }) {
   return (
     <>
       <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
-        The slide came up at week six.<span className="sidenote-number" style={{ color: p.accent }}>1</span> A scatter plot of single cells from a tumour sample, axes labelled CD4 and CD8 — two well-known T-cell markers — and a clean four-quadrant story. The clinician giving the talk circled the upper-right corner with a laser pointer and called those cells "double-positive," like that settled the matter. It did not.
+        The slide came up at week six of the MFoCS.<span className="sidenote-number" style={{ color: p.accent }}>1</span> A scatter plot of single cells from a tumour sample, axes labelled CD4 and CD8. The clinician giving the talk circled a region with a laser pointer and called those cells "positive," like that settled the matter. What I wanted to ask — and didn't, because you learn quickly at Oxford that the second-year student is not the one who gets to question the consultant — was: <em>where, exactly, did you draw that line?</em>
         <span className="sidenote">
-          <strong style={{ color: p.accent }}>1.</strong> MFoCS thesis, Oxford · Lady Margaret Hall, 2024 — "Analysing and Advancing Automated Immune Biomarker Detection." Flow cytometry data on tumour-associated immune populations.
+          <strong style={{ color: p.accent }}>1.</strong> MFoCS thesis, Oxford · Lady Margaret Hall, 2024 — "Analysing and Advancing Automated Immune Biomarker Detection." Multiplex immunofluorescence data on tumour-associated immune populations.
         </span>
       </p>
 
-      <p>My thesis took that scatter plot seriously and asked a more boring question: <em>where exactly do you put the threshold?</em> Move the CD4 cutoff from 4.39 to 4.50 and the "double-positive" population shrinks by a fifth. Move it the other way and you import a slice of background noise. The biology is the same. The category is not.</p>
-
-      <PullQuote color={p.accent}>The biology is the same. The category is not.</PullQuote>
+      <p>That question became my thesis. Two tumour files, roughly ten thousand cells each, six immune markers per cell — and for each marker, a threshold that a pathologist had drawn by eye on a log-transformed intensity histogram. Move that line half a unit and a fifth of your "positive" population vanishes. Move it the other way and you import background noise. The biology hasn't changed. The category has.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
         <span>Six markers, one panel</span>
       </h2>
 
-      <p>The dataset was a flow cytometry panel of six markers — CD4, CD8, FoxP3, CTLA4, PD1, Ki67 — measured on tumour-infiltrating lymphocytes across a small cohort of patient samples.<span className="sidenote-number" style={{ color: p.accent }}>2</span> Each cell is a 6-vector. Each sample is roughly 20,000 cells. Each clinician wants a clean answer about which subpopulations are present and at what proportion.
+      <p>The dataset was a multiplex immunofluorescence panel of six markers — CD66b, CD56, CD4, CTLA-4, CD8, and CD20 — measured on tumour-infiltrating lymphocytes from two distinct patients.<span className="sidenote-number" style={{ color: p.accent }}>2</span> Each cell is a 6-vector of fluorescence intensities. The clinical workflow is to drop a threshold per marker and read off proportions in each gate. CD66b marks neutrophils. CD4 and CD8 split helper from cytotoxic T cells. CD20 picks out B cells. CTLA-4 flags exhausted T cells. CD56 marks natural killer cells. Together, the six markers give you a rough picture of how the immune system is engaging the tumour.
         <span className="sidenote">
-          <strong style={{ color: p.accent }}>2.</strong> CD4/CD8 split helper vs cytotoxic T cells. FoxP3 marks regulatory T cells. CTLA4 and PD1 are exhaustion markers. Ki67 is proliferation. Each tells a different fragment of a story about how the immune system is engaging the tumour.
+          <strong style={{ color: p.accent }}>2.</strong> Two tumour files from distinct patients, selected after discarding files with spatial artefacts from slide scanning. Each accompanied by a pathologist's ground truth — thresholds set by expert review of histograms.
         </span>
       </p>
 
-      <Figure caption="Cells in CD4 × CD8 space. The dashed lines are the clinical thresholds (4.39, 5.65). Slide them and the four populations resize." palette={p}>
-        <BiomarkerScatter palette={p} />
-      </Figure>
-
-      <p>The clinical workflow is to drop a threshold per marker — chosen by eye on log-transformed intensity histograms — and read off the proportions in each gate. It works. It also throws away most of the geometry. A cell sitting just inside the CD4+ gate and a cell sitting deep inside it count the same. Nuance lives below the resolution of a bin.</p>
+      <p>A cell sitting just inside the CD4+ gate and a cell sitting deep inside it count the same. The gate is binary. The biology is not. That gap is where the interesting problems live.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
-        <span>Three clusterings, one consensus</span>
+        <span>Four ways to draw a line</span>
       </h2>
 
-      <p>The cleaner question is unsupervised: <em>given the cells in 6-D marker space, what populations actually exist?</em> The answer depends on the clustering algorithm, and that's the problem. Birch is fast and tends to split. Agglomerative respects local density. Spectral catches non-convex shapes. Run them on the same cells and you get three different stories.</p>
+      <p>The question I spent most of the summer on: can an algorithm draw the threshold as well as the pathologist? I tried four approaches, each with a different idea about what "the right place" means.</p>
 
-      <p>So I ran all three, then took a consensus.<span className="sidenote-number" style={{ color: p.accent }}>3</span> A cell's cluster identity is the majority vote across the three methods, and the confidence is the agreement fraction. Cells where all three methods agree are robust. Cells where two-of-three agree are interesting boundary cases. Cells where each method picks a different label are background — or a real subpopulation that nobody's named yet.
+      <p><strong>Otsu</strong> looks for a valley. It treats the intensity histogram as two classes and finds the threshold that maximises the between-class variance — the point where the two populations are most cleanly separated. It works beautifully on markers with a clear bimodal distribution. On anything else, it guesses.</p>
+
+      <p><strong>IsoData</strong> iterates. Start with the mean intensity, split the data, recalculate each half's mean, set the threshold to the average of the two means, repeat until stable. It converges quickly and handles skewed distributions better than Otsu. Across most markers and both files, IsoData was the most consistently reliable method.</p>
+
+      <p><strong>A modified Gaussian mixture model</strong> fits two bell curves to the distribution and sets the threshold where the curves cross.<span className="sidenote-number" style={{ color: p.accent }}>3</span> For markers like CD56, where the distribution has an awkward shoulder rather than a clean valley, the GMM outperformed everything else. I ended up writing a custom variant that handled cases where the standard fit returned more than two components — collapsing the extras into the nearest Gaussian before picking the crossing point.
         <span className="sidenote">
-          <strong style={{ color: p.accent }}>3.</strong> Consensus clustering as proposed by Monti et al. (2003). The trick isn't picking the "right" algorithm — it's getting an honest measure of how stable a partition is across reasonable algorithmic choices.
+          <strong style={{ color: p.accent }}>3.</strong> Standard GMM fits K Gaussians via expectation-maximisation. The threshold is the point where the posterior probabilities of the two components are equal. The custom modification handles the K &gt; 2 case by merging components before thresholding.
         </span>
       </p>
 
-      <Figure caption="Three clustering methods on the same 8×8 patch, then a majority-vote consensus. Opacity in the rightmost panel encodes agreement strength." palette={p}>
-        <ConsensusGrid palette={p} />
+      <p><strong>Minimum cross-entropy</strong> takes an information-theoretic view: find the threshold that minimises the cross-entropy between the original histogram and a thresholded version of it. Elegant in theory. In practice, it was the most sensitive to distributional shape and the least stable across markers.</p>
+
+      <Figure caption="Pick a marker to see where each method draws the line. On well-separated markers (CD66b), they converge. On ambiguous ones (CTLA-4), they scatter." palette={p}>
+        <ThresholdMethods palette={p} />
       </Figure>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
-        <span>What CTLA4 told us</span>
+        <span>The marker that broke everything</span>
       </h2>
 
-      <p>The most useful single number from the project: a binary classifier for CTLA4-high cells, trained on the other five markers, hit an F1 of 0.70 at threshold tuning.<span className="sidenote-number" style={{ color: p.accent }}>4</span> Translation: from the easier-to-measure surface markers, you can recover most of an exhaustion signal that's normally read off a separate stain. That's not a discovery, but it's a small dent in the cost of running the panel.
+      <p>CTLA-4 broke every method I tried. Its expression distribution is not bimodal — it's flat, spread, ambiguous. There is no valley for Otsu to find. IsoData converges to a threshold that's stable but not particularly meaningful. The GMM fits two wide, overlapping Gaussians and picks a crossing point that's as much a coin flip as a classification. Minimum cross-entropy was worst of all.</p>
+
+      <Figure caption="CD66b (left) has a clean valley — all methods agree within a narrow band. CTLA-4 (right) has no valley. The methods scatter across the distribution, each guessing differently." palette={p}>
+        <CtlaDistribution palette={p} />
+      </Figure>
+
+      <p>The pathologist's threshold for CTLA-4 is the only stable anchor, and it's arrived at by looking at the histogram and making a judgement call.<span className="sidenote-number" style={{ color: p.accent }}>4</span> There's nothing wrong with that — it's how clinical immunology works, and it works. But it does mean that "automated detection" has a hard ceiling on this marker: you can automate the easy calls, and for the hard ones you're still relying on exactly the kind of expert judgement you were trying to replace.
         <span className="sidenote">
-          <strong style={{ color: p.accent }}>4.</strong> 5-fold cross-validation; gradient-boosted trees; class-balanced. F1 of 0.70 isn't clinical-grade, but for a six-marker panel on a small cohort it suggests the joint signal is real.
+          <strong style={{ color: p.accent }}>4.</strong> CTLA-4 is an immune checkpoint receptor — it down-regulates T-cell activation. Its expression is continuous and context-dependent, which is exactly why it resists binary gating. The biology is genuinely ambiguous, and the histogram reflects that.
         </span>
       </p>
 
-      <p>The bigger lesson — and the one I think generalises — is that thresholds in biology are decisions, not measurements. A scatter plot with a gate drawn on it looks like data. It is, partly. But the gate is a choice: someone, somewhere, decided that 4.39 was the boundary between negative and positive. That choice is rarely re-examined. Re-examining it was most of the thesis.</p>
+      <PullQuote color={p.accent}>You can automate the easy calls. For the hard ones, you're still relying on the judgement you were trying to replace.</PullQuote>
 
-      <PullQuote color={p.accent}>Thresholds in biology are decisions, not measurements.</PullQuote>
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§04</span>
+        <span>What 0.11 units hides</span>
+      </h2>
 
-      <p>The full thesis ("Analysing and Advancing Automated Immune Biomarker Detection") sits in the Oxford repository. The code lives at <a href="https://github.com/shubhangithub" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>github.com/shubhangithub</a>, in the <span className="mono">biomarker-discovery</span> repo (private — message me).</p>
+      <p>The number that stuck with me: move the CD4 gate from 4.39 to 4.50 — less than three percent of the intensity range — and roughly a fifth of the "positive" cells disappear. They were sitting just inside the boundary. They weren't confidently positive; they were categorically positive, which is a different thing entirely.</p>
 
-      <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written from the King's Cross flat, the day before viva.</p>
+      <Figure caption="Drag the gate on a CD4-like distribution. The positive/negative split updates in real-time. Small moves in the threshold produce large swings in the population count." palette={p}>
+        <GateSensitivity palette={p} />
+      </Figure>
+
+      <p>This isn't a failure of the methods. It's the nature of the problem. When the underlying distribution has cells clustering around the threshold — which it always does, because biological expression is continuous — any binary gate will be fragile at the boundary. The gate is not a measurement. It's a decision wearing a lab coat.</p>
+
+      <p>IsoData was the most reliable method overall. The custom GMM earned its complexity for markers with awkward shoulders. Otsu was fine when the valley was clean and useless when it wasn't. Minimum cross-entropy was a good idea that didn't survive contact with real data. And CTLA-4 taught me that some markers simply resist automation — not because the algorithms are bad, but because the biology is genuinely ambiguous.</p>
+
+      <PullQuote color={p.accent}>The gate is not a measurement. It's a decision wearing a lab coat.</PullQuote>
+
+      <p>The companion essay — <em>Clustering with a conscience</em> — picks up where thresholding stops: what happens when you try to classify cells by their full six-marker profiles, not one marker at a time.</p>
+
+      <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written from the King's Cross flat, on a Tuesday that felt like a Thursday.</p>
+    </>
+  );
+}
+
+function ConstraintClusterEssay({ palette: p }) {
+  return (
+    <>
+      <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
+        The first time I ran a standard clustering algorithm on the tumour data, it returned a cluster of cells that were simultaneously CD66b-positive and CD4-positive.<span className="sidenote-number" style={{ color: p.accent }}>1</span> Neutrophils that are also helper T cells. That doesn't happen in biology — CD66b is a granulocyte marker and CD4 is a lymphocyte marker, and a cell is one or the other, not both. The algorithm didn't know that. It saw two intensities that happened to be high and grouped them together, because statistically, they looked close.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>1.</strong> This is the second essay from my MFoCS thesis (Oxford, 2024). The first — <em>Where the gate falls</em> — covers the thresholding problem: where to draw the line on a single marker. This one is about what happens when you try to classify cells by all six markers at once.
+        </span>
+      </p>
+
+      <p>The thresholding essay ended with a question: what happens when you stop classifying one marker at a time and try to see the full six-dimensional profile? Clustering is the answer. It's also where everything gets harder, because the algorithms don't know immunology and the immunologists don't write clustering algorithms.</p>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
+        <span>Why not just threshold?</span>
+      </h2>
+
+      <p>Thresholding treats each marker independently. You draw a gate on CD4, another on CD8, another on CD66b, and classify each cell by its binary profile — the vector of which markers it's above-threshold for. It works, and for most of the clinical workflow it's enough.</p>
+
+      <p>But it misses relationships. A cell expressing both CD4 and CTLA-4 is a regulatory T cell in a specific activation state — that combination means something different from the sum of its parts.<span className="sidenote-number" style={{ color: p.accent }}>2</span> Clustering in six-dimensional marker space lets you find these profiles without pre-specifying what to look for. The idea is that the structure is already in the data; you just need an algorithm that can see it.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>2.</strong> CD4+CTLA-4+ cells are often regulatory T cells showing immune checkpoint activity — they're suppressing the immune response rather than helping it. The co-expression pattern is the signal, not either marker alone.
+        </span>
+      </p>
+
+      <p>The problem is that "see it" means very different things to different algorithms.</p>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
+        <span>What the textbook misses</span>
+      </h2>
+
+      <p>I ran seven clustering algorithms on the same data. The results were instructive in the way that a tour of failure modes usually is.</p>
+
+      <p>KMeans assumes clusters are spherical and roughly equal-sized. Immune cell populations are neither. HDBSCAN is density-based and good at finding arbitrarily shaped clusters, but it labelled too many cells as noise — cells that the pathologist would have confidently assigned. Mean-Shift was sensitive to its bandwidth parameter; a small change would either merge everything into two clusters or fragment into dozens. Affinity Propagation and BIRCH each had their strengths but shared a common weakness: they had no concept of biological plausibility.</p>
+
+      <p>The most consistent performer, to my surprise, was agglomerative clustering — the simplest hierarchical method. Bottom-up merging, Ward's linkage, nothing fancy. It didn't know immunology either, but it happened to respect the local density structure of the data well enough to produce biologically sensible clusters most of the time.</p>
+
+      <p>The gap between "most of the time" and "all of the time" is where the interesting work lives. Every standard method occasionally produced clusters containing biologically impossible co-expression patterns — cells that no pathologist would group together.</p>
+
+      <Figure caption="Six markers, six nodes. Red edges are pairs that cannot co-express (neutrophil markers on lymphocytes). Amber edges are pairs that rarely co-express. A standard clustering algorithm doesn't see any of this." palette={p}>
+        <ViolationNetwork palette={p} />
+      </Figure>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
+        <span>Teaching the distance metric</span>
+      </h2>
+
+      <p>The idea that became the novel contribution of the thesis was this: if you know that certain marker pairs can't co-express, encode that knowledge directly into the clustering algorithm.<span className="sidenote-number" style={{ color: p.accent }}>3</span> Not as a post-hoc filter — not "run the clustering and then throw away the impossible results" — but as a structural constraint that shapes how the algorithm measures similarity between cells in the first place.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>3.</strong> The approach draws on constrained clustering (Wagstaff, 2011) and spectral methods (Ng, Jordan, and Weiss, 2001). The specific combination — co-expression penalties embedded in the similarity matrix of a spectral clustering step — is, as far as I could find, new to this application.
+        </span>
+      </p>
+
+      <p>I built a penalty system with two tiers. "Cannot-link" constraints: CD66b and CD4 should never appear together in the same cell, so if two cells both express these markers, push them apart in similarity space. "Less-likely-to-link" constraints: CD4 and CD8 co-expression is rare but not impossible, so apply a lighter penalty. These penalties modify the similarity matrix before spectral clustering even begins — the algorithm sees a landscape where biologically impossible neighbours are further apart than the raw intensities suggest.</p>
+
+      <p>On top of this, I added a variance-based protection for the "no marker" cluster — the large population of cells expressing nothing above threshold.<span className="sidenote-number" style={{ color: p.accent }}>4</span> These cells are homogeneous and quiet; standard algorithms would sometimes merge them with an active population simply because the merge happened to minimise some global objective. The penalty ensured that merging the "no marker" cluster with a high-variance neighbour was expensive, preserving its integrity.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>4.</strong> The "no marker" cluster is often the largest single population in a tumour sample — cells the immune system hasn't engaged, or cells whose markers are below the detection threshold. Losing it to a merge destroys the baseline.
+        </span>
+      </p>
+
+      <Figure caption="Toggle between standard and constraint-aware clustering. In the standard view, the dashed ring marks biologically impossible cells merged into the wrong cluster. The constraint-aware view separates them." palette={p}>
+        <ConstraintEffect palette={p} />
+      </Figure>
+
+      <PullQuote color={p.accent}>The algorithm sees a landscape where biologically impossible neighbours are further apart than the raw intensities suggest.</PullQuote>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§04</span>
+        <span>The honest result</span>
+      </h2>
+
+      <p>The constraint-aware pipeline beat most of the textbook methods. It did not beat plain agglomerative clustering.</p>
+
+      <Figure caption="Relative performance of seven methods plus our approach. Scale is relative, not absolute. Our method sits second — ahead of the textbooks, behind the simplest hierarchy." palette={p}>
+        <MethodRanking palette={p} />
+      </Figure>
+
+      <p>That result deserves an honest reading. The novel algorithm introduces a pipeline with multiple stages — outlier detection, constraint penalties, variance protection, post-clustering refinement — and each stage has its own parameters.<span className="sidenote-number" style={{ color: p.accent }}>5</span> Nine user-defined knobs in total. Finding the right combination for a specific dataset requires extensive tuning, and I didn't solve that problem in the scope of the thesis. The parameter space we created is its own problem.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>5.</strong> Outlier contamination thresholds (2), constraint penalty weights (2), penalty damping (1), RBF kernel scale (1), variance threshold (1), variance ratio (1), target cluster count (1). Each influences the result; the interactions are not independent.
+        </span>
+      </p>
+
+      <p>Agglomerative clustering, by contrast, has one meaningful choice: the linkage criterion. Ward's linkage, the standard choice, happened to work well on this data. No constraints, no penalties, no pipeline. Sometimes the simplest method wins because it has the fewest ways to be wrong.</p>
+
+      <PullQuote color={p.accent}>Sometimes the simplest method wins because it has the fewest ways to be wrong.</PullQuote>
+
+      <p>I think the contribution isn't the ranking. It's the idea that domain knowledge — "these markers can't co-express" — can be encoded structurally, not just used as a post-hoc filter. The approach beat five of seven standard methods, and on the biological plausibility of individual clusters, it was arguably the best. The overall metric didn't reflect that because metrics reward getting everything approximately right, not getting the hard cases exactly right.</p>
+
+      <p>The thesis sits in the Oxford repository. The approach — constraints in the similarity matrix, variance-based cluster protection, staged outlier handling — is general enough for other mIF panels with different marker sets. Whether it's worth the parameter-tuning tax depends on how much you care about the hard cases.</p>
+
+      <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written from the Lady Margaret Hall library, the week after submission.</p>
     </>
   );
 }
@@ -3900,7 +4493,7 @@ function SixEnginesEssay({ palette: p }) {
       <p>I ended up with six recommendation models, each looking at a different facet of a song. Five base engines plus an ensemble that learned how to weight them.</p>
 
       <ol style={{ margin: "1.2rem 0", paddingLeft: "1.4rem", lineHeight: 1.7 }}>
-        <li><strong>Lyrics-Transformer.</strong> A small fine-tuned transformer over Genius-scraped lyrics. Cosine similarity in CLS-token space.</li>
+        <li><strong>Lyrics-Transformer.</strong> Sentence-BERT embeddings over Genius-scraped lyrics. Cosine similarity in the 384-D embedding space.</li>
         <li><strong>Audio VAE.</strong> A variational autoencoder over Spotify audio features, compressed to a 16-dimensional latent.<span className="sidenote-number" style={{ color: p.accent }}>2</span> Distance in latent space picks up sonic neighbours.</li>
         <li><strong>Graph node2vec.</strong> Build a song-co-listen graph, run node2vec for 64-D embeddings, retrieve nearest neighbours.</li>
         <li><strong>Neural Collab Filtering.</strong> Classic two-tower model on user-song interactions.</li>
@@ -3921,13 +4514,13 @@ function SixEnginesEssay({ palette: p }) {
         <span>The dataset that made it tractable</span>
       </h2>
 
-      <p>801 songs total: 341 from Taylor's discography (all eras, including Vault tracks), 460 from a hand-curated cross-artist set chosen to neighbour her in lyrical or sonic space.<span className="sidenote-number" style={{ color: p.accent }}>3</span> The cross-artist songs are what make the recommender useful — without them every output would be intra-catalogue, which is the same as suggesting an album shuffle.
+      <p>The engines run on Taylor's full discography — every era, including Vault tracks — with editorial bridges to neighbouring artists.<span className="sidenote-number" style={{ color: p.accent }}>3</span> The bridges are metadata, not embeddings: the six engines compute similarity within Taylor's catalogue, and the editorial layer maps outward to artists who share lyrical or sonic DNA. Without that layer, every recommendation would be intra-catalogue — suggesting an album shuffle dressed up as intelligence.
         <span className="sidenote">
-          <strong style={{ color: p.accent }}>3.</strong> Phoebe Bridgers, boygenius, Lorde, Aimee Mann, Joni Mitchell, Carole King for the lyrical neighbourhood. Jack Antonoff and Aaron Dessner productions for the sonic neighbourhood.
+          <strong style={{ color: p.accent }}>3.</strong> Editorial bridges to Kacey Musgraves, Maggie Rogers, Olivia Rodrigo, Gracie Abrams, Lana Del Rey, HAIM, Phoebe Bridgers, Carly Rae Jepsen, Paramore, and others. The mapping is hand-curated — each bridge has a reason.
         </span>
       </p>
 
-      <p>The original was an R/Shiny app I'd written in 2023 — pretty, slow, single-user. The 2025 rebuild is a TypeScript + Next.js + Python-API stack that loads in under a second and serves real recommendations in ~150ms.</p>
+      <p>The original was an R/Shiny app I'd written in 2023 — pretty, slow, single-user. The rebuild is a TypeScript + Next.js frontend on Vercel with a FastAPI backend on Render, serving real recommendations in under 200ms.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02b</span>
@@ -3947,9 +4540,9 @@ function SixEnginesEssay({ palette: p }) {
         <span>What the demo actually feels like</span>
       </h2>
 
-      <p>Type a song. Six engines return their picks in parallel. The UI shows you the ensemble's top 10, but lets you toggle "show me what each engine thought" so you can see the disagreements. The disagreements are usually the interesting part: the lyrics-transformer wants you to listen to <em>The Manuscript</em>; the audio VAE thinks you'd rather have <em>You're On Your Own, Kid</em>; the graph engine sends you to a Phoebe Bridgers deep cut. They're all defensible, in their own register.</p>
+      <p>Type a song. Six engines return their picks in parallel. The UI shows you the ensemble's top 10, but lets you toggle "show me what each engine thought" so you can see the disagreements. The disagreements are usually the interesting part: the lyrics engine wants you to listen to <em>The Manuscript</em>; the audio VAE thinks you'd rather have <em>You're On Your Own, Kid</em>; the graph engine sends you somewhere unexpected. They're all defensible, in their own register.</p>
 
-      <p>The site is at <a href="https://shubz-taylor-rec-engine.vercel.app" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>shubz-taylor-rec-engine.vercel.app</a>. Bring your own opinions about the Lover demos.</p>
+      <p>The site is at <a href="https://shubz-taylor-recommendation-engine.vercel.app" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>shubz-taylor-recommendation-engine.vercel.app</a>. Bring your own opinions about the Lover demos.</p>
 
       <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written on the train back from a Tortoise live show.</p>
     </>
@@ -3960,32 +4553,32 @@ function FashionEssay({ palette: p }) {
   return (
     <>
       <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
-        Fashion forecasting is what you call it when you're respectable.<span className="sidenote-number" style={{ color: p.accent }}>1</span> What it actually is, most weeks, is a few people in a Slack channel arguing about whether scarves-as-tops survives the autumn. The instinct is real. The methodology is improvised. We thought a prediction market sitting on top of a few timeseries models might make the instinct legible — to the people having it, and to the buyers who have to act on it.
+        Fashion forecasting is what you call it when you're respectable.<span className="sidenote-number" style={{ color: p.accent }}>1</span> What it actually is, most weeks, is someone arguing about whether barrel-leg jeans survive the autumn. The instinct is real. The methodology is improvised. I built a platform to make the instinct legible — to the person having it, and to anyone willing to put virtual money on it.
         <span className="sidenote">
-          <strong style={{ color: p.accent }}>1.</strong> "Trend" sits oddly in this sentence. The industry word; carrying both "what's in" and "what's measurable." A market should be able to handle both.
+          <strong style={{ color: p.accent }}>1.</strong> "Trend" sits oddly in this sentence. The industry word; carrying both "what's in" and "what's measurable." A platform should be able to handle both.
         </span>
       </p>
 
-      <p>The thing we're building is a markets-style platform for fashion micro-trends: scoot scarves, cherry-red bags, "tomato-girl summer," whatever has half-named itself in the last fortnight. Traders take positions on whether the trend continues. Prices reveal a soft consensus in advance of the resale data catching up. That's the bet.</p>
+      <p>The thing I've built is an ML-powered trend intelligence platform — part computer vision, part forecasting pipeline, part trading simulator. Upload an outfit photo and it tells you what you're wearing, what collection it's closest to, and what the colour palette says. Browse runway breakdowns from Prada to Miu Miu. Track hundreds of trend terms across categories. Then, if you're feeling brave, trade on them with virtual currency and see if your instincts beat the model's.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
         <span>Five signals, one composite</span>
       </h2>
 
-      <p>The forecasting half of the platform reads from five sources and merges them into a single trend index per item:</p>
+      <p>The forecasting half of the platform reads from five data sources and merges them into a composite trend score per term:</p>
 
       <ol style={{ margin: "1.2rem 0", paddingLeft: "1.4rem", lineHeight: 1.7 }}>
-        <li>Instagram saves and tagged-post velocity.</li>
-        <li>TikTok mentions and sound-overlay use.</li>
-        <li>Resale-platform velocity (Depop, Vestiaire, Vinted).</li>
-        <li>Search trend volume.</li>
-        <li>Editorial buzz — manually scored from a small set of trade publications.</li>
+        <li>Google Trends search volume (via trendspyg) — the broadest signal, noisiest at the long tail. 25% weight.</li>
+        <li>Bluesky firehose — real-time social mentions, completely open, no rate limits. 25% weight.</li>
+        <li>Pinterest trend endpoints — what's being saved and pinned in fashion categories. 20% weight.</li>
+        <li>Reddit — social mentions from fashion subreddits (r/fashion, r/femalefashionadvice, r/streetwear). 15% weight.</li>
+        <li>YouTube Data API — video counts and view velocity for fashion content. 15% weight.</li>
       </ol>
 
-      <p>None of these is reliable on its own. Instagram saves spike on a single influencer post; TikTok mentions over-index on Gen Z; resale velocity lags by ~3 weeks; search trends are noisy at the long tail; editorial buzz is biased. <em>Together</em>, in a Holt-Winters-style level + trend decomposition, they're tolerable.<span className="sidenote-number" style={{ color: p.accent }}>2</span>
+      <p>None of these is reliable on its own. Search volume spikes on a single celebrity sighting; Reddit threads over-index on whatever's contrarian this week; Bluesky is growing but the fashion community is still thin; Pinterest skews aspirational. <em>Together</em>, fed into a Holt exponential smoothing model, they're tolerable.<span className="sidenote-number" style={{ color: p.accent }}>2</span>
         <span className="sidenote">
-          <strong style={{ color: p.accent }}>2.</strong> Holt-Winters because we want a baseline level and a velocity term, but we don't (yet) have enough signal to model annual seasonality cleanly. When we do, we'll graduate to STL or Prophet.
+          <strong style={{ color: p.accent }}>2.</strong> Holt smoothing gives a baseline level and a velocity term — is this trend rising, flat, or fading? No seasonality modelling yet; the data isn't deep enough for that. 250-odd fashion terms tracked across colours, silhouettes, aesthetics, and fabrics.
         </span>
       </p>
 
@@ -3997,33 +4590,40 @@ function FashionEssay({ palette: p }) {
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
-        <span>Why a market sits on top</span>
+        <span>The Trend Exchange</span>
       </h2>
 
-      <p>A forecast is a number. A market is a number with skin in the game. The forecasting models give us a baseline; the market lets traders disagree, and price-in things the model can't see — a designer cameo at fashion week, a celebrity dating rumour, a TikTok creator pivoting genre.</p>
+      <p>A forecast is a number. A trade is a number with skin in the game — even when the skin is virtual. The platform's Trend Exchange gives you S$1,000 in StyleCoins and lets you go long on trends you think are rising or short on trends you think are fading. Your portfolio tracks P&L in real time against the model's own house predictions.</p>
 
-      <p>The market mechanism is LMSR — Hanson's logarithmic market scoring rule.<span className="sidenote-number" style={{ color: p.accent }}>3</span> The advantage over a CLOB (continuous limit order book) is that LMSR provides automatic liquidity even when the market is thin, which it always is at launch. The disadvantage is that the price function is exponential in net shares, so you have to think carefully about the liquidity parameter <span className="mono">b</span>.
+      <p>The pricing mechanism is LMSR — Hanson's logarithmic market scoring rule.<span className="sidenote-number" style={{ color: p.accent }}>3</span> Same maths as Manifold Markets. The advantage is automatic liquidity: even with a single trader, the market quotes a price. As you buy YES shares on "barrel-leg jeans," the price rises; the more you buy, the steeper it gets. The liquidity parameter <span className="mono">b</span> controls how much a given trade moves the market.
         <span className="sidenote">
-          <strong style={{ color: p.accent }}>3.</strong> Hanson, R. (2003). "Combinatorial Information Market Design." A market maker that quotes prices via a cost function C(q) = b · log(Σ exp(q_i / b)). Automatic liquidity, bounded loss, well-calibrated to subjective probabilities.
+          <strong style={{ color: p.accent }}>3.</strong> Hanson, R. (2003). "Combinatorial Information Market Design." The cost function is C(q) = b · log(Σ exp(q_i / b)). The platform uses b = 100, which means a 10-share buy on a 50/50 market moves the price about 5 points. Virtual currency, real accountability.
         </span>
       </p>
 
-      <Figure caption="Price for a YES share rises as net YES position grows. Steeper around p = 0.5, asymptotic at the bounds. b controls how much the price moves per unit volume." palette={p}>
+      <Figure caption="LMSR price for a YES share rises as net YES position grows. Steeper around p = 0.5, asymptotic at the bounds. b = 100 controls how much the price moves per unit volume." palette={p}>
         <LMSRPriceCurve palette={p} />
       </Figure>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
-        <span>What we're optimising for</span>
+        <span>What the camera sees</span>
       </h2>
 
-      <p>Calibration, mostly. A trend platform that says "this will be big" 100 times wants the things it predicted to actually be big roughly 70 times when its prices say 0.7, 30 times when its prices say 0.3. That's the only honest measure. Everything else — engagement, traders-on-platform, "feels right" — is downstream.</p>
+      <p>The feature I didn't plan to build but that ended up being the most fun: upload a photo of an outfit, and the platform breaks it down. Gemini Flash detects individual garments, classifies the style, extracts the colour palette, and matches what you're wearing against runway collections from eight major houses — Prada, Chanel, Saint Laurent, Gucci, Miu Miu, and three more. The Runway Decoder page does the same in reverse: browse a collection and see its colour distributions and silhouette breakdowns, cross-referenced against real-time search data.</p>
 
-      <p>The team is small. The data is sparse. The fashion calendar is unforgiving. But there's something genuinely interesting about the corner of the world where statistical timeseries models meet a community that has always priced things in private — at fashion-week dinners, in trade-publication editorial meetings, on group chats. We're trying to make that pricing public, and quantitative, without ruining what makes it work.</p>
+      <p>Computer vision on fashion data is more interesting than it sounds, because the categories are soft. A "barrel-leg jean" and a "wide-leg trouser" overlap in silhouette but not in cultural signal. The model has to learn that the distinction matters — and that it shifts every season.</p>
+
+      <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
+        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§04</span>
+        <span>What I'm optimising for</span>
+      </h2>
+
+      <p>Calibration, mostly. A trend platform that says "this will be big" 100 times wants the things it predicted to actually be big roughly 70 times when its confidence says 0.7, 30 times when its confidence says 0.3. The platform tracks this with Brier scores — public, falsifiable, with target dates. That's the only honest measure. Everything else — engagement, trades-on-platform, "feels right" — is downstream.</p>
 
       <PullQuote color={p.accent}>Calibration, mostly.</PullQuote>
 
-      <p>If you're an early-stage trader, designer, or buyer who wants to look at the alpha, write to me at <a href="mailto:shubhangis@duck.com" className="link-underline" style={{ color: p.accent }}>shubhangis@duck.com</a>.</p>
+      <p>The platform is live at <a href="https://fashion-web-psi.vercel.app" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>fashion-web-psi.vercel.app</a>. Next.js, serverless, deployed on Vercel's edge. The fashion calendar is unforgiving, the data is sparse, and the categories are soft — but there's something genuinely interesting about trying to make quantitative what an industry has always priced in private.</p>
 
       <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written between meetings, on a stolen Friday afternoon.</p>
     </>
@@ -4047,7 +4647,7 @@ function DraftEssay({ post, palette: p, onNavigate }) {
         While you wait
       </h2>
 
-      <p>You can read <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", "jaya"); }} className="link-underline" style={{ color: p.accent }}>JAYA, with crossover</a> — published — or have a look at the <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} className="link-underline" style={{ color: p.accent }}>annotated CV</a> for the underlying research.</p>
+      <p>You can read <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", "jaya"); }} className="link-underline" style={{ color: p.accent }}>JAYA, improved</a> — published — or have a look at the <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} className="link-underline" style={{ color: p.accent }}>annotated CV</a> for the underlying research.</p>
 
       <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— draft note, last touched {new Date().toISOString().slice(0, 10)}.</p>
     </>
@@ -4057,8 +4657,8 @@ function DraftEssay({ post, palette: p, onNavigate }) {
 function essayMeta(slug) {
   const meta = {
     "jaya": {
-      tags: "optimization, bioinformatics",
-      toc: ["Header", "Lede", "JAYA, briefly", "Adding crossover", "Three protein datasets", "Where it earned its keep", "What 96% means"],
+      tags: "optimisation, feature selection, bioinformatics",
+      toc: ["Header", "Lede", "JAYA, briefly", "Two modifications", "Three protein datasets", "What improved means"],
       sources: [
         ['[1] Rao, R. V. (2016). ', '"Jaya: A simple and new optimization algorithm." Int. J. Industrial Engineering Computations.'],
         ['[2] Gandhi, N., Sharma, S., Rawat, O., Bhosale, H., Sane, A., & Jayaraman, V. K. (2022). ', '"Improved Jaya algorithm for identification of protein functions." Poster PP-28, INBIX\'22, VFSTR.'],
@@ -4066,21 +4666,26 @@ function essayMeta(slug) {
       ],
       sidenotes: 4,
     },
-    "biomarkers": {
-      tags: "computational biology, clustering",
-      toc: ["Header", "Lede", "Six markers, one panel", "Three clusterings, one consensus", "What CTLA4 told us"],
+    "threshold-gate": {
+      tags: "computational biology, thresholding",
+      toc: ["Header", "Lede", "Six markers, one panel", "Four ways to draw a line", "The marker that broke everything", "What 0.11 units hides"],
       sources: [
-        ['[1] Monti, S., et al. (2003). ', '"Consensus Clustering: A resampling-based method." Machine Learning 52(1).'],
-        ['[2] ', "Tumour-infiltrating lymphocyte flow-cytometry panel — internal data, n ≈ 14 patient samples."],
-        ['[3] Sharma, S. (2024). ', "Analysing and Advancing Automated Immune Biomarker Detection. MFoCS thesis, Oxford · Lady Margaret Hall."],
+        ['[1] Otsu, N. (1979). ', '"A threshold selection method from gray-level histograms." IEEE Trans. Systems, Man, and Cybernetics.'],
+        ['[2] Sharma, S. (2024). ', "Analysing and Advancing Automated Immune Biomarker Detection. MFoCS thesis, Oxford · Lady Margaret Hall."],
+        ['[3] Wilson, C. M., et al. (2021). ', '"Challenges and opportunities in the statistical analysis of multiplex immunofluorescence data." Cancers 13(12).'],
       ],
       sidenotes: 4,
     },
-    "h3-confidence": {
-      tags: "geospatial, ml, calibration",
-      toc: ["Header", "Draft in progress"],
-      sources: [],
-      sidenotes: 0,
+    "constraint-clustering": {
+      tags: "computational biology, clustering",
+      toc: ["Header", "Lede", "Why not just threshold?", "What the textbook misses", "Teaching the distance metric", "The honest result"],
+      sources: [
+        ['[1] Ng, A., Jordan, M., & Weiss, Y. (2001). ', '"On spectral clustering: Analysis and an algorithm." NIPS 14.'],
+        ['[2] Ward, J. H. (1963). ', '"Hierarchical grouping to optimize an objective function." J. American Statistical Association.'],
+        ['[3] Sharma, S. (2024). ', "Analysing and Advancing Automated Immune Biomarker Detection. MFoCS thesis, Oxford · Lady Margaret Hall."],
+        ['[4] Wagstaff, K. L. (2011). ', '"Constrained clustering." Encyclopedia of Machine Learning, Springer.'],
+      ],
+      sidenotes: 5,
     },
     "merger-themes": {
       tags: "nlp, m&a",
@@ -4095,17 +4700,18 @@ function essayMeta(slug) {
         ['[1] Mikolov, T., et al. (2013). ', "Efficient estimation of word representations in vector space."],
         ['[2] Grover, A., & Leskovec, J. (2016). ', "node2vec: Scalable feature learning for networks. KDD."],
         ['[3] He, X., et al. (2017). ', "Neural Collaborative Filtering. WWW."],
-        ['[4] ', "shubz-taylor-rec-engine.vercel.app · 801 songs (341 + 460)."],
+        ['[4] ', "shubz-taylor-recommendation-engine.vercel.app · Taylor's full discography + editorial bridges."],
       ],
       sidenotes: 3,
     },
     "fashion-trends": {
-      tags: "forecasting, prediction markets",
-      toc: ["Header", "Lede", "Five signals, one composite", "Why a market sits on top", "What we're optimising for"],
+      tags: "forecasting, computer vision, LMSR",
+      toc: ["Header", "Lede", "Five signals, one composite", "The Trend Exchange", "What the camera sees", "What I'm optimising for"],
       sources: [
         ['[1] Hanson, R. (2003). ', '"Combinatorial Information Market Design." Information Systems Frontiers.'],
-        ['[2] Hyndman, R., & Athanasopoulos, G. ', "Forecasting: Principles and Practice — Holt-Winters chapter."],
-        ['[3] ', "Internal product spec, Fashion-Trends platform, 2025."],
+        ['[2] ', "fashion-web-psi.vercel.app — live platform, Next.js / Vercel edge / LMSR exchange."],
+        ['[3] ', "Google Trends (trendspyg), Bluesky firehose, Pinterest, Reddit, YouTube — five-source ingestion pipeline."],
+        ['[4] ', "Gemini 2.5 Flash — garment detection, colour palette extraction, runway matching."],
       ],
       sidenotes: 3,
     },
@@ -4203,7 +4809,8 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
             {(() => {
               switch (post.slug) {
                 case "jaya": return <JayaEssay palette={p} />;
-                case "biomarkers": return <BiomarkersEssay palette={p} />;
+                case "threshold-gate": return <ThresholdEssay palette={p} />;
+                case "constraint-clustering": return <ConstraintClusterEssay palette={p} />;
                 case "six-engines": return <SixEnginesEssay palette={p} />;
                 case "fashion-trends": return <FashionEssay palette={p} />;
                 default: return <DraftEssay post={post} palette={p} onNavigate={onNavigate} />;
@@ -4277,7 +4884,7 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
     { year: "2024", what: "MFoCS · Mathematical Foundations of Computer Science", where: "Oxford · Lady Margaret Hall", note: "Thesis: \"Analysing and Advancing Automated Immune Biomarker Detection.\" Modules included Geometric Deep Learning, Computational Game Theory, Quantum Information." },
     { year: "2023", what: "ML Engineering Intern, Natter", where: "London", note: "Built models for bullying, mental-distress, and spam detection on social text. A user-matching recommender on top." },
     { year: "2023", what: "BSc (Hons) Computer Science", where: "FLAME University", note: "CGPA 8.53/10. Dean's Roll of Honour: Rank 41 → Rank 24 → Rank 3 across years." },
-    { year: "2022", what: "Research intern · JAYA algorithm + protein function ID", where: "Prof. Jayaraman Valadi", note: "Modified the JAYA optimizer with crossover/mutation; one variant hit 96% accuracy. Poster at the Indian Conference on Bioinformatics 2022 (VFSTR)." },
+    { year: "2022", what: "Research intern · JAYA algorithm + protein function ID", where: "Prof. Jayaraman Valadi", note: "Improved the JAYA optimizer with a fitness trade-off and elitism for feature selection on protein identification datasets. Poster PP-28 at INBIX'22 (VFSTR)." },
     { year: "2021", what: "Data Analyst & Researcher, Centre for Knowledge Alternatives", where: "Pune", note: "Cultural mapping of Kolhapur district for the Discover India Project. Tableau, government datasets, sector reports." },
     { year: "2020", what: "Co-founder, UnisphereCo", where: "Hyderabad", note: "Online platform for the undergraduate-application process — mentors from 50+ universities, 200+ attendees per session." },
     { year: "2019", what: "Founder, PrintedCraft", where: "Bangalore", note: "Personalised printing — built a python connector to a cloud product DB for real-time promotions." },
@@ -4285,9 +4892,9 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
 
   const builds = [
     { name: "Orion intelligence platform", scope: "founding-eng", role: "data infra, ML pipelines, backend services in Python + Golang", year: "2025 —" },
-    { name: "fashion-web — trend prediction & speculation market", scope: "deployed · solo", role: "Next.js 16 / TS / Postgres / Pinecone — multi-source pipeline (Reddit, Bluesky, YouTube, editorial), composite scoring, Holt-Winters forecasts, portfolios + leaderboards", year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
+    { name: "fashion-web — ML trend intelligence + LMSR exchange", scope: "deployed · solo", role: "Next.js / TS / Vercel edge / Neon Postgres — five-source ingestion (Google Trends, Bluesky firehose, Pinterest, Reddit, YouTube), Holt smoothing forecasts, LMSR prediction market (b=100) with StyleCoins, Gemini 2.5 Flash CV for garment detection + runway matching, Brier-scored house predictions, hundreds of tracked terms", year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
     { name: "platypus-learn — AI learning platform", scope: "deployed · solo", role: "Next.js / Supabase / Resend — ingests PDFs and YouTube, generates courses with Claude, weekly goals dashboard", year: "2025 —", url: "https://platypus-learn.vercel.app" },
-    { name: "shubz-taylor-rec-engine", scope: "open", role: "six engines (lyrics-transformer, audio VAE 384→16D, graph node2vec, neural collab, contrastive SSL, ensemble) on 801 songs · 341 Taylor + 460 cross-artist · TS rebuild of the R/Shiny original", year: "2026", url: "https://shubz-taylor-rec-engine.vercel.app" },
+    { name: "shubz-taylor-rec-engine", scope: "open", role: "six engines (Sentence-BERT lyrics, audio VAE 384→16D, graph node2vec 64D, neural collab filtering, contrastive SSL, weighted ensemble) on Taylor's full discography + editorial bridges · Next.js 14 + FastAPI · TS rebuild of the R/Shiny original", year: "2026", url: "https://shubz-taylor-recommendation-engine.vercel.app" },
     { name: "inbix22 — JAYA + crossover", scope: "open", role: "feature-selection variants for protein function ID; 96% on the best dataset", year: "2022", url: "https://github.com/shubhangithub/inbix22" },
     { name: "MFoCS thesis: immune biomarkers", scope: "academic", role: "consensus clustering (Birch + Agglomerative + Spectral) on 6-marker flow cytometry · CTLA4 surface-marker recovery at F1 = 0.70", year: "2024" },
     { name: "Flipkart-Walmart merger NLP", scope: "academic", role: "theme extraction + sentiment mining — SpaCy, NLTK, Gensim, TextBlob", year: "2024" },
