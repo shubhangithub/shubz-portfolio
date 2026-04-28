@@ -1706,16 +1706,38 @@ function HomeV4({ onNavigate, setCursorColor }) {
               <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("contact"); }} className="link-underline">contact</a>
             </div>
 
-            {/* keyboard hints — desktop only (no keyboard on phones) */}
+            {/* SPECIMEN PAIR — above the fold, side by side */}
+            <div style={{ marginTop: isMobile ? "1.6rem" : "2.2rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: isMobile ? "0.6rem" : "1rem", alignItems: "start" }}>
+              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.7rem 0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
+                <GradientDescentViz
+                  width={isMobile ? 160 : 260}
+                  height={isMobile ? 120 : 180}
+                  strokeColor={p.ink}
+                  mutedColor={p.muted}
+                  accentColor={p.accent}
+                  onStateChange={() => {}}
+                />
+              </div>
+              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.7rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
+                <SeasonalSpecimen
+                  width={isMobile ? 160 : 260}
+                  height={isMobile ? 120 : 180}
+                  accent={p.accent}
+                  ink={p.ink}
+                  muted={p.muted}
+                  line={p.line}
+                />
+              </div>
+            </div>
+
+            {/* keyboard hints — desktop only */}
             {!isMobile && (
-              <div className="mono" style={{ marginTop: 28, fontSize: 11, color: p.muted, display: "flex", gap: 18, flexWrap: "wrap" }}>
+              <div className="mono" style={{ marginTop: 18, fontSize: 11, color: p.muted, display: "flex", gap: 18, flexWrap: "wrap" }}>
                 <span><kbd style={kbdStyle(p)}>g</kbd> <kbd style={kbdStyle(p)}>w</kbd> writing</span>
                 <span><kbd style={kbdStyle(p)}>g</kbd> <kbd style={kbdStyle(p)}>n</kbd> now</span>
                 <span><kbd style={kbdStyle(p)}>?</kbd> shortcuts</span>
               </div>
             )}
-
-            {/* specimens moved to right rail */}
           </div>
 
           {/* portrait + motif — col 10-12 desktop · stacked below body on mobile */}
@@ -1733,15 +1755,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
               <span>2026 · London</span>
             </div>
 
-            {/* small motif as adjacent figure — desktop only */}
-            {!isMobile && (
-              <div style={{ marginTop: "1rem", border: `1px solid ${p.line}`, padding: "0.7rem", color: p.accent, position: "relative", maxWidth: 220, marginLeft: "auto" }}>
-                <FourierMotif shape="hex" size={140} density={18} strokeColor={p.accent} trailColor={`rgba(63,75,126,0.55)`} epicycleColor={`rgba(0,0,0,0.08)`} />
-                <div className="mono" style={{ marginTop: 6, color: p.muted, fontSize: 10 }}>fig.02 — fourier(hex), 18 epicycles</div>
-              </div>
-            )}
-
-            {/* specimens live on /now — rail stays clean with portrait + motif only */}
+            {/* motif removed — specimens are in the hero now */}
           </div>
         </div>
       </section>
@@ -1754,32 +1768,6 @@ function HomeV4({ onNavigate, setCursorColor }) {
         </div>
         <div>
           {POSTS.filter(p => p.slug !== "merger-themes").slice(0, 4).map((post, i) => <PreciseRow key={post.slug} post={post} palette={p} onNavigate={onNavigate} index={i} total={POSTS.filter(p => p.slug !== "merger-themes").length} isMobile={isMobile} />)}
-        </div>
-      </section>
-
-      {/* SPECIMEN PAIR — visual interlude between writing and now */}
-      <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "0 1rem 1.6rem" : "0 1.6rem 2rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(12, 1fr)", gap: isMobile ? "0.8rem" : "1.6rem" }}>
-          <div style={{ gridColumn: isMobile ? "1" : "3 / span 4", border: `1px solid ${p.line}`, padding: isMobile ? "0.6rem" : "0.8rem 0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-            <GradientDescentViz
-              width={isMobile ? 160 : 320}
-              height={isMobile ? 120 : 200}
-              strokeColor={p.ink}
-              mutedColor={p.muted}
-              accentColor={p.accent}
-              onStateChange={() => {}}
-            />
-          </div>
-          <div style={{ gridColumn: isMobile ? "2" : "7 / span 4", border: `1px solid ${p.line}`, padding: isMobile ? "0.6rem" : "0.8rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-            <SeasonalSpecimen
-              width={isMobile ? 160 : 320}
-              height={isMobile ? 120 : 200}
-              accent={p.accent}
-              ink={p.ink}
-              muted={p.muted}
-              line={p.line}
-            />
-          </div>
         </div>
       </section>
 
@@ -1828,11 +1816,13 @@ function HomeV4({ onNavigate, setCursorColor }) {
               { name: "shubz-taylor-rec-engine", role: "six recommendation engines for Taylor's catalogue", year: "2026", url: "https://shubz-taylor-recommendation-engine.vercel.app" },
               { name: "platypus-learn", role: "AI learning platform — ingest PDFs + YouTube, generate courses", year: "2025 —", url: "https://platypus-learn.vercel.app" },
             ].map((b, i) => (
-              <div key={i} style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "180px 1fr 70px", gap: isMobile ? "0.2rem" : "1.4rem", padding: "0.9rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline" }}>
-                <a href={b.url} target="_blank" rel="noreferrer" className="link-underline" style={{ fontFamily: "var(--f-ui)", fontSize: 13, color: p.accent }}>{b.name} ↗</a>
-                <span style={{ fontFamily: "var(--f-body)", fontSize: "0.95rem", color: p.ink, lineHeight: 1.5 }}>{b.role}</span>
-                {!isMobile && <span className="mono" style={{ color: p.muted, fontSize: 11, textAlign: "right" }}>{b.year}</span>}
-              </div>
+              <a key={i} href={b.url} target="_blank" rel="noreferrer" style={{ display: "block", padding: isMobile ? "1rem" : "1.1rem 1.2rem", marginBottom: "0.6rem", background: `color-mix(in oklch, ${p.paper} 80%, white)`, border: `1px solid ${p.line}`, transition: "border-color 240ms var(--ease-out)", color: p.ink }} onMouseEnter={(e) => e.currentTarget.style.borderColor = p.accent} onMouseLeave={(e) => e.currentTarget.style.borderColor = p.line}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 4 }}>
+                  <span className="mono" style={{ fontSize: 12, color: p.accent, letterSpacing: "0.04em" }}>{b.name} ↗</span>
+                  <span className="mono" style={{ fontSize: 10, color: p.muted }}>{b.year}</span>
+                </div>
+                <span style={{ fontFamily: "var(--f-body)", fontSize: "0.95rem", color: p.muted, lineHeight: 1.5 }}>{b.role}</span>
+              </a>
             ))}
           </div>
         </div>
