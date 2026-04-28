@@ -1649,9 +1649,6 @@ function HomeV4({ onNavigate, setCursorColor }) {
         {!isMobile && (
           <span style={{ display: "inline-flex", justifyContent: "flex-end", gap: 14, alignItems: "center" }}>
             <span className="mono">v.2026.04 · {hh}:{mm}:{ss} GMT</span>
-            <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("contact"); }} style={{ display: "inline-block", width: 28, height: 28, borderRadius: "50%", overflow: "hidden", border: `1.5px solid ${p.line}`, flexShrink: 0, transition: "border-color 240ms var(--ease-out)" }} onMouseEnter={(e) => e.currentTarget.style.borderColor = p.accent} onMouseLeave={(e) => e.currentTarget.style.borderColor = p.line}>
-              <img src="assets/portrait.png" alt="Contact" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-            </a>
           </span>
         )}
         <style>{`@keyframes blip { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }`}</style>
@@ -1686,8 +1683,12 @@ function HomeV4({ onNavigate, setCursorColor }) {
             </div>
           )}
 
-          {/* col 3-9 — display + lede (or full width on mobile) */}
-          <div style={{ gridColumn: isMobile ? "1" : "3 / span 7" }}>
+          {/* col 3-9 — portrait + display + lede (or full width on mobile) */}
+          <div style={{ gridColumn: isMobile ? "1" : "3 / span 10" }}>
+            {/* circle portrait — above title, angled left */}
+            <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("contact"); }} style={{ display: "inline-block", width: isMobile ? 44 : 52, height: isMobile ? 44 : 52, borderRadius: "50%", overflow: "hidden", border: `2px solid ${p.line}`, marginBottom: isMobile ? "0.8rem" : "1rem", transform: "rotate(-6deg)", transition: "border-color 240ms var(--ease-out), transform 300ms var(--ease-out)" }} onMouseEnter={(e) => { e.currentTarget.style.borderColor = p.accent; e.currentTarget.style.transform = "rotate(0deg)"; }} onMouseLeave={(e) => { e.currentTarget.style.borderColor = p.line; e.currentTarget.style.transform = "rotate(-6deg)"; }}>
+              <img src="assets/portrait.png" alt="Shubhangi — click for contact" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </a>
             <h1 className="display" style={{ fontSize: "clamp(2rem, 7.5vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 1.02 }}>
               <LetterReveal stagger={26}>I build geospatial ML </LetterReveal>
               <LetterReveal stagger={26} delay={460}>at Orion —</LetterReveal>
@@ -1704,61 +1705,73 @@ function HomeV4({ onNavigate, setCursorColor }) {
 
             {/* nav links removed — top nav bar handles navigation */}
 
-            {/* SPECIMENS (left) + BUILDS (right) — side by side in main column */}
-            <div style={{ marginTop: isMobile ? "1.6rem" : "2.2rem", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "1rem" : "1.2rem", alignItems: "start" }}>
-              {/* specimens stacked on the left */}
-              <div style={{ display: "grid", gap: isMobile ? "0.6rem" : "0.8rem" }}>
-                <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem 0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-                  <GradientDescentViz
-                    width={isMobile ? 280 : 240}
-                    height={isMobile ? 160 : 150}
-                    strokeColor={p.ink}
-                    mutedColor={p.muted}
-                    accentColor={p.accent}
-                    onStateChange={() => {}}
-                  />
-                </div>
-                <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-                  <SeasonalSpecimen
-                    width={isMobile ? 280 : 240}
-                    height={isMobile ? 160 : 150}
-                    accent={p.accent}
-                    ink={p.ink}
-                    muted={p.muted}
-                    line={p.line}
-                  />
-                </div>
+            {/* FIGURES — side by side */}
+            <div style={{ marginTop: isMobile ? "1.6rem" : "2.2rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: isMobile ? "0.6rem" : "1rem" }}>
+              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem 0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
+                <GradientDescentViz
+                  width={isMobile ? 160 : 280}
+                  height={isMobile ? 120 : 190}
+                  strokeColor={p.ink}
+                  mutedColor={p.muted}
+                  accentColor={p.accent}
+                  onStateChange={() => {}}
+                />
               </div>
-              {/* builds on the right */}
-              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "1rem" : "1.2rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-                <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 12, display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                  <span>Selected builds</span>
-                  <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} className="link-underline" style={{ color: p.accent, fontSize: 10 }}>full CV →</a>
-                </div>
-                {[
-                  { name: "fashion-web", role: "ML trend intelligence + LMSR exchange", url: "https://fashion-web-psi.vercel.app" },
-                  { name: "taylor-rec-engine", role: "six recommendation engines", url: "https://shubz-taylor-recommendation-engine.vercel.app" },
-                  { name: "platypus-learn", role: "AI learning platform", url: "https://platypus-learn.vercel.app" },
-                ].map((b, i) => (
-                  <a key={i} href={b.url} target="_blank" rel="noreferrer" style={{ display: "block", padding: "0.55rem 0", borderTop: i > 0 ? `1px solid ${p.line}` : "none", fontFamily: "var(--f-ui)", color: p.ink, lineHeight: 1.5 }}>
-                    <span className="mono" style={{ color: p.accent, fontSize: 11 }}>{b.name} ↗</span>
-                    <div style={{ color: p.muted, fontSize: 12, marginTop: 2 }}>{b.role}</div>
-                  </a>
-                ))}
+              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
+                <SeasonalSpecimen
+                  width={isMobile ? 160 : 280}
+                  height={isMobile ? 120 : 190}
+                  accent={p.accent}
+                  ink={p.ink}
+                  muted={p.muted}
+                  line={p.line}
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* WRITING — promoted to first section */}
+      {/* WRITING + BUILDS — side by side */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "1.6rem 1rem 2rem" : "2rem 1.6rem 2.4rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.4rem", alignItems: "baseline" }}>
-          <h2 className="display" style={{ gridColumn: isMobile ? "1" : "3 / span 5", fontSize: isMobile ? "1.7rem" : "1.9rem", margin: 0, fontWeight: 380 }}>Recent writing</h2>
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} className="link-underline caps" style={{ gridColumn: isMobile ? "1" : "10 / span 3", color: p.accent, alignSelf: "baseline", fontFamily: "var(--f-ui)", fontSize: 12 }}>all essays →</a>
-        </div>
-        <div>
-          {POSTS.filter(p => p.slug !== "merger-themes").slice(0, 4).map((post, i) => <PreciseRow key={post.slug} post={post} palette={p} onNavigate={onNavigate} index={i} total={POSTS.filter(p => p.slug !== "merger-themes").length} isMobile={isMobile} />)}
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "3fr 2fr", gap: isMobile ? "2rem" : "2.4rem", alignItems: "start" }}>
+          {/* LEFT — essays */}
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "1.2rem" }}>
+              <h2 className="display" style={{ fontSize: isMobile ? "1.7rem" : "1.9rem", margin: 0, fontWeight: 380 }}>Recent writing</h2>
+              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} className="link-underline caps" style={{ color: p.accent, fontFamily: "var(--f-ui)", fontSize: 12 }}>all essays →</a>
+            </div>
+            {POSTS.filter(x => x.slug !== "merger-themes").slice(0, 4).map((post, i) => (
+              <a key={post.slug} href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
+                 style={{ display: "block", padding: "0.9rem 0", borderTop: `1px solid ${p.line}`, color: p.ink }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "1rem" }}>
+                  <h3 className="display" style={{ fontSize: "1.25rem", margin: 0, fontWeight: 380 }}>{post.title}</h3>
+                  <span className="mono" style={{ color: p.muted, fontSize: 11, flexShrink: 0 }}>{post.minutes}m</span>
+                </div>
+                <p style={{ fontSize: "0.85rem", lineHeight: 1.5, color: p.muted, margin: "0.3rem 0 0", maxWidth: "50ch" }}>{post.dek}</p>
+              </a>
+            ))}
+          </div>
+          {/* RIGHT — builds */}
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "1.2rem" }}>
+              <h2 className="display" style={{ fontSize: isMobile ? "1.7rem" : "1.9rem", margin: 0, fontWeight: 380 }}>Selected builds</h2>
+              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} className="link-underline caps" style={{ color: p.accent, fontFamily: "var(--f-ui)", fontSize: 12 }}>annotated CV →</a>
+            </div>
+            {[
+              { name: "fashion-web", role: "ML trend intelligence + LMSR exchange", year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
+              { name: "taylor-rec-engine", role: "six recommendation engines", year: "2026", url: "https://shubz-taylor-recommendation-engine.vercel.app" },
+              { name: "platypus-learn", role: "AI learning platform", year: "2025 —", url: "https://platypus-learn.vercel.app" },
+            ].map((b, i) => (
+              <a key={i} href={b.url} target="_blank" rel="noreferrer" style={{ display: "block", padding: "0.9rem 0", borderTop: `1px solid ${p.line}`, color: p.ink }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                  <span className="mono" style={{ color: p.accent, fontSize: 12 }}>{b.name} ↗</span>
+                  <span className="mono" style={{ color: p.muted, fontSize: 11 }}>{b.year}</span>
+                </div>
+                <div style={{ fontSize: "0.85rem", color: p.muted, marginTop: 3, lineHeight: 1.5 }}>{b.role}</div>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -1794,7 +1807,6 @@ function HomeV4({ onNavigate, setCursorColor }) {
         );
       })()}
 
-      {/* builds moved to right rail */}
       </main>
 
       <Footer palette={p} line="Made in London." />
