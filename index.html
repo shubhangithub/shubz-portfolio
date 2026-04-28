@@ -1723,11 +1723,11 @@ function HomeV4({ onNavigate, setCursorColor }) {
                   </div>
                 </div>
               </div>
-              {/* RIGHT column: tall seasonal specimen — stretch to match left column */}
-              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)`, alignSelf: "stretch", display: "flex", flexDirection: "column" }}>
+              {/* RIGHT column: seasonal specimen — matches left column height via grid stretch */}
+              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)`, overflow: "hidden" }}>
                 <SeasonalSpecimen
                   width={isMobile ? 280 : 280}
-                  height={isMobile ? 200 : 400}
+                  height={isMobile ? 200 : 340}
                   accent={p.accent}
                   ink={p.ink}
                   muted={p.muted}
