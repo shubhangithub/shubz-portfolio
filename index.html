@@ -756,13 +756,16 @@ function GradientDescentViz({
   const [ariaState, setAriaState] = useState("descending");
 
   // loss: multi-basin landscape  f(x,y) = sin(2.5x)cos(2.5y) + 0.12(x²+y²)
-  const R = 2.5;
+  // Rx/Ry scale with aspect ratio so craters stay circular, we just get MORE of them when wider
+  const aspect = width / height;
+  const Ry = 2.5;
+  const Rx = Ry * aspect;
   const fn  = (x, y) => Math.sin(2.5 * x) * Math.cos(2.5 * y) + 0.12 * (x * x + y * y);
   const gfx = (x, y) => { const h = 0.0005; return (fn(x + h, y) - fn(x - h, y)) / (2 * h); };
   const gfy = (x, y) => { const h = 0.0005; return (fn(x, y + h) - fn(x, y - h)) / (2 * h); };
 
-  const toCanvas = (x, y) => [(x + R) / (2 * R) * width, (y + R) / (2 * R) * height];
-  const fromCanvas = (cx, cy) => [cx / width * (2 * R) - R, cy / height * (2 * R) - R];
+  const toCanvas = (x, y) => [(x + Rx) / (2 * Rx) * width, (y + Ry) / (2 * Ry) * height];
+  const fromCanvas = (cx, cy) => [cx / width * (2 * Rx) - Rx, cy / height * (2 * Ry) - Ry];
 
   // parse hex colour to [r,g,b]
   function hexRGB(hex) {
@@ -844,8 +847,8 @@ function GradientDescentViz({
         const lr = 0.025;
         s.x -= lr * gx;
         s.y -= lr * gy;
-        s.x = Math.max(-R, Math.min(R, s.x));
-        s.y = Math.max(-R, Math.min(R, s.y));
+        s.x = Math.max(-Rx, Math.min(Rx, s.x));
+        s.y = Math.max(-Ry, Math.min(Ry, s.y));
         s.trail.push([s.x, s.y]);
         if (s.trail.length > 400) s.trail.shift();
         s.step++;
@@ -953,7 +956,7 @@ function GradientDescentViz({
     <canvas ref={canvasRef} width={width} height={height}
       onClick={handleClick}
       onTouchStart={handleTouch}
-      style={{ width, height, display: "block", cursor: "crosshair" }}
+      style={{ width: "100%", height, display: "block", cursor: "crosshair" }}
       aria-label={"Gradient descent on a loss landscape — " + ariaState + ". Click to restart from a new point."}
       role="img" tabIndex={0}
     />
@@ -1710,7 +1713,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
                 </p>
                 <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem 0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
                   <GradientDescentViz
-                    width={isMobile ? 280 : 600}
+                    width={isMobile ? 280 : 480}
                     height={isMobile ? 160 : 170}
                     strokeColor={p.ink}
                     mutedColor={p.muted}
