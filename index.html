@@ -1661,7 +1661,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
         <style>{`@keyframes blip { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }`}</style>
       </div>
 
-      <Nav palette={p} onNavigate={onNavigate} />
+      <PreciseNav palette={p} current="home" onNavigate={onNavigate} />
 
       {/* HERO — 12-col on desktop · single-column stack on mobile */}
       <main id="main" tabIndex={-1} style={{ display: "block" }}>
