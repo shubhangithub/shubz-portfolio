@@ -3624,7 +3624,7 @@ function GateSensitivity({ palette: p }) {
           <span style={{ color: p.muted }}>positive</span><span>{pos} cells · {posPct.toFixed(1)}%</span>
           <span style={{ color: p.muted }}>negative</span><span>{neg} cells · {negPct.toFixed(1)}%</span>
         </div>
-        <div style={{ marginTop: 12, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>Drag the gate from 4.39 to 4.50 — a fifth of the "positive" population vanishes.</div>
+        <div style={{ marginTop: 12, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>Drag the gate by half a unit — watch the positive count shift.</div>
       </div>
     </div>
   );
@@ -4293,7 +4293,7 @@ function ThresholdEssay({ palette: p }) {
         </span>
       </p>
 
-      <p>That question became my thesis. Two tumour files, roughly ten thousand cells each, six immune markers per cell — and for each marker, a threshold that a pathologist had drawn by eye on a log-transformed intensity histogram. Move that line half a unit and a fifth of your "positive" population vanishes. Move it the other way and you import background noise. The biology hasn't changed. The category has.</p>
+      <p>That question became my thesis. Two tumour files from two distinct patients — one around 9,500 cells, the other around 5,500 — six immune markers per cell, and for each marker, a threshold that a pathologist had drawn by eye on a log-transformed intensity histogram. Move that line half a unit and the "positive" population shifts noticeably. Move it the other way and you import background noise. The biology hasn't changed. The category has.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
@@ -4317,7 +4317,7 @@ function ThresholdEssay({ palette: p }) {
 
       <p><strong>Otsu</strong> looks for a valley. It treats the intensity histogram as two classes and finds the threshold that maximises the between-class variance — the point where the two populations are most cleanly separated. It works beautifully on markers with a clear bimodal distribution. On anything else, it guesses.</p>
 
-      <p><strong>IsoData</strong> iterates. Start with the mean intensity, split the data, recalculate each half's mean, set the threshold to the average of the two means, repeat until stable. It converges quickly and handles skewed distributions better than Otsu. Across most markers and both files, IsoData was the most consistently reliable method.</p>
+      <p><strong>IsoData</strong> iterates. Start with the mean intensity, split the data, recalculate each half's mean, set the threshold to the average of the two means, repeat until stable. It converges quickly and handles skewed distributions better than Otsu. It became the default thresholding method for later stages of the thesis — not because it won every marker, but because it lost gracefully on the ones it didn't win.</p>
 
       <p><strong>A modified Gaussian mixture model</strong> fits two bell curves to the distribution and sets the threshold where the curves cross.<span className="sidenote-number" style={{ color: p.accent }}>3</span> For markers like CD56, where the distribution has an awkward shoulder rather than a clean valley, the GMM outperformed everything else. I ended up writing a custom variant that handled cases where the standard fit returned more than two components — collapsing the extras into the nearest Gaussian before picking the crossing point.
         <span className="sidenote">
@@ -4355,7 +4355,7 @@ function ThresholdEssay({ palette: p }) {
         <span>What 0.11 units hides</span>
       </h2>
 
-      <p>The number that stuck with me: move the CD4 gate from 4.39 to 4.50 — less than three percent of the intensity range — and roughly a fifth of the "positive" cells disappear. They were sitting just inside the boundary. They weren't confidently positive; they were categorically positive, which is a different thing entirely.</p>
+      <p>The number that stuck with me: move the CD4 gate from 4.39 to 4.50 — less than three percent of the intensity range — and the "positive" population shrinks visibly. The cells that vanish were sitting just inside the boundary. They weren't confidently positive; they were categorically positive, which is a different thing entirely.</p>
 
       <Figure caption="Drag the gate on a CD4-like distribution. The positive/negative split updates in real-time. Small moves in the threshold produce large swings in the population count." palette={p}>
         <GateSensitivity palette={p} />
