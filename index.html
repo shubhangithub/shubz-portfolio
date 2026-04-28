@@ -1722,8 +1722,8 @@ function HomeV4({ onNavigate, setCursorColor }) {
             <div style={{ marginTop: isMobile ? "1.6rem" : "1.8rem", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "0.8rem" : "1rem", alignItems: "stretch" }}>
               {/* LEFT column: lede + fig.1 stacked */}
               <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? "0.8rem" : "1rem" }}>
-                <p className="prose" style={{ fontSize: isMobile ? "1rem" : "1.08rem", lineHeight: 1.7, margin: 0, maxWidth: "52ch", color: p.ink }}>
-                  I'm a founding engineer at <em>Orion</em>, where I build geospatial ML indexed on H3 hexagons — software that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths at Oxford and physics at FLAME. I am also, in inconvenient order: a figure skater, a Thames rower at dawn, and an essayist who thinks interactive diagrams are the point.
+                <p className="prose" style={{ fontSize: isMobile ? "1rem" : "1.08rem", lineHeight: 1.7, margin: 0, maxWidth: "52ch", color: p.ink 
+                  I'm a founding engineer at <em>Orion</em>, where I build geospatial ML that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths (dabbled in some physics) at Oxford and computer science at FLAME. I am also, in inconvenient order: a Thames rower on Sundays, active in STEM ed outreach, a budding pianist, a fashion enthusiast, and very into interactive diagrams.
                 </p>
                 <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem 0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
                   <GradientDescentViz
