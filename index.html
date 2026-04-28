@@ -1757,6 +1757,32 @@ function HomeV4({ onNavigate, setCursorColor }) {
         </div>
       </section>
 
+      {/* SPECIMEN PAIR — visual interlude between writing and now */}
+      <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "0 1rem 1.6rem" : "0 1.6rem 2rem", position: "relative", zIndex: 2 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(12, 1fr)", gap: isMobile ? "0.8rem" : "1.6rem" }}>
+          <div style={{ gridColumn: isMobile ? "1" : "3 / span 4", border: `1px solid ${p.line}`, padding: isMobile ? "0.6rem" : "0.8rem 0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
+            <GradientDescentViz
+              width={isMobile ? 160 : 320}
+              height={isMobile ? 120 : 200}
+              strokeColor={p.ink}
+              mutedColor={p.muted}
+              accentColor={p.accent}
+              onStateChange={() => {}}
+            />
+          </div>
+          <div style={{ gridColumn: isMobile ? "2" : "7 / span 4", border: `1px solid ${p.line}`, padding: isMobile ? "0.6rem" : "0.8rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
+            <SeasonalSpecimen
+              width={isMobile ? 160 : 320}
+              height={isMobile ? 120 : 200}
+              accent={p.accent}
+              ink={p.ink}
+              muted={p.muted}
+              line={p.line}
+            />
+          </div>
+        </div>
+      </section>
+
       {/* NOW — horizontal ticker */}
       {(() => {
         const nowItems = [
