@@ -714,359 +714,261 @@ function WaveField({ width = 720, height = 260, color = "currentColor", style = 
 Object.assign(window, { FourierMotif, DoublePendulum, WaveField });
 
 
-/* ===== components/quantum-cat.jsx ===== */
+/* ===== components/gradient-descent.jsx ===== */
 /* global React */
 /* =======================================================================
-   SchrödingerCat
-   A real two-state quantum system rendered as a single-line cat.
+   GradientDescentViz
+   An interactive 2D loss-landscape with a ball that follows ∇f.
 
    Math:
-     |ψ⟩ = α|alive⟩ + β|dead⟩    with |α|² + |β|² = 1
-     α, β ∈ ℂ   (we track real + imag parts so phase is real)
+     f(x, y) = sin(2.5x)·cos(2.5y) + 0.12(x² + y²)
+     Multiple local minima on [-2.5, 2.5]².
+     Ball follows −∇f with a fixed learning rate, leaving a trail.
 
-   Free evolution:  Hamiltonian H = (ℏω/2) σ_x  (a small Rabi rotation),
-   so amplitudes oscillate between |alive⟩ and |dead⟩ — the box rocks
-   between life and death over ~12s when nobody is looking.
-
-   "Observation" (mouse hover/down on the box):
-     We perform continuous weak measurement. Each frame we pull the
-     state vector toward whichever pointer is currently winning, with a
-     measurement strength k that scales with how long you've held.
-     A small stochastic kick decides which outcome you get — biased by
-     the live |α|², |β|². Releasing the cursor restores unitary
-     evolution (the cat re-superposes).
+   Interaction:
+     Click anywhere on the canvas to restart from that position.
+     The ball descends, converges, and waits for a new click.
 
    Visual:
-     We draw both cats simultaneously as single-line strokes; their
-     opacities are exactly |α|² and |β|².  When the system is in true
-     superposition both are ~50% visible — the cat is *literally both*.
-     A live wavefunction trace runs along the box floor (Re(ψ) and
-     Im(ψ) as two phasors).  A meter at the bottom reads the live
-     probabilities to two decimals.
+     Heatmap of f rendered in accent colour at varying opacity
+     (dark = valley, light = ridge). Quantised to eight bands for a
+     contour-line effect. Trail in strokeColor; ball in accentColor.
+     Readout at bottom: loss value, step count, convergence flag.
    ======================================================================= */
 
 // useEffect/useRef/useState are imported by motif.jsx at top of bundle
 
-// --- complex helpers ---
-function cmul(a, b) { return { re: a.re * b.re - a.im * b.im, im: a.re * b.im + a.im * b.re }; }
-function cadd(a, b) { return { re: a.re + b.re, im: a.im + b.im }; }
-function cscale(a, s) { return { re: a.re * s, im: a.im * s }; }
-function cabs2(a) { return a.re * a.re + a.im * a.im; }
-
-function SchrodingerCat({
+function GradientDescentViz({
   width = 260,
   height = 220,
   strokeColor = "currentColor",
   mutedColor = "rgba(0,0,0,0.35)",
   accentColor = "#3F4B7E",
-  paperColor = "transparent",
   onStateChange,
 }) {
-  const svgRef = useRef(null);
+  const canvasRef = useRef(null);
+  const bgRef = useRef(null);
   const stateRef = useRef({
-    alpha: { re: 1 / Math.SQRT2, im: 0 },
-    beta:  { re: 1 / Math.SQRT2, im: 0 },
-    measureStrength: 0,   // 0 = unitary, 1 = projective
-    pointerNear: 0,       // 0..1 — proximity / hold strength
-    collapsedTo: null,    // 'alive' | 'dead' | null
-    holdTime: 0,
+    x: 1.6, y: -1.2, trail: [], step: 0, converged: false,
     lastT: performance.now(),
-    psiTrace: [],         // history of (Re α, Im α, Re β, Im β)
   });
-  const [, force] = useState(0); // rerender driver
-  const [ariaState, setAriaState] = useState("superposed");
+  const [, force] = useState(0);
+  const [ariaState, setAriaState] = useState("descending");
 
-  // pointer handling — proximity, click, hold
-  const interactRef = useRef({ inside: false, down: false });
-  useEffect(() => {
-    const svg = svgRef.current;
-    if (!svg) return;
-    const onEnter = () => { interactRef.current.inside = true; };
-    const onLeave = () => { interactRef.current.inside = false; interactRef.current.down = false; };
-    const onDown = () => { interactRef.current.down = true; };
-    const onUp = () => { interactRef.current.down = false; };
-    const onMove = (e) => {
-      const r = svg.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width;
-      const y = (e.clientY - r.top) / r.height;
-      const dx = x - 0.5, dy = y - 0.5;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      stateRef.current.pointerNear = Math.max(0, 1 - dist * 1.6);
-    };
-    svg.addEventListener("mouseenter", onEnter);
-    svg.addEventListener("mouseleave", onLeave);
-    svg.addEventListener("mousedown", onDown);
-    window.addEventListener("mouseup", onUp);
-    svg.addEventListener("mousemove", onMove);
-    // touch
-    const onTouchStart = () => { interactRef.current.inside = true; interactRef.current.down = true; };
-    const onTouchEnd = () => { interactRef.current.down = false; interactRef.current.inside = false; };
-    svg.addEventListener("touchstart", onTouchStart, { passive: true });
-    svg.addEventListener("touchend", onTouchEnd);
-    return () => {
-      svg.removeEventListener("mouseenter", onEnter);
-      svg.removeEventListener("mouseleave", onLeave);
-      svg.removeEventListener("mousedown", onDown);
-      window.removeEventListener("mouseup", onUp);
-      svg.removeEventListener("mousemove", onMove);
-      svg.removeEventListener("touchstart", onTouchStart);
-      svg.removeEventListener("touchend", onTouchEnd);
-    };
-  }, []);
+  // loss: multi-basin landscape  f(x,y) = sin(2.5x)cos(2.5y) + 0.12(x²+y²)
+  const R = 2.5;
+  const fn  = (x, y) => Math.sin(2.5 * x) * Math.cos(2.5 * y) + 0.12 * (x * x + y * y);
+  const gfx = (x, y) => { const h = 0.0005; return (fn(x + h, y) - fn(x - h, y)) / (2 * h); };
+  const gfy = (x, y) => { const h = 0.0005; return (fn(x, y + h) - fn(x, y - h)) / (2 * h); };
 
-  // simulation loop
+  const toCanvas = (x, y) => [(x + R) / (2 * R) * width, (y + R) / (2 * R) * height];
+  const fromCanvas = (cx, cy) => [cx / width * (2 * R) - R, cy / height * (2 * R) - R];
+
+  // parse hex colour to [r,g,b]
+  function hexRGB(hex) {
+    const h = hex.replace("#", "");
+    return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+  }
+
+  // pre-render heatmap (static — loss landscape doesn't change)
   useEffect(() => {
-    let raf = 0;
+    const bg = document.createElement("canvas");
+    bg.width = width; bg.height = height;
+    const ctx = bg.getContext("2d");
+    const img = ctx.createImageData(width, height);
+
+    // compute loss range
+    let lo = Infinity, hi = -Infinity;
+    const grid = new Float32Array(width * height);
+    for (let py = 0; py < height; py++) {
+      for (let px = 0; px < width; px++) {
+        const [x, y] = fromCanvas(px, py);
+        const v = fn(x, y);
+        grid[py * width + px] = v;
+        if (v < lo) lo = v;
+        if (v > hi) hi = v;
+      }
+    }
+
+    const [cr, cg, cb] = hexRGB(accentColor);
+    const span = hi - lo || 1;
+    for (let py = 0; py < height; py++) {
+      for (let px = 0; px < width; px++) {
+        const idx = (py * width + px);
+        const t = (grid[idx] - lo) / span;             // 0 = valley, 1 = ridge
+        const q = Math.floor(t * 8) / 8;               // quantise → contour bands
+        const pidx = idx * 4;
+        img.data[pidx]     = cr;
+        img.data[pidx + 1] = cg;
+        img.data[pidx + 2] = cb;
+        img.data[pidx + 3] = Math.round((1 - q) * 105 + 18);
+
+        // contour edges: darken pixels where the band changes
+        if (px > 0) {
+          const prevQ = Math.floor(((grid[idx - 1] - lo) / span) * 8);
+          const curQ  = Math.floor(t * 8);
+          if (prevQ !== curQ) {
+            img.data[pidx + 3] = Math.min(255, img.data[pidx + 3] + 60);
+          }
+        }
+        if (py > 0) {
+          const aboveQ = Math.floor(((grid[(py - 1) * width + px] - lo) / span) * 8);
+          const curQ   = Math.floor(t * 8);
+          if (aboveQ !== curQ) {
+            img.data[pidx + 3] = Math.min(255, img.data[pidx + 3] + 60);
+          }
+        }
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+    bgRef.current = bg;
+  }, [width, height, accentColor]);
+
+  // animation loop
+  useEffect(() => {
+    let raf;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let frameCount = 0;
 
     function tick(now) {
       const s = stateRef.current;
-      let dt = (now - s.lastT) / 1000;
+      const dt = Math.min((now - s.lastT) / 1000, 0.1);
       s.lastT = now;
-      if (dt > 0.1) dt = 0.1;
+      frameCount++;
 
-      // --- target measurement strength based on interaction ---
-      let target = 0;
-      if (interactRef.current.down) target = 1;
-      else if (interactRef.current.inside) target = 0.45;
-      else target = s.pointerNear * 0.18;
-
-      // hold time grows the longer you're pressing — increases collapse rate
-      if (interactRef.current.down) s.holdTime = Math.min(2, s.holdTime + dt);
-      else s.holdTime = Math.max(0, s.holdTime - dt * 0.8);
-
-      s.measureStrength += (target - s.measureStrength) * Math.min(1, dt * 4);
-
-      // --- 1. Unitary evolution under H = (ω/2) σ_x ---
-      // d/dt |ψ⟩ = -i H |ψ⟩
-      // For σ_x: dα/dt = -i (ω/2) β,   dβ/dt = -i (ω/2) α
-      const omega = 0.55; // rad/s — slow, contemplative
-      const dAlpha = cscale(cmul({ re: 0, im: -omega / 2 }, s.beta), dt);
-      const dBeta  = cscale(cmul({ re: 0, im: -omega / 2 }, s.alpha), dt);
-      let alpha = cadd(s.alpha, dAlpha);
-      let beta  = cadd(s.beta, dBeta);
-
-      // also a tiny phase precession on each (σ_z term) for visual life
-      const phaseRot = (theta) => ({ re: Math.cos(theta), im: Math.sin(theta) });
-      alpha = cmul(alpha, phaseRot(0.7 * dt));
-      beta  = cmul(beta,  phaseRot(-0.4 * dt));
-
-      // --- 2. Continuous weak measurement (Lindblad-ish, simplified) ---
-      // If we're observing, push the state toward an eigenstate of σ_z
-      // with strength k. Pick which eigenstate stochastically each frame
-      // weighted by the live probabilities — this is faithful to weak
-      // measurement (a quantum trajectory).
-      const k = s.measureStrength;
-      if (k > 0.01) {
-        const pA = cabs2(alpha), pB = cabs2(beta);
-        // outcome — sample once we've passed a threshold
-        if (k > 0.94 && s.collapsedTo === null) {
-          s.collapsedTo = Math.random() < pA / (pA + pB) ? "alive" : "dead";
+      // step every 2 frames for visible motion
+      if (!s.converged && frameCount % 2 === 0) {
+        const gx = gfx(s.x, s.y);
+        const gy = gfy(s.x, s.y);
+        const gnorm = Math.sqrt(gx * gx + gy * gy);
+        const lr = 0.025;
+        s.x -= lr * gx;
+        s.y -= lr * gy;
+        s.x = Math.max(-R, Math.min(R, s.x));
+        s.y = Math.max(-R, Math.min(R, s.y));
+        s.trail.push([s.x, s.y]);
+        if (s.trail.length > 400) s.trail.shift();
+        s.step++;
+        if (gnorm < 0.008) {
+          s.converged = true;
+          setAriaState("converged");
         }
-        // pull amplitudes
-        const targetState = s.collapsedTo || (pA > pB ? "alive" : "dead");
-        const pull = k * dt * 6;
-        if (targetState === "alive") {
-          alpha = cscale(alpha, 1 + pull);
-          beta  = cscale(beta, 1 - pull);
-        } else {
-          alpha = cscale(alpha, 1 - pull);
-          beta  = cscale(beta, 1 + pull);
+      }
+
+      // draw
+      const cvs = canvasRef.current;
+      if (!cvs) { raf = requestAnimationFrame(tick); return; }
+      const ctx = cvs.getContext("2d");
+      ctx.clearRect(0, 0, width, height);
+
+      // heatmap
+      if (bgRef.current) ctx.drawImage(bgRef.current, 0, 0);
+
+      // trail
+      if (s.trail.length > 1) {
+        ctx.beginPath();
+        const [sx, sy] = toCanvas(s.trail[0][0], s.trail[0][1]);
+        ctx.moveTo(sx, sy);
+        for (let i = 1; i < s.trail.length; i++) {
+          const [tx, ty] = toCanvas(s.trail[i][0], s.trail[i][1]);
+          ctx.lineTo(tx, ty);
         }
-      } else {
-        s.collapsedTo = null;
+        ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = 1.2;
+        ctx.globalAlpha = 0.55;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
       }
 
-      // --- 3. Renormalize so |α|² + |β|² = 1 ---
-      const norm = Math.sqrt(cabs2(alpha) + cabs2(beta));
-      if (norm > 0) {
-        alpha = cscale(alpha, 1 / norm);
-        beta  = cscale(beta, 1 / norm);
+      // ball
+      const [bx, by] = toCanvas(s.x, s.y);
+      ctx.beginPath();
+      ctx.arc(bx, by, 4.5, 0, Math.PI * 2);
+      ctx.fillStyle = accentColor;
+      ctx.fill();
+      ctx.strokeStyle = strokeColor;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // glow when converged
+      if (s.converged) {
+        ctx.beginPath();
+        ctx.arc(bx, by, 8, 0, Math.PI * 2);
+        ctx.strokeStyle = accentColor;
+        ctx.lineWidth = 0.8;
+        ctx.globalAlpha = 0.4 + 0.2 * Math.sin(now / 500);
+        ctx.stroke();
+        ctx.globalAlpha = 1;
       }
 
-      s.alpha = alpha;
-      s.beta = beta;
+      // readout
+      ctx.font = "10px monospace";
+      ctx.fillStyle = mutedColor;
+      const lossVal = fn(s.x, s.y);
+      ctx.fillText(
+        "loss " + lossVal.toFixed(3) + "  step " + s.step + (s.converged ? "  \u2713" : ""),
+        6, height - 6
+      );
 
-      // record trace for the wavefunction strip
-      s.psiTrace.push({ aRe: alpha.re, aIm: alpha.im, bRe: beta.re, bIm: beta.im });
-      if (s.psiTrace.length > 80) s.psiTrace.shift();
+      if (onStateChange) onStateChange({ loss: lossVal, step: s.step, converged: s.converged });
 
-      // aria — only update when category changes
-      const pA = cabs2(alpha);
-      const newAria = pA > 0.97 ? "alive" : pA < 0.03 ? "dead" : "superposed";
-      if (s._lastAria !== newAria) {
-        s._lastAria = newAria;
-        setAriaState(newAria);
-      }
-      // throttle parent state-change callbacks to 4Hz
-      s._lastReport = s._lastReport || 0;
-      if (now - s._lastReport > 250) {
-        if (onStateChange) onStateChange({ pAlive: pA, pDead: 1 - pA, observed: k > 0.5 });
-        s._lastReport = now;
-      }
-
-      // throttle re-render to 30Hz
-      s._lastFrame = s._lastFrame || 0;
-      if (now - s._lastFrame > 33) {
-        force(n => (n + 1) % 1024);
-        s._lastFrame = now;
-      }
-      if (!reduced) raf = requestAnimationFrame(tick);
+      raf = requestAnimationFrame(tick);
     }
-    raf = requestAnimationFrame(tick);
+
+    if (!reduced) raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, []); // eslint-disable-line
+  }, []);
 
-  const s = stateRef.current;
-  const pA = cabs2(s.alpha);
-  const pB = 1 - pA;
-  const observing = s.measureStrength > 0.4;
-  const certain = pA > 0.97 || pB > 0.97;
+  // click to restart
+  const handleClick = (e) => {
+    const rect = canvasRef.current.getBoundingClientRect();
+    const cx = (e.clientX - rect.left) * (width / rect.width);
+    const cy = (e.clientY - rect.top) * (height / rect.height);
+    const [x, y] = fromCanvas(cx, cy);
+    const s = stateRef.current;
+    s.x = x; s.y = y;
+    s.trail = [[x, y]];
+    s.step = 0;
+    s.converged = false;
+    setAriaState("descending");
+  };
 
-  // --- rendering ---
-  const W = width, H = height;
-  const boxX = 18, boxY = 18, boxW = W - 36, boxH = H - 70;
+  // touch support
+  const handleTouch = (e) => {
+    const touch = e.touches[0];
+    if (!touch) return;
+    const rect = canvasRef.current.getBoundingClientRect();
+    const cx = (touch.clientX - rect.left) * (width / rect.width);
+    const cy = (touch.clientY - rect.top) * (height / rect.height);
+    const [x, y] = fromCanvas(cx, cy);
+    const s = stateRef.current;
+    s.x = x; s.y = y;
+    s.trail = [[x, y]];
+    s.step = 0;
+    s.converged = false;
+    setAriaState("descending");
+  };
 
   return (
-    <div style={{ position: "relative", width, fontFamily: "var(--f-ui)", fontSize: 11 }}>
-      <svg
-        ref={svgRef}
-        width={W}
-        height={H}
-        viewBox={`0 0 ${W} ${H}`}
-        style={{ display: "block", cursor: observing ? "grabbing" : "grab", touchAction: "none", userSelect: "none" }}
-        role="img"
-        aria-label={`Schrödinger's cat — currently ${ariaState}. Click and hold to observe.`}
-      >
-        {/* background */}
-        {paperColor !== "transparent" && <rect x="0" y="0" width={W} height={H} fill={paperColor} />}
-
-        {/* probability cloud — only visible when superposed */}
-        <ProbabilityCloud x={boxX} y={boxY} w={boxW} h={boxH} pA={pA} pB={pB} observing={observing} accent={accentColor} />
-
-        {/* dashed observation box (the literal box) */}
-        <rect
-          x={boxX} y={boxY} width={boxW} height={boxH}
-          fill="none"
-          stroke={mutedColor}
-          strokeWidth="1"
-          strokeDasharray={observing ? "0" : "4 3"}
-          style={{ transition: "stroke-dasharray 240ms ease" }}
-        />
-        {/* corner ticks */}
-        {[[boxX,boxY],[boxX+boxW,boxY],[boxX,boxY+boxH],[boxX+boxW,boxY+boxH]].map(([x,y],i)=>(
-          <g key={i} stroke={strokeColor} strokeWidth="1">
-            <line x1={x-3} y1={y} x2={x+3} y2={y} />
-            <line x1={x} y1={y-3} x2={x} y2={y+3} />
-          </g>
-        ))}
-
-        {/* the cats themselves — both drawn, opacities are |α|² and |β|² */}
-        <g transform={`translate(${boxX + boxW/2 - 60}, ${boxY + boxH/2 - 40})`}>
-          <CatGlyph state="alive" stroke={pA > 0.5 ? strokeColor : accentColor} opacity={pA} />
-          <CatGlyph state="dead"  stroke={pB > 0.5 ? strokeColor : accentColor} opacity={pB} />
-        </g>
-
-        {/* wavefunction trace — Re(α) and Im(α) over time, runs along the floor */}
-        <PsiTrace trace={s.psiTrace} x={boxX} y={H - 38} w={boxW} h={20} stroke={accentColor} muted={mutedColor} />
-
-        {/* hold ring — appears while measuring */}
-        {observing && (
-          <circle cx={boxX + boxW/2} cy={boxY + boxH/2} r={Math.max(boxW, boxH) * 0.42}
-                  fill="none" stroke={accentColor} strokeOpacity={s.measureStrength * 0.5}
-                  strokeWidth="0.8" strokeDasharray="2 4" style={{ pointerEvents: "none" }} />
-        )}
-      </svg>
-
-      {/* meter */}
-      <div className="mono" style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 6, alignItems: "center", color: mutedColor, fontSize: 10, marginTop: 2, padding: "0 18px" }}>
-        <span>P(alive) {pA.toFixed(2)}</span>
-        <span style={{ display: "block", height: 4, background: "rgba(0,0,0,0.06)", position: "relative" }}>
-          <span style={{ position: "absolute", inset: 0, width: `${pA * 100}%`, background: pA > 0.5 ? strokeColor : accentColor, transition: "background 200ms ease" }} />
-          <span style={{ position: "absolute", left: "50%", top: -2, bottom: -2, width: 1, background: mutedColor, opacity: 0.6 }} />
-        </span>
-        <span>P(dead) {pB.toFixed(2)}</span>
-      </div>
-
-      {/* status line */}
-      <div className="mono" style={{ marginTop: 6, padding: "0 18px", color: mutedColor, fontSize: 10, display: "flex", justifyContent: "space-between" }}>
-        <span>|ψ⟩ = α|alive⟩ + β|dead⟩</span>
-        <span style={{ color: certain ? strokeColor : accentColor }}>
-          {observing ? (certain ? `collapsed → ${pA > 0.5 ? "alive" : "dead"}` : "observing…") : "unitary"}
-        </span>
-      </div>
-      <div className="mono" style={{ padding: "2px 18px 0", color: mutedColor, fontSize: 10, opacity: 0.7 }}>
-        click + hold the box to open it
-      </div>
-    </div>
+    <canvas ref={canvasRef} width={width} height={height}
+      onClick={handleClick}
+      onTouchStart={handleTouch}
+      style={{ width, height, display: "block", cursor: "crosshair" }}
+      aria-label={"Gradient descent on a loss landscape — " + ariaState + ". Click to restart from a new point."}
+      role="img" tabIndex={0}
+    />
   );
 }
 
-/* ----- cat glyphs: single-stroke SVG paths -----
-   Both fit in a 120×80 area. I drew these by hand to keep the
-   "fourier motif" aesthetic — one continuous stroke each. */
+Object.assign(window, { GradientDescentViz });
 
-function CatGlyph({ state, stroke, opacity }) {
-  // alive: standing, ears up, tail up, eye open, whiskers
-  const alive = "M 14 60 C 14 50 18 44 22 42 C 18 38 18 30 22 26 C 24 30 28 34 32 36 C 40 30 56 30 64 36 C 68 34 72 30 74 26 C 78 30 78 38 74 42 C 78 44 82 50 82 60 L 82 64 L 14 64 Z M 82 60 C 92 56 100 48 104 38 M 36 44 C 38 46 40 46 42 44 M 60 44 C 62 46 64 46 66 44 M 30 50 L 22 50 M 30 52 L 22 54 M 66 50 L 74 50 M 66 52 L 74 54 M 46 52 L 50 56 L 54 52";
-  // dead: lying flat, X eyes, tail down, tongue out (subtle)
-  const dead = "M 8 56 C 8 50 14 46 22 46 C 26 42 32 40 38 40 C 50 38 64 40 76 44 C 86 46 96 50 100 56 C 100 60 96 62 92 62 L 14 62 C 10 62 8 60 8 56 Z M 30 50 L 36 54 M 36 50 L 30 54 M 60 50 L 66 54 M 66 50 L 60 54 M 44 56 L 48 58 M 100 56 C 102 58 104 60 104 64";
-  return (
-    <g style={{ opacity, transition: "opacity 80ms linear" }}>
-      <path d={state === "alive" ? alive : dead} fill="none" stroke={stroke} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-    </g>
-  );
-}
-
-/* ----- probability cloud: noisy speckle inside the box, density ∝ uncertainty ----- */
-function ProbabilityCloud({ x, y, w, h, pA, pB, observing, accent }) {
-  // uncertainty H(p) = -p log p - (1-p) log(1-p), max 1 at p=0.5
-  const eps = 1e-6;
-  const H = -(pA * Math.log2(pA + eps) + pB * Math.log2(pB + eps));
-  const N = Math.floor(H * 80); // up to ~80 dots
-  const dots = [];
-  // deterministic-ish noise so it shimmers but doesn't seizure
-  const t = Math.floor(performance.now() / 80);
-  for (let i = 0; i < N; i++) {
-    const seed = i * 9301 + 49297 + t;
-    const rx = ((seed * 1103515245 + 12345) % 2147483647) / 2147483647;
-    const ry = ((seed * 1664525 + 1013904223) % 2147483647) / 2147483647;
-    dots.push({ x: x + rx * w, y: y + ry * h, r: 0.6 + (rx + ry) * 0.6, a: 0.18 + ry * 0.45 });
-  }
-  return (
-    <g style={{ opacity: observing ? 0.25 : 1, transition: "opacity 240ms ease" }}>
-      {dots.map((d, i) => (
-        <circle key={i} cx={d.x} cy={d.y} r={d.r} fill={accent} fillOpacity={d.a * H} />
-      ))}
-    </g>
-  );
-}
-
-/* ----- ψ trace: shows Re(α) and Re(β) as two oscillating lines ----- */
-function PsiTrace({ trace, x, y, w, h, stroke, muted }) {
-  if (trace.length < 2) return null;
-  const N = trace.length;
-  const px = (i) => x + (i / (N - 1)) * w;
-  const py = (v) => y + h / 2 - v * (h / 2 - 1);
-  const aPath = trace.map((p, i) => `${i === 0 ? "M" : "L"} ${px(i).toFixed(1)} ${py(p.aRe).toFixed(1)}`).join(" ");
-  const bPath = trace.map((p, i) => `${i === 0 ? "M" : "L"} ${px(i).toFixed(1)} ${py(p.bRe).toFixed(1)}`).join(" ");
-  return (
-    <g>
-      <line x1={x} x2={x + w} y1={y + h/2} y2={y + h/2} stroke={muted} strokeWidth="0.5" strokeDasharray="2 3" />
-      <path d={aPath} fill="none" stroke={stroke} strokeWidth="0.9" strokeOpacity="0.55" />
-      <path d={bPath} fill="none" stroke={stroke} strokeWidth="0.9" strokeOpacity="0.25" strokeDasharray="2 2" />
-    </g>
-  );
-}
-
-Object.assign(window, { SchrodingerCat });
 
 
 /* ===== components/seasonal.jsx ===== */
 /* global React */
 /* =======================================================================
    SeasonalSpecimen — a monthly rotating animated figure.
-   Same visual language as the fourier motif and the cat: single-stroke,
+   Same visual language as the fourier motif and the gradient descent: single-stroke,
    accent-colored, math-driven motion. 12 themes, one per month.
    ======================================================================= */
 const SEASONAL_THEMES = [
@@ -2112,7 +2014,7 @@ Object.assign(window, { HomeV3, PALETTE_V3, NavDark });
 
 
 /* ===== components/home-v4.jsx ===== */
-/* global React, FourierMotif, LetterReveal, NowStrip, Nav, Footer, POSTS, SchrodingerCat, SeasonalSpecimen */
+/* global React, FourierMotif, LetterReveal, NowStrip, Nav, Footer, POSTS, GradientDescentViz, SeasonalSpecimen */
 
 /* =======================================================================
    V4 — "Rauno-precise"
@@ -2151,8 +2053,8 @@ function HomeV4({ onNavigate, setCursorColor }) {
   const scrollPct = usePreciseScroll();
   const isMobile = useIsMobile();
 
-  // cat state for status copy
-  const [catState, setCatState] = useState({ pAlive: 0.5, pDead: 0.5, observed: false });
+  // gradient descent state for status copy
+  const [gdState, setGdState] = useState({ loss: 0, step: 0, converged: false });
 
   // local time tick
   const [now, setNow] = useState(() => new Date());
@@ -2205,8 +2107,8 @@ function HomeV4({ onNavigate, setCursorColor }) {
                 <div className="mono" style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 8, rowGap: 4, color: p.ink }}>
                   <span style={{ color: p.muted }}>{telemetryRow[0]}</span><span>{telemetryRow[1]}</span>
                   <span style={{ color: p.muted }}>scroll</span><span>{String(scrollPct).padStart(3, "0")}%</span>
-                  <span style={{ color: p.muted }}>ψ</span><span style={{ color: catState.observed ? p.accent : p.ink }}>
-                    {catState.pAlive.toFixed(2)} / {catState.pDead.toFixed(2)}
+                  <span style={{ color: p.muted }}>∇f</span><span style={{ color: gdState.converged ? p.accent : p.ink }}>
+                    {gdState.loss.toFixed(3)} · {gdState.step}
                   </span>
                 </div>
               </div>
@@ -2245,16 +2147,16 @@ function HomeV4({ onNavigate, setCursorColor }) {
               </div>
             )}
 
-            {/* SPECIMEN PAIR — cat + seasonal: side-by-side desktop, stacked mobile */}
+            {/* SPECIMEN PAIR — gradient descent + seasonal: side-by-side desktop, stacked mobile */}
             <div style={{ marginTop: isMobile ? "1.8rem" : "2.4rem", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "1rem", alignItems: "start" }}>
               <div style={{ border: `1px solid ${p.line}`, padding: "0.8rem 0.4rem 0.8rem", position: "relative", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-                <SchrodingerCat
+                <GradientDescentViz
                   width={isMobile ? 320 : 240}
                   height={isMobile ? 240 : 200}
                   strokeColor={p.ink}
                   mutedColor={p.muted}
                   accentColor={p.accent}
-                  onStateChange={setCatState}
+                  onStateChange={setGdState}
                 />
               </div>
               <div style={{ border: `1px solid ${p.line}`, padding: "0.8rem 0.8rem 0.7rem", position: "relative", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
@@ -2333,7 +2235,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
       </section>
       </main>
 
-      <Footer palette={p} line="Made with care, in London. Set in Fraunces and Source Serif." />
+      <Footer palette={p} line="Made in London." />
     </div>
   );
 }
@@ -2453,7 +2355,7 @@ function WritingIndex({ onNavigate, palette, setCursorColor }) {
       </section>
 
       <section style={{ maxWidth: 1100, margin: "0 auto", padding: "2.4rem 2rem 4rem" }}>
-        <h2 className="display" style={{ fontSize: "1.6rem", margin: "0 0 1.2rem", fontWeight: 380 }}>Earlier · Notes</h2>
+        <h2 className="display" style={{ fontSize: "1.6rem", margin: "0 0 1.2rem", fontWeight: 380 }}>Working notes</h2>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem 2.4rem" }}>
           {[
             ["The JAYA algorithm, redrawn", "Working note · 2025"],
@@ -2471,7 +2373,7 @@ function WritingIndex({ onNavigate, palette, setCursorColor }) {
         </div>
       </section>
 
-      <Footer palette={p} line="The garden is small, on purpose." />
+      <Footer palette={p} line="Fewer words, all of them meant." />
     </div>
   );
 }
@@ -2832,7 +2734,7 @@ function IndexRail({ palette: p, items, currentIdx, telemetry, scrollPct }) {
   );
 }
 
-function PreciseFooter({ palette: p, line = "Made with care, in London. Set in Fraunces and Source Serif." }) {
+function PreciseFooter({ palette: p, line = "Made in London." }) {
   return (
     <footer className="v4-grid" style={{ maxWidth: 1280, margin: "3rem auto 0", padding: "2rem 1.6rem 2.4rem", borderTop: `1px solid ${p.line}`, color: p.muted, fontFamily: "var(--f-ui)", fontSize: 12, display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", letterSpacing: "0.02em" }}>
       <span style={{ gridColumn: "1 / span 6", fontStyle: "italic", fontFamily: "var(--f-body)", fontSize: 14, color: p.ink }}>{line}</span>
@@ -2993,14 +2895,10 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
 
           <div className="v4-rail-hide" style={{ gridColumn: "10 / span 3", paddingTop: "0.4rem" }}>
             <div className="mono" style={{ fontSize: 11, color: p.muted, lineHeight: 1.8 }}>
-              <div style={{ color: p.ink }}>fig.01 — index</div>
-              <div>essays&nbsp;&nbsp;&nbsp;{POSTS.length}</div>
-              <div>notes&nbsp;&nbsp;&nbsp;&nbsp;{notes.length}</div>
-              <div>updated&nbsp;{new Date().toISOString().slice(0, 10)}</div>
-              <div>median&nbsp;&nbsp;{Math.round(POSTS.reduce((s, x) => s + x.minutes, 0) / POSTS.length)} min</div>
-            </div>
-            <div style={{ marginTop: 18, color: p.accent, fontFamily: "var(--f-ui)", fontSize: 12 }}>
-              <FlourishLink href="#" flourish="dot">RSS feed ↗</FlourishLink>
+              <div style={{ color: p.ink }}>fig.01 — topics</div>
+              {tags.filter(t => t !== "all").map(t => (
+                <div key={t} style={{ cursor: "pointer", color: activeTag === t ? p.accent : p.muted }} onClick={() => setActiveTag(t)}>{t}</div>
+              ))}
             </div>
           </div>
         </div>
@@ -3054,7 +2952,7 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>05</span>
-            Earlier · working notes
+            Working notes
           </h2>
           <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>private until linked</span>
         </div>
@@ -3088,17 +2986,11 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
               <button type="submit" className="mono" style={{ all: "unset", cursor: "pointer", padding: "0.6rem 0.4rem", color: p.accent, fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase" }}>Subscribe →</button>
             </form>
           </div>
-          <div style={{ gridColumn: "10 / span 3" }} className="mono">
-            <div style={{ fontSize: 11, color: p.muted, lineHeight: 1.7 }}>
-              Or follow by RSS:<br/>
-              <a href="#" className="link-underline" style={{ color: p.accent }}>shubhangi.dev/feed.xml</a>
-            </div>
-          </div>
         </div>
       </section>
       </main>
 
-      <PreciseFooter palette={p} line="The garden is small, on purpose." />
+      <PreciseFooter palette={p} line="Fewer words, all of them meant." />
     </div>
   );
 }
@@ -5081,7 +4973,7 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
       </section>
       </main>
 
-      <PreciseFooter palette={p} line="Each entry is a sentence I am still writing." />
+      <PreciseFooter palette={p} line="Still editing." />
     </div>
   );
 }
@@ -5248,16 +5140,12 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
 
   const channels = [
     { label: "Email",    handle: "hello@shubzsharma.com",        note: "Best — read once a day in the morning.",                href: "mailto:hello@shubzsharma.com" },
-    { label: "Work",     handle: "shubhangi@oriongeo.com",       note: "For Orion-related things only.",                        href: "mailto:shubhangi@oriongeo.com" },
     { label: "GitHub",   handle: "github.com/shubhangithub",     note: "Where the public repos live (a Taylor Swift rec engine and a JAYA paper, mostly).", href: "https://github.com/shubhangithub" },
     { label: "LinkedIn", handle: "linkedin.com/in/shubhangithub",note: "Conventional channel; checked weekly-ish.",              href: "https://www.linkedin.com/in/shubhangithub" },
-    { label: "Phone",    handle: "+44 7522 124954",              note: "For people I already know.",                              href: "tel:+447522124954" },
   ];
 
   const policy = [
-    ["Reply window",       "≤ 72 hours, on weekdays"],
     ["Will read",          "anything from a stranger about optimization, computational biology, geospatial ML, music recommendation, or science communication"],
-    ["Won't open",         "unsolicited PDFs from strangers; pitches that begin with 'quick question'"],
     ["Available for",      "collaboration on research, advisory work, mentoring InnovateHer cohorts"],
     ["Based",              "London — happy on calls in any reasonable timezone"],
   ];
@@ -5273,8 +5161,8 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
           <div className="v4-rail-hide" style={{ gridColumn: "1 / span 2" }}>
             <IndexRail palette={p} currentIdx={0}
-              items={["Header", "Channels", "Policy", "Compose"]}
-              telemetry={[telemetryRow, ["page", "contact"], ["channels", String(channels.length).padStart(2, "0")], ["reply", "≤72h"]]}
+              items={["Header", "Channels", "Preferences", "Compose"]}
+              telemetry={[telemetryRow, ["page", "contact"], ["channels", String(channels.length).padStart(2, "0")], ["based", "london"]]}
               scrollPct={scrollPct} />
           </div>
           <div style={{ gridColumn: "3 / span 7" }}>
@@ -5288,7 +5176,7 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
               <span style={{ display: "block" }}>
                 <LetterReveal stagger={26} delay={620}>I read everything,</LetterReveal>
                 <span style={{ display: "block" }}>
-                  <LetterReveal stagger={26} delay={1080}>eventually.</LetterReveal>
+                  <LetterReveal stagger={26} delay={1080}>in time.</LetterReveal>
                 </span>
               </span>
             </h1>
@@ -5337,9 +5225,8 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>03</span>
-            Policy
+            Preferences
           </h2>
-          <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>plain language, no fuss</span>
         </div>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
@@ -5394,7 +5281,7 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
       </section>
       </main>
 
-      <PreciseFooter palette={p} line="Hello back, eventually." />
+      <PreciseFooter palette={p} line="Hello back, in time." />
     </div>
   );
 }
