@@ -277,6 +277,10 @@ body { transition: background 600ms cubic-bezier(0.25, 0.1, 0.25, 1); }
   /* Diagram + legend pairs: stack on mobile */
   .v4-diagram-pair { grid-template-columns: 1fr !important; gap: 1rem !important; }
 
+  /* Figures + pull quotes: kill negative margins on mobile */
+  .v4-figure { margin-left: 0 !important; margin-right: 0 !important; }
+  .pull-quote, blockquote { margin-left: 0 !important; margin-right: 0 !important; }
+
   /* Diagram captions + axis labels — bump from 9-10px → 11px on mobile */
   .v4-diagram-pair text { font-size: 11px !important; }
   .v4-diagram-pair .mono { font-size: 11px !important; }
@@ -1799,9 +1803,9 @@ function HomeV4({ onNavigate, setCursorColor }) {
           { kind: "BUILDING", what: "shubz-taylor-rec-engine — six engines, all slightly wrong in interesting ways" },
         ];
         const tickerContent = [...nowItems, ...nowItems].map((item, i) => (
-          <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", whiteSpace: "nowrap", paddingRight: "2.4rem" }}>
-            <span className="mono" style={{ color: p.accent, fontSize: 10, letterSpacing: "0.12em" }}>{item.kind}</span>
-            <span style={{ color: p.ink, fontSize: 13, fontFamily: "var(--f-ui)" }}>{item.what}</span>
+          <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", whiteSpace: "nowrap", paddingRight: isMobile ? "1.6rem" : "2.4rem" }}>
+            <span className="mono" style={{ color: p.accent, fontSize: isMobile ? 9 : 10, letterSpacing: "0.12em" }}>{item.kind}</span>
+            <span style={{ color: p.ink, fontSize: isMobile ? 11 : 13, fontFamily: "var(--f-ui)" }}>{item.what}</span>
             <span style={{ color: p.muted, fontSize: 11 }}>·</span>
           </span>
         ));
@@ -1814,8 +1818,8 @@ function HomeV4({ onNavigate, setCursorColor }) {
               </div>
             </div>
             <style>{`@keyframes now-ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }`}</style>
-            <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 80, background: `linear-gradient(to right, ${p.paper}, transparent)`, zIndex: 1, pointerEvents: "none" }} />
-            <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: 80, background: `linear-gradient(to left, ${p.paper}, transparent)`, zIndex: 1, pointerEvents: "none" }} />
+            <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: isMobile ? 40 : 80, background: `linear-gradient(to right, ${p.paper}, transparent)`, zIndex: 1, pointerEvents: "none" }} />
+            <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: isMobile ? 40 : 80, background: `linear-gradient(to left, ${p.paper}, transparent)`, zIndex: 1, pointerEvents: "none" }} />
             <a href="#" onClick={(e) => { e.preventDefault(); e.stopPropagation(); onNavigate("now"); }} className="mono link-underline" style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", zIndex: 2, fontSize: 10, color: p.accent, background: p.paper, padding: "2px 8px" }}>/now →</a>
           </section>
         );
@@ -1917,12 +1921,13 @@ function WritingIndex({ onNavigate, palette, setCursorColor }) {
   const { useEffect } = React;
   useEffect(() => { setCursorColor(palette.accent); document.body.style.background = palette.paper; }, []);
   const p = palette;
+  const isMobile = useIsMobile();
 
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
       <Nav palette={p} onNavigate={onNavigate} current="writing" />
 
-      <header style={{ maxWidth: 1100, margin: "0 auto", padding: "3rem 2rem 1.4rem", position: "relative" }}>
+      <header style={{ maxWidth: 1100, margin: "0 auto", padding: isMobile ? "2rem 1rem 1rem" : "3rem 2rem 1.4rem", position: "relative" }}>
         <div className="ui caps" style={{ color: p.muted, marginBottom: "1rem" }}>The Garden · Essays, notes, half-formed ideas</div>
         <h1 className="display" style={{ fontSize: "clamp(3rem, 6vw, 5.4rem)", margin: 0, fontWeight: 380, maxWidth: "16ch" }}>
           <LetterReveal stagger={26}>An essay garden, growing slowly.</LetterReveal>
@@ -1932,8 +1937,8 @@ function WritingIndex({ onNavigate, palette, setCursorColor }) {
         </p>
       </header>
 
-      <section style={{ maxWidth: 1100, margin: "0 auto", padding: "1rem 2rem 2rem" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: "2rem" }}>
+      <section style={{ maxWidth: 1100, margin: "0 auto", padding: isMobile ? "1rem 1rem 1.6rem" : "1rem 2rem 2rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.3fr 1fr", gap: isMobile ? "1rem" : "2rem" }}>
           <GardenCard post={POSTS[0]} palette={p} onNavigate={onNavigate} large />
           <div style={{ display: "grid", gap: "2rem" }}>
             <GardenCard post={POSTS[1]} palette={p} onNavigate={onNavigate} />
@@ -1942,9 +1947,9 @@ function WritingIndex({ onNavigate, palette, setCursorColor }) {
         </div>
       </section>
 
-      <section style={{ maxWidth: 1100, margin: "0 auto", padding: "2.4rem 2rem 4rem" }}>
+      <section style={{ maxWidth: 1100, margin: "0 auto", padding: isMobile ? "1.6rem 1rem 3rem" : "2.4rem 2rem 4rem" }}>
         <h2 className="display" style={{ fontSize: "1.6rem", margin: "0 0 1.2rem", fontWeight: 380 }}>Working notes</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem 2.4rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "0.4rem" : "0.6rem 2.4rem" }}>
           {[
             ["The JAYA algorithm, redrawn", "Working note · 2025"],
             ["Holt smoothing for fashion signals", "Working note · 2026"],
@@ -2146,7 +2151,7 @@ function Figure({ children, caption, palette }) {
     obs.observe(el); return () => obs.disconnect();
   }, []);
   return (
-    <figure ref={ref} style={{ margin: "2.4rem -3rem", transform: on ? "translateY(0)" : "translateY(20px)", opacity: on ? 1 : 0, transition: "all 720ms var(--ease-out)" }}>
+    <figure ref={ref} className="v4-figure" style={{ margin: "2.4rem -3rem", transform: on ? "translateY(0)" : "translateY(20px)", opacity: on ? 1 : 0, transition: "all 720ms var(--ease-out)" }}>
       <div style={{ background: "rgba(0,0,0,0.025)", padding: "1.4rem", border: `1px solid ${palette.line}` }}>
         {children}
       </div>
