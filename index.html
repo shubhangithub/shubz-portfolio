@@ -1757,27 +1757,37 @@ function HomeV4({ onNavigate, setCursorColor }) {
         </div>
       </section>
 
-      {/* NOW — sneak peek */}
-      <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "0 1rem 2rem" : "0 1.6rem 2.4rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem", alignItems: "baseline" }}>
-          <h2 className="display" style={{ gridColumn: isMobile ? "1" : "3 / span 5", fontSize: isMobile ? "1.7rem" : "1.9rem", margin: 0, fontWeight: 380 }}>Right now</h2>
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("now"); }} className="link-underline caps" style={{ gridColumn: isMobile ? "1" : "10 / span 3", color: p.accent, alignSelf: "baseline", fontFamily: "var(--f-ui)", fontSize: 12 }}>the full /now →</a>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: "1.6rem" }}>
-          <div style={{ gridColumn: isMobile ? "1" : "3 / span 9", borderTop: `1px solid ${p.line}` }}>
-            {[
-              { kind: "Founding", what: "Orion's intelligence platform — geospatial ML over H3 indexing, with confidence weighting baked in at every join." },
-              { kind: "Shipping", what: "fashion-web — five-source trend pipeline (Google Trends, Bluesky, Pinterest, Reddit, YouTube), LMSR exchange, Gemini CV. Live at fashion-web-psi.vercel.app." },
-              { kind: "Writing", what: "Drafting the next essay. The argument is half-formed; the diagrams are the fun part." },
-            ].map((f, i) => (
-              <div key={i} style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "100px 1fr", gap: isMobile ? "0.2rem" : "1.4rem", padding: "0.9rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline" }}>
-                <span className="caps mono" style={{ color: p.accent, fontSize: 11, letterSpacing: "0.1em" }}>{f.kind}</span>
-                <span style={{ fontFamily: "var(--f-body)", fontSize: "1rem", color: p.ink, lineHeight: 1.55 }}>{f.what}</span>
+      {/* NOW — horizontal ticker */}
+      {(() => {
+        const nowItems = [
+          { kind: "FOUNDING", what: "Orion — geospatial ML over H3 indexing, confidence weighting at every join" },
+          { kind: "SHIPPING", what: "fashion-web — five-source trend pipeline, LMSR exchange, Gemini CV" },
+          { kind: "WRITING", what: "Drafting the next essay — the argument is half-formed, the diagrams are the fun part" },
+          { kind: "READING", what: "Papers on calibration, a novel I won't name yet, optimization surveys" },
+          { kind: "BUILDING", what: "shubz-taylor-rec-engine — six engines, all slightly wrong in interesting ways" },
+        ];
+        const tickerContent = [...nowItems, ...nowItems].map((item, i) => (
+          <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", whiteSpace: "nowrap", paddingRight: "2.4rem" }}>
+            <span className="mono" style={{ color: p.accent, fontSize: 10, letterSpacing: "0.12em" }}>{item.kind}</span>
+            <span style={{ color: p.ink, fontSize: 13, fontFamily: "var(--f-ui)" }}>{item.what}</span>
+            <span style={{ color: p.muted, fontSize: 11 }}>·</span>
+          </span>
+        ));
+        return (
+          <section style={{ position: "relative", zIndex: 2, borderTop: `1px solid ${p.line}`, borderBottom: `1px solid ${p.line}`, overflow: "hidden", cursor: "pointer" }}
+                   onClick={(e) => { e.preventDefault(); onNavigate("now"); }}>
+            <div style={{ display: "flex", alignItems: "center", padding: "0.9rem 0" }}>
+              <div style={{ display: "inline-flex", alignItems: "center", animation: "now-ticker 40s linear infinite", whiteSpace: "nowrap" }}>
+                {tickerContent}
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </div>
+            <style>{`@keyframes now-ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }`}</style>
+            <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 80, background: `linear-gradient(to right, ${p.paper}, transparent)`, zIndex: 1, pointerEvents: "none" }} />
+            <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: 80, background: `linear-gradient(to left, ${p.paper}, transparent)`, zIndex: 1, pointerEvents: "none" }} />
+            <a href="#" onClick={(e) => { e.preventDefault(); e.stopPropagation(); onNavigate("now"); }} className="mono link-underline" style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", zIndex: 2, fontSize: 10, color: p.accent, background: p.paper, padding: "2px 8px" }}>/now →</a>
+          </section>
+        );
+      })()}
 
       {/* WORK — sneak peek: deployed builds */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "0 1rem 3rem" : "0 1.6rem 4rem", position: "relative", zIndex: 2 }}>
