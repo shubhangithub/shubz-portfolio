@@ -1707,25 +1707,33 @@ function HomeV4({ onNavigate, setCursorColor }) {
 
             {/* FIGURES — side by side */}
             <div style={{ marginTop: isMobile ? "1.6rem" : "2.2rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: isMobile ? "0.6rem" : "1rem" }}>
-              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem 0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-                <GradientDescentViz
-                  width={isMobile ? 160 : 280}
-                  height={isMobile ? 120 : 190}
-                  strokeColor={p.ink}
-                  mutedColor={p.muted}
-                  accentColor={p.accent}
-                  onStateChange={() => {}}
-                />
+              <div>
+                <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem 0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
+                  <GradientDescentViz
+                    width={isMobile ? 160 : 280}
+                    height={isMobile ? 120 : 190}
+                    strokeColor={p.ink}
+                    mutedColor={p.muted}
+                    accentColor={p.accent}
+                    onStateChange={() => {}}
+                  />
+                </div>
+                <div className="mono" style={{ marginTop: 6, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>
+                  <span style={{ color: p.ink }}>fig.03 — gradient descent</span>
+                  <div style={{ marginTop: 2 }}>A ball following ∇f across a 2-D loss landscape. Multiple local minima; the path depends on where you start.</div>
+                </div>
               </div>
-              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-                <SeasonalSpecimen
-                  width={isMobile ? 160 : 280}
-                  height={isMobile ? 120 : 190}
-                  accent={p.accent}
-                  ink={p.ink}
-                  muted={p.muted}
-                  line={p.line}
-                />
+              <div>
+                <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
+                  <SeasonalSpecimen
+                    width={isMobile ? 160 : 280}
+                    height={isMobile ? 120 : 190}
+                    accent={p.accent}
+                    ink={p.ink}
+                    muted={p.muted}
+                    line={p.line}
+                  />
+                </div>
               </div>
             </div>
           </div>
