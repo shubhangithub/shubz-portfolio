@@ -1711,16 +1711,16 @@ function HomeV4({ onNavigate, setCursorColor }) {
                 <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem 0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
                   <GradientDescentViz
                     width={isMobile ? 160 : 280}
-                    height={isMobile ? 120 : 190}
+                    height={isMobile ? 120 : 170}
                     strokeColor={p.ink}
                     mutedColor={p.muted}
                     accentColor={p.accent}
                     onStateChange={() => {}}
                   />
-                </div>
-                <div className="mono" style={{ marginTop: 6, fontSize: 10, color: p.muted, lineHeight: 1.5 }}>
-                  <span style={{ color: p.ink }}>fig.03 — gradient descent</span>
-                  <div style={{ marginTop: 2 }}>A ball following ∇f across a 2-D loss landscape. Multiple local minima; the path depends on where you start.</div>
+                  <div className="mono" style={{ marginTop: 8, fontSize: 10, color: p.muted, lineHeight: 1.5, padding: "0 0.2rem" }}>
+                    <span style={{ color: p.ink }}>fig.03 — gradient descent</span>
+                    <div style={{ marginTop: 2 }}>A ball following ∇f across a 2-D loss landscape. Multiple local minima; the path depends on where you start.</div>
+                  </div>
                 </div>
               </div>
               <div>
