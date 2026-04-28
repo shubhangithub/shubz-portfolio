@@ -1027,7 +1027,7 @@ function SeasonalSpecimen({ width = 200, height = 180, accent = "#1F3DBF", ink =
         <Variant w={width} h={height} t={tick} accent={accent} ink={ink} muted={muted} line={line} />
       </svg>
       <div className="mono" style={{ marginTop: 6, color: muted, fontSize: 10, display: "flex", justifyContent: "space-between" }}>
-        <span>fig.04 — {theme.caption}</span>
+        <span>fig.02 — {theme.caption}</span>
         <span style={{ color: ink }}>{monthName.toLowerCase()}</span>
       </div>
       <div style={{ marginTop: 8, fontFamily: "var(--f-body)", fontSize: 12, color: muted, fontStyle: "italic", lineHeight: 1.5 }}>
@@ -1721,7 +1721,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
                     onStateChange={() => {}}
                   />
                   <div className="mono" style={{ marginTop: 8, fontSize: 10, color: p.muted, lineHeight: 1.5, padding: "0 0.2rem" }}>
-                    <span style={{ color: p.ink }}>fig.03 — gradient descent</span>
+                    <span style={{ color: p.ink }}>fig.01 — gradient descent</span>
                     <div style={{ marginTop: 2 }}>A ball following ∇f across a 2-D loss landscape. Multiple local minima; the path depends on where you start.</div>
                   </div>
                 </div>
@@ -1753,9 +1753,11 @@ function HomeV4({ onNavigate, setCursorColor }) {
             </div>
             {POSTS.filter(x => x.slug !== "merger-themes").slice(0, 4).map((post, i) => (
               <a key={post.slug} href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
-                 style={{ display: "block", padding: "0.9rem 0", borderTop: `1px solid ${p.line}`, color: p.ink }}>
+                 style={{ display: "block", padding: "0.9rem 0", borderTop: `1px solid ${p.line}`, color: p.ink, transition: "padding-left 240ms var(--ease-out)" }}
+                 onMouseEnter={(e) => { e.currentTarget.style.paddingLeft = "0.6rem"; e.currentTarget.querySelector(".essay-title").style.color = p.accent; e.currentTarget.querySelector(".essay-arrow").style.opacity = "1"; }}
+                 onMouseLeave={(e) => { e.currentTarget.style.paddingLeft = "0"; e.currentTarget.querySelector(".essay-title").style.color = p.ink; e.currentTarget.querySelector(".essay-arrow").style.opacity = "0"; }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "1rem" }}>
-                  <h3 className="display" style={{ fontSize: "1.25rem", margin: 0, fontWeight: 380 }}>{post.title}</h3>
+                  <h3 className="display essay-title" style={{ fontSize: "1.25rem", margin: 0, fontWeight: 380, transition: "color 240ms var(--ease-out)" }}>{post.title} <span className="essay-arrow" style={{ color: p.accent, opacity: 0, transition: "opacity 240ms var(--ease-out)" }}>↗</span></h3>
                   <span className="mono" style={{ color: p.muted, fontSize: 11, flexShrink: 0 }}>{post.minutes}m</span>
                 </div>
                 <p style={{ fontSize: "0.85rem", lineHeight: 1.5, color: p.muted, margin: "0.3rem 0 0", maxWidth: "50ch" }}>{post.dek}</p>
@@ -1773,7 +1775,9 @@ function HomeV4({ onNavigate, setCursorColor }) {
               { name: "taylor-rec-engine", role: "six recommendation engines", year: "2026", url: "https://shubz-taylor-recommendation-engine.vercel.app" },
               { name: "platypus-learn", role: "AI learning platform", year: "2025 —", url: "https://platypus-learn.vercel.app" },
             ].map((b, i) => (
-              <a key={i} href={b.url} target="_blank" rel="noreferrer" style={{ display: "block", padding: "0.9rem 0", borderTop: `1px solid ${p.line}`, color: p.ink }}>
+              <a key={i} href={b.url} target="_blank" rel="noreferrer" style={{ display: "block", padding: "0.9rem 0", borderTop: `1px solid ${p.line}`, color: p.ink, transition: "padding-left 240ms var(--ease-out)" }}
+                 onMouseEnter={(e) => { e.currentTarget.style.paddingLeft = "0.6rem"; e.currentTarget.style.background = `color-mix(in oklch, ${p.accent} 4%, transparent)`; }}
+                 onMouseLeave={(e) => { e.currentTarget.style.paddingLeft = "0"; e.currentTarget.style.background = "transparent"; }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
                   <span className="mono" style={{ color: p.accent, fontSize: 12 }}>{b.name} ↗</span>
                   <span className="mono" style={{ color: p.muted, fontSize: 11 }}>{b.year}</span>
