@@ -1704,49 +1704,49 @@ function HomeV4({ onNavigate, setCursorColor }) {
 
             {/* nav links removed — top nav bar handles navigation */}
 
-            {/* SPECIMEN PAIR — above the fold, side by side */}
-            <div style={{ marginTop: isMobile ? "1.6rem" : "2.2rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: isMobile ? "0.6rem" : "1rem", alignItems: "start" }}>
-              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.7rem 0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-                <GradientDescentViz
-                  width={isMobile ? 160 : 260}
-                  height={isMobile ? 120 : 180}
-                  strokeColor={p.ink}
-                  mutedColor={p.muted}
-                  accentColor={p.accent}
-                  onStateChange={() => {}}
-                />
+            {/* SPECIMENS (left) + BUILDS (right) — side by side in main column */}
+            <div style={{ marginTop: isMobile ? "1.6rem" : "2.2rem", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "1rem" : "1.2rem", alignItems: "start" }}>
+              {/* specimens stacked on the left */}
+              <div style={{ display: "grid", gap: isMobile ? "0.6rem" : "0.8rem" }}>
+                <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem 0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
+                  <GradientDescentViz
+                    width={isMobile ? 280 : 240}
+                    height={isMobile ? 160 : 150}
+                    strokeColor={p.ink}
+                    mutedColor={p.muted}
+                    accentColor={p.accent}
+                    onStateChange={() => {}}
+                  />
+                </div>
+                <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
+                  <SeasonalSpecimen
+                    width={isMobile ? 280 : 240}
+                    height={isMobile ? 160 : 150}
+                    accent={p.accent}
+                    ink={p.ink}
+                    muted={p.muted}
+                    line={p.line}
+                  />
+                </div>
               </div>
-              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.7rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-                <SeasonalSpecimen
-                  width={isMobile ? 160 : 260}
-                  height={isMobile ? 120 : 180}
-                  accent={p.accent}
-                  ink={p.ink}
-                  muted={p.muted}
-                  line={p.line}
-                />
+              {/* builds on the right */}
+              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "1rem" : "1.2rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
+                <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 12, display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                  <span>Selected builds</span>
+                  <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} className="link-underline" style={{ color: p.accent, fontSize: 10 }}>full CV →</a>
+                </div>
+                {[
+                  { name: "fashion-web", role: "ML trend intelligence + LMSR exchange", url: "https://fashion-web-psi.vercel.app" },
+                  { name: "taylor-rec-engine", role: "six recommendation engines", url: "https://shubz-taylor-recommendation-engine.vercel.app" },
+                  { name: "platypus-learn", role: "AI learning platform", url: "https://platypus-learn.vercel.app" },
+                ].map((b, i) => (
+                  <a key={i} href={b.url} target="_blank" rel="noreferrer" style={{ display: "block", padding: "0.55rem 0", borderTop: i > 0 ? `1px solid ${p.line}` : "none", fontFamily: "var(--f-ui)", color: p.ink, lineHeight: 1.5 }}>
+                    <span className="mono" style={{ color: p.accent, fontSize: 11 }}>{b.name} ↗</span>
+                    <div style={{ color: p.muted, fontSize: 12, marginTop: 2 }}>{b.role}</div>
+                  </a>
+                ))}
               </div>
             </div>
-
-            {/* keyboard hints removed — declutter */}
-          </div>
-
-          {/* col 10-12 — selected builds in right rail */}
-          <div style={{ gridColumn: isMobile ? "1" : "10 / span 3", marginTop: isMobile ? "1.6rem" : 0 }}>
-            <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.1em", marginBottom: 10, display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-              <span>Selected builds</span>
-              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} className="link-underline" style={{ color: p.accent, fontSize: 10 }}>CV →</a>
-            </div>
-            {[
-              { name: "fashion-web", role: "ML trend + LMSR exchange", url: "https://fashion-web-psi.vercel.app" },
-              { name: "taylor-rec-engine", role: "six recommendation engines", url: "https://shubz-taylor-recommendation-engine.vercel.app" },
-              { name: "platypus-learn", role: "AI learning platform", url: "https://platypus-learn.vercel.app" },
-            ].map((b, i) => (
-              <a key={i} href={b.url} target="_blank" rel="noreferrer" style={{ display: "block", padding: "0.6rem 0", borderTop: `1px solid ${p.line}`, fontSize: 11, fontFamily: "var(--f-ui)", color: p.ink, lineHeight: 1.5 }}>
-                <span className="mono" style={{ color: p.accent, fontSize: 10 }}>{b.name} ↗</span>
-                <div style={{ color: p.muted, marginTop: 2 }}>{b.role}</div>
-              </a>
-            ))}
           </div>
         </div>
       </section>
