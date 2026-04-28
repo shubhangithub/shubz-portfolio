@@ -1399,134 +1399,13 @@ function NowStrip({ palette }) {
 Object.assign(window, { CustomCursor, LetterReveal, FlourishLink, ReadingRuler, ScrollReveal, HoverWeight, NowStrip });
 
 
-/* ===== components/home-v1.jsx ===== */
-/* global React, FourierMotif, DoublePendulum, WaveField, LetterReveal, FlourishLink, ScrollReveal, HoverWeight, NowStrip */
+/* ===== components/shared.jsx ===== */
+/* global React, LetterReveal, FlourishLink */
 
 /* =======================================================================
-   V1 — "Maggie-warm"
-   Cream paper · hand-drawn motif · illustrated-card feel · portrait small-med
+   Shared components used across V4 pages: Nav, Footer, POSTS,
+   CardIllustration. (V1/V2/V3 homes removed — git history preserves them.)
    ======================================================================= */
-
-const PALETTE_V1 = {
-  paper: "#F4ECDD",
-  ink: "#1F1D18",
-  muted: "#6B6456",
-  accent: "#B85C3C",   // terracotta
-  accentAlt: "#7A8A6B", // sage
-  line: "#D9CEB8",
-};
-
-function HomeV1({ onNavigate, setCursorColor }) {
-  const { useEffect } = React;
-  useEffect(() => { setCursorColor(PALETTE_V1.accent); document.body.style.background = PALETTE_V1.paper; }, []);
-  const p = PALETTE_V1;
-
-  return (
-    <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
-      {/* grainy paper texture */}
-      <div aria-hidden="true" style={{
-        position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1,
-        backgroundImage: "radial-gradient(rgba(31,29,24,0.035) 1px, transparent 1px)",
-        backgroundSize: "3px 3px",
-        mixBlendMode: "multiply",
-      }} />
-      <Nav palette={p} onNavigate={onNavigate} />
-
-      {/* HERO */}
-      <section style={{ maxWidth: 1240, margin: "0 auto", padding: "3.2rem 2.2rem 3rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1.7fr 1fr", gap: "3rem", alignItems: "center" }}>
-          <div>
-            <div className="ui caps" style={{ color: p.muted, marginBottom: "1.4rem" }}>
-              <span style={{ display: "inline-block", width: 18, height: 1, background: p.muted, verticalAlign: "middle", marginRight: 10 }} />
-              Shubhangi Sharma · London · est. 2026
-            </div>
-
-            <h1 className="display" style={{ fontSize: "clamp(3.4rem, 7vw, 6.6rem)", margin: 0, fontWeight: 380 }}>
-              <LetterReveal stagger={22} delay={120}>Shubhangi </LetterReveal>
-              <span style={{ fontStyle: "italic", fontVariationSettings: '"opsz" 144, "SOFT" 100, "wght" 300' }}>
-                <LetterReveal stagger={22} delay={320}>makes </LetterReveal>
-              </span>
-              <LetterReveal stagger={22} delay={620}>quiet tools </LetterReveal>
-              <LetterReveal stagger={22} delay={980}>for loud </LetterReveal>
-              <span style={{ color: p.accent }}><LetterReveal stagger={22} delay={1200}>worlds.</LetterReveal></span>
-            </h1>
-
-            <p className="prose" style={{ fontSize: "1.15rem", lineHeight: 1.65, marginTop: "2rem", maxWidth: "46ch", color: p.ink }}>
-              Founding engineer at <FlourishLink href="#">Orion</FlourishLink>, building geospatial ML over H3 hexagons. Physicist by training <span style={{ color: p.muted }}>(Oxford MFoCS, Institute of Physics)</span>, practitioner by habit. I write about <FlourishLink href="#" flourish="arrow">skating edges</FlourishLink>, <FlourishLink href="#" flourish="arrow">Fourier series</FlourishLink>, and the protocols that make language models useful.
-            </p>
-
-            <div style={{ marginTop: "2.6rem", display: "flex", gap: "1.8rem", flexWrap: "wrap", alignItems: "center" }}>
-              <button onClick={() => onNavigate("writing")} className="ui" style={btnPrimary(p)}>Read the essays <span style={{ marginLeft: 8 }}>→</span></button>
-              <FlourishLink href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} flourish="dot">the work</FlourishLink>
-              <FlourishLink href="#" onClick={(e) => { e.preventDefault(); onNavigate("now"); }} flourish="dot">what I'm doing now</FlourishLink>
-            </div>
-          </div>
-
-          {/* Portrait column — small-medium, considered */}
-          <div style={{ position: "relative" }}>
-            <div style={{ position: "relative", width: "100%", maxWidth: 340, marginLeft: "auto" }}>
-              <div style={{ position: "absolute", inset: "-18px -14px", background: p.accent, opacity: 0.07, transform: "rotate(-2deg)" }} />
-              <img src="assets/portrait.png" alt="Shubhangi, in a black turtleneck against a warm textured backdrop — looking slightly past the camera." style={{ width: "100%", display: "block", position: "relative", filter: "contrast(1.02)" }} />
-              <div className="mono" style={{ position: "absolute", bottom: -26, right: 0, color: p.muted }}>
-                — portrait, Spring 2026
-              </div>
-            </div>
-
-            {/* Fourier motif anchored near portrait, top-left */}
-            <div style={{ position: "absolute", top: -28, left: -24, color: p.accent, opacity: 0.85 }}>
-              <FourierMotif shape="hex" size={200} density={14}
-                strokeColor={p.accent} trailColor={`rgba(184,92,60,0.55)`} epicycleColor={`rgba(31,29,24,0.09)`} />
-            </div>
-          </div>
-        </div>
-
-        {/* Now strip */}
-        <div style={{ marginTop: "4.2rem", paddingTop: "1.6rem", borderTop: `1px solid ${p.line}` }}>
-          <NowStrip palette={p} />
-        </div>
-      </section>
-
-      {/* FEATURED WRITING */}
-      <section style={{ maxWidth: 1240, margin: "0 auto", padding: "1rem 2.2rem 5rem", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "flex", alignItems: "baseline", gap: "1.2rem", marginBottom: "2rem" }}>
-          <h2 className="display" style={{ fontSize: "2.4rem", margin: 0, fontWeight: 380 }}>The Essay Garden</h2>
-          <span className="ui caps" style={{ color: p.muted }}>— three recent</span>
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr 1fr", gap: "2rem" }}>
-          <EssayCardIllustrated post={POSTS[0]} onNavigate={onNavigate} palette={p} featured />
-          <EssayCardIllustrated post={POSTS[1]} onNavigate={onNavigate} palette={p} />
-          <EssayCardIllustrated post={POSTS[2]} onNavigate={onNavigate} palette={p} />
-        </div>
-      </section>
-
-      <Footer palette={p} line="Built slowly, in London, on winter mornings." />
-    </div>
-  );
-}
-
-function EssayCardIllustrated({ post, onNavigate, palette, featured }) {
-  const p = palette;
-  const [hover, setHover] = React.useState(false);
-  return (
-    <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
-       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
-       style={{ display: "block", position: "relative", padding: "1.4rem 1.4rem 1.6rem", background: hover ? "#FBF5E7" : "#F8F0DE", transition: "background 320ms var(--ease-out), transform 420ms var(--ease-out)", transform: hover ? "translateY(-3px)" : "translateY(0)", border: `1px solid ${p.line}`, borderRadius: 2 }}>
-      {/* illustrated header — hand-drawn feel SVG */}
-      <div style={{ height: featured ? 180 : 140, position: "relative", overflow: "hidden", marginBottom: "1.2rem", background: post.cardBg }}>
-        <CardIllustration kind={post.illustration} color={p.ink} accent={post.accent || p.accent} />
-      </div>
-      <div className="ui caps" style={{ color: p.muted, marginBottom: "0.5rem" }}>{post.kicker}</div>
-      <h3 className="display" style={{ fontSize: featured ? "2rem" : "1.5rem", fontWeight: 400, margin: 0, lineHeight: 1.08 }}>{post.title}</h3>
-      <p style={{ fontSize: "0.98rem", lineHeight: 1.55, color: p.muted, margin: "0.8rem 0 0", fontFamily: "var(--f-body)" }}>{post.dek}</p>
-      <div style={{ display: "flex", alignItems: "center", marginTop: "1.2rem", gap: "0.6rem", color: p.accent, fontFamily: "var(--f-ui)", fontSize: 13 }}>
-        <span>Read</span>
-        <span style={{ display: "inline-block", transform: hover ? "translateX(4px)" : "translateX(0)", transition: "transform 300ms var(--ease-out)" }}>→</span>
-        <span className="mono" style={{ marginLeft: "auto", color: p.muted }}>{post.minutes} min</span>
-      </div>
-    </a>
-  );
-}
 
 function CardIllustration({ kind, color, accent }) {
   // hand-drawn-feeling svg scenes
@@ -1606,21 +1485,6 @@ function CardIllustration({ kind, color, accent }) {
       </g>
     </svg>
   );
-}
-
-function btnPrimary(p) {
-  return {
-    fontFamily: "var(--f-ui)",
-    fontSize: 14,
-    letterSpacing: "0.02em",
-    padding: "0.85rem 1.3rem",
-    background: p.ink,
-    color: p.paper,
-    border: "none",
-    borderRadius: 2,
-    cursor: "pointer",
-    transition: "background 240ms var(--ease-out), transform 200ms var(--ease-out)",
-  };
 }
 
 function Nav({ palette, onNavigate, current }) {
@@ -1716,302 +1580,7 @@ const POSTS = [
   },
 ];
 
-Object.assign(window, { HomeV1, Nav, Footer, POSTS, PALETTE_V1, EssayCardIllustrated, CardIllustration, btnPrimary });
-
-
-/* ===== components/home-v2.jsx ===== */
-/* global React, FourierMotif, DoublePendulum, LetterReveal, FlourishLink, NowStrip, HoverWeight, Nav, Footer, POSTS */
-
-/* =======================================================================
-   V2 — "Robin-voicey"
-   Warmer paper · prose-forward · personality in copy · portrait small
-   typography doing the work · single-column reading layout up top
-   ======================================================================= */
-
-const PALETTE_V2 = {
-  paper: "#F1E9DA",
-  ink: "#1A1714",
-  muted: "#6B5F4F",
-  accent: "#C2452A",  // warmer orange-red
-  accentAlt: "#3F5E48",
-  line: "#D5C7AC",
-};
-
-function HomeV2({ onNavigate, setCursorColor }) {
-  const { useEffect } = React;
-  useEffect(() => { setCursorColor(PALETTE_V2.accent); document.body.style.background = PALETTE_V2.paper; }, []);
-  const p = PALETTE_V2;
-
-  return (
-    <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
-      <Nav palette={p} onNavigate={onNavigate} />
-
-      {/* HERO — voicey, prose-first */}
-      <section style={{ maxWidth: 720, margin: "0 auto", padding: "3rem 1.8rem 2rem" }}>
-        {/* tiny portrait, top-right of the prose block */}
-        <div style={{ float: "right", width: 96, marginLeft: "1.4rem", marginBottom: "0.6rem", marginTop: "0.2rem", position: "relative", overflow: "hidden" }}>
-          <img src="assets/portrait.png" alt="Shubhangi, in a black turtleneck against a warm textured backdrop." style={{ width: "115%", marginLeft: "-7%", marginTop: "-5%", display: "block", transform: "rotate(3deg)", transformOrigin: "center 40%" }} />
-          <div className="mono" style={{ marginTop: 6, color: p.muted, fontSize: 11 }}>SS · 2026 · London</div>
-        </div>
-
-        <h1 className="display" style={{ fontSize: "clamp(2.8rem, 6.6vw, 5.4rem)", margin: "0 0 1.4rem", fontWeight: 360, lineHeight: 0.98 }}>
-          <LetterReveal stagger={26}>Shubhangi Sharma —</LetterReveal>
-          <span style={{ display: "block", fontStyle: "italic", fontVariationSettings: '"opsz" 144, "SOFT" 100, "wght" 320', color: p.accent }}>
-            <LetterReveal stagger={26} delay={520}>physicist, engineer,</LetterReveal>
-          </span>
-          <span style={{ display: "block", fontStyle: "italic", fontVariationSettings: '"opsz" 144, "SOFT" 100, "wght" 320', color: p.accent }}>
-            <LetterReveal stagger={26} delay={1100}>writer in transit.</LetterReveal>
-          </span>
-        </h1>
-
-        <p className="prose drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.7, marginTop: "1.2rem", color: p.ink }}>
-          I'm a founding engineer at <FlourishLink href="#">Orion</FlourishLink>, where I build geospatial machine-learning systems indexed on H3 hexagons — software that pays attention to <em>where</em> things happen, and how confidently. Before that I read mathematics and computer science at <FlourishLink href="#">Oxford</FlourishLink>, and physics at FLAME, and I'm a Member of the Institute of Physics. I am also, in inconvenient order: a figure skater, a Thames rower at dawn, and an essayist trying to make math-heavy writing read like a novel.
-        </p>
-
-        <p className="prose" style={{ fontSize: "1.05rem", lineHeight: 1.65, marginTop: "1.2rem", color: p.ink }}>
-          This site is a slow practice. A field journal. The things I'm currently chewing on:
-        </p>
-
-        <ul style={{ listStyle: "none", padding: 0, margin: "0.4rem 0 1.6rem", fontSize: "1.05rem", lineHeight: 1.7 }}>
-          <li style={{ display: "flex", gap: "0.8rem" }}>
-            <span style={{ color: p.accent, paddingTop: 2 }}>—</span>
-            <span>a seven-part series demystifying the <FlourishLink href="#" onClick={(e)=>{e.preventDefault(); onNavigate("essay","mcp");}}>Model Context Protocol</FlourishLink>, post one of which is up;</span>
-          </li>
-          <li style={{ display: "flex", gap: "0.8rem" }}>
-            <span style={{ color: p.accent, paddingTop: 2 }}>—</span>
-            <span>a long essay on <FlourishLink href="#" onClick={(e)=>{e.preventDefault(); onNavigate("essay","edges");}}>skating edges as applied physics</FlourishLink>;</span>
-          </li>
-          <li style={{ display: "flex", gap: "0.8rem" }}>
-            <span style={{ color: p.accent, paddingTop: 2 }}>—</span>
-            <span>a small obsession with the <FlourishLink href="#">JAYA algorithm</FlourishLink> (improved feature selection for protein identification; I'll spare you the details for now);</span>
-          </li>
-          <li style={{ display: "flex", gap: "0.8rem" }}>
-            <span style={{ color: p.accent, paddingTop: 2 }}>—</span>
-            <span>and the question of whether ML for water-vapour estimation can earn its kilowatt-hours.</span>
-          </li>
-        </ul>
-
-        <p className="prose" style={{ fontSize: "1.05rem", lineHeight: 1.65, color: p.muted, fontStyle: "italic" }}>
-          The newsletter goes out roughly with the moon. <FlourishLink href="#" flourish="arrow">Sign up</FlourishLink>, or just come back when winter feels long.
-        </p>
-      </section>
-
-      {/* small motif — pendulum top right of section divider */}
-      <section style={{ maxWidth: 720, margin: "0 auto", padding: "1.4rem 1.8rem 0.4rem", display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderTop: `1px solid ${p.line}` }}>
-        <NowStrip palette={p} />
-        <div style={{ color: p.accent, marginLeft: "1.2rem", flexShrink: 0 }}>
-          <DoublePendulum size={120} strokeColor={p.ink} />
-        </div>
-      </section>
-
-      {/* FEATURED — list, not a grid */}
-      <section style={{ maxWidth: 720, margin: "0 auto", padding: "2.6rem 1.8rem 4rem" }}>
-        <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 380, margin: "0 0 0.4rem" }}>From the desk</h2>
-        <div className="ui caps" style={{ color: p.muted, marginBottom: "1.6rem" }}>Three recent · all in progress</div>
-
-        <div style={{ display: "grid", gap: "1.6rem" }}>
-          {POSTS.map((post, i) => <EssayRowVoicey key={post.slug} post={post} palette={p} onNavigate={onNavigate} index={i} />)}
-        </div>
-      </section>
-
-      <Footer palette={p} line="Set in Fraunces and Source Serif. Written slowly, on the District line." />
-    </div>
-  );
-}
-
-function EssayRowVoicey({ post, palette, onNavigate, index }) {
-  const p = palette;
-  const [hover, setHover] = React.useState(false);
-  return (
-    <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
-       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
-       style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: "1.2rem", alignItems: "baseline", padding: "1.1rem 0", borderTop: `1px solid ${p.line}`, color: p.ink }}>
-      <span className="mono" style={{ color: p.muted, paddingTop: 8 }}>0{index + 1}</span>
-      <div>
-        <h3 className="display" style={{ fontSize: "1.65rem", margin: 0, fontWeight: 380, fontStyle: index === 0 ? "italic" : "normal", color: hover ? p.accent : p.ink, transition: "color 240ms var(--ease-out)" }}>
-          {post.title}
-        </h3>
-        <p style={{ fontSize: "1rem", lineHeight: 1.55, color: p.muted, margin: "0.4rem 0 0", maxWidth: "52ch" }}>{post.dek}</p>
-      </div>
-      <span className="mono" style={{ color: p.muted, paddingTop: 8 }}>{post.minutes}m</span>
-    </a>
-  );
-}
-
-Object.assign(window, { HomeV2, PALETTE_V2 });
-
-
-/* ===== components/home-v3.jsx ===== */
-/* global React, FourierMotif, WaveField, LetterReveal, FlourishLink, NowStrip, Nav, Footer, POSTS */
-
-/* =======================================================================
-   V3 — "Josh-delightful"
-   Confident unusual base color (dusty teal) · playful-but-serious
-   one visible delight moment in hero · medium portrait
-   ======================================================================= */
-
-const PALETTE_V3 = {
-  paper: "#E8E2D2",       // bone
-  base: "#2C3E3A",        // dusty deep teal
-  ink: "#F4EFDD",
-  inkDim: "#C9C0A6",
-  muted: "#8A9591",
-  accent: "#E8A24E",       // mustard
-  accentAlt: "#D67C5C",
-  line: "rgba(244,239,221,0.18)",
-};
-
-function HomeV3({ onNavigate, setCursorColor }) {
-  const { useEffect, useState, useRef } = React;
-  const p = PALETTE_V3;
-  useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.base; }, []);
-
-  // Delight moment — clickable orbiting "particle" that springs to attention on hover
-  const [orbited, setOrbited] = useState(0);
-
-  return (
-    <div style={{ background: p.base, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
-      <NavDark palette={p} onNavigate={onNavigate} />
-
-      <section style={{ maxWidth: 1180, margin: "0 auto", padding: "2.4rem 2.2rem 2rem", position: "relative" }}>
-        {/* faint waveform behind everything */}
-        <div style={{ position: "absolute", inset: 0, opacity: 0.18, pointerEvents: "none", color: p.accent }}>
-          <WaveField width={1180} height={520} color={p.accent} density={42} />
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: "3.4rem", alignItems: "center", position: "relative" }}>
-          <div>
-            <div className="ui caps" style={{ color: p.accent, marginBottom: "1.4rem" }}>
-              ★ Founding engineer · Orion · London
-            </div>
-            <h1 className="display" style={{ fontSize: "clamp(3.2rem, 6.4vw, 5.8rem)", margin: 0, fontWeight: 380, color: p.ink }}>
-              <LetterReveal stagger={26}>Physics, but </LetterReveal>
-              <span style={{ color: p.accent, fontStyle: "italic" }}><LetterReveal stagger={26} delay={520}>cheerful</LetterReveal></span>
-              <LetterReveal stagger={26} delay={950}> about it.</LetterReveal>
-            </h1>
-            <p className="prose" style={{ fontSize: "1.15rem", lineHeight: 1.65, marginTop: "1.8rem", maxWidth: "44ch", color: p.inkDim }}>
-              I'm Shubhangi. I build geospatial ML at <FlourishLink href="#">Orion</FlourishLink> — the kind of software that watches a place and tells you, with calibrated confidence, when something has shifted. I read maths at Oxford and physics at FLAME, and I write essays about <FlourishLink href="#" onClick={(e)=>{e.preventDefault(); onNavigate("essay","edges");}}>skating edges</FlourishLink>, <FlourishLink href="#" onClick={(e)=>{e.preventDefault(); onNavigate("essay","mcp");}}>protocols</FlourishLink>, and other things that benefit from being taken seriously.
-            </p>
-
-            <div style={{ marginTop: "2.2rem", display: "flex", gap: "1rem", alignItems: "center" }}>
-              <button onClick={() => onNavigate("writing")} style={{ ...btnDelight(p) }}>
-                <span>Read the writing</span>
-                <span className="arrow" style={{ marginLeft: 10, display: "inline-block", transition: "transform 280ms var(--ease-spring)" }}>→</span>
-              </button>
-              <FlourishLink href="#" onClick={(e) => { e.preventDefault(); onNavigate("now"); }} flourish="star">what I'm doing now</FlourishLink>
-            </div>
-
-            {/* delight moment — pet the photon */}
-            <div style={{ marginTop: "2.6rem", padding: "1rem 1.2rem", background: "rgba(244,239,221,0.05)", borderLeft: `2px solid ${p.accent}`, fontFamily: "var(--f-ui)", fontSize: 14, color: p.inkDim, display: "flex", alignItems: "center", gap: "1rem", maxWidth: 460 }}>
-              <button onClick={() => setOrbited(orbited + 1)}
-                style={{ all: "unset", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "0.6rem" }}>
-                <span style={{ position: "relative", width: 22, height: 22, display: "inline-block" }}>
-                  <span style={{ position: "absolute", inset: 0, borderRadius: "50%", border: `1px dashed ${p.accent}`, opacity: 0.55 }} />
-                  <span key={orbited} style={{ position: "absolute", top: 0, left: "50%", marginLeft: -3, width: 6, height: 6, background: p.accent, borderRadius: "50%", animation: "orbitspin 1100ms var(--ease-spring) 1, orbitring 4s linear infinite" }} />
-                </span>
-                <span>Pet the photon</span>
-              </button>
-              <span className="mono" style={{ color: p.muted, fontSize: 11, marginLeft: "auto" }}>petted ×{orbited}</span>
-            </div>
-            <style>{`
-              @keyframes orbitring {
-                from { transform: rotate(0deg) translate(0, -8px) rotate(0deg); }
-                to { transform: rotate(360deg) translate(0, -8px) rotate(-360deg); }
-              }
-              @keyframes orbitspin { 0% { transform: rotate(0deg) translate(0, -8px) scale(1); } 50% { transform: rotate(180deg) translate(0, -16px) scale(1.5); } 100% { transform: rotate(360deg) translate(0, -8px) scale(1); } }
-            `}</style>
-          </div>
-
-          {/* Portrait */}
-          <div style={{ position: "relative", justifySelf: "center" }}>
-            <div style={{ position: "absolute", inset: "-26px", borderRadius: 0, background: p.accent, opacity: 0.12, transform: "rotate(2deg)" }} />
-            <img src="assets/portrait.png" alt="Shubhangi against a warm textured backdrop." style={{ width: "100%", maxWidth: 360, display: "block", position: "relative" }} />
-            <div className="mono" style={{ marginTop: 10, color: p.accent, fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase" }}>fig. 01 — the author</div>
-
-            {/* Fourier hex motif tucked above portrait */}
-            <div style={{ position: "absolute", top: -42, right: -42, color: p.accent }}>
-              <FourierMotif shape="hex" size={150} density={12} strokeColor={p.accent} trailColor={`rgba(232,162,78,0.6)`} epicycleColor={`rgba(244,239,221,0.12)`} />
-            </div>
-          </div>
-        </div>
-
-        {/* Now strip */}
-        <div style={{ marginTop: "3.2rem", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>
-          <NowStrip palette={{ ...p, ink: p.ink, muted: p.muted }} />
-        </div>
-      </section>
-
-      {/* FEATURED — playful staggered cards */}
-      <section style={{ maxWidth: 1180, margin: "0 auto", padding: "2.4rem 2.2rem 5rem", position: "relative" }}>
-        <h2 className="display" style={{ fontSize: "2.6rem", margin: "0 0 1.6rem", fontWeight: 380, color: p.ink }}>
-          Things written down
-        </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.4rem" }}>
-          {POSTS.map((post, i) => <DelightCard key={post.slug} post={post} palette={p} onNavigate={onNavigate} index={i} />)}
-        </div>
-      </section>
-
-      <Footer palette={{ ...p, ink: p.ink, muted: p.muted, line: p.line }} line="Made with photons. Hosted nowhere fancy." />
-    </div>
-  );
-}
-
-function DelightCard({ post, palette, onNavigate, index }) {
-  const p = palette;
-  const [hover, setHover] = React.useState(false);
-  const tilt = index === 1 ? 0 : index === 0 ? -1 : 1;
-  return (
-    <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
-       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
-       style={{ display: "block", padding: "1.4rem 1.4rem 1.6rem", background: hover ? "rgba(244,239,221,0.08)" : "rgba(244,239,221,0.04)", border: `1px solid ${p.line}`, color: p.ink, transform: `translateY(${hover ? -4 : 0}px) rotate(${hover ? 0 : tilt}deg)`, transition: "all 380ms var(--ease-spring)" }}>
-      <div className="ui caps" style={{ color: p.accent, marginBottom: "0.8rem", fontSize: 11 }}>{post.kicker}</div>
-      <h3 className="display" style={{ fontSize: "1.5rem", margin: 0, fontWeight: 380, lineHeight: 1.1, color: p.ink }}>{post.title}</h3>
-      <p style={{ fontSize: "0.96rem", lineHeight: 1.55, color: p.inkDim, margin: "0.7rem 0 0" }}>{post.dek}</p>
-      <div style={{ display: "flex", marginTop: "1.2rem", color: p.accent, fontFamily: "var(--f-ui)", fontSize: 13, justifyContent: "space-between" }}>
-        <span>Read <span style={{ display: "inline-block", transform: hover ? "translateX(6px)" : "translateX(0)", transition: "transform 320ms var(--ease-spring)" }}>→</span></span>
-        <span className="mono" style={{ color: p.muted }}>{post.minutes} min</span>
-      </div>
-    </a>
-  );
-}
-
-function NavDark({ palette, onNavigate, current }) {
-  const p = palette;
-  const items = [["Home","home"],["Writing","writing"],["Work","work"],["Now","now"],["Contact","contact"]];
-  return (
-    <nav style={{ position: "relative", zIndex: 5, padding: "1.6rem 2.2rem", maxWidth: 1180, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "var(--f-ui)", fontSize: 14, color: p.ink }}>
-      <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("home"); }} style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", color: p.ink }}>
-        <span style={{ width: 22, height: 22, display: "inline-block", color: p.accent }}>
-          <svg viewBox="0 0 22 22"><polygon points="11,1 20.5,6 20.5,16 11,21 1.5,16 1.5,6" fill="none" stroke="currentColor" strokeWidth="1.2" /><circle cx="11" cy="11" r="2" fill="currentColor" /></svg>
-        </span>
-        <span style={{ fontFamily: "var(--f-display)", fontSize: 17, letterSpacing: "-0.01em" }}>Shubhangi Sharma</span>
-      </a>
-      <div style={{ display: "flex", gap: "1.6rem" }}>
-        {items.map(([label, key]) => (
-          <a key={key} href="#" onClick={(e) => { e.preventDefault(); onNavigate(key); }} className="link-underline">{label}</a>
-        ))}
-      </div>
-    </nav>
-  );
-}
-
-function btnDelight(p) {
-  return {
-    fontFamily: "var(--f-ui)",
-    fontSize: 14,
-    letterSpacing: "0.02em",
-    padding: "0.85rem 1.3rem",
-    background: p.accent,
-    color: p.base,
-    border: "none",
-    cursor: "pointer",
-    fontWeight: 600,
-    transition: "transform 240ms var(--ease-spring)",
-  };
-}
-
-Object.assign(window, { HomeV3, PALETTE_V3, NavDark });
-
+Object.assign(window, { Nav, Footer, POSTS, CardIllustration });
 
 /* ===== components/home-v4.jsx ===== */
 /* global React, FourierMotif, LetterReveal, NowStrip, Nav, Footer, POSTS, GradientDescentViz, SeasonalSpecimen */
@@ -2097,8 +1666,9 @@ function HomeV4({ onNavigate, setCursorColor }) {
             <div style={{ gridColumn: "1 / span 2", paddingTop: "0.8rem", fontFamily: "var(--f-ui)", fontSize: 12, color: p.muted, lineHeight: 1.7 }}>
               <div className="caps" style={{ marginBottom: 8 }}>Index</div>
               <div>01 &nbsp; Hero</div>
-              <div>02 &nbsp; Now</div>
-              <div>03 &nbsp; Writing</div>
+              <div>02 &nbsp; Writing</div>
+              <div>03 &nbsp; Now</div>
+              <div>04 &nbsp; Builds</div>
               <div style={{ marginTop: 22, color: p.ink }} className="mono">↳ scroll to continue</div>
 
               {/* Instrument panel — live cursor coords + scroll */}
@@ -2128,7 +1698,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
             </h1>
 
             <p className="prose" style={{ fontSize: isMobile ? "1rem" : "1.08rem", lineHeight: 1.7, marginTop: isMobile ? "1.4rem" : "1.8rem", maxWidth: "52ch", color: p.ink }}>
-              Founding engineer at <em>Orion</em>, where I build geospatial-intelligence ML over H3 hexagons — the precision of <em>where</em>, weighted by the confidence of <em>how do we know</em>. Oxford MFoCS, BSc CS from FLAME, Member of the Institute of Physics. I write about optimization, bioinformatics, and the occasional Taylor Swift recommendation engine.
+              I'm a founding engineer at <em>Orion</em>, where I build geospatial ML indexed on H3 hexagons — software that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths at Oxford and physics at FLAME. I am also, in inconvenient order: a figure skater, a Thames rower at dawn, and an essayist who thinks interactive diagrams are the point.
             </p>
 
             <div style={{ marginTop: isMobile ? "1.6rem" : "2rem", display: "flex", gap: isMobile ? "1.4rem" : "2rem", flexWrap: "wrap", alignItems: "center", fontFamily: "var(--f-ui)", fontSize: 13 }}>
@@ -2147,29 +1717,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
               </div>
             )}
 
-            {/* SPECIMEN PAIR — gradient descent + seasonal: side-by-side desktop, stacked mobile */}
-            <div style={{ marginTop: isMobile ? "1.8rem" : "2.4rem", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "1rem", alignItems: "start" }}>
-              <div style={{ border: `1px solid ${p.line}`, padding: "0.8rem 0.4rem 0.8rem", position: "relative", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-                <GradientDescentViz
-                  width={isMobile ? 320 : 240}
-                  height={isMobile ? 240 : 200}
-                  strokeColor={p.ink}
-                  mutedColor={p.muted}
-                  accentColor={p.accent}
-                  onStateChange={setGdState}
-                />
-              </div>
-              <div style={{ border: `1px solid ${p.line}`, padding: "0.8rem 0.8rem 0.7rem", position: "relative", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-                <SeasonalSpecimen
-                  width={isMobile ? 320 : 240}
-                  height={isMobile ? 240 : 200}
-                  accent={p.accent}
-                  ink={p.ink}
-                  muted={p.muted}
-                  line={p.line}
-                />
-              </div>
-            </div>
+            {/* specimens moved to right rail */}
           </div>
 
           {/* portrait + motif — col 10-12 desktop · stacked below body on mobile */}
@@ -2187,50 +1735,80 @@ function HomeV4({ onNavigate, setCursorColor }) {
               <span>2026 · London</span>
             </div>
 
-            {/* small motif as adjacent figure — desktop only (saves vertical space on mobile) */}
+            {/* small motif as adjacent figure — desktop only */}
             {!isMobile && (
               <div style={{ marginTop: "1rem", border: `1px solid ${p.line}`, padding: "0.7rem", color: p.accent, position: "relative", maxWidth: 220, marginLeft: "auto" }}>
                 <FourierMotif shape="hex" size={140} density={18} strokeColor={p.accent} trailColor={`rgba(63,75,126,0.55)`} epicycleColor={`rgba(0,0,0,0.08)`} />
                 <div className="mono" style={{ marginTop: 6, color: p.muted, fontSize: 10 }}>fig.02 — fourier(hex), 18 epicycles</div>
               </div>
             )}
+
+            {/* specimen pair — stacked in right rail (desktop) or inline (mobile) */}
+            <div style={{ marginTop: "1rem", display: "grid", gap: "0.6rem", maxWidth: isMobile ? "100%" : 220, marginLeft: isMobile ? 0 : "auto" }}>
+              <div style={{ border: `1px solid ${p.line}`, padding: "0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
+                <GradientDescentViz width={isMobile ? 280 : 190} height={isMobile ? 200 : 140} strokeColor={p.ink} mutedColor={p.muted} accentColor={p.accent} onStateChange={setGdState} />
+              </div>
+              <div style={{ border: `1px solid ${p.line}`, padding: "0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
+                <SeasonalSpecimen width={isMobile ? 280 : 190} height={isMobile ? 200 : 140} accent={p.accent} ink={p.ink} muted={p.muted} line={p.line} />
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* NOW row */}
-      <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "0 1rem" : "0 1.6rem", position: "relative", zIndex: 2 }}>
-        <div style={{ borderTop: `1px solid ${p.line}`, borderBottom: `1px solid ${p.line}`, padding: "1.2rem 0", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: isMobile ? "0.6rem" : "1.6rem", fontFamily: "var(--f-ui)", fontSize: 13 }}>
-          <div style={{ gridColumn: isMobile ? "1" : "1 / span 2" }} className="caps">Now</div>
-          <div style={{ gridColumn: isMobile ? "1" : "3 / span 5", color: p.ink }}>
-            Building geospatial ML at <em>Orion</em> · indexing the world on H3 hexagons.
-          </div>
-          <div style={{ gridColumn: isMobile ? "1" : "8 / span 3", color: p.muted }}>
-            <em style={{ color: p.ink }}>"JAYA, improved"</em> is up. Drafting the next.
-          </div>
-          <div style={{ gridColumn: isMobile ? "1" : "11 / span 2", color: p.muted, textAlign: isMobile ? "left" : "right" }} className="mono">London · 51.51°N</div>
-        </div>
-      </section>
-
-      {/* Mini timeline — annotated CV preview */}
-      <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "2.2rem 1rem 0" : "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.4rem", alignItems: "baseline" }}>
-          <h2 className="display" style={{ gridColumn: isMobile ? "1" : "3 / span 5", fontSize: isMobile ? "1.7rem" : "1.9rem", margin: 0, fontWeight: 380 }}>Trajectory</h2>
-          <span className="caps" style={{ gridColumn: isMobile ? "1" : "10 / span 3", color: p.muted, alignSelf: "baseline", fontFamily: "var(--f-ui)", fontSize: 12 }}>Five points / full CV ↗</span>
-        </div>
-
-        <Timeline palette={p} isMobile={isMobile} />
-      </section>
-
-      {/* WRITING — list with measured rules */}
-      <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "2.2rem 1rem 3rem" : "3rem 1.6rem 4rem", position: "relative", zIndex: 2 }}>
+      {/* WRITING — promoted to first section */}
+      <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "1.6rem 1rem 2rem" : "2rem 1.6rem 2.4rem", position: "relative", zIndex: 2 }}>
         <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.4rem", alignItems: "baseline" }}>
           <h2 className="display" style={{ gridColumn: isMobile ? "1" : "3 / span 5", fontSize: isMobile ? "1.7rem" : "1.9rem", margin: 0, fontWeight: 380 }}>Recent writing</h2>
-          <span className="caps" style={{ gridColumn: isMobile ? "1" : "10 / span 3", color: p.muted, alignSelf: "baseline", fontFamily: "var(--f-ui)", fontSize: 12 }}>Three / index ↗</span>
+          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} className="link-underline caps" style={{ gridColumn: isMobile ? "1" : "10 / span 3", color: p.accent, alignSelf: "baseline", fontFamily: "var(--f-ui)", fontSize: 12 }}>all essays →</a>
         </div>
-
         <div>
-          {POSTS.map((post, i) => <PreciseRow key={post.slug} post={post} palette={p} onNavigate={onNavigate} index={i} total={POSTS.length} isMobile={isMobile} />)}
+          {POSTS.filter(p => p.slug !== "merger-themes").slice(0, 4).map((post, i) => <PreciseRow key={post.slug} post={post} palette={p} onNavigate={onNavigate} index={i} total={POSTS.filter(p => p.slug !== "merger-themes").length} isMobile={isMobile} />)}
+        </div>
+      </section>
+
+      {/* NOW — sneak peek */}
+      <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "0 1rem 2rem" : "0 1.6rem 2.4rem", position: "relative", zIndex: 2 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem", alignItems: "baseline" }}>
+          <h2 className="display" style={{ gridColumn: isMobile ? "1" : "3 / span 5", fontSize: isMobile ? "1.7rem" : "1.9rem", margin: 0, fontWeight: 380 }}>Right now</h2>
+          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("now"); }} className="link-underline caps" style={{ gridColumn: isMobile ? "1" : "10 / span 3", color: p.accent, alignSelf: "baseline", fontFamily: "var(--f-ui)", fontSize: 12 }}>the full /now →</a>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: "1.6rem" }}>
+          <div style={{ gridColumn: isMobile ? "1" : "3 / span 9", borderTop: `1px solid ${p.line}` }}>
+            {[
+              { kind: "Founding", what: "Orion's intelligence platform — geospatial ML over H3 indexing, with confidence weighting baked in at every join." },
+              { kind: "Shipping", what: "fashion-web — five-source trend pipeline (Google Trends, Bluesky, Pinterest, Reddit, YouTube), LMSR exchange, Gemini CV. Live at fashion-web-psi.vercel.app." },
+              { kind: "Writing", what: "Drafting the next essay. The argument is half-formed; the diagrams are the fun part." },
+            ].map((f, i) => (
+              <div key={i} style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "100px 1fr", gap: isMobile ? "0.2rem" : "1.4rem", padding: "0.9rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline" }}>
+                <span className="caps mono" style={{ color: p.accent, fontSize: 11, letterSpacing: "0.1em" }}>{f.kind}</span>
+                <span style={{ fontFamily: "var(--f-body)", fontSize: "1rem", color: p.ink, lineHeight: 1.55 }}>{f.what}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* WORK — sneak peek: deployed builds */}
+      <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "0 1rem 3rem" : "0 1.6rem 4rem", position: "relative", zIndex: 2 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem", alignItems: "baseline" }}>
+          <h2 className="display" style={{ gridColumn: isMobile ? "1" : "3 / span 5", fontSize: isMobile ? "1.7rem" : "1.9rem", margin: 0, fontWeight: 380 }}>Selected builds</h2>
+          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} className="link-underline caps" style={{ gridColumn: isMobile ? "1" : "10 / span 3", color: p.accent, alignSelf: "baseline", fontFamily: "var(--f-ui)", fontSize: 12 }}>annotated CV →</a>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: "1.6rem" }}>
+          <div style={{ gridColumn: isMobile ? "1" : "3 / span 9", borderTop: `1px solid ${p.line}` }}>
+            {[
+              { name: "fashion-web", role: "ML trend intelligence + LMSR exchange", year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
+              { name: "shubz-taylor-rec-engine", role: "six recommendation engines for Taylor's catalogue", year: "2026", url: "https://shubz-taylor-recommendation-engine.vercel.app" },
+              { name: "platypus-learn", role: "AI learning platform — ingest PDFs + YouTube, generate courses", year: "2025 —", url: "https://platypus-learn.vercel.app" },
+            ].map((b, i) => (
+              <div key={i} style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "180px 1fr 70px", gap: isMobile ? "0.2rem" : "1.4rem", padding: "0.9rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline" }}>
+                <a href={b.url} target="_blank" rel="noreferrer" className="link-underline" style={{ fontFamily: "var(--f-ui)", fontSize: 13, color: p.accent }}>{b.name} ↗</a>
+                <span style={{ fontFamily: "var(--f-body)", fontSize: "0.95rem", color: p.ink, lineHeight: 1.5 }}>{b.role}</span>
+                {!isMobile && <span className="mono" style={{ color: p.muted, fontSize: 11, textAlign: "right" }}>{b.year}</span>}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
       </main>
@@ -2359,7 +1937,7 @@ function WritingIndex({ onNavigate, palette, setCursorColor }) {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem 2.4rem" }}>
           {[
             ["The JAYA algorithm, redrawn", "Working note · 2025"],
-            ["What an H3 hexagon knows", "Working note · 2025"],
+            ["Holt smoothing for fashion signals", "Working note · 2026"],
             ["On reading Tufte without becoming Tufte", "Working note · 2024"],
             ["Variational autoencoders, gently", "Working note · 2024"],
             ["Why I left equations ranged-left", "Working note · 2024"],
@@ -4787,7 +4365,7 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
     { name: "fashion-web — ML trend intelligence + LMSR exchange", scope: "deployed · solo", role: "Next.js / TS / Vercel edge / Neon Postgres — five-source ingestion (Google Trends, Bluesky firehose, Pinterest, Reddit, YouTube), Holt smoothing forecasts, LMSR prediction market (b=100) with StyleCoins, Gemini 2.5 Flash CV for garment detection + runway matching, Brier-scored house predictions, hundreds of tracked terms", year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
     { name: "platypus-learn — AI learning platform", scope: "deployed · solo", role: "Next.js / Supabase / Resend — ingests PDFs and YouTube, generates courses with Claude, weekly goals dashboard", year: "2025 —", url: "https://platypus-learn.vercel.app" },
     { name: "shubz-taylor-rec-engine", scope: "open", role: "six engines (Sentence-BERT lyrics, audio VAE 384→16D, graph node2vec 64D, neural collab filtering, contrastive SSL, weighted ensemble) on Taylor's full discography + editorial bridges · Next.js 14 + FastAPI · TS rebuild of the R/Shiny original", year: "2026", url: "https://shubz-taylor-recommendation-engine.vercel.app" },
-    { name: "inbix22 — JAYA + crossover", scope: "open", role: "feature-selection variants for protein function ID; 96% on the best dataset", year: "2022", url: "https://github.com/shubhangithub/inbix22" },
+    { name: "inbix22 — improved JAYA", scope: "open", role: "feature-selection variants for protein function ID; fitness trade-off + elitism", year: "2022", url: "https://github.com/shubhangithub/inbix22" },
     { name: "MFoCS thesis: immune biomarkers", scope: "academic", role: "consensus clustering (Birch + Agglomerative + Spectral) on 6-marker flow cytometry · CTLA4 surface-marker recovery at F1 = 0.70", year: "2024" },
     { name: "Flipkart-Walmart merger NLP", scope: "academic", role: "theme extraction + sentiment mining — SpaCy, NLTK, Gensim, TextBlob", year: "2024" },
     { name: "GNSS water-vapour ML", scope: "honours thesis", role: "regression models vs traditional linear baselines", year: "2023" },
@@ -4988,8 +4566,8 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
 
   const focuses = [
     { kind: "Founding", what: "Orion's intelligence platform — geospatial ML over H3 indexing, with confidence weighting baked in at every join." },
-    { kind: "Shipping", what: "fashion-web — multi-source trend pipeline (Reddit, Bluesky, YouTube, editorial), composite scoring, Holt-Winters forecasts, with a small speculation market on top. Live at fashion-web-psi.vercel.app." },
-    { kind: "Writing",  what: "Drafting \"What an H3 hexagon knows\" — the next essay. Half a year of building this at work, condensed." },
+    { kind: "Shipping", what: "fashion-web — five-source trend pipeline (Google Trends, Bluesky, Pinterest, Reddit, YouTube), LMSR exchange with StyleCoins, Gemini CV for garment detection. Live at fashion-web-psi.vercel.app." },
+    { kind: "Writing",  what: "Drafting the next essay. The argument is half-formed; the diagrams are the fun part." },
     { kind: "Re-building", what: "shubz-taylor-rec-engine — six recommendation engines for one songbook. Public on GitHub; I keep finding new things to try." },
     { kind: "Reading",  what: "A few papers on calibration, a novel I won't name yet, and the next chapter of any optimization survey I can find." },
   ];
@@ -5294,7 +4872,7 @@ Object.assign(window, { WritingIndexV4, ArticleV4, WorkV4, NowV4, ContactV4, Pre
 
 
 /* ===== components/app.jsx ===== */
-/* global React, ReactDOM, CustomCursor, HomeV1, HomeV2, HomeV3, HomeV4, WritingIndex, Article, WritingIndexV4, ArticleV4, WorkV4, NowV4, ContactV4, PALETTE_V1, PALETTE_V2, PALETTE_V3, PALETTE_V4 */
+/* global React, ReactDOM, CustomCursor, HomeV4, WritingIndexV4, ArticleV4, WorkV4, NowV4, ContactV4, PALETTE_V4 */
 
 // useState, useEffect are in scope from motif.jsx
 
