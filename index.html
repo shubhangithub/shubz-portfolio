@@ -1702,7 +1702,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
             {/* lede moved into the 2-column grid below */}
 
             {/* LEDE + SEASONAL (tall) side by side, then GRADIENT DESCENT below lede */}
-            <div style={{ marginTop: isMobile ? "1.6rem" : "1.8rem", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "0.8rem" : "1rem", alignItems: "start" }}>
+            <div style={{ marginTop: isMobile ? "1.6rem" : "1.8rem", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "0.8rem" : "1rem", alignItems: "stretch" }}>
               {/* LEFT column: lede + fig.1 stacked */}
               <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? "0.8rem" : "1rem" }}>
                 <p className="prose" style={{ fontSize: isMobile ? "1rem" : "1.08rem", lineHeight: 1.7, margin: 0, maxWidth: "52ch", color: p.ink }}>
@@ -1723,11 +1723,11 @@ function HomeV4({ onNavigate, setCursorColor }) {
                   </div>
                 </div>
               </div>
-              {/* RIGHT column: tall seasonal specimen filling the full height */}
-              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)`, height: "100%" }}>
+              {/* RIGHT column: tall seasonal specimen — stretch to match left column */}
+              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)`, alignSelf: "stretch", display: "flex", flexDirection: "column" }}>
                 <SeasonalSpecimen
                   width={isMobile ? 280 : 280}
-                  height={isMobile ? 200 : 420}
+                  height={isMobile ? 200 : 400}
                   accent={p.accent}
                   ink={p.ink}
                   muted={p.muted}
