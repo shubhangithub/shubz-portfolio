@@ -1699,19 +1699,19 @@ function HomeV4({ onNavigate, setCursorColor }) {
               </span>
             </h1>
 
-            <p className="prose" style={{ fontSize: isMobile ? "1rem" : "1.08rem", lineHeight: 1.7, marginTop: isMobile ? "1.4rem" : "1.8rem", maxWidth: "52ch", color: p.ink }}>
-              I'm a founding engineer at <em>Orion</em>, where I build geospatial ML indexed on H3 hexagons — software that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths at Oxford and physics at FLAME. I am also, in inconvenient order: a figure skater, a Thames rower at dawn, and an essayist who thinks interactive diagrams are the point.
-            </p>
+            {/* lede moved into the 2-column grid below */}
 
-            {/* nav links removed — top nav bar handles navigation */}
-
-            {/* FIGURES — side by side */}
-            <div style={{ marginTop: isMobile ? "1.6rem" : "2.2rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: isMobile ? "0.6rem" : "1rem" }}>
-              <div>
+            {/* LEDE + SEASONAL (tall) side by side, then GRADIENT DESCENT below lede */}
+            <div style={{ marginTop: isMobile ? "1.6rem" : "1.8rem", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "0.8rem" : "1rem", alignItems: "start" }}>
+              {/* LEFT column: lede + fig.1 stacked */}
+              <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? "0.8rem" : "1rem" }}>
+                <p className="prose" style={{ fontSize: isMobile ? "1rem" : "1.08rem", lineHeight: 1.7, margin: 0, maxWidth: "52ch", color: p.ink }}>
+                  I'm a founding engineer at <em>Orion</em>, where I build geospatial ML indexed on H3 hexagons — software that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths at Oxford and physics at FLAME. I am also, in inconvenient order: a figure skater, a Thames rower at dawn, and an essayist who thinks interactive diagrams are the point.
+                </p>
                 <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem 0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
                   <GradientDescentViz
-                    width={isMobile ? 160 : 280}
-                    height={isMobile ? 120 : 170}
+                    width={isMobile ? 280 : 280}
+                    height={isMobile ? 160 : 170}
                     strokeColor={p.ink}
                     mutedColor={p.muted}
                     accentColor={p.accent}
@@ -1723,17 +1723,16 @@ function HomeV4({ onNavigate, setCursorColor }) {
                   </div>
                 </div>
               </div>
-              <div>
-                <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
-                  <SeasonalSpecimen
-                    width={isMobile ? 160 : 280}
-                    height={isMobile ? 120 : 190}
-                    accent={p.accent}
-                    ink={p.ink}
-                    muted={p.muted}
-                    line={p.line}
-                  />
-                </div>
+              {/* RIGHT column: tall seasonal specimen filling the full height */}
+              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)`, height: "100%" }}>
+                <SeasonalSpecimen
+                  width={isMobile ? 280 : 280}
+                  height={isMobile ? 200 : 420}
+                  accent={p.accent}
+                  ink={p.ink}
+                  muted={p.muted}
+                  line={p.line}
+                />
               </div>
             </div>
           </div>
