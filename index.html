@@ -857,7 +857,7 @@ const SEASONAL_THEMES = [
     why: "December, taking stock. A random walk through latent space." },
 ];
 
-function SeasonalSpecimen({ width = 200, height = 180, accent = "#1F3DBF", ink = "#0F1320", muted = "#6E7488", line = "#D5D6DC" }) {
+function SeasonalSpecimen({ width = 200, height = 180, accent = "#1F3DBF", ink = "#0F1320", muted = "#6E7488", line = "#D5D6DC", compact = false }) {
   // Show May (Lotka–Volterra) starting today; from May 1 onwards the natural
   // calendar month takes over.
   const month = Math.max(4, new Date().getMonth());
@@ -868,7 +868,7 @@ function SeasonalSpecimen({ width = 200, height = 180, accent = "#1F3DBF", ink =
   // animated SVG via SPECIMEN_VARIANTS.
   const Interactive = INTERACTIVE_VARIANTS[theme.id];
   if (Interactive) {
-    return <Interactive width={width} height={height} accent={accent} ink={ink} muted={muted} line={line} theme={theme} monthName={monthName} />;
+    return <Interactive width={width} height={height} accent={accent} ink={ink} muted={muted} line={line} theme={theme} monthName={monthName} compact={compact} />;
   }
   return <StaticSpecimen width={width} height={height} accent={accent} ink={ink} muted={muted} line={line} theme={theme} monthName={monthName} />;
 }
@@ -905,7 +905,7 @@ function StaticSpecimen({ width, height, accent, ink, muted, line, theme, monthN
 
 // Lotka–Volterra predator–prey: phase-space loop + time-series strip + live
 // sliders for predation (β) and predator mortality (γ). May only.
-function LotkaVolterra({ width, height, accent, ink, muted, line, theme, monthName }) {
+function LotkaVolterra({ width, height, accent, ink, muted, line, theme, monthName, compact = false }) {
   const isMobile = (typeof useIsMobile === "function") ? useIsMobile() : (typeof window !== "undefined" && window.innerWidth <= 768);
   const ALPHA = 1.0, DELTA = 0.4;          // fixed
   const [beta, setBeta] = React.useState(0.4);
@@ -953,8 +953,9 @@ function LotkaVolterra({ width, height, accent, ink, muted, line, theme, monthNa
   // Layout slices of the SVG canvas — sized to fill the box's natural dimensions
   // on desktop (the box stretches to match the lede column ≈ 460px). No JS
   // measurement, no feedback loop — just generous intrinsic values.
-  const phaseH = isMobile ? 180 : 250;
-  const seriesH = isMobile ? 0 : 42;
+  // compact mode: square phase plot only (no series strip, no sliders/why-line below)
+  const phaseH = compact ? width : (isMobile ? 180 : 250);
+  const seriesH = compact ? 0 : (isMobile ? 0 : 42);
   const padX = 12;
   const xMax = 6, yMax = 6.5;
   const px = (x) => padX + (x / xMax) * (width - padX * 2);
@@ -1001,27 +1002,31 @@ function LotkaVolterra({ width, height, accent, ink, muted, line, theme, monthNa
         )}
       </svg>
 
-      {/* sliders + reset */}
-      <div style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: "2px 0.5rem", alignItems: "center", marginTop: 6, fontSize: 10, fontFamily: "var(--f-mono)", color: muted }}>
-        <span>predation β</span>
-        <input type="range" min="0.25" max="0.6" step="0.01" value={beta} onChange={e => setBeta(+e.target.value)} style={{ width: "100%", accentColor: accent, height: 18 }} />
-        <span style={{ color: ink, minWidth: 28, textAlign: "right" }}>{beta.toFixed(2)}</span>
-        <span>fox death γ</span>
-        <input type="range" min="0.6" max="1.5" step="0.01" value={gamma} onChange={e => setGamma(+e.target.value)} style={{ width: "100%", accentColor: accent, height: 18 }} />
-        <span style={{ color: ink, minWidth: 28, textAlign: "right" }}>{gamma.toFixed(2)}</span>
-      </div>
+      {!compact && (
+        <>
+          {/* sliders + reset */}
+          <div style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: "2px 0.5rem", alignItems: "center", marginTop: 6, fontSize: 10, fontFamily: "var(--f-mono)", color: muted }}>
+            <span>predation β</span>
+            <input type="range" min="0.25" max="0.6" step="0.01" value={beta} onChange={e => setBeta(+e.target.value)} style={{ width: "100%", accentColor: accent, height: 18 }} />
+            <span style={{ color: ink, minWidth: 28, textAlign: "right" }}>{beta.toFixed(2)}</span>
+            <span>fox death γ</span>
+            <input type="range" min="0.6" max="1.5" step="0.01" value={gamma} onChange={e => setGamma(+e.target.value)} style={{ width: "100%", accentColor: accent, height: 18 }} />
+            <span style={{ color: ink, minWidth: 28, textAlign: "right" }}>{gamma.toFixed(2)}</span>
+          </div>
 
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: 6 }}>
-        <button onClick={reset} style={{ all: "unset", cursor: "pointer", fontFamily: "var(--f-mono)", fontSize: 10, padding: "2px 8px", border: `1px solid ${line}`, color: accent, letterSpacing: "0.06em" }}>RESET</button>
-        <span className="mono" style={{ fontSize: 9, color: muted }}>{monthName.toLowerCase()}</span>
-      </div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: 6 }}>
+            <button onClick={reset} style={{ all: "unset", cursor: "pointer", fontFamily: "var(--f-mono)", fontSize: 10, padding: "2px 8px", border: `1px solid ${line}`, color: accent, letterSpacing: "0.06em" }}>RESET</button>
+            <span className="mono" style={{ fontSize: 9, color: muted }}>{monthName.toLowerCase()}</span>
+          </div>
 
-      <div className="mono" style={{ marginTop: 6, color: muted, fontSize: 10 }}>
-        <span style={{ color: ink }}>fig.01 — {theme.caption}</span>
-      </div>
-      <div style={{ marginTop: 4, fontFamily: "var(--f-body)", fontSize: 12, color: muted, fontStyle: "italic", lineHeight: 1.45 }}>
-        {theme.why}
-      </div>
+          <div className="mono" style={{ marginTop: 6, color: muted, fontSize: 10 }}>
+            <span style={{ color: ink }}>fig.01 — {theme.caption}</span>
+          </div>
+          <div style={{ marginTop: 4, fontFamily: "var(--f-body)", fontSize: 12, color: muted, fontStyle: "italic", lineHeight: 1.45 }}>
+            {theme.why}
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -1405,6 +1410,16 @@ const POSTS = [
     cardBg: "#EFE8E5",
     accent: "#1F3DBF",
   },
+  {
+    slug: "may-2026",
+    title: "Predator and prey, on a closed loop",
+    kicker: "Note · Mathematical ecology",
+    dek: "The May figure: Lotka–Volterra, drawn for Robert May.",
+    minutes: 4,
+    illustration: "wave",
+    cardBg: "#E8EEF0",
+    accent: "#1F3DBF",
+  },
 ];
 
 Object.assign(window, { Footer, POSTS });
@@ -1544,16 +1559,21 @@ function HomeV4({ onNavigate, setCursorColor }) {
               I'm a founding engineer at <em>Orion</em>, where I build geospatial ML that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths (dabbled in some physics) at Oxford and computer science at FLAME. I am also, in inconvenient order: a Thames rower on Sundays, active in STEM ed outreach, a budding pianist, a fashion enthusiast, and very into interactive diagrams.
             </p>
 
-            {/* fig.01 — seasonal figure, single centerpiece (no box chrome, matches the lede column) */}
-            <div style={{ marginTop: isMobile ? "1.8rem" : "2rem", maxWidth: "54ch" }}>
+            {/* fig.01 — compact square (phase loop only). Full interactive figure lives in the May essay. */}
+            <div style={{ marginTop: isMobile ? "1.8rem" : "2rem", width: isMobile ? 240 : 280 }}>
               <SeasonalSpecimen
-                width={isMobile ? 320 : 480}
-                height={isMobile ? 220 : 300}
+                width={isMobile ? 240 : 280}
+                height={isMobile ? 240 : 280}
                 accent={p.accent}
                 ink={p.ink}
                 muted={p.muted}
                 line={p.line}
+                compact={true}
               />
+              <div className="mono" style={{ marginTop: 8, fontSize: 10, color: p.muted, display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
+                <span style={{ color: p.ink }}>fig.01 — predator–prey · may</span>
+                <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", "may-2026"); }} className="link-underline" style={{ color: p.accent, fontSize: 10 }}>see the math →</a>
+              </div>
             </div>
           </div>
         </div>
@@ -3581,6 +3601,52 @@ function FashionEssay({ palette: p }) {
   );
 }
 
+function MayEssay({ palette: p }) {
+  // STUB — placeholder prose for the May seasonal note.
+  // Replace the [DRAFT — …] passages with real writing. The full interactive
+  // figure (LotkaVolterra, locked to May) is the centrepiece.
+  return (
+    <>
+      <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
+        [DRAFT — replace this lede.] The figure on the home page is a Lotka–Volterra cycle. Two coupled differential equations — one for prey, one for predators — written down independently in the 1920s by Alfred Lotka<span className="sidenote-number" style={{ color: p.accent }}>1</span> and Vito Volterra. They describe a closed orbit in the (prey, predator) phase plane: populations chase each other, and never settle.
+        <span className="sidenote">
+          <strong style={{ color: p.accent }}>1.</strong> [DRAFT note.] Lotka, 1925, autocatalytic chemistry. Volterra, 1926, his son-in-law's Adriatic fishery data, post-WW1.
+        </span>
+      </p>
+
+      <p>[DRAFT — body. Why the figure is here. What it shows. Robert May died May 22, 2020 — also International Day for Biological Diversity.]</p>
+
+      {/* full interactive figure — locked to May */}
+      <div style={{ margin: "2rem 0", padding: "0.8rem", border: `1px solid ${p.line}`, background: `color-mix(in oklch, ${p.paper} 88%, white)` }}>
+        <LotkaVolterra
+          width={520}
+          height={360}
+          accent={p.accent}
+          ink={p.ink}
+          muted={p.muted}
+          line={p.line}
+          theme={SEASONAL_THEMES[4]}
+          monthName="May"
+        />
+      </div>
+
+      <h2 className="display" style={{ fontSize: "2rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem" }}>What the loop shows</h2>
+
+      <p>[DRAFT — section about parameter dependence, what β and γ mean, what changes as you drag the sliders.]</p>
+
+      <PullQuote color={p.accent}>
+        [DRAFT — one anchoring quote about May, or the loop, or the difference between the textbook and the system.]
+      </PullQuote>
+
+      <h2 className="display" style={{ fontSize: "2rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem" }}>For Robert May</h2>
+
+      <p>[DRAFT — section about Robert May's contribution: chaos in discrete-time analogues, ecological networks, complexity. Why he matters.]</p>
+
+      <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— draft note, last touched {new Date().toISOString().slice(0, 10)}.</p>
+    </>
+  );
+}
+
 function DraftEssay({ post, palette: p, onNavigate }) {
   return (
     <>
@@ -3643,6 +3709,16 @@ function essayMeta(slug) {
       toc: ["Header", "Draft in progress"],
       sources: [],
       sidenotes: 0,
+    },
+    "may-2026": {
+      tags: "mathematical ecology, ODE, predator–prey",
+      toc: ["Header", "Lede", "The figure", "What the loop shows", "For Robert May"],
+      sources: [
+        ['[1] Lotka, A. J. (1925). ', '"Elements of Physical Biology." Williams & Wilkins.'],
+        ['[2] Volterra, V. (1926). ', '"Variazioni e fluttuazioni del numero d\'individui in specie animali conviventi." Mem. R. Acc. Lincei.'],
+        ['[3] May, R. M. (1976). ', '"Simple mathematical models with very complicated dynamics." Nature 261.'],
+      ],
+      sidenotes: 1,
     },
     "six-engines": {
       tags: "recommendation, music",
@@ -3764,6 +3840,7 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
                 case "constraint-clustering": return <ConstraintClusterEssay palette={p} />;
                 case "six-engines": return <SixEnginesEssay palette={p} />;
                 case "fashion-trends": return <FashionEssay palette={p} />;
+                case "may-2026": return <MayEssay palette={p} />;
                 default: return <DraftEssay post={post} palette={p} onNavigate={onNavigate} />;
               }
             })()}
