@@ -1556,43 +1556,54 @@ function HomeV4({ onNavigate, setCursorColor }) {
           {/* LEFT — essays */}
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "1.2rem" }}>
-              <h2 className="display" style={{ fontSize: isMobile ? "1.7rem" : "1.9rem", margin: 0, fontWeight: 380 }}>Recent writing</h2>
-              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} className="link-underline caps" style={{ color: p.accent, fontFamily: "var(--f-ui)", fontSize: 12 }}>all essays →</a>
+              <h2 className="display" style={{ fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
+                <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>02</span>
+                Recent writing
+              </h2>
+              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} className="caps mono" style={{ color: p.accent, fontSize: 11, letterSpacing: "0.1em" }}>all essays →</a>
             </div>
-            {POSTS.filter(x => x.slug !== "merger-themes").slice(0, 4).reverse().map((post, i) => (
-              <a key={post.slug} href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
-                 style={{ display: "block", padding: "0.9rem 0", borderTop: `1px solid ${p.line}`, color: p.ink, transition: "padding-left 240ms var(--ease-out)" }}
-                 onMouseEnter={(e) => { e.currentTarget.style.paddingLeft = "0.6rem"; e.currentTarget.querySelector(".essay-title").style.color = p.accent; e.currentTarget.querySelector(".essay-arrow").style.opacity = "1"; }}
-                 onMouseLeave={(e) => { e.currentTarget.style.paddingLeft = "0"; e.currentTarget.querySelector(".essay-title").style.color = p.ink; e.currentTarget.querySelector(".essay-arrow").style.opacity = "0"; }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "1rem" }}>
-                  <h3 className="display essay-title" style={{ fontSize: "1.25rem", margin: 0, fontWeight: 380, transition: "color 240ms var(--ease-out)" }}>{post.title} <span className="essay-arrow" style={{ color: p.accent, opacity: 0, transition: "opacity 240ms var(--ease-out)" }}>↗</span></h3>
-                  <span className="mono" style={{ color: p.muted, fontSize: 11, flexShrink: 0 }}>{post.minutes}m</span>
-                </div>
-                <p style={{ fontSize: "0.85rem", lineHeight: 1.5, color: p.muted, margin: "0.3rem 0 0", maxWidth: "50ch" }}>{post.dek}</p>
-              </a>
-            ))}
+            <div style={{ borderTop: `1px solid ${p.line}` }}>
+              {POSTS.filter(x => x.slug !== "merger-themes").slice(0, 4).reverse().map((post, i) => (
+                <a key={post.slug} href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
+                   className="v4-stack-row"
+                   style={{ display: "grid", gridTemplateColumns: "36px 1fr 56px", gap: "1rem", alignItems: "baseline", padding: "1rem 0", borderBottom: `1px solid ${p.line}`, color: p.ink }}>
+                  <span className="mono" style={{ color: p.muted, fontSize: 11 }}>{String(i + 1).padStart(2, "0")}</span>
+                  <div>
+                    <span className="link-underline" style={{ fontFamily: "var(--f-body)", fontSize: "1rem" }}>{post.title}</span>
+                    <div style={{ fontSize: "0.85rem", color: p.muted, marginTop: 3, fontStyle: "italic", lineHeight: 1.5, maxWidth: "50ch" }}>{post.dek}</div>
+                  </div>
+                  <span className="mono" style={{ color: p.muted, fontSize: 11, textAlign: "right" }}>{post.minutes}m</span>
+                </a>
+              ))}
+            </div>
           </div>
           {/* RIGHT — builds */}
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "1.2rem" }}>
-              <h2 className="display" style={{ fontSize: isMobile ? "1.7rem" : "1.9rem", margin: 0, fontWeight: 380 }}>Selected builds</h2>
-              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} className="link-underline caps" style={{ color: p.accent, fontFamily: "var(--f-ui)", fontSize: 12 }}>annotated CV →</a>
+              <h2 className="display" style={{ fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
+                <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>03</span>
+                Selected builds
+              </h2>
+              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} className="caps mono" style={{ color: p.accent, fontSize: 11, letterSpacing: "0.1em" }}>annotated cv →</a>
             </div>
-            {[
-              { name: "fashion-web", role: "ML trend intelligence + LMSR exchange", year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
-              { name: "taylor-rec-engine", role: "six recommendation engines", year: "2026", url: "https://shubz-taylor-recommendation-engine.vercel.app" },
-              { name: "platypus-learn", role: "AI learning platform", year: "2025 —", url: "https://platypus-learn.vercel.app" },
-            ].map((b, i) => (
-              <a key={i} href={b.url} target="_blank" rel="noreferrer" style={{ display: "block", padding: "0.9rem 0", borderTop: `1px solid ${p.line}`, color: p.ink, transition: "padding-left 240ms var(--ease-out)" }}
-                 onMouseEnter={(e) => { e.currentTarget.style.paddingLeft = "0.6rem"; e.currentTarget.style.background = `color-mix(in oklch, ${p.accent} 4%, transparent)`; }}
-                 onMouseLeave={(e) => { e.currentTarget.style.paddingLeft = "0"; e.currentTarget.style.background = "transparent"; }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                  <span className="mono" style={{ color: p.accent, fontSize: 12 }}>{b.name} ↗</span>
-                  <span className="mono" style={{ color: p.muted, fontSize: 11 }}>{b.year}</span>
-                </div>
-                <div style={{ fontSize: "0.85rem", color: p.muted, marginTop: 3, lineHeight: 1.5 }}>{b.role}</div>
-              </a>
-            ))}
+            <div style={{ borderTop: `1px solid ${p.line}` }}>
+              {[
+                { name: "fashion-web", role: "ML trend intelligence + LMSR exchange", year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
+                { name: "taylor-rec-engine", role: "six recommendation engines", year: "2026", url: "https://shubz-taylor-recommendation-engine.vercel.app" },
+                { name: "platypus-learn", role: "AI learning platform", year: "2025 —", url: "https://platypus-learn.vercel.app" },
+              ].map((b, i) => (
+                <a key={i} href={b.url} target="_blank" rel="noreferrer"
+                   className="v4-stack-row"
+                   style={{ display: "grid", gridTemplateColumns: "36px 1fr 64px", gap: "1rem", alignItems: "baseline", padding: "1rem 0", borderBottom: `1px solid ${p.line}`, color: p.ink }}>
+                  <span className="mono" style={{ color: p.muted, fontSize: 11 }}>{String(i + 1).padStart(2, "0")}</span>
+                  <div>
+                    <span className="link-underline mono" style={{ color: p.accent, fontSize: 12 }}>{b.name} ↗</span>
+                    <div style={{ fontSize: "0.85rem", color: p.muted, marginTop: 3, fontStyle: "italic", lineHeight: 1.5 }}>{b.role}</div>
+                  </div>
+                  <span className="mono" style={{ color: p.muted, fontSize: 11, textAlign: "right" }}>{b.year}</span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </section>
