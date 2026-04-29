@@ -1544,18 +1544,16 @@ function HomeV4({ onNavigate, setCursorColor }) {
               I'm a founding engineer at <em>Orion</em>, where I build geospatial ML that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths (dabbled in some physics) at Oxford and computer science at FLAME. I am also, in inconvenient order: a Thames rower on Sundays, active in STEM ed outreach, a budding pianist, a fashion enthusiast, and very into interactive diagrams.
             </p>
 
-            {/* fig.01 — seasonal figure, single centerpiece (rotates monthly via SeasonalSpecimen) */}
-            <div style={{ marginTop: isMobile ? "1.8rem" : "2.2rem", maxWidth: 720 }}>
-              <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)`, overflow: "hidden" }}>
-                <SeasonalSpecimen
-                  width={isMobile ? 320 : 640}
-                  height={isMobile ? 220 : 360}
-                  accent={p.accent}
-                  ink={p.ink}
-                  muted={p.muted}
-                  line={p.line}
-                />
-              </div>
+            {/* fig.01 — seasonal figure, single centerpiece (no box chrome, sits in the prose column) */}
+            <div style={{ marginTop: isMobile ? "1.8rem" : "2rem", maxWidth: 540 }}>
+              <SeasonalSpecimen
+                width={isMobile ? 320 : 540}
+                height={isMobile ? 220 : 320}
+                accent={p.accent}
+                ink={p.ink}
+                muted={p.muted}
+                line={p.line}
+              />
             </div>
           </div>
         </div>
