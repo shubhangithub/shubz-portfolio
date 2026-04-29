@@ -4179,8 +4179,8 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
 
   const channels = [
     { label: "Email",    handle: "hello@shubzsharma.com",        note: "Best — read once a day in the morning.",                href: "mailto:hello@shubzsharma.com" },
-    { label: "GitHub",   handle: "github.com/shubhangithub",     note: "Where the public repos live (a Taylor Swift rec engine and a JAYA paper, mostly).", href: "https://github.com/shubhangithub" },
-    { label: "LinkedIn", handle: "linkedin.com/in/shubhangithub",note: "Conventional channel; checked weekly-ish.",              href: "https://www.linkedin.com/in/shubhangithub" },
+    { label: "GitHub",   handle: "github.com/shubhangithub",     note: "Repos not yet public.", href: "https://github.com/shubhangithub" },
+    { label: "LinkedIn", handle: "linkedin.com/in/shubhangithub",note: "Conventional channel; checked weekly-ish.",             href: "https://www.linkedin.com/in/shubhangi-s-sharma/" },
   ];
 
   const policy = [
@@ -4207,20 +4207,20 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
           <div style={{ gridColumn: "3 / span 7" }}>
             <div className="ui caps" style={{ color: p.muted, marginBottom: "1rem", fontSize: 11, letterSpacing: "0.12em" }}>
               <span className="mono" style={{ color: p.accent, marginRight: 8 }}>§05</span>
-              Contact · sparse on purpose
+              Contact 
             </div>
             <h1 className="display" style={{ fontSize: "clamp(1.9rem, 7vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em" }}>
               <LetterReveal stagger={26}>Say </LetterReveal>
               <span style={{ fontStyle: "italic", color: p.accent }}><LetterReveal stagger={26} delay={320}>hello.</LetterReveal></span>
               <span style={{ display: "block" }}>
-                <LetterReveal stagger={26} delay={620}>I read everything,</LetterReveal>
+                <LetterReveal stagger={26} delay={620}>I read everything</LetterReveal>
                 <span style={{ display: "block" }}>
-                  <LetterReveal stagger={26} delay={1080}>in time.</LetterReveal>
+                  <LetterReveal stagger={26} delay={1080}>eventually.</LetterReveal>
                 </span>
               </span>
             </h1>
             <p className="prose" style={{ fontSize: "1.06rem", lineHeight: 1.7, marginTop: "1.4rem", maxWidth: "54ch", color: p.ink }}>
-              I prefer email — it makes me think. Other channels are mostly for archive and signal. If you're writing about optimization, computational biology, geospatial ML, or music recommendation, you will get a longer reply than you expect.
+              I prefer email. If you're writing about computational biology, geospatial ML, or music recommendations, you will get a longer reply than you expect.
             </p>
           </div>
           <div className="v4-rail-hide" style={{ gridColumn: "10 / span 3", paddingTop: "0.4rem" }}>
