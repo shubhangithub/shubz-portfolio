@@ -1815,25 +1815,13 @@ function HomeV4({ onNavigate, setCursorColor }) {
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "1.2rem 1rem 1.6rem" : "1.6rem 1.6rem 2rem", position: "relative", zIndex: 2 }}>
         <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)", gap: isMobile ? "1.4rem" : "1.6rem", alignItems: "start" }}>
 
-          {/* col 1-2 — index + instrument panel (desktop only) */}
+          {/* col 1-2 — shared IndexRail (matches every other page's rail) */}
           {!isMobile && (
-            <div style={{ gridColumn: "1 / span 2", paddingTop: "0.8rem", fontFamily: "var(--f-ui)", fontSize: 12, color: p.muted, lineHeight: 1.7 }}>
-              <div className="caps" style={{ marginBottom: 8 }}>Index</div>
-              <div>01 &nbsp; Hero</div>
-              <div>02 &nbsp; Writing</div>
-              <div>03 &nbsp; Now</div>
-              <div>04 &nbsp; Builds</div>
-              <div style={{ marginTop: 22, color: p.ink }} className="mono">↳ scroll to continue</div>
-
-              {/* Instrument panel — live cursor coords + scroll */}
-              <div style={{ marginTop: 36, borderTop: `1px solid ${p.line}`, paddingTop: 14, fontSize: 11 }}>
-                <div className="caps" style={{ color: p.muted, marginBottom: 8, letterSpacing: "0.1em" }}>Telemetry</div>
-                <div className="mono" style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 8, rowGap: 4, color: p.ink }}>
-                  <span style={{ color: p.muted }}>{telemetryRow[0]}</span><span>{telemetryRow[1]}</span>
-                  <span style={{ color: p.muted }}>scroll</span><span>{String(scrollPct).padStart(3, "0")}%</span>
-                  <span style={{ color: p.muted }}>essays</span><span>{POSTS.filter(x => x.slug !== "merger-themes").length} polished</span>
-                </div>
-              </div>
+            <div style={{ gridColumn: "1 / span 2" }}>
+              <IndexRail palette={p} currentIdx={0}
+                items={["Header", "Recent writing", "Selected builds", "Now ticker"]}
+                telemetry={[telemetryRow, ["essays", `${POSTS.filter(x => x.slug !== "merger-themes").length} polished`], ["builds", "03"]]}
+                scrollPct={scrollPct} />
             </div>
           )}
 
