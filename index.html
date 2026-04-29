@@ -1544,11 +1544,11 @@ function HomeV4({ onNavigate, setCursorColor }) {
               I'm a founding engineer at <em>Orion</em>, where I build geospatial ML that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths (dabbled in some physics) at Oxford and computer science at FLAME. I am also, in inconvenient order: a Thames rower on Sundays, active in STEM ed outreach, a budding pianist, a fashion enthusiast, and very into interactive diagrams.
             </p>
 
-            {/* fig.01 — seasonal figure, single centerpiece (no box chrome, sits in the prose column) */}
-            <div style={{ marginTop: isMobile ? "1.8rem" : "2rem", maxWidth: 540 }}>
+            {/* fig.01 — seasonal figure, single centerpiece (no box chrome, matches the lede column) */}
+            <div style={{ marginTop: isMobile ? "1.8rem" : "2rem", maxWidth: "54ch" }}>
               <SeasonalSpecimen
-                width={isMobile ? 320 : 540}
-                height={isMobile ? 220 : 320}
+                width={isMobile ? 320 : 480}
+                height={isMobile ? 220 : 300}
                 accent={p.accent}
                 ink={p.ink}
                 muted={p.muted}
