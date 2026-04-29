@@ -1494,16 +1494,17 @@ function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette }) {
       )}
 
       {/* top precision bar */}
-      <div style={{ borderBottom: `1px solid ${p.line}`, position: "relative", zIndex: 5, fontFamily: "var(--f-ui)", fontSize: isMobile ? 11 : 12, color: p.muted, padding: isMobile ? "0.5rem 1rem" : "0.7rem 1.6rem", display: "grid", gridTemplateColumns: isMobile ? "1fr auto" : "1fr auto 1fr", gap: isMobile ? "0.4rem 0.8rem" : "0", alignItems: "center", letterSpacing: "0.04em" }}>
+      <div style={{ borderBottom: `1px solid ${p.line}`, position: "relative", zIndex: 5, fontFamily: "var(--f-ui)", fontSize: isMobile ? 11 : 12, color: p.muted, padding: isMobile ? "0.5rem 1rem" : "0.7rem 1.6rem", display: "flex", justifyContent: "space-between", alignItems: "center", letterSpacing: "0.04em" }}>
         <span className="mono">Shubz SHARMA</span>
-        <span style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", justifySelf: isMobile ? "end" : "center" }}>
-          <span style={{ width: 6, height: 6, borderRadius: "50%", background: p.accent, animation: "blip 2s ease-in-out infinite" }} />
-          <span className="mono" style={{ color: p.ink }}>{ticker[tickerIdx]}</span>
-        </span>
-        <span style={{ display: "inline-flex", justifyContent: "flex-end", gap: isMobile ? 8 : 14, alignItems: "center" }}>
+        {!isMobile && (
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem" }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: p.accent, animation: "blip 2s ease-in-out infinite" }} />
+            <span className="mono" style={{ color: p.ink }}>{ticker[tickerIdx]}</span>
+          </span>
+        )}
+        <span style={{ display: "inline-flex", alignItems: "center", gap: isMobile ? 8 : 14 }}>
           {!isMobile && <span className="mono">v.2026.04 · {hh}:{mm}:{ss} GMT</span>}
           <ThemeToggle dark={dark} toggleTheme={toggleTheme} palette={p} />
-          {/* portrait circle → contact */}
           <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("contact"); }} style={{ display: "inline-block", width: 26, height: 26, borderRadius: "50%", overflow: "hidden", border: `1.5px solid ${p.line}`, flexShrink: 0, transition: "border-color 240ms var(--ease-out)" }} onMouseEnter={(e) => e.currentTarget.style.borderColor = p.accent} onMouseLeave={(e) => e.currentTarget.style.borderColor = p.line}>
             <img src="assets/portrait.png" alt="Contact" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
           </a>
@@ -1754,13 +1755,15 @@ function PreciseTopBar({ palette: p, label, dark, toggleTheme }) {
   const ss = String(now.getUTCSeconds()).padStart(2, "0");
   // mobile: stack to two rows — name + label, then time. Drop "GMT" tail.
   return (
-    <div style={{ borderBottom: `1px solid ${p.line}`, position: "relative", zIndex: 5, fontFamily: "var(--f-ui)", fontSize: isMobile ? 11 : 12, color: p.muted, padding: isMobile ? "0.5rem 1rem" : "0.7rem 1.6rem", display: "grid", gridTemplateColumns: isMobile ? "1fr auto" : "1fr auto 1fr", alignItems: "center", gap: isMobile ? "0.4rem 0.8rem" : "0", letterSpacing: "0.04em" }}>
+    <div style={{ borderBottom: `1px solid ${p.line}`, position: "relative", zIndex: 5, fontFamily: "var(--f-ui)", fontSize: isMobile ? 11 : 12, color: p.muted, padding: isMobile ? "0.5rem 1rem" : "0.7rem 1.6rem", display: "flex", justifyContent: "space-between", alignItems: "center", letterSpacing: "0.04em" }}>
       <span className="mono">Shubz SHARMA</span>
-      <span style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", justifySelf: isMobile ? "end" : "center" }}>
-        <span style={{ width: 6, height: 6, borderRadius: "50%", background: p.accent, animation: "blip 2s ease-in-out infinite" }} />
-        <span className="mono" style={{ color: p.ink }}>{label}</span>
-      </span>
-      <span style={{ display: "inline-flex", justifyContent: "flex-end", gap: isMobile ? 8 : 14, alignItems: "center" }}>
+      {!isMobile && (
+        <span style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem" }}>
+          <span style={{ width: 6, height: 6, borderRadius: "50%", background: p.accent, animation: "blip 2s ease-in-out infinite" }} />
+          <span className="mono" style={{ color: p.ink }}>{label}</span>
+        </span>
+      )}
+      <span style={{ display: "inline-flex", alignItems: "center", gap: isMobile ? 8 : 14 }}>
         {!isMobile && <span className="mono">v.2026.04 · {hh}:{mm}:{ss} GMT</span>}
         <ThemeToggle dark={dark} toggleTheme={toggleTheme} palette={p} />
       </span>
