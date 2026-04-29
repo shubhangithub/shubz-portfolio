@@ -1060,19 +1060,6 @@ function LotkaVolterra({ width, height, accent, ink, muted, line, theme, monthNa
   const [gamma, setGamma] = React.useState(1.0);
   const stateRef = React.useRef({ x: 1.5, y: 0.8, trail: [], series: [] });
   const [, setTick] = React.useState(0);
-  // Measure parent box height so the phase plot grows to fill any extra
-  // space when the seasonal column stretches to match the lede column.
-  const wrapperRef = React.useRef(null);
-  const [boxH, setBoxH] = React.useState(height);
-  React.useEffect(() => {
-    const el = wrapperRef.current && wrapperRef.current.parentElement;
-    if (!el || typeof ResizeObserver === "undefined") return;
-    const update = () => setBoxH(el.clientHeight);
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
 
   React.useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1111,10 +1098,9 @@ function LotkaVolterra({ width, height, accent, ink, muted, line, theme, monthNa
     setTick(t => t + 1);
   };
 
-  // Layout slices of the SVG canvas — phase plot grows to fill the box
-  const slidersAndCaptionsH = isMobile ? 100 : 132; // 2 sliders + reset row + caption + why
-  const seriesH = isMobile ? 0 : 42;
-  const phaseH = Math.max(180, boxH - slidersAndCaptionsH - seriesH);
+  // Layout slices of the SVG canvas
+  const phaseH = isMobile ? 150 : Math.max(180, height - 145);
+  const seriesH = isMobile ? 0 : 38;
   const padX = 12;
   const xMax = 6, yMax = 5;
   const px = (x) => padX + (x / xMax) * (width - padX * 2);
@@ -1131,7 +1117,7 @@ function LotkaVolterra({ width, height, accent, ink, muted, line, theme, monthNa
   const seriesPred = s.series.map((p, i) => `${i === 0 ? "M" : "L"} ${sx(i).toFixed(1)} ${sy(p.y).toFixed(1)}`).join(" ");
 
   return (
-    <div ref={wrapperRef} style={{ position: "relative", width: "100%", maxWidth: width, height: "100%", display: "flex", flexDirection: "column", fontFamily: "var(--f-ui)", fontSize: 11, color: muted }}>
+    <div style={{ position: "relative", width, fontFamily: "var(--f-ui)", fontSize: 11, color: muted }}>
       <svg width={width} height={phaseH + seriesH} viewBox={`0 0 ${width} ${phaseH + seriesH}`} style={{ display: "block" }} role="img" aria-label="Lotka–Volterra predator–prey loop">
         {/* axes */}
         <line x1={padX} y1={phaseH - 18} x2={width - padX} y2={phaseH - 18} stroke={line} strokeWidth="0.6" />
