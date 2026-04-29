@@ -1054,7 +1054,7 @@ function StaticSpecimen({ width, height, accent, ink, muted, line, theme, monthN
 // Lotka–Volterra predator–prey: phase-space loop + time-series strip + live
 // sliders for predation (β) and predator mortality (γ). May only.
 function LotkaVolterra({ width, height, accent, ink, muted, line, theme, monthName }) {
-  const isMobile = width < 320;
+  const isMobile = (typeof useIsMobile === "function") ? useIsMobile() : (typeof window !== "undefined" && window.innerWidth <= 768);
   const ALPHA = 1.0, DELTA = 0.4;          // fixed
   const [beta, setBeta] = React.useState(0.4);
   const [gamma, setGamma] = React.useState(1.0);
@@ -1098,9 +1098,11 @@ function LotkaVolterra({ width, height, accent, ink, muted, line, theme, monthNa
     setTick(t => t + 1);
   };
 
-  // Layout slices of the SVG canvas
-  const phaseH = isMobile ? 150 : Math.max(180, height - 145);
-  const seriesH = isMobile ? 0 : 38;
+  // Layout slices of the SVG canvas — sized to fill the box's natural dimensions
+  // on desktop (the box stretches to match the lede column ≈ 460px). No JS
+  // measurement, no feedback loop — just generous intrinsic values.
+  const phaseH = isMobile ? 180 : 290;
+  const seriesH = isMobile ? 0 : 42;
   const padX = 12;
   const xMax = 6, yMax = 5;
   const px = (x) => padX + (x / xMax) * (width - padX * 2);
@@ -1117,8 +1119,8 @@ function LotkaVolterra({ width, height, accent, ink, muted, line, theme, monthNa
   const seriesPred = s.series.map((p, i) => `${i === 0 ? "M" : "L"} ${sx(i).toFixed(1)} ${sy(p.y).toFixed(1)}`).join(" ");
 
   return (
-    <div style={{ position: "relative", width, fontFamily: "var(--f-ui)", fontSize: 11, color: muted }}>
-      <svg width={width} height={phaseH + seriesH} viewBox={`0 0 ${width} ${phaseH + seriesH}`} style={{ display: "block" }} role="img" aria-label="Lotka–Volterra predator–prey loop">
+    <div style={{ position: "relative", width: "100%", fontFamily: "var(--f-ui)", fontSize: 11, color: muted }}>
+      <svg width="100%" height={phaseH + seriesH} viewBox={`0 0 ${width} ${phaseH + seriesH}`} preserveAspectRatio="xMidYMid meet" style={{ display: "block" }} role="img" aria-label="Lotka–Volterra predator–prey loop">
         {/* axes */}
         <line x1={padX} y1={phaseH - 18} x2={width - padX} y2={phaseH - 18} stroke={line} strokeWidth="0.6" />
         <line x1={padX} y1={12} x2={padX} y2={phaseH - 18} stroke={line} strokeWidth="0.6" />
@@ -1861,10 +1863,10 @@ function HomeV4({ onNavigate, setCursorColor }) {
                   </div>
                 </div>
               </div>
-              {/* RIGHT column: seasonal specimen — matches left column height via grid stretch */}
+              {/* RIGHT column: seasonal specimen — sized so the inner figure fills the natural box height (no JS measurement) */}
               <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)`, overflow: "hidden" }}>
                 <SeasonalSpecimen
-                  width={isMobile ? 280 : 280}
+                  width={isMobile ? 320 : 480}
                   height={isMobile ? 200 : 340}
                   accent={p.accent}
                   ink={p.ink}
