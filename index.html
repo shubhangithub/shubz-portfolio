@@ -1101,10 +1101,10 @@ function LotkaVolterra({ width, height, accent, ink, muted, line, theme, monthNa
   // Layout slices of the SVG canvas — sized to fill the box's natural dimensions
   // on desktop (the box stretches to match the lede column ≈ 460px). No JS
   // measurement, no feedback loop — just generous intrinsic values.
-  const phaseH = isMobile ? 180 : 290;
+  const phaseH = isMobile ? 180 : 250;
   const seriesH = isMobile ? 0 : 42;
   const padX = 12;
-  const xMax = 6, yMax = 5;
+  const xMax = 6, yMax = 6.5;
   const px = (x) => padX + (x / xMax) * (width - padX * 2);
   const py = (y) => phaseH - 18 - (y / yMax) * (phaseH - 30);
   const sx = (i) => padX + (i / 110) * (width - padX * 2);
@@ -1848,7 +1848,7 @@ function HomeV4({ onNavigate, setCursorColor }) {
                 <p className="prose" style={{ fontSize: isMobile ? "1rem" : "1.08rem", lineHeight: 1.7, margin: 0, maxWidth: "52ch", color: p.ink }}>
                   I'm a founding engineer at <em>Orion</em>, where I build geospatial ML that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths (dabbled in some physics) at Oxford and computer science at FLAME. I am also, in inconvenient order: a Thames rower on Sundays, active in STEM ed outreach, a budding pianist, a fashion enthusiast, and very into interactive diagrams.
                 </p>
-                <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem 0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
+                <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem 0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)`, flex: isMobile ? "none" : 1 }}>
                   <GradientDescentViz
                     width={isMobile ? 280 : 480}
                     height={isMobile ? 160 : 170}
