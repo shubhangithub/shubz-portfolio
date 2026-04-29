@@ -1432,7 +1432,7 @@ Object.assign(window, { Footer, POSTS });
    Cool, obsessively detailed · whitespace tuned · micro-interactions on load
    ======================================================================= */
 
-const PALETTE_V4 = {
+const PALETTE_V4_LIGHT = {
   id: "cobalt",
   label: "cool ivory + cobalt",
   paper: "#F2F1EC",
@@ -1442,7 +1442,19 @@ const PALETTE_V4 = {
   line: "#D5D6DC",
 };
 
-function HomeV4({ onNavigate, setCursorColor }) {
+const PALETTE_V4_DARK = {
+  id: "cobalt-dark",
+  label: "midnight + cobalt",
+  paper: "#0F1320",
+  ink: "#E8E6E1",
+  muted: "#8B8FA4",
+  accent: "#6B8AFF",
+  line: "#252A3A",
+};
+
+const PALETTE_V4 = PALETTE_V4_LIGHT;
+
+function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme }) {
   const { useEffect, useState, useRef } = React;
   const p = PALETTE_V4;
 
@@ -1488,11 +1500,17 @@ function HomeV4({ onNavigate, setCursorColor }) {
           <span style={{ width: 6, height: 6, borderRadius: "50%", background: p.accent, animation: "blip 2s ease-in-out infinite" }} />
           <span className="mono" style={{ color: p.ink }}>{ticker[tickerIdx]}</span>
         </span>
-        {!isMobile && (
-          <span style={{ display: "inline-flex", justifyContent: "flex-end", gap: 14, alignItems: "center" }}>
-            <span className="mono">v.2026.04 · {hh}:{mm}:{ss} GMT</span>
-          </span>
-        )}
+        <span style={{ display: "inline-flex", justifyContent: "flex-end", gap: isMobile ? 8 : 14, alignItems: "center" }}>
+          {!isMobile && <span className="mono">v.2026.04 · {hh}:{mm}:{ss} GMT</span>}
+          {/* dark/light toggle */}
+          <button onClick={toggleTheme} aria-label={dark ? "Switch to light mode" : "Switch to dark mode"} style={{ all: "unset", cursor: "pointer", width: 26, height: 26, borderRadius: "50%", border: `1.5px solid ${p.line}`, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 13, transition: "border-color 240ms var(--ease-out), background 240ms var(--ease-out)", background: dark ? "rgba(255,255,255,0.06)" : "transparent" }} onMouseEnter={(e) => e.currentTarget.style.borderColor = p.accent} onMouseLeave={(e) => e.currentTarget.style.borderColor = p.line}>
+            {dark ? "☀" : "☾"}
+          </button>
+          {/* portrait circle → contact */}
+          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("contact"); }} style={{ display: "inline-block", width: 26, height: 26, borderRadius: "50%", overflow: "hidden", border: `1.5px solid ${p.line}`, flexShrink: 0, transition: "border-color 240ms var(--ease-out)" }} onMouseEnter={(e) => e.currentTarget.style.borderColor = p.accent} onMouseLeave={(e) => e.currentTarget.style.borderColor = p.line}>
+            <img src="assets/portrait.png" alt="Contact" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          </a>
+        </span>
         <style>{`@keyframes blip { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }`}</style>
       </div>
 
@@ -1719,7 +1737,7 @@ function Figure({ children, caption, palette }) {
 
 // ---------- shared chrome ----------
 
-function PreciseTopBar({ palette: p, label }) {
+function PreciseTopBar({ palette: p, label, dark, toggleTheme }) {
   const [now, setNow] = React.useState(() => new Date());
   React.useEffect(() => { const id = setInterval(() => setNow(new Date()), 1000); return () => clearInterval(id); }, []);
   const isMobile = useIsMobile();
@@ -1734,11 +1752,14 @@ function PreciseTopBar({ palette: p, label }) {
         <span style={{ width: 6, height: 6, borderRadius: "50%", background: p.accent, animation: "blip 2s ease-in-out infinite" }} />
         <span className="mono" style={{ color: p.ink }}>{label}</span>
       </span>
-      {!isMobile && (
-        <span style={{ display: "inline-flex", justifyContent: "flex-end", gap: 14, alignItems: "center" }}>
-          <span className="mono">v.2026.04 · {hh}:{mm}:{ss} GMT</span>
-        </span>
-      )}
+      <span style={{ display: "inline-flex", justifyContent: "flex-end", gap: isMobile ? 8 : 14, alignItems: "center" }}>
+        {!isMobile && <span className="mono">v.2026.04 · {hh}:{mm}:{ss} GMT</span>}
+        {toggleTheme && (
+          <button onClick={toggleTheme} aria-label={dark ? "Switch to light mode" : "Switch to dark mode"} style={{ all: "unset", cursor: "pointer", width: 24, height: 24, borderRadius: "50%", border: `1.5px solid ${p.line}`, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12, transition: "border-color 240ms var(--ease-out)", background: dark ? "rgba(255,255,255,0.06)" : "transparent" }} onMouseEnter={(e) => e.currentTarget.style.borderColor = p.accent} onMouseLeave={(e) => e.currentTarget.style.borderColor = p.line}>
+            {dark ? "☀" : "☾"}
+          </button>
+        )}
+      </span>
       <style>{`@keyframes blip { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }`}</style>
     </div>
   );
@@ -1919,7 +1940,7 @@ function cursorTelemetry({ x, y }) {
 
 // ---------- WRITING INDEX (V4) ----------
 
-function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
+function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
   const telemetryRow = useTelemetry();
@@ -1941,7 +1962,7 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor }) {
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
       <div aria-hidden="true" className="v4-bg-grid" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
 
-      <PreciseTopBar palette={p} label="~/writing" />
+      <PreciseTopBar palette={p} label="~/writing" dark={dark} toggleTheme={toggleTheme} />
       <PreciseNav palette={p} current="writing" onNavigate={onNavigate} />
 
       <main id="main" tabIndex={-1} style={{ display: "block" }}>
@@ -3773,7 +3794,7 @@ function essayMeta(slug) {
   return meta[slug] || meta["jaya"];
 }
 
-function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
+function ArticleV4({ slug, palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, [slug]);
   const scrollPct = usePreciseScroll();
   const telemetryRow = useTelemetry();
@@ -3784,7 +3805,7 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
       <div aria-hidden="true" className="v4-bg-grid" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.18 }} />
       <ReadingRuler color={p.accent} />
-      <PreciseTopBar palette={p} label={`~/writing/${slug}`} />
+      <PreciseTopBar palette={p} label={`~/writing/${slug}`} dark={dark} toggleTheme={toggleTheme} />
       <PreciseNav palette={p} current="writing" onNavigate={onNavigate} />
 
       <main id="main" tabIndex={-1} style={{ display: "block" }}>
@@ -3926,7 +3947,7 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor }) {
 
 // ---------- WORK — annotated CV ----------
 
-function WorkV4({ palette: p, onNavigate, setCursorColor }) {
+function WorkV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
   const telemetryRow = useTelemetry();
@@ -3970,7 +3991,7 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
       <div aria-hidden="true" className="v4-bg-grid" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
-      <PreciseTopBar palette={p} label="~/work" />
+      <PreciseTopBar palette={p} label="~/work" dark={dark} toggleTheme={toggleTheme} />
       <PreciseNav palette={p} current="work" onNavigate={onNavigate} />
 
       <main id="main" tabIndex={-1} style={{ display: "block" }}>
@@ -4143,7 +4164,7 @@ function WorkV4({ palette: p, onNavigate, setCursorColor }) {
 
 // ---------- NOW — field journal ----------
 
-function NowV4({ palette: p, onNavigate, setCursorColor }) {
+function NowV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
   const telemetryRow = useTelemetry();
@@ -4173,7 +4194,7 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
       <div aria-hidden="true" className="v4-bg-grid" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
-      <PreciseTopBar palette={p} label="~/now" />
+      <PreciseTopBar palette={p} label="~/now" dark={dark} toggleTheme={toggleTheme} />
       <PreciseNav palette={p} current="now" onNavigate={onNavigate} />
 
       <main id="main" tabIndex={-1} style={{ display: "block" }}>
@@ -4295,7 +4316,7 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
 
 // ---------- CONTACT ----------
 
-function ContactV4({ palette: p, onNavigate, setCursorColor }) {
+function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
   const telemetryRow = useTelemetry();
@@ -4316,7 +4337,7 @@ function ContactV4({ palette: p, onNavigate, setCursorColor }) {
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
       <div aria-hidden="true" className="v4-bg-grid" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
-      <PreciseTopBar palette={p} label="~/contact" />
+      <PreciseTopBar palette={p} label="~/contact" dark={dark} toggleTheme={toggleTheme} />
       <PreciseNav palette={p} current="contact" onNavigate={onNavigate} />
 
       <main id="main" tabIndex={-1} style={{ display: "block" }}>
@@ -4463,7 +4484,18 @@ Object.assign(window, { WritingIndexV4, ArticleV4, WorkV4, NowV4, ContactV4, Pre
 
 function App() {
   const [route, setRoute] = useState({ page: "home", slug: null });
-  const [cursorColor, setCursorColor] = useState(PALETTE_V4.accent);
+  const [dark, setDark] = useState(() => {
+    if (typeof localStorage !== "undefined") {
+      const saved = localStorage.getItem("theme");
+      if (saved === "dark") return true;
+      if (saved === "light") return false;
+    }
+    return typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
+  const toggleTheme = () => setDark(d => { const next = !d; localStorage.setItem("theme", next ? "dark" : "light"); return next; });
+  const p = dark ? PALETTE_V4_DARK : PALETTE_V4_LIGHT;
+  const [cursorColor, setCursorColor] = useState(p.accent);
+  useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; }, [dark]);
 
   function navigate(page, slug = null) {
     if (document.startViewTransition) {
@@ -4474,8 +4506,7 @@ function App() {
     setTimeout(() => window.scrollTo({ top: 0, behavior: "instant" }), 10);
   }
 
-  const p = PALETTE_V4;
-  const sharedProps = { palette: p, onNavigate: navigate, setCursorColor };
+  const sharedProps = { palette: p, onNavigate: navigate, setCursorColor, dark, toggleTheme };
 
   let page;
   if (route.page === "writing") page = <WritingIndexV4 {...sharedProps} />;
@@ -4483,7 +4514,7 @@ function App() {
   else if (route.page === "work") page = <WorkV4 {...sharedProps} />;
   else if (route.page === "now") page = <NowV4 {...sharedProps} />;
   else if (route.page === "contact") page = <ContactV4 {...sharedProps} />;
-  else page = <HomeV4 onNavigate={navigate} setCursorColor={setCursorColor} />;
+  else page = <HomeV4 onNavigate={navigate} setCursorColor={setCursorColor} dark={dark} toggleTheme={toggleTheme} />;
 
   return (
     <>
