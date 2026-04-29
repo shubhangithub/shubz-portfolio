@@ -4147,10 +4147,10 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "1.6rem", fontFamily: "var(--f-ui)", fontSize: 13 }}>
               {[
-                ["Mood", "writing-mode", "rare and protected"],
-                ["Inbox", "managed", "weekly batch"],
-                ["Reading", "calibration papers", "and one quiet novel"],
-                ["Tea", "masala chai", "always"],
+                ["Mood", "study-mode", "rare and protected"],
+                ["Music", "Caroline Polachek", "depending on the hour"],
+                ["Reading", "AI Safety papers", "and one quiet novel"],
+                ["Drink", "strawberry matcha", "from blank street"],
               ].map(([k, v, sub], i) => (
                 <div key={i}>
                   <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.12em" }}>{k}</div>
@@ -4164,7 +4164,7 @@ function NowV4({ palette: p, onNavigate, setCursorColor }) {
       </section>
       </main>
 
-      <PreciseFooter palette={p} line="A snapshot, not a profile. Returns to its prior state when refreshed." />
+      <PreciseFooter palette={p} line="A snapshot, not a profile." />
     </div>
   );
 }
