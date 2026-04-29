@@ -893,8 +893,8 @@ function StaticSpecimen({ width, height, accent, ink, muted, line, theme, monthN
         <Variant w={width} h={height} t={tick} accent={accent} ink={ink} muted={muted} line={line} />
       </svg>
       <div className="mono" style={{ marginTop: 6, color: muted, fontSize: 10, display: "flex", justifyContent: "space-between" }}>
-        <span>fig.02 — {theme.caption}</span>
-        <span style={{ color: ink }}>{monthName.toLowerCase()}</span>
+        <span style={{ color: ink }}>fig.01 — {theme.caption}</span>
+        <span>{monthName.toLowerCase()}</span>
       </div>
       <div style={{ marginTop: 8, fontFamily: "var(--f-body)", fontSize: 12, color: muted, fontStyle: "italic", lineHeight: 1.5 }}>
         {theme.why}
@@ -1017,7 +1017,7 @@ function LotkaVolterra({ width, height, accent, ink, muted, line, theme, monthNa
       </div>
 
       <div className="mono" style={{ marginTop: 6, color: muted, fontSize: 10 }}>
-        <span style={{ color: ink }}>fig.02 — {theme.caption}</span>
+        <span style={{ color: ink }}>fig.01 — {theme.caption}</span>
       </div>
       <div style={{ marginTop: 4, fontFamily: "var(--f-body)", fontSize: 12, color: muted, fontStyle: "italic", lineHeight: 1.45 }}>
         {theme.why}
@@ -1544,35 +1544,12 @@ function HomeV4({ onNavigate, setCursorColor }) {
               I'm a founding engineer at <em>Orion</em>, where I build geospatial ML that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths (dabbled in some physics) at Oxford and computer science at FLAME. I am also, in inconvenient order: a Thames rower on Sundays, active in STEM ed outreach, a budding pianist, a fashion enthusiast, and very into interactive diagrams.
             </p>
 
-            {/* LEDE + SEASONAL (tall) side by side, then GRADIENT DESCENT below lede */}
-            <div style={{ marginTop: isMobile ? "1.6rem" : "1.8rem", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "0.8rem" : "1rem", alignItems: "stretch" }}>
-              {/* LEFT column: lede + fig.1 stacked */}
-              <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? "0.8rem" : "1rem" }}>
-                {/* OLD-LEDE-LOCATION (kept commented for easy revert — to revert, uncomment this AND remove the NEW-LEDE above)
-                <p className="prose" style={{ fontSize: isMobile ? "1rem" : "1.08rem", lineHeight: 1.7, margin: 0, maxWidth: "52ch", color: p.ink }}>
-                  I'm a founding engineer at <em>Orion</em>, where I build geospatial ML that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths (dabbled in some physics) at Oxford and computer science at FLAME. I am also, in inconvenient order: a Thames rower on Sundays, active in STEM ed outreach, a budding pianist, a fashion enthusiast, and very into interactive diagrams.
-                </p>
-                */}
-                <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem 0.5rem", background: `color-mix(in oklch, ${p.paper} 85%, white)`, flex: isMobile ? "none" : 1 }}>
-                  <GradientDescentViz
-                    width={isMobile ? 280 : 480}
-                    height={isMobile ? 160 : 170}
-                    strokeColor={p.ink}
-                    mutedColor={p.muted}
-                    accentColor={p.accent}
-                    onStateChange={() => {}}
-                  />
-                  <div className="mono" style={{ marginTop: 8, fontSize: 10, color: p.muted, lineHeight: 1.5, padding: "0 0.2rem" }}>
-                    <span style={{ color: p.ink }}>fig.01 — gradient descent</span>
-                    <div style={{ marginTop: 2 }}>A ball following ∇f across a 2-D loss landscape. Multiple local minima; the path depends on where you start.</div>
-                  </div>
-                </div>
-              </div>
-              {/* RIGHT column: seasonal specimen — sized so the inner figure fills the natural box height (no JS measurement) */}
+            {/* fig.01 — seasonal figure, single centerpiece (rotates monthly via SeasonalSpecimen) */}
+            <div style={{ marginTop: isMobile ? "1.8rem" : "2.2rem", maxWidth: 720 }}>
               <div style={{ border: `1px solid ${p.line}`, padding: isMobile ? "0.4rem" : "0.6rem", background: `color-mix(in oklch, ${p.paper} 85%, white)`, overflow: "hidden" }}>
                 <SeasonalSpecimen
-                  width={isMobile ? 320 : 480}
-                  height={isMobile ? 200 : 340}
+                  width={isMobile ? 320 : 640}
+                  height={isMobile ? 220 : 360}
                   accent={p.accent}
                   ink={p.ink}
                   muted={p.muted}
