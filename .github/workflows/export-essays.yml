@@ -1,0 +1,73 @@
+# Cross-post helper. Manually triggered from the GitHub Actions tab.
+# For each essay (or one specific slug), exports a Markdown file plus PNG
+# captures of every figure, and uploads them as a workflow artifact you can
+# download and paste into Substack / Medium / Hashnode.
+#
+# How to run:
+#   1. Push your latest changes (so the captures reflect production).
+#   2. Go to GitHub → Actions → "Export essays for cross-posting".
+#   3. Click "Run workflow". Optionally enter a single slug; leave blank for all.
+#   4. When the run finishes, scroll to the bottom of the run page and
+#      download the "essays-export-<run-number>" artifact.
+
+name: Export essays for cross-posting
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "Single essay slug (e.g. 'jaya'). Leave blank for all."
+        required: false
+        default: ""
+      base_url:
+        description: "Source URL for figure capture."
+        required: false
+        default: "https://shubzsharma.com"
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Export Markdown
+        run: |
+          if [ -z "${{ inputs.slug }}" ]; then
+            node scripts/export-markdown.js
+          else
+            node scripts/export-markdown.js "${{ inputs.slug }}"
+          fi
+
+      - name: Capture figures
+        run: |
+          if [ -z "${{ inputs.slug }}" ]; then
+            node scripts/capture-figures.js --base "${{ inputs.base_url }}"
+          else
+            node scripts/capture-figures.js "${{ inputs.slug }}" --base "${{ inputs.base_url }}"
+          fi
+
+      - name: List captured assets
+        run: ls -la exported/ exported/figures/ || true
+
+      - name: Upload exports as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: essays-export-${{ github.run_number }}
+          path: exported/
+          if-no-files-found: error
+          retention-days: 30

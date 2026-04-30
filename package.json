@@ -1,0 +1,13 @@
+{
+  "name": "personal-site-tooling",
+  "private": true,
+  "description": "Cross-post helper scripts for shubzsharma.com. The site itself is single-file index.html — this is just author tooling.",
+  "scripts": {
+    "export:md": "node scripts/export-markdown.js",
+    "export:figures": "node scripts/capture-figures.js",
+    "export:all": "node scripts/export-markdown.js && node scripts/capture-figures.js"
+  },
+  "devDependencies": {
+    "puppeteer": "^23.0.0"
+  }
+}
