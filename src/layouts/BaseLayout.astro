@@ -51,6 +51,9 @@ const ogImageUrl = new URL(ogImage, SITE_URL).href;
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
 
+    {/* RSS feed auto-discovery (NetNewsWire, Feedly, Substack import all sniff this) */}
+    <link rel="alternate" type="application/rss+xml" title="Shubz Sharma · Writing" href="/rss.xml" />
+
     {/* SS monogram favicon (inline SVG data-URI, no extra request) */}
     <link
       rel="icon"
