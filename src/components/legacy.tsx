@@ -1,345 +1,14 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Shubz Sharma</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Georgia,serif' font-size='16' font-weight='400' font-style='italic' fill='%231F3DBF'%3ESS%3C/text%3E%3C/svg%3E" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,0..100;1,9..144,300..700,0..100&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..600&family=IBM+Plex+Sans:ital,wght@0,300..700;1,400..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<style>
-/* ========== BASE — shared across all variations ========== */
+// @ts-nocheck
+/* eslint-disable */
+/**
+ * legacy.tsx — bulk-extracted from the old single-file index.html.
+ * SSR-ready React app, lifted out so Astro can render real HTML for SEO.
+ */
+import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 
-:root {
-  /* Type */
-  --f-display: "Fraunces", "Times New Roman", serif;
-  --f-body: "Source Serif 4", "Georgia", serif;
-  --f-ui: "IBM Plex Sans", ui-sans-serif, sans-serif;
-  --f-mono: "JetBrains Mono", ui-monospace, monospace;
-
-  /* Motion */
-  --ease-out: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-
-  /* Measure */
-  --measure: 64ch;
-}
-
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
-
-body {
-  font-family: var(--f-body);
-  font-size: 20px;
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  font-feature-settings: "kern", "liga", "calt", "onum";
-}
-
-/* Display headlines use optical-size via font-variation-settings */
-.display {
-  font-family: var(--f-display);
-  font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 0;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.02;
-  text-wrap: balance;
-}
-
-/* UI labels */
-.ui {
-  font-family: var(--f-ui);
-  font-feature-settings: "ss01", "ss02", "cv05";
-}
-
-.mono {
-  font-family: var(--f-mono);
-  font-size: 0.78em;
-  letter-spacing: 0.02em;
-}
-
-.caps {
-  font-family: var(--f-ui);
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.72em;
-  font-weight: 500;
-}
-
-/* Shared link treatment — each variation overrides */
-a { color: inherit; text-decoration: none; }
-
-/* Hanging punctuation via margin trick */
-.hang { hanging-punctuation: first last; }
-
-/* Pull quote */
-.pull-quote {
-  font-family: var(--f-display);
-  font-variation-settings: "opsz" 144;
-  font-weight: 300;
-  font-style: italic;
-  font-size: 2.1rem;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-  text-wrap: balance;
-  margin: 3rem 0;
-  padding-left: 1.2rem;
-  border-left: 1px solid currentColor;
-}
-
-/* Drop cap */
-.drop-cap::first-letter {
-  font-family: var(--f-display);
-  font-variation-settings: "opsz" 144, "SOFT" 100;
-  font-weight: 500;
-  font-size: 5.2em;
-  float: left;
-  line-height: 0.88;
-  padding: 0.08em 0.12em 0 0;
-  margin-right: 0.02em;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: color-mix(in oklch, currentColor 30%, transparent);
-  border-radius: 10px;
-  border: 2px solid transparent;
-  background-clip: padding-box;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in oklch, currentColor 55%, transparent);
-  background-clip: padding-box;
-  border: 2px solid transparent;
-}
-
-/* Reading-I-beam cursor over prose */
-.prose { cursor: text; }
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* View transitions */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: 450ms;
-  animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-
-/* Letter reveal animation */
-@keyframes letter-in {
-  from { opacity: 0; transform: translateY(0.35em); filter: blur(4px); }
-  to { opacity: 1; transform: translateY(0); filter: blur(0); }
-}
-
-.letter-reveal > span > span {
-  display: inline-block;
-  opacity: 0;
-  animation: letter-in 620ms var(--ease-out) forwards;
-  will-change: transform, opacity, filter;
-}
-
-/* Link underline from left */
-.link-underline {
-  position: relative;
-  display: inline-block;
-}
-.link-underline::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: -2px;
-  height: 1px;
-  background: currentColor;
-  transform-origin: left;
-  transform: scaleX(0);
-  transition: transform 380ms var(--ease-out);
-}
-.link-underline:hover::after { transform: scaleX(1); }
-
-/* Sidenote — render inline-below-paragraph (the article body has a right
-   rail occupying the margin where Tufte-style sidenotes would float, so a
-   floating sidenote collides with cite/sources content). */
-.sidenote {
-  display: block;
-  margin: 0.6rem 0 1.1rem 0;
-  padding-left: 0.9rem;
-  border-left: 2px solid currentColor;
-  font-family: var(--f-ui);
-  font-size: 0.82rem;
-  line-height: 1.5;
-  color: color-mix(in oklch, currentColor 65%, transparent);
-}
-.sidenote-number {
-  font-family: var(--f-ui);
-  font-size: 0.7em;
-  vertical-align: super;
-  cursor: help;
-  padding: 0 0.1em;
-}
-
-/* Marginalia anchor */
-.marginalia {
-  font-family: var(--f-ui);
-  font-size: 0.78rem;
-  line-height: 1.45;
-  letter-spacing: 0.01em;
-}
-
-/* Math block */
-.math-block {
-  font-family: "KaTeX_Main", "Source Serif 4", serif;
-  font-size: 1.05em;
-  padding: 0.8rem 0;
-  text-align: center;
-  font-style: italic;
-}
-
-/* Figure caption */
-figure { margin: 2.4rem 0; }
-figcaption {
-  font-family: var(--f-ui);
-  font-size: 0.82rem;
-  line-height: 1.5;
-  color: color-mix(in oklch, currentColor 55%, transparent);
-  margin-top: 0.6rem;
-}
-
-/* Utility */
-.sr-only {
-  position: absolute; width: 1px; height: 1px;
-  padding: 0; margin: -1px; overflow: hidden;
-  clip: rect(0,0,0,0); border: 0;
-}
-
-::selection { background: #B85C3C; color: #F4ECDD; }
-body { transition: background 600ms cubic-bezier(0.25, 0.1, 0.25, 1); }
-
-/* Touch & accessibility — global (any viewport) */
-* { -webkit-tap-highlight-color: transparent; }
-:focus-visible { outline: 2px solid #1F3DBF; outline-offset: 2px; border-radius: 1px; }
-.skip-link {
-  position: absolute; left: 0.5rem; top: -100px;
-  padding: 0.5rem 0.9rem; background: #0F1320; color: #F2F1EC;
-  font-family: var(--f-ui); font-size: 13px; font-weight: 500;
-  z-index: 100; transition: top 180ms var(--ease-out);
-}
-.skip-link:focus { top: 0.5rem; }
-
-/* Press feedback on touch — opacity-only, no layout shift */
-@media (hover: none) {
-  a:active, button:active { opacity: 0.55; transition: opacity 80ms; }
-}
-
-/* ========== RESPONSIVE — phones (≤ 768px) ==========
-   Strategy: tag desktop 12-col grids with .v4-grid (auto-stacks on mobile),
-   tag rails-to-disappear with .v4-rail-hide. !important needed because layout
-   grids are set via inline JSX styles. */
-@media (max-width: 768px) {
-  body { font-size: 18px; line-height: 1.65; }
-
-  /* Stack any 12-col grid on mobile */
-  .v4-grid { grid-template-columns: 1fr !important; gap: 1.2rem !important; }
-  .v4-grid > * { grid-column: 1 / -1 !important; text-align: left !important; position: static !important; max-width: 100% !important; }
-
-  /* Hide rails entirely (IndexRail, right-side cite/sources, fig.01 summary) */
-  .v4-rail-hide { display: none !important; }
-
-  /* Hide the fixed 12-col background grid pattern (looks noisy without the matching layout) */
-  .v4-bg-grid { display: none !important; }
-
-  /* Kill horizontal overflow at the page level */
-  html, body { overflow-x: hidden !important; }
-  h1.display { overflow-wrap: break-word; word-break: break-word; }
-
-  /* Narrow-row pattern (fixed-px grid lists) — stack vertically on mobile */
-  .v4-stack-row { grid-template-columns: 1fr !important; gap: 0.4rem !important; }
-  .v4-stack-row > * { text-align: left !important; max-width: 100% !important; }
-
-  /* Pull-quote: lose the negative margin that pushes off the viewport */
-  .pull-quote { margin: 2rem 0 !important; padding-left: 1rem !important; font-size: 1.5rem !important; }
-  blockquote { margin-left: 0 !important; margin-right: 0 !important; }
-
-  /* Drop-cap: smaller on narrow */
-  .drop-cap::first-letter { font-size: 4em !important; padding: 0.06em 0.1em 0 0 !important; }
-
-  /* Display headlines: tighter on mobile */
-  h2.display { font-size: clamp(1.35rem, 5.5vw, 1.9rem) !important; }
-
-  /* Diagram + legend pairs: stack on mobile */
-  .v4-diagram-pair { grid-template-columns: 1fr !important; gap: 1rem !important; }
-
-  /* Figures + pull quotes: kill negative margins on mobile */
-  .v4-figure { margin-left: 0 !important; margin-right: 0 !important; }
-  .pull-quote, blockquote { margin-left: 0 !important; margin-right: 0 !important; }
-
-  /* Diagram captions + axis labels — bump from 9-10px → 11px on mobile */
-  .v4-diagram-pair text { font-size: 11px !important; }
-  .v4-diagram-pair .mono { font-size: 11px !important; }
-
-  /* Sliders + buttons inside diagrams: bigger touch targets */
-  .v4-diagram-pair input[type="range"] { height: 28px; accent-color: #1F3DBF; }
-  .v4-diagram-pair input[type="range"]::-webkit-slider-thumb { width: 22px; height: 22px; }
-  .v4-diagram-pair input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border: none; }
-  .v4-diagram-pair button { min-height: 32px; }
-
-  /* Tap-target audit — scoped: nav, footer, mono, caps. Doesn't touch inline prose links. */
-  nav a, footer a, .mono a, .caps a { min-height: 32px; display: inline-flex; align-items: center; }
-}
-</style>
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<script>
-// Preview asset auth: forward the iframe's `?t=...` token to relative
-// asset requests so the served files don't 401.
-(function () {
-  try {
-    const url = new URL(location.href);
-    const token = url.searchParams.get("t");
-    if (!token) return;
-    const append = (src) => {
-      if (!src) return src;
-      if (/^([a-z]+:|data:|blob:|#|\/)/i.test(src)) return src;
-      const sep = src.includes("?") ? "&" : "?";
-      return src + sep + "t=" + encodeURIComponent(token);
-    };
-    // patch existing <img> tags as soon as they appear
-    const patch = (img) => {
-      const raw = img.getAttribute("src");
-      if (raw && !raw.includes("t=" + token)) img.src = append(raw);
-    };
-    new MutationObserver((muts) => {
-      muts.forEach(m => m.addedNodes.forEach(n => {
-        if (n.nodeType !== 1) return;
-        if (n.tagName === "IMG") patch(n);
-        n.querySelectorAll && n.querySelectorAll("img").forEach(patch);
-      }));
-    }).observe(document.documentElement, { subtree: true, childList: true });
-    document.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll("img").forEach(patch);
-    });
-  } catch (e) { console.warn("token shim:", e); }
-})();
-</script>
-</head>
-<body>
-<div id="root"></div>
-<script type="text/babel">
 
 
 /* ===== components/motif.jsx ===== */
-/* global React */
-const { useEffect, useRef, useState } = React;
 
 /* =======================================================================
    FourierMotif
@@ -432,7 +101,7 @@ function dft(samples) {
   return out;
 }
 
-function FourierMotif({
+export function FourierMotif({
   shape = "hex",
   size = 260,
   strokeColor = "currentColor",
@@ -568,11 +237,9 @@ function FourierMotif({
   );
 }
 
-Object.assign(window, { FourierMotif });
 
 
 /* ===== components/gradient-descent.jsx ===== */
-/* global React */
 /* =======================================================================
    GradientDescentViz
    An interactive 2D loss-landscape with a ball that follows ∇f.
@@ -595,7 +262,7 @@ Object.assign(window, { FourierMotif });
 
 // useEffect/useRef/useState are imported by motif.jsx at top of bundle
 
-function GradientDescentViz({
+export function GradientDescentViz({
   width = 260,
   height = 220,
   strokeColor = "currentColor",
@@ -820,18 +487,16 @@ function GradientDescentViz({
   );
 }
 
-Object.assign(window, { GradientDescentViz });
 
 
 
 /* ===== components/seasonal.jsx ===== */
-/* global React */
 /* =======================================================================
    SeasonalSpecimen — a monthly rotating animated figure.
    Same visual language as the fourier motif and the gradient descent: single-stroke,
    accent-colored, math-driven motion. 12 themes, one per month.
    ======================================================================= */
-const SEASONAL_THEMES = [
+export const SEASONAL_THEMES = [
   { id: "skating",   label: "Skating",       caption: "trochoid · wheel along a line",
     why: "January, when the rinks are full." },
   { id: "cellular",  label: "Cellular",      caption: "Wolfram rule 110 · 1-D automaton",
@@ -858,7 +523,7 @@ const SEASONAL_THEMES = [
     why: "December, taking stock. A random walk through latent space." },
 ];
 
-function SeasonalSpecimen({ width = 200, height = 180, accent = "#1F3DBF", ink = "#0F1320", muted = "#6E7488", line = "#D5D6DC", compact = false }) {
+export function SeasonalSpecimen({ width = 200, height = 180, accent = "#1F3DBF", ink = "#0F1320", muted = "#6E7488", line = "#D5D6DC", compact = false }) {
   // Show May (Lotka–Volterra) starting today; from May 1 onwards the natural
   // calendar month takes over.
   const month = Math.max(4, new Date().getMonth());
@@ -874,7 +539,7 @@ function SeasonalSpecimen({ width = 200, height = 180, accent = "#1F3DBF", ink =
   return <StaticSpecimen width={width} height={height} accent={accent} ink={ink} muted={muted} line={line} theme={theme} monthName={monthName} />;
 }
 
-function StaticSpecimen({ width, height, accent, ink, muted, line, theme, monthName }) {
+export function StaticSpecimen({ width, height, accent, ink, muted, line, theme, monthName }) {
   const [tick, setTick] = React.useState(0);
   React.useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -906,7 +571,7 @@ function StaticSpecimen({ width, height, accent, ink, muted, line, theme, monthN
 
 // Lotka–Volterra predator–prey: phase-space loop + time-series strip + live
 // sliders for predation (β) and predator mortality (γ). May only.
-function LotkaVolterra({ width, height, accent, ink, muted, line, theme, monthName, compact = false }) {
+export function LotkaVolterra({ width, height, accent, ink, muted, line, theme, monthName, compact = false }) {
   const isMobile = (typeof useIsMobile === "function") ? useIsMobile() : (typeof window !== "undefined" && window.innerWidth <= 768);
   const ALPHA = 1.0, DELTA = 0.4;          // fixed
   const [beta, setBeta] = React.useState(0.4);
@@ -1032,7 +697,7 @@ function LotkaVolterra({ width, height, accent, ink, muted, line, theme, monthNa
   );
 }
 
-const SPECIMEN_VARIANTS = {
+export const SPECIMEN_VARIANTS = {
   quantum: ({ w, h, t, accent, muted, line }) => {
     const N = 70, tau = t * 0.05, pts = [];
     for (let i = 0; i < N; i++) {
@@ -1199,15 +864,13 @@ const SPECIMEN_VARIANTS = {
   },
 };
 
-const INTERACTIVE_VARIANTS = {
+export const INTERACTIVE_VARIANTS = {
   lotkavolterra: LotkaVolterra,
 };
 
-Object.assign(window, { SeasonalSpecimen, SEASONAL_THEMES, INTERACTIVE_VARIANTS, LotkaVolterra });
 
 
 /* ===== components/primitives.jsx ===== */
-/* global React */
 // hook destructuring done locally in each component below
 
 /* =======================================================================
@@ -1215,7 +878,7 @@ Object.assign(window, { SeasonalSpecimen, SEASONAL_THEMES, INTERACTIVE_VARIANTS,
    ======================================================================= */
 
 // Custom cursor - small warm dot, scales near interactive elements, morphs to I-beam over prose
-function CustomCursor({ color = "#B85C3C" }) {
+export function CustomCursor({ color = "#B85C3C" }) {
   const dotRef = useRef(null);
   const [mode, setMode] = useState("default"); // default | link | text | hidden
   const pos = useRef({ x: 0, y: 0 });
@@ -1275,7 +938,7 @@ function CustomCursor({ color = "#B85C3C" }) {
 }
 
 // Letter-by-letter reveal on mount (once per session)
-function LetterReveal({ children, className = "", delay = 0, stagger = 28, as: Tag = "span" }) {
+export function LetterReveal({ children, className = "", delay = 0, stagger = 28, as: Tag = "span" }) {
   const text = typeof children === "string" ? children : "";
   // Split on regular spaces so spaces between words stay breakable for line-wrap.
   // Letters within each word still animate individually with the staggered delay.
@@ -1306,7 +969,7 @@ function LetterReveal({ children, className = "", delay = 0, stagger = 28, as: T
 
 
 // Reading ruler (proportional bar) - appears during article scroll
-function ReadingRuler({ color = "currentColor", enabled = true }) {
+export function ReadingRuler({ color = "currentColor", enabled = true }) {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
     if (!enabled) return;
@@ -1332,15 +995,13 @@ function ReadingRuler({ color = "currentColor", enabled = true }) {
 }
 
 
-Object.assign(window, { CustomCursor, LetterReveal, ReadingRuler });
 
 
 /* ===== components/shared.jsx ===== */
-/* global React, LetterReveal */
 
 
 
-function Footer({ palette, line }) {
+export function Footer({ palette, line }) {
   const p = palette;
   return (
     <footer style={{ borderTop: `1px solid ${p.line}`, padding: "2.4rem 2.2rem 3rem", maxWidth: 1240, margin: "4rem auto 0", color: p.muted, fontFamily: "var(--f-ui)", fontSize: 13, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1.2rem", position: "relative", zIndex: 2 }}>
@@ -1350,7 +1011,7 @@ function Footer({ palette, line }) {
   );
 }
 
-const POSTS = [
+export const POSTS = [
   {
     slug: "jaya",
     title: "JAYA, improved",
@@ -1423,17 +1084,15 @@ const POSTS = [
   },
 ];
 
-Object.assign(window, { Footer, POSTS });
 
 /* ===== components/home-v4.jsx ===== */
-/* global React, FourierMotif, LetterReveal, Footer, POSTS, GradientDescentViz, SeasonalSpecimen */
 
 /* =======================================================================
    V4 — "Rauno-precise"
    Cool, obsessively detailed · whitespace tuned · micro-interactions on load
    ======================================================================= */
 
-const PALETTE_V4_LIGHT = {
+export const PALETTE_V4_LIGHT = {
   id: "cobalt",
   label: "cool ivory + cobalt",
   paper: "#F2F1EC",
@@ -1443,7 +1102,7 @@ const PALETTE_V4_LIGHT = {
   line: "#D5D6DC",
 };
 
-const PALETTE_V4_DARK = {
+export const PALETTE_V4_DARK = {
   id: "cobalt-dark",
   label: "midnight + cobalt",
   paper: "#0F1320",
@@ -1453,9 +1112,9 @@ const PALETTE_V4_DARK = {
   line: "#252A3A",
 };
 
-const PALETTE_V4 = PALETTE_V4_LIGHT;
+export const PALETTE_V4 = PALETTE_V4_LIGHT;
 
-function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette }) {
+export function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette }) {
   const { useEffect, useState, useRef } = React;
   const p = palette || PALETTE_V4;
 
@@ -1694,11 +1353,10 @@ function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette }) {
 }
 
 
-Object.assign(window, { HomeV4, PALETTE_V4 });
 
 
 // PullQuote + Figure: shared essay primitives used by the V4 essays below.
-function PullQuote({ children, color }) {
+export function PullQuote({ children, color }) {
   return (
     <blockquote style={{ margin: "3rem -2rem", padding: "1rem 2rem", borderLeft: `2px solid ${color}`, fontFamily: "var(--f-display)", fontSize: "1.95rem", lineHeight: 1.2, fontStyle: "italic", fontVariationSettings: '"opsz" 144, "SOFT" 100, "wght" 320', color: "inherit", textWrap: "balance" }}>
       {children}
@@ -1706,7 +1364,7 @@ function PullQuote({ children, color }) {
   );
 }
 
-function Figure({ children, caption, palette }) {
+export function Figure({ children, caption, palette }) {
   const ref = React.useRef(null);
   const [on, setOn] = React.useState(false);
   React.useEffect(() => {
@@ -1726,7 +1384,6 @@ function Figure({ children, caption, palette }) {
 
 
 /* ===== components/v4-precise-pages.jsx ===== */
-/* global React, LetterReveal, ReadingRuler, FourierMotif, POSTS, PALETTE_V4, PullQuote, Figure */
 
 /* =======================================================================
    V4 — "Rauno-precise" sub-pages
@@ -1736,7 +1393,7 @@ function Figure({ children, caption, palette }) {
 
 // ---------- shared chrome ----------
 
-function ThemeToggle({ dark, toggleTheme, palette: p }) {
+export function ThemeToggle({ dark, toggleTheme, palette: p }) {
   if (!toggleTheme) return null;
   return (
     <button onClick={toggleTheme} aria-label={dark ? "Switch to light mode" : "Switch to dark mode"} style={{ all: "unset", cursor: "pointer", width: 36, height: 20, borderRadius: 10, background: dark ? p.accent : p.line, position: "relative", display: "inline-block", flexShrink: 0, transition: "background 300ms var(--ease-out)", verticalAlign: "middle" }}>
@@ -1747,7 +1404,7 @@ function ThemeToggle({ dark, toggleTheme, palette: p }) {
   );
 }
 
-function PreciseTopBar({ palette: p, label, dark, toggleTheme }) {
+export function PreciseTopBar({ palette: p, label, dark, toggleTheme }) {
   const [now, setNow] = React.useState(() => new Date());
   React.useEffect(() => { const id = setInterval(() => setNow(new Date()), 1000); return () => clearInterval(id); }, []);
   const isMobile = useIsMobile();
@@ -1773,7 +1430,7 @@ function PreciseTopBar({ palette: p, label, dark, toggleTheme }) {
   );
 }
 
-function PreciseNav({ palette: p, current, onNavigate }) {
+export function PreciseNav({ palette: p, current, onNavigate }) {
   const items = [["Home", "home"], ["Writing", "writing"], ["Work", "work"], ["Now", "now"], ["Contact", "contact"]];
   const isMobile = useIsMobile();
   if (isMobile) {
@@ -1820,7 +1477,7 @@ function PreciseNav({ palette: p, current, onNavigate }) {
   );
 }
 
-function IndexRail({ palette: p, items, currentIdx, telemetry, scrollPct }) {
+export function IndexRail({ palette: p, items, currentIdx, telemetry, scrollPct }) {
   return (
     <div style={{ paddingTop: "0.4rem", fontFamily: "var(--f-ui)", fontSize: 12, color: p.muted, lineHeight: 1.7, position: "sticky", top: "1.2rem" }}>
       <div className="caps" style={{ marginBottom: 8, letterSpacing: "0.1em" }}>Index</div>
@@ -1844,7 +1501,7 @@ function IndexRail({ palette: p, items, currentIdx, telemetry, scrollPct }) {
   );
 }
 
-function PreciseFooter({ palette: p, line = "Made in London." }) {
+export function PreciseFooter({ palette: p, line = "Made in London." }) {
   return (
     <footer className="v4-grid" style={{ maxWidth: 1280, margin: "3rem auto 0", padding: "2rem 1.6rem 2.4rem", borderTop: `1px solid ${p.line}`, color: p.muted, fontFamily: "var(--f-ui)", fontSize: 12, display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", letterSpacing: "0.02em" }}>
       <span style={{ gridColumn: "1 / span 6", fontStyle: "italic", fontFamily: "var(--f-body)", fontSize: 14, color: p.ink }}>{line}</span>
@@ -1948,7 +1605,7 @@ function cursorTelemetry({ x, y }) {
 
 // ---------- WRITING INDEX (V4) ----------
 
-function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
+export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
   const telemetryRow = useTelemetry();
@@ -2103,7 +1760,7 @@ function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, toggleTh
   );
 }
 
-function FeaturedPrecise({ post, palette: p, onNavigate }) {
+export function FeaturedPrecise({ post, palette: p, onNavigate }) {
   const [hover, setHover] = React.useState(false);
   return (
     <a href="#" className="v4-grid" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
@@ -2130,7 +1787,7 @@ function FeaturedPrecise({ post, palette: p, onNavigate }) {
   );
 }
 
-function PreciseEssayRow({ post, palette: p, onNavigate, index, total }) {
+export function PreciseEssayRow({ post, palette: p, onNavigate, index, total }) {
   const [hover, setHover] = React.useState(false);
   return (
     <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
@@ -2155,7 +1812,7 @@ function PreciseEssayRow({ post, palette: p, onNavigate, index, total }) {
 
 // ---- custom SVG diagrams (one per topic, sometimes two) ----
 
-function JayaSwarm({ palette: p }) {
+export function JayaSwarm({ palette: p }) {
   const [running, setRunning] = React.useState(true);
   const [popSize, setPopSize] = React.useState(30);
   const [crossover, setCrossover] = React.useState(0.4);
@@ -2259,7 +1916,7 @@ function JayaSwarm({ palette: p }) {
   );
 }
 
-function FeatureSelectionViz({ palette: p }) {
+export function FeatureSelectionViz({ palette: p }) {
   const [running, setRunning] = React.useState(true);
   const [gen, setGen] = React.useState(0);
   const [tradeOff, setTradeOff] = React.useState(0.55); // slope of trade-off line
@@ -2362,7 +2019,7 @@ function FeatureSelectionViz({ palette: p }) {
   );
 }
 
-function ThresholdMethods({ palette: p }) {
+export function ThresholdMethods({ palette: p }) {
   const markers = [
     { id: "cd66b", label: "CD66b", shape: "bimodal", valley: 0.42 },
     { id: "cd4",   label: "CD4",   shape: "skew-right", valley: 0.38 },
@@ -2473,7 +2130,7 @@ function ThresholdMethods({ palette: p }) {
   );
 }
 
-function CtlaDistribution({ palette: p }) {
+export function CtlaDistribution({ palette: p }) {
   const [hover, setHover] = React.useState(null); // "cd66b" | "ctla4" | null
   // synthetic histograms — CD66b (clean bimodal) vs CTLA-4 (flat/ambiguous)
   const data = React.useMemo(() => {
@@ -2547,7 +2204,7 @@ function CtlaDistribution({ palette: p }) {
   );
 }
 
-function GateSensitivity({ palette: p }) {
+export function GateSensitivity({ palette: p }) {
   const [thresh, setThresh] = React.useState(0.44); // normalised 0..1
   const [dragging, setDragging] = React.useState(false);
   const svgRef = React.useRef(null);
@@ -2630,7 +2287,7 @@ function GateSensitivity({ palette: p }) {
   );
 }
 
-function ViolationNetwork({ palette: p }) {
+export function ViolationNetwork({ palette: p }) {
   const [active, setActive] = React.useState(null); // clicked node
   const [pulseKey, setPulseKey] = React.useState(0); // reset pulse animation
   const nodes = [
@@ -2749,7 +2406,7 @@ function ViolationNetwork({ palette: p }) {
   );
 }
 
-function ConstraintEffect({ palette: p }) {
+export function ConstraintEffect({ palette: p }) {
   const [view, setView] = React.useState("before"); // "before" | "after"
   // synthetic 2-D scatter: cells with cluster assignments
   const cells = React.useMemo(() => {
@@ -2823,7 +2480,7 @@ function ConstraintEffect({ palette: p }) {
   );
 }
 
-function MethodRanking({ palette: p }) {
+export function MethodRanking({ palette: p }) {
   const [hover, setHover] = React.useState(null);
   const methods = [
     { id: "agg",      label: "Agglomerative",  score: 0.82, note: "Simple hierarchy. Best overall — no constraints needed.", color: "#5B7A4F" },
@@ -2868,7 +2525,7 @@ function MethodRanking({ palette: p }) {
   );
 }
 
-function RecEngineSwarm({ palette: p }) {
+export function RecEngineSwarm({ palette: p }) {
   const W = 480, H = 320;
   const cx = W / 2, cy = H / 2;
   const engines = [
@@ -2969,7 +2626,7 @@ function RecEngineSwarm({ palette: p }) {
   );
 }
 
-function EnsembleConsensus({ palette: p }) {
+export function EnsembleConsensus({ palette: p }) {
   const engineDefs = [
     { id: "lyrics", label: "Lyrics",       color: p.accent },
     { id: "vae",    label: "Audio VAE",    color: "#8B5A89" },
@@ -3053,7 +2710,7 @@ function EnsembleConsensus({ palette: p }) {
   );
 }
 
-function TrendSignalFlow({ palette: p }) {
+export function TrendSignalFlow({ palette: p }) {
   const [t, setT] = React.useState(0);
   React.useEffect(() => {
     const id = setInterval(() => setT(v => (v + 1) % 200), 60);
@@ -3118,7 +2775,7 @@ function TrendSignalFlow({ palette: p }) {
   );
 }
 
-function LMSRPriceCurve({ palette: p }) {
+export function LMSRPriceCurve({ palette: p }) {
   const W = 460, H = 240;
   const b = 100; // liquidity parameter
   const [q, setQ] = React.useState(0);
@@ -3188,7 +2845,7 @@ function LMSRPriceCurve({ palette: p }) {
   );
 }
 
-function JayaEssay({ palette: p }) {
+export function JayaEssay({ palette: p }) {
   return (
     <>
       <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
@@ -3283,7 +2940,7 @@ function JayaEssay({ palette: p }) {
   );
 }
 
-function ThresholdEssay({ palette: p }) {
+export function ThresholdEssay({ palette: p }) {
   return (
     <>
       <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
@@ -3374,7 +3031,7 @@ function ThresholdEssay({ palette: p }) {
   );
 }
 
-function ConstraintClusterEssay({ palette: p }) {
+export function ConstraintClusterEssay({ palette: p }) {
   return (
     <>
       <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
@@ -3473,7 +3130,7 @@ function ConstraintClusterEssay({ palette: p }) {
   );
 }
 
-function SixEnginesEssay({ palette: p }) {
+export function SixEnginesEssay({ palette: p }) {
   return (
     <>
       <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
@@ -3549,7 +3206,7 @@ function SixEnginesEssay({ palette: p }) {
   );
 }
 
-function FashionEssay({ palette: p }) {
+export function FashionEssay({ palette: p }) {
   return (
     <>
       <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
@@ -3630,7 +3287,7 @@ function FashionEssay({ palette: p }) {
   );
 }
 
-function MayEssay({ palette: p }) {
+export function MayEssay({ palette: p }) {
   return (
     <>
       <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
@@ -3703,7 +3360,7 @@ function MayEssay({ palette: p }) {
   );
 }
 
-function DraftEssay({ post, palette: p, onNavigate }) {
+export function DraftEssay({ post, palette: p, onNavigate }) {
   return (
     <>
       <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
@@ -3802,7 +3459,7 @@ function essayMeta(slug) {
   return meta[slug] || meta["jaya"];
 }
 
-function ArticleV4({ slug, palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
+export function ArticleV4({ slug, palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, [slug]);
   const scrollPct = usePreciseScroll();
   const telemetryRow = useTelemetry();
@@ -3955,7 +3612,7 @@ function ArticleV4({ slug, palette: p, onNavigate, setCursorColor, dark, toggleT
 
 // ---------- WORK — annotated CV ----------
 
-function WorkV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
+export function WorkV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
   const telemetryRow = useTelemetry();
@@ -4172,7 +3829,7 @@ function WorkV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
 
 // ---------- NOW — field journal ----------
 
-function NowV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
+export function NowV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
   const telemetryRow = useTelemetry();
@@ -4324,7 +3981,7 @@ function NowV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
 
 // ---------- CONTACT ----------
 
-function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
+export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
   const scrollPct = usePreciseScroll();
   const telemetryRow = useTelemetry();
@@ -4482,15 +4139,13 @@ function inputStyle(p) {
   return { all: "unset", flex: 1, padding: "4px 0", fontFamily: "var(--f-body)", fontSize: "1rem", color: p.ink, width: "100%", outline: "none" };
 }
 
-Object.assign(window, { WritingIndexV4, ArticleV4, WorkV4, NowV4, ContactV4, PreciseTopBar, PreciseNav, IndexRail, PreciseFooter });
 
 
 /* ===== components/app.jsx ===== */
-/* global React, ReactDOM, CustomCursor, HomeV4, WritingIndexV4, ArticleV4, WorkV4, NowV4, ContactV4, PALETTE_V4 */
 
 // useState, useEffect are in scope from motif.jsx
 
-function App() {
+export function App() {
   const [route, setRoute] = useState({ page: "home", slug: null });
   const [dark, setDark] = useState(() => {
     if (typeof localStorage !== "undefined") {
@@ -4533,9 +4188,3 @@ function App() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-
-
-</script>
-</body>
-</html>

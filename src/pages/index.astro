@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AppShell from "../components/pages/AppShell.tsx";
+---
+
+<BaseLayout
+  title="Shubz Sharma"
+  description="Founding engineer at Orion. Read maths and CS at Oxford. Writes about geospatial ML, biology, optimisation, and the small obsessions in between."
+  canonicalPath="/"
+  ogType="website"
+>
+  <AppShell page="home" client:load />
+</BaseLayout>
