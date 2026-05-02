@@ -17,11 +17,19 @@
 //
 // No npm install. Just node.
 
-const fs = require("fs");
-const path = require("path");
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const ROOT = path.resolve(__dirname, "..");
-const SRC = fs.readFileSync(path.join(ROOT, "index.html"), "utf-8");
+// Source: the bulk-extracted React app from the old single-file index.html.
+// Plus the typed POSTS data module (so we get title/kicker/dek/minutes from
+// the same source-of-truth Astro reads).
+const SRC = fs.readFileSync(path.join(ROOT, "src/components/legacy.tsx"), "utf-8");
+const POSTS_SRC = fs.readFileSync(path.join(ROOT, "src/data/posts.ts"), "utf-8");
 const BASE_URL = "https://shubzsharma.com";
 const OUT_DIR = path.join(ROOT, "exported");
 
@@ -41,14 +49,16 @@ function getPostMeta(slug) {
     `slug:\\s*"${slug}",[\\s\\S]*?title:\\s*"([^"]+)",[\\s\\S]*?kicker:\\s*"([^"]+)",[\\s\\S]*?dek:\\s*"([^"]+)",[\\s\\S]*?minutes:\\s*(\\d+)`,
     "m",
   );
-  const m = SRC.match(re);
+  const m = POSTS_SRC.match(re);
   if (!m) return null;
   return { title: m[1], kicker: m[2], dek: m[3], minutes: Number(m[4]) };
 }
 
 // --- pull a function's return-statement body ------------------------------
 function getEssayBody(funcName) {
-  const re = new RegExp(`function\\s+${funcName}\\s*\\([^)]*\\)\\s*\\{`, "m");
+  // legacy.tsx prefixes top-level functions with `export function`. The old
+  // index.html used bare `function`. Match both.
+  const re = new RegExp(`(?:export\\s+)?function\\s+${funcName}\\s*\\([^)]*\\)\\s*\\{`, "m");
   const m = SRC.match(re);
   if (!m) return null;
   // walk forward from the opening brace, count nesting, find matching close
