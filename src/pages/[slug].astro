@@ -29,6 +29,7 @@ const jsonLd = {
   description={post.dek}
   canonicalPath={`/${post.slug}/`}
   ogType="article"
+  ogImage={`/og/${post.slug}.svg`}
   jsonLd={jsonLd}
 >
   <AppShell page="essay" slug={post.slug} client:load />
