@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AppShell from "../components/pages/AppShell.tsx";
+---
+
+<BaseLayout
+  title="Work"
+  description="The CV, annotated. Each entry has a footnote — what I actually did, what I would change, what I learned. Available as PDF for the more conventional version."
+  canonicalPath="/work/"
+  ogType="website"
+>
+  <AppShell page="work" client:load />
+</BaseLayout>

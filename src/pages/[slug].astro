@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AppShell from "../components/pages/AppShell.tsx";
+import { POSTS } from "../data/posts";
+
+export async function getStaticPaths() {
+  return POSTS.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: post.title,
+  description: post.dek,
+  author: { "@type": "Person", name: "Shubhangi Sharma", url: "https://shubzsharma.com" },
+  publisher: { "@type": "Person", name: "Shubhangi Sharma" },
+  url: `https://shubzsharma.com/${post.slug}/`,
+  mainEntityOfPage: `https://shubzsharma.com/${post.slug}/`,
+};
+---
+
+<BaseLayout
+  title={post.title}
+  description={post.dek}
+  canonicalPath={`/${post.slug}/`}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+  <AppShell page="essay" slug={post.slug} client:load />
+</BaseLayout>
