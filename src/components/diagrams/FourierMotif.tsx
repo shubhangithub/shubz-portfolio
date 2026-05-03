@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-// (no legacy imports needed)
+import { samplePath, dft } from '../../lib/fourier';
 
 export function FourierMotif({
   shape = "hex",
