@@ -15,6 +15,16 @@ export type Post = {
 
 export const POSTS: Post[] = [
   {
+    slug: "bluedot-unit1",
+    title: "A unit on bending the curve",
+    kicker: "Essay · AI Strategy & Policy",
+    dek: "Nine readings on who shapes artificial intelligence — and what 'shape' actually means when nobody can name the shaper.",
+    minutes: 22,
+    illustration: "wave",
+    cardBg: "#E6E8F2",
+    accent: "#1F3DBF",
+  },
+  {
     slug: "jaya",
     title: "JAYA, improved",
     kicker: "Essay · Optimisation & Bioinformatics",

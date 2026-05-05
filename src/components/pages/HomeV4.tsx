@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import { Footer, IndexRail, LetterReveal, PALETTE_V4, POSTS, PreciseNav, SeasonalSpecimen, ThemeToggle, useIsMobile, usePreciseScroll, useTelemetry } from '../legacy';
+import { NOW_TICKER } from '../../data/now';
 
 export function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette }) {
   const { useEffect, useState, useRef } = React;
@@ -103,19 +104,13 @@ export function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette 
             </h1>
             */}
 
-            {/* NEW-H1 — three lines, italic accent at the end (matches the other pages' rhythm) */}
-            <h1 className="display" style={{ fontSize: "clamp(1.9rem, 7vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em" }}>
+            {/* NEW-H1 — natural reflow with balanced line breaks */}
+            <h1 className="display" style={{ fontSize: "clamp(1.9rem, 7vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em", textWrap: "balance" }}>
               <LetterReveal stagger={22}>Read </LetterReveal>
               <span style={{ fontStyle: "italic", color: p.accent }}><LetterReveal stagger={22} delay={140}>maths and CS</LetterReveal></span>
-              <LetterReveal stagger={22} delay={400}> at Oxford.</LetterReveal>
-              <span style={{ display: "block" }}>
-                <LetterReveal stagger={22} delay={760}>Currently building geospatial ML at Orion,</LetterReveal>
-              </span>
-              <span style={{ display: "block" }}>
-                <LetterReveal stagger={22} delay={1500}>easily </LetterReveal>
-                <span style={{ fontStyle: "italic", color: p.accent }}><LetterReveal stagger={22} delay={1900}>distracted</LetterReveal></span>
-                <LetterReveal stagger={22} delay={2160}> by other problems.</LetterReveal>
-              </span>
+              <LetterReveal stagger={22} delay={400}> at Oxford. Currently building geospatial ML at Orion, easily </LetterReveal>
+              <span style={{ fontStyle: "italic", color: p.accent }}><LetterReveal stagger={22} delay={1900}>distracted</LetterReveal></span>
+              <LetterReveal stagger={22} delay={2160}> by other problems.</LetterReveal>
             </h1>
 
             {/* NEW-LEDE — pulled into the standard 54ch slot directly under the h1 */}
@@ -203,13 +198,7 @@ export function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette 
 
       {/* NOW — horizontal ticker */}
       {(() => {
-        const nowItems = [
-          { kind: "FOUNDING", what: "Orion — geospatial ML over H3 indexing, confidence weighting at every join" },
-          { kind: "SHIPPING", what: "fashion-web — five-source trend pipeline, LMSR exchange, Gemini CV" },
-          { kind: "WRITING", what: "Drafting the next essay — the argument is half-formed, the diagrams are the fun part" },
-          { kind: "READING", what: "Papers on calibration, a novel I won't name yet, optimization surveys" },
-          { kind: "BUILDING", what: "shubz-taylor-rec-engine — six engines, all slightly wrong in interesting ways" },
-        ];
+        const nowItems = NOW_TICKER;
         const tickerContent = [...nowItems, ...nowItems].map((item, i) => (
           <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", whiteSpace: "nowrap", paddingRight: isMobile ? "1.6rem" : "2.4rem" }}>
             <span className="mono" style={{ color: p.accent, fontSize: isMobile ? 9 : 10, letterSpacing: "0.12em" }}>{item.kind}</span>

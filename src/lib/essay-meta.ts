@@ -60,6 +60,22 @@ export function essayMeta(slug) {
       ],
       sidenotes: 3,
     },
+    "bluedot-unit1": {
+      tags: "ai strategy, policy, safety",
+      toc: ["Header", "Lede", "The prize", "The structural obstacle", "What shaping actually looks like", "The international complication", "What kind of future, exactly?", "Who is 'we'?"],
+      sources: [
+        ['[1] Rehman, I., Mueller, K., Mazarr, M. (2024). ', '"Seeking Stability in the Competition for AI Advantage." RAND Corporation.'],
+        ['[2] Samuel, S. (2024). ', '"It\'s Practically Impossible to Run a Big AI Company Ethically." Vox.'],
+        ['[3] Toner, H. (2024). ', '"In Search of a Dynamist Vision for Safe Superhuman AI." CSET.'],
+        ['[4] Fist, T., Burga, A., Hwang, T. (2024). ', '"Preparing for Launch." Institute for Progress.'],
+        ['[5] Bregman, R. (2017). ', '"The Return of Utopia." Ch. 1 in Utopia for Realists. Little, Brown.'],
+        ['[6] Amodei, D. (2024). ', '"Machines of Loving Grace." Personal essay, October 2024.'],
+        ['[7] Altman, S. (2025). ', '"The Gentle Singularity." Personal essay, June 2025.'],
+        ['[8] Altman, S. (2024). ', '"The Intelligence Age." Personal essay, September 2024.'],
+        ['[9] Krook, J. (2023). ', '"Solarpunk: A Vision for a Sustainable Future."'],
+      ],
+      sidenotes: 5,
+    },
     "fashion-trends": {
       tags: "forecasting, computer vision, LMSR",
       toc: ["Header", "Lede", "Five signals, one composite", "The Trend Exchange", "What the camera sees", "What I'm optimising for"],

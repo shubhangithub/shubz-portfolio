@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import { IndexRail, LetterReveal, PreciseFooter, PreciseNav, PreciseTopBar, useIsMobile, usePreciseScroll, useTelemetry } from '../legacy';
+import { CONDITIONS, FOCUSES, JOURNAL } from '../../data/now';
 
 export function NowV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
@@ -8,21 +9,8 @@ export function NowV4({ palette: p, onNavigate, setCursorColor, dark, toggleThem
   const telemetryRow = useTelemetry();
   const isMobile = useIsMobile();
 
-  const focuses = [
-    { kind: "Building", what: "Orion's geospatial intelligence platform — intelligent real-time risk analysis." },
-    { kind: "Shipping", what: "fashion-web — predicting fashion trends, complete with a LMSR exchange with StyleCoins. Live at fashion-web-psi.vercel.app." },
-    { kind: "Writing",  what: "Drafting the next essay. Collecting my old work." },
-    { kind: "Re-building", what: "shubz-taylor-rec-engine — six recommendation engines for one songbook. From a UG course; I keep finding new things to try." },
-    { kind: "Reading",  what: "AI safety fundamentals for Bluedot's AGI Strategy cohort, ZX-Calculus (again), and Claude hacks." },
-  ];
-
-  const journal = [
-    { date: "2026-04", note: "fashion-web's data pipeline finally feels complete — Reddit, Bluesky, YouTube, editorial, all flowing into one composite trend score with Holt-Winters on top. Now I can stop building and start watching what it predicts." },
-    { date: "2026-02", note: "Elected MInstP. The certificate is small and unreasonably satisfying." },
-    { date: "2025-12", note: "Started a second pass at the Taylor Swift recommender — TypeScript this time, six engines, all of them slightly wrong in interesting ways." },
-    { date: "2025-08", note: "\"Decoding Flipkart-Walmart Merger\" picks up the Best Paper Award at IEEE ICCUBEA-2025. Co-authored with Prof. Chakraborty; four years from data scrape to award." },
-    { date: "2025-08", note: "Promoted to Founding Engineer at Orion. The job description got shorter and the work got broader." },
-  ];
+  const focuses = FOCUSES;
+  const journal = JOURNAL;
 
   // weather/london mock telemetry
   const localTime = new Date();
@@ -129,12 +117,7 @@ export function NowV4({ palette: p, onNavigate, setCursorColor, dark, toggleThem
           <div className="caps" style={{ gridColumn: "1 / span 2", fontFamily: "var(--f-ui)", fontSize: 11, color: p.muted, letterSpacing: "0.12em" }}>Conditions</div>
           <div style={{ gridColumn: "3 / span 9" }}>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "1.6rem", fontFamily: "var(--f-ui)", fontSize: 13 }}>
-              {[
-                ["Mood", "study-mode", "rare and protected"],
-                ["Music", "Caroline Polachek", "depending on the hour"],
-                ["Reading", "AI Safety papers", "and one quiet novel"],
-                ["Drink", "strawberry matcha", "from blank street"],
-              ].map(([k, v, sub], i) => (
+              {CONDITIONS.map(({ k, v, sub }, i) => (
                 <div key={i}>
                   <div className="caps mono" style={{ color: p.muted, fontSize: 10, letterSpacing: "0.12em" }}>{k}</div>
                   <div style={{ marginTop: 6, color: p.ink, fontFamily: "var(--f-display)", fontSize: "1.4rem", fontWeight: 380, fontStyle: "italic" }}>{v}</div>

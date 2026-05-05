@@ -36,8 +36,9 @@ import { ConstraintClusterEssay } from './essays/ConstraintClusterEssay';
 import { SixEnginesEssay } from './essays/SixEnginesEssay';
 import { FashionEssay } from './essays/FashionEssay';
 import { MayEssay } from './essays/MayEssay';
+import { BluedotEssay } from './essays/BluedotEssay';
 import { DraftEssay } from './essays/DraftEssay';
-export { JayaEssay, ThresholdEssay, ConstraintClusterEssay, SixEnginesEssay, FashionEssay, MayEssay, DraftEssay };
+export { JayaEssay, ThresholdEssay, ConstraintClusterEssay, SixEnginesEssay, FashionEssay, MayEssay, BluedotEssay, DraftEssay };
 
 // Diagrams were extracted into src/components/diagrams/<Name>.tsx.
 // Imported here so cross-references inside legacy.tsx still resolve, and
@@ -56,7 +57,11 @@ import { RecEngineSwarm } from './diagrams/RecEngineSwarm';
 import { ThresholdMethods } from './diagrams/ThresholdMethods';
 import { TrendSignalFlow } from './diagrams/TrendSignalFlow';
 import { ViolationNetwork } from './diagrams/ViolationNetwork';
-export { ConstraintEffect, CtlaDistribution, EnsembleConsensus, FeatureSelectionViz, FourierMotif, GateSensitivity, GradientDescentViz, JayaSwarm, LMSRPriceCurve, MethodRanking, RecEngineSwarm, ThresholdMethods, TrendSignalFlow, ViolationNetwork };
+import { BottleneckMap } from './diagrams/BottleneckMap';
+import { JaggedFrontier } from './diagrams/JaggedFrontier';
+import { ReadingCluster } from './diagrams/ReadingCluster';
+import { WhoIsWe } from './diagrams/WhoIsWe';
+export { BottleneckMap, ConstraintEffect, CtlaDistribution, EnsembleConsensus, FeatureSelectionViz, FourierMotif, GateSensitivity, GradientDescentViz, JaggedFrontier, JayaSwarm, LMSRPriceCurve, MethodRanking, ReadingCluster, RecEngineSwarm, ThresholdMethods, TrendSignalFlow, ViolationNetwork, WhoIsWe };
 
 import { SeasonalSpecimen, StaticSpecimen, LotkaVolterra, SPECIMEN_VARIANTS, INTERACTIVE_VARIANTS } from './diagrams/Seasonal';
 export { SeasonalSpecimen, StaticSpecimen, LotkaVolterra, SPECIMEN_VARIANTS, INTERACTIVE_VARIANTS };
