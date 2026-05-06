@@ -50,7 +50,7 @@ export function WhoIsWe({ palette: p }) {
   const W = 340, H = 340, cx = W / 2, cy = H / 2;
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.8rem", alignItems: "start" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "0.8rem", alignItems: "start" }}>
       {/* concentric circles */}
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", maxWidth: 340, height: "auto" }}>
         {RINGS.map((ring, i) => {

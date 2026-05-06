@@ -102,7 +102,7 @@ export function SpiderFusion({ palette: p }) {
 
       {/* sliders */}
       {!fused && (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
           <div>
             <div style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: p.muted, marginBottom: 4 }}>
               α = {phaseLabel(alpha)}

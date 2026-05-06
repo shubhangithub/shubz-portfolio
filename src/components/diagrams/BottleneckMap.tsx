@@ -64,7 +64,7 @@ export function BottleneckMap({ palette: p }) {
   const hov = DOMAINS.find(d => d.id === hovered);
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1rem", alignItems: "start" }}>
       {/* bar chart */}
       <div>
         <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "var(--f-mono)", fontSize: 9, color: p.muted, marginBottom: 10 }}>
