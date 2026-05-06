@@ -18,12 +18,12 @@ export const FOCUSES: Focus[] = [
 
 // /now · "Field journal" — newest first
 export const JOURNAL: JournalEntry[] = [
+  { date: "2026-05", note: "Started BlueDot's AGI Strategy cohort. Pre-reading has already moved more pieces around in my head than I expected." },
   { date: "2026-05", note: "Rewriting Orion's search system — tool schemas, decision-tree prompts, fewshot disambiguation. Three weeks in. The results finally stopped feeling stochastic." },
-  { date: "2026-04", note: "fashion-web's data pipeline finally feels complete — Reddit, Bluesky, YouTube, editorial, all flowing into one composite trend score with Holt-Winters on top. Now I can stop building and start watching what it predicts." },
+  { date: "2026-04", note: "Redesigned fashion-web with Claude — broke more than I anticipated, spent a while putting it back together. The site is better for it. The process was humbling." },
   { date: "2026-02", note: "Elected MInstP. The certificate is small and unreasonably satisfying." },
-  { date: "2025-12", note: "Started a second pass at the Taylor Swift recommender — TypeScript this time, six engines, all of them slightly wrong in interesting ways." },
-  { date: "2025-08", note: "\"Decoding Flipkart-Walmart Merger\" picks up the Best Paper Award at IEEE ICCUBEA-2025. Four years from data scrape to award." },
-  { date: "2025-08", note: "Promoted to Founding Engineer at Orion. The job description got shorter and the work got broader." },
+  { date: "2025-12", note: "Built a second pass at the Taylor Swift recommender — six engines, Python and TypeScript. Learning a lot about how recommendation systems actually work when you try to make them good." },
+  { date: "2025-08", note: "\"Decoding Flipkart-Walmart Merger\" picks up Best Paper at IEEE ICCUBEA-2025. Four years from data scrape to award. Yay!" },
 ];
 
 // /now · "Conditions" tile
