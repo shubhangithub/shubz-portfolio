@@ -60,6 +60,19 @@ export function essayMeta(slug) {
       ],
       sidenotes: 3,
     },
+    "zx-calculus": {
+      tags: "quantum computation, ZX-calculus, physics",
+      toc: ["Header", "Lede", "What circuits hide", "Spiders", "Three rules", "Why teleportation is obvious", "Completeness and what comes after"],
+      sources: [
+        ['[1] Coecke, B. & Duncan, R. (2008). ', '"Interacting Quantum Observables." ICALP 2008.'],
+        ['[2] Coecke, B. & Duncan, R. (2011). ', '"Interacting Quantum Observables: Categorical Algebra and Diagrammatics." New Journal of Physics 13.'],
+        ['[3] van de Wetering, J. (2020). ', '"ZX-calculus for the working quantum computer scientist." arXiv 2012.13966.'],
+        ['[4] Kissinger, A. & van de Wetering, J. ', 'PyZX — Python library for ZX-calculus circuit optimisation. github.com/Quantomatic/pyzx'],
+        ['[5] Jeandel, E., Perdrix, S. & Vilmart, R. (2018). ', '"A Complete Axiomatisation of the ZX-Calculus for Clifford+T Quantum Mechanics." LICS.'],
+        ['[6] Coecke, B. & Kissinger, A. (2017). ', 'Picturing Quantum Processes. Cambridge University Press.'],
+      ],
+      sidenotes: 4,
+    },
     "bluedot-unit1": {
       tags: "ai strategy, policy, safety",
       toc: ["Header", "Lede", "The prize", "The structural obstacle", "What shaping actually looks like", "The international complication", "What kind of future, exactly?", "Who is 'we'?"],

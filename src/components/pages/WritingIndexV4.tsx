@@ -19,7 +19,7 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
   ];
 
   // tag chips — match actual POSTS tags
-  const tags = ["all", "ai safety", "biology", "forecasting", "ml", "nlp", "ecology"];
+  const tags = ["all", "ai safety", "physics", "biology", "forecasting", "ml", "nlp", "ecology"];
   const [activeTag, setActiveTag] = React.useState("all");
   const visiblePosts = activeTag === "all" ? POSTS : POSTS.filter(p => p.tag === activeTag);
 
@@ -157,7 +157,7 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
               <button type="submit" className="mono" style={{ all: "unset", cursor: "pointer", padding: "0.6rem 0.4rem", color: p.accent, fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase" }}>Subscribe →</button>
             </form>
             <div style={{ marginTop: "0.8rem", fontFamily: "var(--f-ui)", fontSize: 12, color: p.muted }}>
-              Or follow via <a href="/rss.xml" className="link-underline mono" style={{ color: p.accent, fontSize: 11, letterSpacing: "0.08em" }}>RSS ↗</a> — works with Substack imports, Feedly, NetNewsWire, etc.
+              One essay roughly per month. No pitch deck, no sponsored slots.
             </div>
           </div>
         </div>
