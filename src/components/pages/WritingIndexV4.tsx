@@ -18,9 +18,10 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
     ["Techniques to derive cloud information", "2022-01", "note"],
   ];
 
-  // tag chips
-  const tags = ["all", "optimization", "biology", "ml", "geospatial", "nlp"];
+  // tag chips — match actual POSTS tags
+  const tags = ["all", "ai safety", "physics", "biology", "forecasting", "ml", "nlp", "ecology"];
   const [activeTag, setActiveTag] = React.useState("all");
+  const visiblePosts = activeTag === "all" ? POSTS : POSTS.filter(p => p.tag === activeTag);
 
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
@@ -59,10 +60,16 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
 
           <div className="v4-rail-hide" style={{ gridColumn: "10 / span 3", paddingTop: "0.4rem" }}>
             <div className="mono" style={{ fontSize: 11, color: p.muted, lineHeight: 1.8 }}>
-              <div style={{ color: p.ink }}>fig.01 — topics</div>
-              {tags.filter(t => t !== "all").map(t => (
-                <div key={t} style={{ cursor: "pointer", color: activeTag === t ? p.accent : p.muted }} onClick={() => setActiveTag(t)}>{t}</div>
-              ))}
+              <div style={{ color: p.ink, marginBottom: 4 }}>fig.01 — topics</div>
+              {tags.filter(t => t !== "all").map(t => {
+                const count = POSTS.filter(post => post.tag === t).length;
+                return (
+                  <div key={t} style={{ cursor: "pointer", color: activeTag === t ? p.accent : p.muted, display: "flex", justifyContent: "space-between" }} onClick={() => setActiveTag(t)}>
+                    <span>{t}</span>
+                    <span style={{ opacity: 0.5 }}>{count}</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -75,7 +82,7 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
           <div style={{ gridColumn: "3 / span 9", display: "flex", gap: 6, flexWrap: "wrap", fontFamily: "var(--f-ui)", fontSize: 12 }}>
             {tags.map(t => (
               <button key={t} onClick={() => setActiveTag(t)}
-                style={{ all: "unset", cursor: "pointer", padding: "4px 10px", border: `1px solid ${activeTag === t ? p.ink : p.line}`, color: activeTag === t ? p.ink : p.muted, background: activeTag === t ? `color-mix(in oklch, ${p.paper} 70%, white)` : "transparent", letterSpacing: "0.04em" }}>
+                style={{ all: "unset", cursor: "pointer", padding: "4px 10px", border: `1px solid ${activeTag === t ? p.ink : p.line}`, color: activeTag === t ? p.ink : p.muted, background: activeTag === t ? `color-mix(in oklch, ${p.paper} 80%, ${p.ink})` : "transparent", letterSpacing: "0.04em", transition: "all 180ms" }}>
                 {t}
               </button>
             ))}
@@ -102,11 +109,11 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
             <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>04</span>
             All essays
           </h2>
-          <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>{POSTS.length} entries</span>
+          <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>{visiblePosts.length} of {POSTS.length}</span>
         </div>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
-            {POSTS.map((post, i) => <PreciseEssayRow key={post.slug} post={post} palette={p} onNavigate={onNavigate} index={i} total={POSTS.length} />)}
+            {visiblePosts.map((post, i) => <PreciseEssayRow key={post.slug} post={post} palette={p} onNavigate={onNavigate} index={i} total={visiblePosts.length} />)}
           </div>
         </div>
       </section>
@@ -150,7 +157,7 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
               <button type="submit" className="mono" style={{ all: "unset", cursor: "pointer", padding: "0.6rem 0.4rem", color: p.accent, fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase" }}>Subscribe →</button>
             </form>
             <div style={{ marginTop: "0.8rem", fontFamily: "var(--f-ui)", fontSize: 12, color: p.muted }}>
-              Or follow via <a href="/rss.xml" className="link-underline mono" style={{ color: p.accent, fontSize: 11, letterSpacing: "0.08em" }}>RSS ↗</a> — works with Substack imports, Feedly, NetNewsWire, etc.
+              One essay roughly per month. No pitch deck, no sponsored slots.
             </div>
           </div>
         </div>

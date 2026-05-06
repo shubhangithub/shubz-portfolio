@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-import { ConstraintClusterEssay, DraftEssay, FashionEssay, FourierMotif, IndexRail, JayaEssay, LetterReveal, MayEssay, POSTS, PreciseFooter, PreciseNav, PreciseTopBar, ReadingRuler, SixEnginesEssay, ThresholdEssay, essayMeta, useIsMobile, usePreciseScroll, useTelemetry } from '../legacy';
+import { BluedotEssay, ConstraintClusterEssay, DraftEssay, FashionEssay, FourierMotif, IndexRail, JayaEssay, LetterReveal, MayEssay, POSTS, PreciseFooter, PreciseNav, PreciseTopBar, ReadingRuler, SixEnginesEssay, ThresholdEssay, ZXEssay, essayMeta, useIsMobile, usePreciseScroll, useTelemetry } from '../legacy';
 import { PreciseEssayRow } from './PreciseEssayRow';
 
 export function ArticleV4({ slug, palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
@@ -98,6 +98,8 @@ export function ArticleV4({ slug, palette: p, onNavigate, setCursorColor, dark, 
                 case "six-engines": return <SixEnginesEssay palette={p} />;
                 case "fashion-trends": return <FashionEssay palette={p} />;
                 case "may-2026": return <MayEssay palette={p} />;
+                case "zx-calculus": return <ZXEssay palette={p} />;
+                case "bluedot-unit1": return <BluedotEssay palette={p} />;
                 default: return <DraftEssay post={post} palette={p} onNavigate={onNavigate} />;
               }
             })()}

@@ -11,9 +11,32 @@ export type Post = {
   illustration: "hex" | "wave" | "skate" | "protocol";
   cardBg: string;
   accent: string;
+  tag: string;
 };
 
 export const POSTS: Post[] = [
+  {
+    slug: "zx-calculus",
+    title: "Two colours and a Hadamard",
+    kicker: "Essay · Quantum Computation",
+    dek: "ZX-calculus as a way of picturing — and actually proving things about — quantum circuits.",
+    minutes: 11,
+    illustration: "hex",
+    cardBg: "#E4EAE6",
+    accent: "#1F3DBF",
+    tag: "physics",
+  },
+  {
+    slug: "bluedot-unit1",
+    title: "A unit on bending the curve",
+    kicker: "Essay · AI Strategy & Policy",
+    dek: "Nine readings on who shapes artificial intelligence — and what 'shape' actually means when nobody can name the shaper.",
+    minutes: 22,
+    illustration: "wave",
+    cardBg: "#E6E8F2",
+    accent: "#1F3DBF",
+    tag: "ai safety",
+  },
   {
     slug: "jaya",
     title: "JAYA, improved",
@@ -23,6 +46,7 @@ export const POSTS: Post[] = [
     illustration: "hex",
     cardBg: "#E5E8F0",
     accent: "#1F3DBF",
+    tag: "biology",
   },
   {
     slug: "fashion-trends",
@@ -33,6 +57,7 @@ export const POSTS: Post[] = [
     illustration: "wave",
     cardBg: "#ECEAE3",
     accent: "#1F3DBF",
+    tag: "forecasting",
   },
   {
     slug: "threshold-gate",
@@ -43,6 +68,7 @@ export const POSTS: Post[] = [
     illustration: "hex",
     cardBg: "#EFEEE7",
     accent: "#1F3DBF",
+    tag: "biology",
   },
   {
     slug: "constraint-clustering",
@@ -53,6 +79,7 @@ export const POSTS: Post[] = [
     illustration: "hex",
     cardBg: "#EDE9E4",
     accent: "#1F3DBF",
+    tag: "biology",
   },
   {
     slug: "six-engines",
@@ -63,6 +90,7 @@ export const POSTS: Post[] = [
     illustration: "wave",
     cardBg: "#EBE8EE",
     accent: "#1F3DBF",
+    tag: "ml",
   },
   {
     slug: "merger-themes",
@@ -73,6 +101,7 @@ export const POSTS: Post[] = [
     illustration: "wave",
     cardBg: "#EFE8E5",
     accent: "#1F3DBF",
+    tag: "nlp",
   },
   {
     slug: "may-2026",
@@ -83,6 +112,7 @@ export const POSTS: Post[] = [
     illustration: "wave",
     cardBg: "#E8EEF0",
     accent: "#1F3DBF",
+    tag: "ecology",
   },
 ];
 

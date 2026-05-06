@@ -4,6 +4,18 @@ import { IndexRail, LetterReveal, PreciseFooter, PreciseNav, PreciseTopBar, useI
 
 export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
+  const [from, setFrom] = React.useState("");
+  const [subject, setSubject] = React.useState("");
+  const [message, setMessage] = React.useState("");
+  const [sent, setSent] = React.useState(false);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!from.trim() || !message.trim()) return;
+    const body = `From: ${from}\n\n${message}`;
+    window.location.href = `mailto:hello@shubzsharma.com?subject=${encodeURIComponent(subject || "Hi from your site")}&body=${encodeURIComponent(body)}`;
+    setSent(true);
+  }
   const scrollPct = usePreciseScroll();
   const telemetryRow = useTelemetry();
   const isMobile = useIsMobile();
@@ -122,29 +134,35 @@ export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggle
         </div>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginTop: "1rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
-            <form onSubmit={(e) => e.preventDefault()} style={{ border: `1px solid ${p.line}`, padding: "1.4rem", background: `color-mix(in oklch, ${p.paper} 85%, white)`, fontFamily: "var(--f-ui)" }}>
+            <form onSubmit={handleSubmit} style={{ border: `1px solid ${p.line}`, padding: "1.4rem", background: `color-mix(in oklch, ${p.paper} 85%, ${p.ink})`, fontFamily: "var(--f-ui)" }}>
               <div className="mono caps" style={{ color: p.muted, fontSize: 11, letterSpacing: "0.12em", marginBottom: 12, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: "1rem" }}>
                 <span>To: hello@shubzsharma.com</span>
                 <span></span>
-                <span style={{ color: p.accent }}>● ready</span>
+                <span style={{ color: sent ? "#4F7A50" : p.accent }}>{sent ? "● sent" : "● ready"}</span>
               </div>
+              {sent ? (
+                <div style={{ fontFamily: "var(--f-body)", color: p.muted, fontStyle: "italic", padding: "1rem 0" }}>
+                  Your mail client should have opened. If not, write directly to <a href="mailto:hello@shubzsharma.com" style={{ color: p.accent }}>hello@shubzsharma.com</a>.
+                </div>
+              ) : (
               <div style={{ display: "grid", gap: "0.7rem", fontFamily: "var(--f-body)" }}>
                 <div style={{ display: "grid", gridTemplateColumns: "100px 1fr", gap: "1rem", alignItems: "center", borderBottom: `1px solid ${p.line}`, paddingBottom: 8 }}>
                   <span className="mono caps" style={{ color: p.muted, fontSize: 11 }}>From</span>
-                  <input placeholder="your name & email" style={inputStyle(p)} />
+                  <input required placeholder="your name & email" value={from} onChange={e => setFrom(e.target.value)} style={inputStyle(p)} />
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "100px 1fr", gap: "1rem", alignItems: "center", borderBottom: `1px solid ${p.line}`, paddingBottom: 8 }}>
                   <span className="mono caps" style={{ color: p.muted, fontSize: 11 }}>Subject</span>
-                  <input placeholder="what this is about" style={inputStyle(p)} />
+                  <input placeholder="what this is about" value={subject} onChange={e => setSubject(e.target.value)} style={inputStyle(p)} />
                 </div>
                 <div style={{ paddingTop: 6 }}>
-                  <textarea rows="6" placeholder="Don't begin with 'quick question'." style={{ ...inputStyle(p), width: "100%", resize: "vertical", lineHeight: 1.6 }} />
+                  <textarea required rows="6" placeholder="Don't begin with 'quick question'." value={message} onChange={e => setMessage(e.target.value)} style={{ ...inputStyle(p), width: "100%", resize: "vertical", lineHeight: 1.6 }} />
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 6 }}>
-                  <span className="mono" style={{ fontSize: 11, color: p.muted }}>encryption · plaintext · spam-screened by hand</span>
+                  <span className="mono" style={{ fontSize: 11, color: p.muted }}>opens your mail client · spam-screened by hand</span>
                   <button type="submit" style={{ all: "unset", cursor: "pointer", padding: "0.55rem 1rem", border: `1px solid ${p.ink}`, color: p.paper, background: p.ink, fontFamily: "var(--f-ui)", fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase" }}>Send →</button>
                 </div>
               </div>
+              )}
             </form>
           </div>
         </div>
