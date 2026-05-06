@@ -55,7 +55,7 @@ export function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette 
           {!isMobile && <span className="mono">v.2026.04 · {hh}:{mm}:{ss} GMT</span>}
           <ThemeToggle dark={dark} toggleTheme={toggleTheme} palette={p} />
           <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("contact"); }} style={{ display: "inline-block", width: 26, height: 26, borderRadius: "50%", overflow: "hidden", border: `1.5px solid ${p.line}`, flexShrink: 0, transition: "border-color 240ms var(--ease-out)" }} onMouseEnter={(e) => e.currentTarget.style.borderColor = p.accent} onMouseLeave={(e) => e.currentTarget.style.borderColor = p.line}>
-            <img src="assets/portrait.png" alt="Contact" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            <img src="assets/portrait.jpg" alt="Contact" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
           </a>
         </span>
         <style>{`@keyframes blip { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }`}</style>
@@ -80,7 +80,7 @@ export function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette 
           <div style={{ gridColumn: isMobile ? "1" : "3 / span 10" }}>
             {/* circle portrait — above title, angled left */}
             <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("contact"); }} style={{ display: "inline-block", width: isMobile ? 44 : 52, height: isMobile ? 44 : 52, borderRadius: "50%", overflow: "hidden", border: `2px solid ${p.line}`, marginBottom: isMobile ? "0.8rem" : "1rem", transform: "rotate(-6deg)", transition: "border-color 240ms var(--ease-out), transform 300ms var(--ease-out)" }} onMouseEnter={(e) => { e.currentTarget.style.borderColor = p.accent; e.currentTarget.style.transform = "rotate(0deg)"; }} onMouseLeave={(e) => { e.currentTarget.style.borderColor = p.line; e.currentTarget.style.transform = "rotate(-6deg)"; }}>
-              <img src="assets/portrait.png" alt="Shubz — click for contact" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              <img src="assets/portrait.jpg" alt="Shubz — click for contact" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </a>
             <div className="ui caps" style={{ color: p.muted, marginBottom: "1rem", fontFamily: "var(--f-ui)", fontSize: 11, letterSpacing: "0.12em" }}>
               <span className="mono" style={{ color: p.accent, marginRight: 8 }}>§01</span>
