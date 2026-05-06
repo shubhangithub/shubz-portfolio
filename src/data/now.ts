@@ -23,13 +23,12 @@ export const JOURNAL: JournalEntry[] = [
   { date: "2026-04", note: "Used Claude to redesign fashion-web. Broke more than I expected. Still putting it back together." },
   { date: "2026-02", note: "Elected MInstP. The certificate is small and unreasonably satisfying." },
   { date: "2025-12", note: "Built a second pass at the Taylor Swift recommender — six engines, Python and TypeScript. Learning a lot about how recommendation systems actually work when you try to make them good." },
-  { date: "2025-08", note: "\"Decoding Flipkart-Walmart Merger\" picks up Best Paper at IEEE ICCUBEA-2025. Four years from data scrape to award. Yay!" },
 ];
 
 // /now · "Conditions" tile
 export const CONDITIONS: Condition[] = [
   { k: "Mood",    v: "study-mode",         sub: "rare and protected" },
-  { k: "Music",   v: "Tame Impala",         sub: "Currents, specifically" },
-  { k: "Reading", v: "AI Safety papers",   sub: "allegedly also a novel" },
+  { k: "Music",   v: "tame impala",         sub: "currents, specifically" },
+  { k: "Reading", v: "ai safety papers",   sub: "allegedly also a novel" },
   { k: "Drink",   v: "strawberry matcha",  sub: "from blank street" },
 ];
