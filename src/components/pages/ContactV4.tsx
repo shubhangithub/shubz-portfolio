@@ -22,12 +22,11 @@ export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggle
 
   const channels = [
     { label: "Email",    handle: "hello@shubzsharma.com",       note: "Best — read once a day in the morning.",          href: "mailto:hello@shubzsharma.com" },
-    { label: "LinkedIn", handle: "linkedin.com/in/Shubzthub",   note: "Conventional channel; checked weekly-ish.",        href: "https://www.linkedin.com/in/Shubz-s-sharma/" },
+    { label: "LinkedIn", handle: "linkedin.com/in/shubhangi-s-sharma", note: "Conventional channel; checked weekly-ish.", href: "https://www.linkedin.com/in/shubhangi-s-sharma/" },
   ];
 
   const policy = [
-    ["Will read",          "anything about optimization, computational biology, geospatial ML, music recommendation, or science communication"],
-    ["Available for",      "collaboration on research, projects, mentorship (both ways!)"],
+    ["Will read",          "AI safety, geospatial ML, quantum computation, computational biology, recommendation systems, fashion forecasting, or anything at the intersection of maths and something unexpected"],
     ["Based",              "London — happy on calls in any reasonable timezone"],
   ];
 
