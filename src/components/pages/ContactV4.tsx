@@ -21,9 +21,8 @@ export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggle
   const isMobile = useIsMobile();
 
   const channels = [
-    { label: "Email",    handle: "hello@shubzsharma.com",        note: "Best — read once a day in the morning.",                href: "mailto:hello@shubzsharma.com" },
-    { label: "GitHub",   handle: "github.com/Shubzthub",     note: "Repos not yet public.", href: "https://github.com/Shubzthub" },
-    { label: "LinkedIn", handle: "linkedin.com/in/Shubzthub",note: "Conventional channel; checked weekly-ish.",             href: "https://www.linkedin.com/in/Shubz-s-sharma/" },
+    { label: "Email",    handle: "hello@shubzsharma.com",       note: "Best — read once a day in the morning.",          href: "mailto:hello@shubzsharma.com" },
+    { label: "LinkedIn", handle: "linkedin.com/in/Shubzthub",   note: "Conventional channel; checked weekly-ish.",        href: "https://www.linkedin.com/in/Shubz-s-sharma/" },
   ];
 
   const policy = [
