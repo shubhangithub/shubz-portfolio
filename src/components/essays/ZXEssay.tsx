@@ -23,7 +23,7 @@ export function ZXEssay({ palette: p }) {
         <span>What circuits hide</span>
       </h2>
 
-      <p>The standard quantum circuit diagram puts qubits on horizontal wires and gates on those wires, left-to-right in time. It is a genuinely good notation for computation: you can read off the gate sequence, verify unitarity, count resources. What it does not do particularly well is expose <em>causal structure</em> — the reason a protocol works, as opposed to the sequence of operations that implements it.</p>
+      <p>The standard quantum circuit diagram puts qubits on horizontal wires and gates on those wires, left-to-right in time. It is a good notation for computation: you can read off the gate sequence, verify unitarity, count resources. What it doesn't show you is <em>causal structure</em> — the reason a protocol works, as opposed to the sequence of operations that implements it.</p>
 
       <p>Consider the CNOT gate: control qubit on the top wire, target qubit on the bottom wire. In the circuit picture it looks like a control dot connected by a vertical line to an XOR circle. It flips the target qubit if and only if the control is |1⟩. That description is operational. What it doesn't immediately convey is the asymmetry between how CNOT acts on the computational basis (Z basis) and how it acts on the Hadamard basis (X basis). In the Z basis it copies the control. In the X basis it copies the target. The gate has a symmetry the circuit notation doesn't show.</p>
 
@@ -47,7 +47,7 @@ export function ZXEssay({ palette: p }) {
         </span>
       </p>
 
-      <p>Wires are qubits. Bending a wire backward turns an input into an output (the "cup" and "cap" morphisms from compact closed categories — ZX-calculus is genuinely a categorical object, not just a diagrammatic convention). The language is compositional: you can stack diagrams side by side for tensor product and connect them end-to-end for sequential composition, just as with circuit diagrams.</p>
+      <p>Wires are qubits. Bending a wire backward turns an input into an output (the "cup" and "cap" morphisms from compact closed categories — ZX-calculus is a categorical object, not a diagrammatic convention someone made up). The language is compositional: you can stack diagrams side by side for tensor product and connect them end-to-end for sequential composition, just as with circuit diagrams.</p>
 
       <p>The first rule to learn — and the one that everything else builds on — is spider fusion.</p>
 
@@ -79,7 +79,7 @@ export function ZXEssay({ palette: p }) {
         <ZXRewrite palette={p} />
       </Figure>
 
-      <p>These three rules — fusion, Hadamard colour-change, and bialgebra — plus a few smaller housekeeping rules are sufficient to prove all equations between <em>Clifford</em> quantum circuits: circuits that use only Hadamard, CNOT, and the phase gate S. The Clifford group is the stabiliser formalism, and ZX is complete for it.</p>
+      <p>These three rules — fusion, Hadamard colour-change, and bialgebra — plus some smaller tidying rules cover all equations between <em>Clifford</em> quantum circuits: circuits built from only Hadamard, CNOT, and the phase gate S. The Clifford group is the stabiliser formalism, and ZX is complete for it.</p>
 
       {/* ── §04 ── */}
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
@@ -101,15 +101,15 @@ export function ZXEssay({ palette: p }) {
         <span>Completeness and what comes after</span>
       </h2>
 
-      <p>Completeness for Clifford circuits was proved around 2014. Full completeness for all quantum maps — meaning any equation between arbitrary quantum circuits is provable from ZX rewrites — was established in 2017-18, with contributions from Jeandel, Perdrix, Vilmart and others. This is a strong result: it means ZX-calculus is not a convenient shorthand for a subset of quantum mechanics but a complete formal language for all of it.<span className="sidenote-number" style={{ color: p.accent }}>4</span>
+      <p>Completeness for Clifford circuits was proved around 2014. Full completeness — any equation between arbitrary quantum circuits, provable from ZX rewrites — came in 2017-18, with contributions from Jeandel, Perdrix, Vilmart and others. That means ZX-calculus is not a convenient shorthand for a subset of quantum mechanics but a complete formal language for all of it.<span className="sidenote-number" style={{ color: p.accent }}>4</span>
         <span className="sidenote">
           <strong style={{ color: p.accent }}>4.</strong> Full completeness required adding the Euler decomposition of the Hadamard as an explicit axiom, and handling the scalar factors (global phases and normalisations) carefully. The scalar-free version is cleaner; the scalar-tracked version is more pedantic but necessary for proving that two circuits implement exactly the same unitary, not just the same unitary up to phase.
         </span>
       </p>
 
-      <p>The practical consequence is circuit optimisation. The most expensive non-Clifford gate in most near-term quantum computers is the T gate (a π/8 phase rotation). Reducing the T-count of a circuit — the number of T gates — directly reduces the error budget. ZX-calculus, via the software library PyZX (developed by Kissinger and van de Wetering), can automate T-count reduction by applying a sequence of rewrites that simplify the ZX diagram of a circuit without changing what it computes. The reductions can be substantial: circuits that look irreducible in the gate model often simplify dramatically in ZX.</p>
+      <p>The most direct application is circuit optimisation. The most expensive non-Clifford gate in near-term quantum computers is the T gate (a π/8 phase rotation). Fewer T gates means a smaller error budget. PyZX, the software library Kissinger and van de Wetering built around ZX, automates T-count reduction by applying rewrites that simplify the diagram without changing what it computes. Circuits that look irreducible in gate-model notation often collapse dramatically when you draw them in ZX.</p>
 
-      <p>Beyond optimisation: ZX has been used to reason about measurement-based quantum computation (MBQC), where the resource states and measurement patterns translate directly into ZX diagrams. It is also a natural language for quantum error correction — the stabiliser codes are essentially Clifford objects, and ZX is complete for those. Coecke's broader programme of categorical quantum mechanics, of which ZX is one realisation, has also found applications in natural language processing (via DisCoCat) and in the foundations of quantum gravity.</p>
+      <p>ZX has also found a home in measurement-based quantum computation, where resource states and measurement patterns translate directly into diagrams; in quantum error correction, where the stabiliser codes are Clifford objects and ZX is complete; and in Coecke's broader categorical quantum mechanics programme, which has spun off into natural language processing (DisCoCat) and quantum gravity. It travels well.</p>
 
       <p>I am not yet at the point where I reach for ZX-calculus as a working tool rather than a reading pleasure. But I think the notation has taught me something that the circuit model didn't: there is a difference between being able to follow a quantum protocol and understanding its structure. The circuit is a recipe. The ZX diagram is closer to an explanation.</p>
 
