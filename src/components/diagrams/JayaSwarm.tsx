@@ -68,7 +68,7 @@ export function JayaSwarm({ palette: p }) {
 
   return (
     <div className="v4-diagram-pair" style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
-      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 240, background: `color-mix(in oklch, ${p.paper} 88%, white)`, border: `1px solid ${p.line}` }}>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 240, background: `color-mix(in oklch, ${p.paper} 88%, ${p.ink})`, border: `1px solid ${p.line}` }}>
         {rings.map((r, i) => (
           <ellipse key={i} cx={target.x * W} cy={(1 - target.y) * H} rx={r * W * 0.9} ry={r * H * 0.9} fill="none" stroke={p.muted} strokeOpacity={0.18} strokeDasharray="2 4" />
         ))}

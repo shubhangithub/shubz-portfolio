@@ -111,7 +111,7 @@ export function ZXEssay({ palette: p }) {
 
       <p>ZX has also found a home in measurement-based quantum computation, where resource states and measurement patterns translate directly into diagrams; in quantum error correction, where the stabiliser codes are Clifford objects and ZX is complete; and in Coecke's broader categorical quantum mechanics programme, which has spun off into natural language processing (DisCoCat) and quantum gravity. It travels well.</p>
 
-      <p>I am not yet at the point where I reach for ZX-calculus as a working tool rather than a reading pleasure. But I think the notation has taught me something that the circuit model didn't: there is a difference between being able to follow a quantum protocol and understanding its structure. The circuit is a recipe. The ZX diagram is closer to an explanation.</p>
+      <p>I don't yet reach for ZX-calculus as a working tool. But reading it changed how I think about circuit diagrams — which is probably the point. A protocol you can follow step-by-step and a protocol you understand are not the same thing. ZX makes that gap visible, which is most of what a good notation is supposed to do.</p>
 
       <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written between sessions reading Coecke and Kissinger's textbook, on a Thursday evening in London.</p>
     </>

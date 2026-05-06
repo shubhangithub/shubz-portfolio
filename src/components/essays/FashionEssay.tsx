@@ -76,7 +76,7 @@ export function FashionEssay({ palette: p }) {
 
       <PullQuote color={p.accent}>Calibration, mostly.</PullQuote>
 
-      <p>The platform is live at <a href="https://fashion-web-psi.vercel.app" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>fashion-web-psi.vercel.app</a>. Next.js, serverless, deployed on Vercel's edge. The fashion calendar is unforgiving, the data is sparse, and the categories are soft — but there's something genuinely interesting about trying to make quantitative what an industry has always priced in private.</p>
+      <p>The platform is live at <a href="https://fashion-web-psi.vercel.app" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>fashion-web-psi.vercel.app</a>. Next.js, serverless, deployed on Vercel's edge. The fashion calendar is unforgiving, the data is sparse, and the categories are soft — but there's something worth doing in trying to make quantitative what an industry has always priced in private.</p>
 
       <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written between meetings, on a stolen Friday afternoon.</p>
     </>

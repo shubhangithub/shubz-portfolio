@@ -149,12 +149,12 @@ export function BluedotEssay({ palette: p }) {
         </span>
       </p>
 
-      <p>Nine readings, six weeks. What I actually think, having read them all: the marginal-returns framework is the unit's most durable contribution — it lets you stop arguing about whether AI is transformative in the abstract and start asking domain-specific questions about bottlenecks. RAND's critique lands harder than anyone in the optimism cluster seems to notice. The two papers that should have argued with each other didn't. Bregman's blueprint/guidepost distinction is the right diagnostic for why most AI strategy writing feels simultaneously ambitious and somehow unserious. And the IFP playbooks are encouraging precisely because they're not theoretical — they're historical. Shaping has worked before. Whether it will work here depends on whether the institutions doing the shaping exist yet.</p>
+      <p>Nine readings. What I actually think, having read them all: the marginal-returns framework is the unit's most durable contribution — it lets you stop arguing about whether AI is transformative in the abstract and start asking domain-specific questions about bottlenecks. RAND's critique lands harder than anyone in the optimism cluster seems to notice. The two papers that should have argued with each other didn't. Bregman's blueprint/guidepost distinction is the right diagnostic for why most AI strategy writing feels simultaneously ambitious and somehow unserious. And the IFP playbooks are encouraging precisely because they're not theoretical — they're historical. Shaping has worked before. Whether it will work here depends on whether the institutions doing the shaping exist yet.</p>
 
       <p>And the 'we' is small. The bottleneck isn't ideas — this unit is full of good ones. It's the organisations that make safety commitments sticky, that get governance in place before the capability arrives, that hold the plural competition Toner describes together without letting it slide into the instability RAND warns against. The safety labs, policy institutes, international bodies, and cohort programmes being built now — BlueDot's among them — are the first serious attempt to close that gap. They're early. That's the point.</p>
 
       {/* ── CREDITS ── */}
-      <div style={{ marginTop: "3rem", padding: "1.2rem 1.4rem", border: `1px solid ${p.line}`, background: `color-mix(in oklch, ${p.paper} 88%, white)`, borderRadius: 3 }}>
+      <div style={{ marginTop: "3rem", padding: "1.2rem 1.4rem", border: `1px solid ${p.line}`, background: `color-mix(in oklch, ${p.paper} 88%, ${p.ink})`, borderRadius: 3 }}>
         <div className="caps mono" style={{ fontSize: 10, color: p.muted, letterSpacing: "0.1em", marginBottom: "0.8rem" }}>Acknowledgements &amp; readings</div>
         <p style={{ fontSize: "0.88rem", lineHeight: 1.65, color: p.muted, margin: "0 0 0.7rem" }}>
           This essay was written as part of <strong style={{ color: p.ink }}>BlueDot Impact's AGI Strategy cohort</strong> (2026). The synthesis is my own; any errors in characterising the readings are mine. I am grateful to the cohort facilitators and fellow participants whose discussions sharpened several of the arguments here.
@@ -179,7 +179,7 @@ export function BluedotEssay({ palette: p }) {
         </div>
       </div>
 
-      <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written across four Tuesday evenings in London, during a BlueDot cohort meeting, with the diagram for §06 on one screen and the readings on the other.</p>
+      <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written during the first week of BlueDot's AGI Strategy cohort, in London.</p>
     </>
   );
 }

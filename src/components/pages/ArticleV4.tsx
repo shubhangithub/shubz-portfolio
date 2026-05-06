@@ -57,7 +57,7 @@ export function ArticleV4({ slug, palette: p, onNavigate, setCursorColor, dark, 
             </p>
           </div>
           <div style={{ gridColumn: "10 / span 3", paddingBottom: "0.6rem" }}>
-            <div style={{ border: `1px solid ${p.line}`, padding: "0.8rem", aspectRatio: "1 / 1", display: "grid", placeItems: "center", background: `color-mix(in oklch, ${p.paper} 85%, white)` }}>
+            <div style={{ border: `1px solid ${p.line}`, padding: "0.8rem", aspectRatio: "1 / 1", display: "grid", placeItems: "center", background: `color-mix(in oklch, ${p.paper} 85%, ${p.ink})` }}>
               <FourierMotif shape={post.illustration === "wave" ? "wave" : "hex"} size={200} density={26} strokeColor={p.accent} trailColor={`color-mix(in oklch, ${p.accent} 50%, transparent)`} epicycleColor={`color-mix(in oklch, ${p.ink} 8%, transparent)`} />
             </div>
             <div className="mono" style={{ marginTop: 10, color: p.muted, fontSize: 10, display: "flex", justifyContent: "space-between" }}>

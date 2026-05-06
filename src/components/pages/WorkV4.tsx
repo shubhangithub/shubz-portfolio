@@ -77,7 +77,7 @@ export function WorkV4({ palette: p, onNavigate, setCursorColor, dark, toggleThe
               <div style={{ color: p.ink }}>fig.01 — record</div>
               <div>entries&nbsp;&nbsp;&nbsp;{events.length}</div>
               <div>span&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2019 — now</div>
-              <div>updated&nbsp;{new Date().toISOString().slice(0, 10)}</div>
+              <div>updated&nbsp;{new Date().toISOString().slice(0,10).split('-').reverse().join('/')}</div>
               <div style={{ marginTop: 12 }}>
                 <a href="uploads/Shubhangi-Sharma-Resume-20260211.pdf" target="_blank" className="link-underline" style={{ color: p.accent }}>cv.pdf ↗</a>
               </div>
