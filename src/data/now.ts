@@ -20,7 +20,7 @@ export const FOCUSES: Focus[] = [
 export const JOURNAL: JournalEntry[] = [
   { date: "2026-05", note: "Started BlueDot's AGI Strategy cohort. Pre-reading has already moved more pieces around in my head than I expected." },
   { date: "2026-05", note: "Rewriting Orion's search system — tool schemas, decision-tree prompts, fewshot disambiguation. Three weeks in. The results finally stopped feeling stochastic." },
-  { date: "2026-04", note: "Redesigned fashion-web with Claude — broke more than I anticipated, spent a while putting it back together. The site is better for it. The process was humbling." },
+  { date: "2026-04", note: "Used Claude to redesign fashion-web. Broke more than I expected. Still putting it back together." },
   { date: "2026-02", note: "Elected MInstP. The certificate is small and unreasonably satisfying." },
   { date: "2025-12", note: "Built a second pass at the Taylor Swift recommender — six engines, Python and TypeScript. Learning a lot about how recommendation systems actually work when you try to make them good." },
   { date: "2025-08", note: "\"Decoding Flipkart-Walmart Merger\" picks up Best Paper at IEEE ICCUBEA-2025. Four years from data scrape to award. Yay!" },

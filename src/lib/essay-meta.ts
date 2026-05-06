@@ -33,12 +33,6 @@ export function essayMeta(slug) {
       ],
       sidenotes: 5,
     },
-    "merger-themes": {
-      tags: "nlp, m&a",
-      toc: ["Header", "Draft in progress"],
-      sources: [],
-      sidenotes: 0,
-    },
     "may-2026": {
       tags: "mathematical ecology, ODE, predator–prey",
       toc: ["Header", "Lede", "What the sliders teach", "For Robert May"],
