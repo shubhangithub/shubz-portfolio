@@ -68,7 +68,7 @@ export function MayEssay({ palette: p }) {
 
       <p>May was an Australian physicist who became arguably the most important theoretical ecologist of the twentieth century. Chief Scientific Adviser to the UK government. President of the Royal Society. Baron May of Oxford. He died on 28 April 2020, aged eighty-four.</p>
 
-      <p>The figure on this page runs every May. May 22 is the International Day for Biological Diversity — the Convention on Biological Diversity was adopted on that date in 1992, at the Rio Earth Summit. The loop keeps running. The populations keep chasing each other. And somewhere in the model, between the prey that rise and the predators that follow, there is still something worth watching: the moment just before the crash, when the numbers say <em>this cannot last</em> and the system says <em>watch me</em>.</p>
+      <p>The figure on this page runs every May. May 22 is the International Day for Biological Diversity — the Convention on Biological Diversity text was finalised in Nairobi on that date in 1992, then opened for signature at the Rio Earth Summit a fortnight later. The loop keeps running. The populations keep chasing each other. And somewhere in the model, between the prey that rise and the predators that follow, there is still something worth watching: the moment just before the crash, when the numbers say <em>this cannot last</em> and the system says <em>watch me</em>.</p>
 
       <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written the week the loop came back around, in a flat that overlooks no wilderness at all.</p>
     </>
