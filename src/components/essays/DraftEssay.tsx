@@ -11,7 +11,7 @@ export function DraftEssay({ post, palette: p, onNavigate }) {
 
       <p>Until I'm willing to defend it in print, here's what it'll cover:</p>
 
-      <p style={{ fontSize: "1.06rem", lineHeight: 1.7, color: p.ink, padding: "1.4rem 1.6rem", borderLeft: `2px solid ${p.accent}`, background: `color-mix(in oklch, ${p.paper} 75%, white)`, margin: "1.4rem 0" }}>
+      <p style={{ fontSize: "1.06rem", lineHeight: 1.7, color: p.ink, padding: "1.4rem 1.6rem", borderLeft: `2px solid ${p.accent}`, background: `color-mix(in oklch, ${p.paper} 75%, ${p.ink})`, margin: "1.4rem 0" }}>
         {post.dek}
       </p>
 

@@ -14,14 +14,14 @@ export function MayEssay({ palette: p }) {
 
       <p>Volterra wrote two equations. They describe a system in which prey grow exponentially when left alone, predators die exponentially when they can't eat, and every encounter between the two has a chance of converting a prey into a predator. That's all. No territory, no seasons, no disease — just growth, death, and the rate at which one becomes the other.</p>
 
-      <p style={{ textAlign: "center", margin: "1.4rem 0", fontFamily: "var(--f-mono)", fontSize: "0.95rem", color: p.ink, padding: "0.8rem", border: `1px dashed ${p.line}`, background: `color-mix(in oklch, ${p.paper} 80%, white)` }}>
+      <p style={{ textAlign: "center", margin: "1.4rem 0", fontFamily: "var(--f-mono)", fontSize: "0.95rem", color: p.ink, padding: "0.8rem", border: `1px dashed ${p.line}`, background: `color-mix(in oklch, ${p.paper} 80%, ${p.ink})` }}>
         dx/dt = αx − βxy &nbsp;&nbsp;&nbsp; dy/dt = δxy − γy
       </p>
 
       <p>The remarkable thing is what these two lines produce: a closed orbit in the phase plane. Prey rise, predators follow, prey crash, predators starve, prey recover — and the cycle repeats exactly, forever. The populations chase each other around a loop that never settles and never breaks.</p>
 
       {/* full interactive figure — locked to May */}
-      <div style={{ margin: "2rem 0", padding: "0.8rem", border: `1px solid ${p.line}`, background: `color-mix(in oklch, ${p.paper} 88%, white)` }}>
+      <div style={{ margin: "2rem 0", padding: "0.8rem", border: `1px solid ${p.line}`, background: `color-mix(in oklch, ${p.paper} 88%, ${p.ink})` }}>
         <LotkaVolterra
           width={520}
           height={360}

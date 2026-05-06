@@ -82,7 +82,7 @@ export function ThresholdEssay({ palette: p }) {
 
       <p>This isn't a failure of the methods. It's the nature of the problem. When the underlying distribution has cells clustering around the threshold — which it always does, because biological expression is continuous — any binary gate will be fragile at the boundary. The gate is not a measurement. It's a decision wearing a lab coat.</p>
 
-      <p>IsoData was the most reliable method overall. The custom GMM earned its complexity for markers with awkward shoulders. Otsu was fine when the valley was clean and useless when it wasn't. Minimum cross-entropy was a good idea that didn't survive contact with real data. And CTLA-4 taught me that some markers simply resist automation — not because the algorithms are bad, but because the biology is genuinely ambiguous.</p>
+      <p>IsoData was the most reliable method overall. The custom GMM earned its complexity for markers with awkward shoulders. Otsu was fine when the valley was clean and useless when it wasn't. Minimum cross-entropy was a good idea that didn't survive contact with real data. And CTLA-4 taught me that some markers simply resist automation — not because the algorithms are bad, but because the biology is actually ambiguous.</p>
 
       <PullQuote color={p.accent}>The gate is not a measurement. It's a decision wearing a lab coat.</PullQuote>
 

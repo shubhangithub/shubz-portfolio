@@ -27,7 +27,7 @@ export function JayaEssay({ palette: p }) {
 
       <p>JAYA's update rule fits in a tweet. For each candidate <span className="mono">x_i</span> in the population, you nudge it toward the current best <span className="mono">x_b</span> and away from the current worst <span className="mono">x_w</span>:</p>
 
-      <p style={{ textAlign: "center", margin: "1.4rem 0", fontFamily: "var(--f-mono)", fontSize: "0.95rem", color: p.ink, padding: "0.8rem", border: `1px dashed ${p.line}`, background: `color-mix(in oklch, ${p.paper} 80%, white)` }}>
+      <p style={{ textAlign: "center", margin: "1.4rem 0", fontFamily: "var(--f-mono)", fontSize: "0.95rem", color: p.ink, padding: "0.8rem", border: `1px dashed ${p.line}`, background: `color-mix(in oklch, ${p.paper} 80%, ${p.ink})` }}>
         x_i' = x_i + r₁ (x_b − |x_i|) − r₂ (x_w − |x_i|)
       </p>
 

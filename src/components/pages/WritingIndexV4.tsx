@@ -14,7 +14,6 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
   const notes = [
     ["AI Safety Fundamentals", "2023-05", "Essay"],
     ["GNSS Water-Vapour estimation via ML (BSc honours thesis, FLAME)", "2023-05", "thesis note"],
-    ["Density matrices: when superposition isn't the whole story", "2025-10", "note"],
     ["Feynman's path integral: propagators and pictures", "2025-08", "note"],
   ];
 
