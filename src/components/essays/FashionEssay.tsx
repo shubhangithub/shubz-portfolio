@@ -48,7 +48,7 @@ export function FashionEssay({ palette: p }) {
 
       <p>A forecast is a number. A trade is a number with skin in the game — even when the skin is virtual. The platform's Trend Exchange gives you S$1,000 in StyleCoins and lets you go long on trends you think are rising or short on trends you think are fading. Your portfolio tracks P&L in real time against the model's own house predictions.</p>
 
-      <p>The pricing mechanism is LMSR — Hanson's logarithmic market scoring rule.<span className="sidenote-number" style={{ color: p.accent }}>3</span> Same maths as Manifold Markets. The advantage is automatic liquidity: even with a single trader, the market quotes a price. As you buy YES shares on "barrel-leg jeans," the price rises; the more you buy, the steeper it gets. The liquidity parameter <span className="mono">b</span> controls how much a given trade moves the market.
+      <p>The pricing mechanism is LMSR — Hanson's logarithmic market scoring rule.<span className="sidenote-number" style={{ color: p.accent }}>3</span> The advantage is automatic liquidity: even with a single trader, the market quotes a price. As you buy YES shares on "barrel-leg jeans," the price rises; the more you buy, the steeper it gets. The liquidity parameter <span className="mono">b</span> controls how much a given trade moves the market.
         <span className="sidenote">
           <strong style={{ color: p.accent }}>3.</strong> Hanson, R. (2003). "Combinatorial Information Market Design." The cost function is C(q) = b · log(Σ exp(q_i / b)). The platform uses b = 100, which means a 10-share buy on a 50/50 market moves the price about 5 points. Virtual currency, real accountability.
         </span>
