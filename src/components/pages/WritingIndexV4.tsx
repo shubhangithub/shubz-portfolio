@@ -36,7 +36,7 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
 
           <div className="v4-rail-hide" style={{ gridColumn: "1 / span 2" }}>
             <IndexRail palette={p} currentIdx={0}
-              items={["Header", "Lede + count", "Featured", "All essays", "Earlier notes", "Subscribe"]}
+              items={["Header", "Lede + count", "Featured", "All essays", "Earlier notes"]}
               telemetry={[telemetryRow, ["page", "writing"], ["essays", String(POSTS.length).padStart(2, "0")], ["notes", "06"]]}
               scrollPct={scrollPct} />
           </div>
@@ -144,24 +144,6 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
         </div>
       </section>
 
-      {/* subscribe */}
-      <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", borderTop: `1px solid ${p.line}`, paddingTop: "2rem" }}>
-          <div className="caps" style={{ gridColumn: "1 / span 2", fontFamily: "var(--f-ui)", fontSize: 11, color: p.muted, letterSpacing: "0.12em" }}>Subscribe</div>
-          <div style={{ gridColumn: "3 / span 6" }}>
-            <div className="display" style={{ fontSize: "1.4rem", fontWeight: 380, lineHeight: 1.3, color: p.ink }}>
-              An <em style={{ color: p.accent }}>occasional</em> letter — about one essay per month, no extra noise.
-            </div>
-            <form onSubmit={(e) => e.preventDefault()} style={{ marginTop: "1.2rem", display: "flex", gap: 0, maxWidth: 460, borderBottom: `1px solid ${p.ink}` }}>
-              <input type="email" placeholder="you@somewhere.com" style={{ flex: 1, padding: "0.6rem 0", border: "none", outline: "none", background: "transparent", fontFamily: "var(--f-body)", fontSize: "1rem", color: p.ink }} />
-              <button type="submit" className="mono" style={{ all: "unset", cursor: "pointer", padding: "0.6rem 0.4rem", color: p.accent, fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase" }}>Subscribe →</button>
-            </form>
-            <div style={{ marginTop: "0.8rem", fontFamily: "var(--f-ui)", fontSize: 12, color: p.muted }}>
-              One essay roughly per month. No pitch deck, no sponsored slots.
-            </div>
-          </div>
-        </div>
-      </section>
       </main>
 
       <PreciseFooter palette={p} line="Writing is my preferred mode of yapping." />

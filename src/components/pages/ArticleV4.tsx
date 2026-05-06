@@ -74,7 +74,25 @@ export function ArticleV4({ slug, palette: p, onNavigate, setCursorColor, dark, 
           <span style={{ gridColumn: "1 / span 2" }} className="caps mono">By</span>
           <span style={{ gridColumn: "3 / span 5", color: p.ink }}>Shubz Sharma · founding-eng @ Orion · London</span>
           <span style={{ gridColumn: "8 / span 2" }} className="mono">first published · 2026.04.18</span>
-          <span style={{ gridColumn: "10 / span 3", textAlign: "right" }} className="mono">last revised · 2026.04.25</span>
+          <span style={{ gridColumn: "10 / span 3", textAlign: "right" }}>
+            {(() => {
+              const [copied, setCopied] = React.useState(false);
+              return (
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 2000);
+                    });
+                  }}
+                  className="mono"
+                  style={{ all: "unset", cursor: "pointer", fontSize: 11, color: copied ? "#4F7A50" : p.accent, letterSpacing: "0.04em", transition: "color 200ms" }}
+                >
+                  {copied ? "✓ link copied" : "share ↗"}
+                </button>
+              );
+            })()}
+          </span>
         </div>
       </section>
 
