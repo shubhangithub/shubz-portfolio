@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import { Footer, IndexRail, LetterReveal, PALETTE_V4, POSTS, PreciseNav, SeasonalSpecimen, ThemeToggle, useIsMobile, usePreciseScroll, useTelemetry } from '../legacy';
-import { NOW_TICKER } from '../../data/now';
+import { JOURNAL } from '../../data/now';
 
 export function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette }) {
   const { useEffect, useState, useRef } = React;
@@ -196,13 +196,15 @@ export function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette 
         </div>
       </section>
 
-      {/* NOW — horizontal ticker */}
+      {/* NOW — horizontal ticker: latest 3 journal entries */}
       {(() => {
-        const nowItems = NOW_TICKER;
+        const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        const fmtDate = (d) => { const [y, m] = d.split('-'); return `${MONTHS[+m-1]} ${y}`; };
+        const nowItems = JOURNAL.slice(0, 3);
         const tickerContent = [...nowItems, ...nowItems].map((item, i) => (
           <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", whiteSpace: "nowrap", paddingRight: isMobile ? "1.6rem" : "2.4rem" }}>
-            <span className="mono" style={{ color: p.accent, fontSize: isMobile ? 9 : 10, letterSpacing: "0.12em" }}>{item.kind}</span>
-            <span style={{ color: p.ink, fontSize: isMobile ? 11 : 13, fontFamily: "var(--f-ui)" }}>{item.what}</span>
+            <span className="mono" style={{ color: p.accent, fontSize: isMobile ? 9 : 10, letterSpacing: "0.12em" }}>{fmtDate(item.date)}</span>
+            <span style={{ color: p.ink, fontSize: isMobile ? 11 : 13, fontFamily: "var(--f-ui)" }}>{item.note}</span>
             <span style={{ color: p.muted, fontSize: 11 }}>·</span>
           </span>
         ));
