@@ -91,7 +91,7 @@ export function ReadingCluster({ palette: p }) {
   const hov = READINGS.find(r => r.id === hovered);
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "0.8rem", alignItems: "start" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "0.8rem", alignItems: "start" }}>
       {/* scatter */}
       <div>
         <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", overflow: "visible" }}>
