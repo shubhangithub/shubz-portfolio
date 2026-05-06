@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react'
 export function PreciseEssayRow({ post, palette: p, onNavigate, index, total }) {
   const [hover, setHover] = React.useState(false);
   return (
-    <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
+    <a href={`/${post.slug}/`} onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
        onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} className="v4-stack-row"
        style={{ display: "grid", gridTemplateColumns: "60px 1fr 200px 60px", gap: "1.4rem", alignItems: "baseline", padding: "1.4rem 0", borderTop: `1px solid ${p.line}`, color: p.ink, position: "relative" }}>
       <span className="mono" style={{ color: p.muted, fontSize: 11 }}>{String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>

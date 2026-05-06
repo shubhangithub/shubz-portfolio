@@ -29,7 +29,7 @@ export const JOURNAL: JournalEntry[] = [
 // /now · "Conditions" tile
 export const CONDITIONS: Condition[] = [
   { k: "Mood",    v: "study-mode",         sub: "rare and protected" },
-  { k: "Music",   v: "Caroline Polachek",  sub: "depending on the hour" },
-  { k: "Reading", v: "AI Safety papers",   sub: "and one quiet novel" },
+  { k: "Music",   v: "Tame Impala",         sub: "Currents, specifically" },
+  { k: "Reading", v: "AI Safety papers",   sub: "allegedly also a novel" },
   { k: "Drink",   v: "strawberry matcha",  sub: "from blank street" },
 ];

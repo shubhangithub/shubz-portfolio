@@ -5,7 +5,7 @@ import { FourierMotif } from '../legacy';
 export function FeaturedPrecise({ post, palette: p, onNavigate }) {
   const [hover, setHover] = React.useState(false);
   return (
-    <a href="#" className="v4-grid" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
+    <a href={`/${post.slug}/`} className="v4-grid" onClick={(e) => { e.preventDefault(); onNavigate("essay", post.slug); }}
        onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
        style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", padding: "1.6rem 0", borderTop: `1px solid ${p.line}`, borderBottom: `1px solid ${p.line}`, color: p.ink, alignItems: "start" }}>
       <span className="mono" style={{ gridColumn: "1 / span 2", color: p.muted, fontSize: 11 }}>fig.{String(1).padStart(2, "0")}<br/>featured</span>
