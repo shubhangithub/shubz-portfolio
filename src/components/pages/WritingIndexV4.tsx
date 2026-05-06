@@ -18,7 +18,7 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
   ];
 
   // tag chips — match actual POSTS tags
-  const tags = ["all", "ai safety", "physics", "biology", "forecasting", "ml", "nlp", "ecology"];
+  const tags = ["all", "ai safety", "physics", "biology", "forecasting", "ml", "ecology"];
   const [activeTag, setActiveTag] = React.useState("all");
   const visiblePosts = activeTag === "all" ? POSTS : POSTS.filter(p => p.tag === activeTag);
 
@@ -36,7 +36,7 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
           <div className="v4-rail-hide" style={{ gridColumn: "1 / span 2" }}>
             <IndexRail palette={p} currentIdx={0}
               items={["Header", "Lede + count", "Featured", "All essays", "Earlier notes"]}
-              telemetry={[telemetryRow, ["page", "writing"], ["essays", String(POSTS.length).padStart(2, "0")], ["notes", "06"]]}
+              telemetry={[telemetryRow, ["page", "writing"], ["essays", String(POSTS.length).padStart(2, "0")], ["notes", "03"]]}
               scrollPct={scrollPct} />
           </div>
 

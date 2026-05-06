@@ -93,17 +93,6 @@ export const POSTS: Post[] = [
     tag: "ml",
   },
   {
-    slug: "merger-themes",
-    title: "What the merger said",
-    kicker: "Essay · NLP & M&A",
-    dek: "Theme extraction and sentiment mining on the Flipkart-Walmart merger.",
-    minutes: 9,
-    illustration: "wave",
-    cardBg: "#EFE8E5",
-    accent: "#1F3DBF",
-    tag: "nlp",
-  },
-  {
     slug: "may-2026",
     title: "Predator and prey, on a closed loop",
     kicker: "Note · Mathematical ecology",
