@@ -19,7 +19,7 @@ export const POSTS: Post[] = [
     slug: "bluedot-unit1",
     title: "A unit on bending the curve",
     kicker: "Essay · AI Strategy & Policy",
-    dek: "Nine readings on who shapes artificial intelligence — and what 'shape' actually means when nobody can name the shaper.",
+    dek: "Who shapes artificial intelligence and what 'shape' means.",
     minutes: 22,
     illustration: "wave",
     cardBg: "#E6E8F2",
