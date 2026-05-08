@@ -81,6 +81,8 @@ import { PreciseEssayRow } from './pages/PreciseEssayRow';
 import { WorkV4 } from './pages/WorkV4';
 import { WritingIndexV4 } from './pages/WritingIndexV4';
 export { ArticleV4, ContactV4, FeaturedPrecise, HomeV4, NowV4, PreciseEssayRow, WorkV4, WritingIndexV4 };
+import { TerminalPanel } from './chrome/TerminalPanel';
+export { TerminalPanel };
 import { Footer } from './chrome/Footer';
 import { IndexRail } from './chrome/IndexRail';
 import { PreciseFooter } from './chrome/PreciseFooter';

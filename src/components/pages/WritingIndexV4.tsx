@@ -42,7 +42,7 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
 
           <div style={{ gridColumn: "3 / span 7" }}>
             <div className="ui caps" style={{ color: p.muted, marginBottom: "1rem", fontFamily: "var(--f-ui)", fontSize: 11, letterSpacing: "0.12em" }}>
-              <span className="mono" style={{ color: p.accent, marginRight: 8 }}>§02</span>
+              <span className="mono" style={{ color: "#28CA41", marginRight: 8 }}>§02</span>
               The Garden · essays, notes, half-formed ideas
             </div>
             <h1 className="display" style={{ fontSize: "clamp(1.9rem, 7vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em" }}>
@@ -81,7 +81,7 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
           <div style={{ gridColumn: "3 / span 9", display: "flex", gap: 6, flexWrap: "wrap", fontFamily: "var(--f-ui)", fontSize: 12 }}>
             {tags.map(t => (
               <button key={t} onClick={() => setActiveTag(t)}
-                style={{ all: "unset", cursor: "pointer", padding: "4px 10px", border: `1px solid ${activeTag === t ? p.ink : p.line}`, color: activeTag === t ? p.ink : p.muted, background: activeTag === t ? `color-mix(in oklch, ${p.paper} 80%, ${p.ink})` : "transparent", letterSpacing: "0.04em", transition: "all 180ms" }}>
+                style={{ all: "unset", cursor: "pointer", padding: "4px 10px", border: `1px solid ${activeTag === t ? "#28CA41" : p.line}`, color: activeTag === t ? "#28CA41" : p.muted, background: activeTag === t ? "rgba(40,202,65,0.08)" : "transparent", letterSpacing: "0.04em", transition: "all 180ms" }}>
                 {t}
               </button>
             ))}
@@ -93,7 +93,7 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2.4rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
-            <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>03</span>
+            <span className="mono" style={{ fontSize: 12, color: "#28CA41", marginRight: 12 }}>03</span>
             Featured
           </h2>
           <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>currently · {POSTS[0].slug}</span>
@@ -105,7 +105,7 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2.4rem 1.6rem 0", position: "relative", zIndex: 2 }}>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
-            <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>04</span>
+            <span className="mono" style={{ fontSize: 12, color: "#28CA41", marginRight: 12 }}>04</span>
             All essays
           </h2>
           <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>{visiblePosts.length} of {POSTS.length}</span>
@@ -121,7 +121,7 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "2.4rem 1.6rem 0", position: "relative", zIndex: 2 }}>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
-            <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>05</span>
+            <span className="mono" style={{ fontSize: 12, color: "#28CA41", marginRight: 12 }}>05</span>
             Working notes
           </h2>
           <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>private until linked</span>

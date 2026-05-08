@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-import { BluedotEssay, ConstraintClusterEssay, DraftEssay, FashionEssay, FourierMotif, IndexRail, JayaEssay, LetterReveal, MayEssay, POSTS, PreciseFooter, PreciseNav, PreciseTopBar, ReadingRuler, SixEnginesEssay, ThresholdEssay, ZXEssay, essayMeta, useIsMobile, usePreciseScroll, useTelemetry } from '../legacy';
+import { BluedotEssay, ConstraintClusterEssay, DraftEssay, FashionEssay, FourierMotif, IndexRail, JayaEssay, LetterReveal, MayEssay, POSTS, PreciseFooter, PreciseNav, PreciseTopBar, ReadingRuler, SixEnginesEssay, TerminalPanel, ThresholdEssay, ZXEssay, essayMeta, useIsMobile, usePreciseScroll, useTelemetry } from '../legacy';
 import { PreciseEssayRow } from './PreciseEssayRow';
 
 export function ArticleV4({ slug, palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
@@ -39,14 +39,17 @@ export function ArticleV4({ slug, palette: p, onNavigate, setCursorColor, dark, 
       {/* HEADER — 12-col, asymmetric */}
       <header style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 1rem", position: "relative", zIndex: 2 }}>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "end" }}>
-          <div style={{ gridColumn: "1 / span 2", fontFamily: "var(--f-ui)", fontSize: 11, color: p.muted, lineHeight: 1.7 }}>
-            <div className="caps mono" style={{ marginBottom: 8 }}>fig.01</div>
-            <div>title</div>
-            <div style={{ color: p.ink }}>{post.title.toLowerCase()}</div>
-            <div style={{ marginTop: 12 }}>kind</div>
-            <div style={{ color: p.ink }}>standalone essay</div>
-            <div style={{ marginTop: 12 }}>tags</div>
-            <div style={{ color: p.ink }}>{essayMeta(post.slug).tags}</div>
+          <div style={{ gridColumn: "1 / span 2" }}>
+            <TerminalPanel
+              label="essay.json"
+              rows={[
+                ["fig.01", "meta"],
+                ["title", post.title.toLowerCase()],
+                ["kind", "essay"],
+                ["tags", essayMeta(post.slug).tags],
+              ]}
+              palette={p}
+            />
           </div>
           <div style={{ gridColumn: "3 / span 7" }}>
             <h1 className="display" style={{ fontSize: "clamp(4rem, 9vw, 8rem)", margin: 0, fontWeight: 360, lineHeight: 0.9, letterSpacing: "-0.03em" }}>
@@ -168,6 +171,16 @@ export function ArticleV4({ slug, palette: p, onNavigate, setCursorColor, dark, 
         </div>
       </section>
       </main>
+
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 1.6rem 1.6rem", position: "relative", zIndex: 2 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem", padding: "6px 10px", background: "color-mix(in oklch, #0F1320 94%, transparent)", border: `1px solid color-mix(in oklch, ${p.line} 70%, #28CA41)`, fontFamily: "var(--f-mono)", fontSize: 11, color: p.muted }}>
+          <span style={{ background: "#28CA41", color: "#0F1320", padding: "1px 6px", fontWeight: 600, letterSpacing: "0.08em", fontSize: 10 }}>NORMAL</span>
+          <span>~/writing/{slug}</span>
+          <span style={{ opacity: 0.5 }}>·</span>
+          <span>{post.minutes} min read</span>
+          <span style={{ marginLeft: "auto", opacity: 0.5 }}>Col 1</span>
+        </div>
+      </div>
 
       <PreciseFooter palette={p} line="Diagrams are usually interactive. Opinions, if you ask nicely." />
     </div>
