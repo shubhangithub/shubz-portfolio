@@ -25,7 +25,7 @@ export function ZXEssay({ palette: p }) {
 
       <p>The standard quantum circuit diagram puts qubits on horizontal wires and gates on those wires, left-to-right in time. It is a good notation for computation: you can read off the gate sequence, verify unitarity, count resources. What it doesn't show you is <em>causal structure</em> — the reason a protocol works, as opposed to the sequence of operations that implements it.</p>
 
-      <p>Consider the CNOT gate: control qubit on the top wire, target qubit on the bottom wire. In the circuit picture it looks like a control dot connected by a vertical line to an XOR circle. It flips the target qubit if and only if the control is |1⟩. That description is operational. What it doesn't immediately convey is the asymmetry between how CNOT acts on the computational basis (Z basis) and how it acts on the Hadamard basis (X basis). In the Z basis it copies the control. In the X basis it copies the target. The gate has a symmetry the circuit notation doesn't show.</p>
+      <p>Consider the CNOT gate: control qubit on the top wire, target qubit on the bottom wire. In the circuit picture it looks like a control dot connected by a vertical line to an XOR circle. It flips the target qubit if and only if the control is |1⟩, which is a correct description of what it does without saying anything about the symmetry between how it behaves in the computational basis (Z basis) and how it behaves in the Hadamard basis (X basis) — copying the control in one, copying the target in the other, a symmetry the circuit picture hides entirely.</p>
 
       <p>The ZX-calculus makes that symmetry visible by construction. Each gate decomposes into coloured nodes — called spiders — that correspond directly to copying operations in specific bases. Once you draw the ZX diagram of CNOT, the Z/X symmetry is immediate: it's in the colours.</p>
 
@@ -57,7 +57,7 @@ export function ZXEssay({ palette: p }) {
         <SpiderFusion palette={p} />
       </Figure>
 
-      <p>Fusion is both visually obvious (two nodes sharing a wire become one node) and algebraically correct: you can verify it by multiplying out the matrices. The payoff of the graphical approach is that you stop reaching for matrices. Reasoning about quantum maps becomes reasoning about pictures.</p>
+      <p>Fusion is both visually obvious (two nodes sharing a wire become one node) and algebraically correct — you can verify it by multiplying out the matrices if you need to, but after a while you just stop doing that, which is most of the point.</p>
 
       {/* ── §03 ── */}
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
@@ -87,9 +87,9 @@ export function ZXEssay({ palette: p }) {
         <span>Why teleportation is obvious</span>
       </h2>
 
-      <p>In the circuit picture, quantum teleportation is a sequence: share a Bell pair; Alice applies CNOT and Hadamard; Alice measures; send two classical bits; Bob applies corrections. Five steps, and the reason the corrections work requires tracking what the measurements do to the remaining qubit's state through the formalism.</p>
+      <p>The circuit picture of quantum teleportation gives you a sequence — share a Bell pair, Alice applies CNOT and Hadamard, measure, send two classical bits, Bob applies corrections — and if you follow every step correctly you arrive at the right answer without quite understanding why the corrections work, because the circuit doesn't tell you; it just tells you they do.</p>
 
-      <p>In ZX, the proof is essentially one rewrite. You draw the protocol as a diagram — the Bell pair preparation, the entangled measurements, the classical corrections — and then you apply the bialgebra rule to the middle of the diagram. The measurement nodes and the correction nodes cancel. What remains is a single wire connecting Alice's input state to Bob's output: the teleportation has happened, and the diagram makes clear that it was always going to happen because the structure of the Bell pair and the structure of the measurement were designed to be each other's adjoint.</p>
+      <p>The ZX proof is essentially one rewrite. You draw the protocol as a diagram — the Bell pair preparation, the entangled measurements, the classical corrections — and then you apply the bialgebra rule to the middle of the diagram. The measurement nodes and the correction nodes cancel. What remains is a single wire connecting Alice's input state to Bob's output: the teleportation has happened, and the diagram makes clear that it was always going to happen because the structure of the Bell pair and the structure of the measurement were designed to be each other's adjoint.</p>
 
       <p>This is the sense in which ZX makes the reason visible, not just the sequence. The circuit told you that teleportation works. The diagram tells you <em>why</em>: it's because the measurement in the entangled basis is, up to local operations, the inverse of the Bell pair preparation. The protocol cancels with its own adjoint. No state is sent. The quantum channel is already there; the measurement wires it up.</p>
 

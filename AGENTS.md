@@ -152,6 +152,68 @@ under the polished path.
 
 ---
 
+## 9. Anti-AI writing — research-backed rules (apply to every essay)
+
+These are derived from documented Claude/LLM stylistic tells. Violating them
+doesn't break anything technically, but the writing will read as machine-made.
+
+### Punctuation budget
+
+- **Em-dashes (—): max 2 per section.** If a comma or full stop works, use
+  that. Never use em-dashes as a default connective. Never open and close an
+  aside with em-dashes when parentheses would be quieter. The JAYA lede has
+  exactly one; that is the ceiling, not the floor.
+- **Semicolons (;): max 1–2 per paragraph, and never in the "X is Y; Z is W"
+  paired-clause construction.** That pattern reads as fabricated balance. Write
+  two sentences or use a comma + conjunction instead.
+- **Colons introducing lists: only when the list genuinely can't flow as prose.**
+  "Three things: A, B, C" is fine. A colon kicking off a paragraph-long
+  explanation is not.
+
+### Sentence patterns to never use
+
+- **"Not X. It's Y." / "Not X, but Y."** Delete the negation entirely.
+  Say what it IS, not what it isn't first. This construction is a Claude
+  signature and it reads as rhetorical throat-clearing.
+- **Parallel matched short sentences: "In A it does X. In B it does Y."**
+  Feels manufactured. Merge into one longer sentence with a subordinate clause
+  or a conjunction.
+- **"X. But Y." as a theatrical pause.** "The room is small. But that is how
+  it starts." — the capital-B But is a stage direction. Either connect with a
+  comma, or write the thought as a single sentence without the stop.
+- **Anaphoric kickers: "True of X. True of Y. True of Z."** Sounds like a
+  speech, not an essay. Compress into a single clause.
+- **Standalone declarative kickers: "The room is small." / "The gap is real."**
+  A one-sentence paragraph whose only job is to be followed by an explanation.
+  Start with the explanation instead; you don't need to announce it.
+- **Neat reversal: "You stop doing X and start doing Y."** / "X becomes Y."
+  These are the single most identifiable Claude sentence-level tells. If a
+  sentence is a perfect mirror of itself, rewrite it.
+- **Parallel triplets as default.** Don't always group in threes. Two items
+  is fine. Four or five is fine. Three feels performative.
+- **Symmetrical conclusions that recap the sections.** Real argument doesn't
+  resolve cleanly. Don't write the conclusion that perfectly mirrors the intro.
+
+### The writer's voice: long sentences
+
+**Shubz writes long sentences.** When a thought is complex, let the sentence
+be complex — subordinate clauses, multiple conditions, a delayed main verb.
+Do not chop a long thought into three short "impact" fragments. Short punchy
+sentences should be earned by what surrounds them, not used as a structural
+default. A sentence that runs 60+ words is fine if it earns every word.
+
+### Quick audit checklist before committing any essay
+
+1. Count em-dashes per section: more than 2 → cut.
+2. Search for semicolons: is any of them in a "X; Y" parallel? → rewrite.
+3. Search for "Not X." followed by "It's Y." → delete the negation sentence.
+4. Search for three consecutive short sentences (under 10 words each) → merge.
+5. Search for the word "becomes" → is it a mirror reversal? → rewrite.
+6. Read the final paragraph aloud: does it recap everything that came before?
+   → cut half of it.
+
+---
+
 ## 8. Voice exemplar — read this if you read nothing else
 
 The first paragraph of the JAYA essay:
