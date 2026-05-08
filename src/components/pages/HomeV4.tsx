@@ -83,7 +83,7 @@ export function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette 
               <img src="assets/portrait.jpg" alt="Shubz — click for contact" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </a>
             <div className="ui caps" style={{ color: p.muted, marginBottom: "1rem", fontFamily: "var(--f-ui)", fontSize: 11, letterSpacing: "0.12em" }}>
-              <span className="mono" style={{ color: p.accent, marginRight: 8 }}>§01</span>
+              <span className="mono" style={{ color: "#28CA41", marginRight: 8 }}>§01</span>
               Home · the front door
             </div>
 
@@ -145,7 +145,7 @@ export function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette 
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "1.2rem" }}>
               <h2 className="display" style={{ fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
-                <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>02</span>
+                <span className="mono" style={{ fontSize: 12, color: "#28CA41", marginRight: 12 }}>02</span>
                 Recent writing
               </h2>
               <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} className="caps mono" style={{ color: p.accent, fontSize: 11, letterSpacing: "0.1em" }}>all essays →</a>
@@ -169,7 +169,7 @@ export function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette 
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "1.2rem" }}>
               <h2 className="display" style={{ fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
-                <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>03</span>
+                <span className="mono" style={{ fontSize: 12, color: "#28CA41", marginRight: 12 }}>03</span>
                 Selected builds
               </h2>
               <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} className="caps mono" style={{ color: p.accent, fontSize: 11, letterSpacing: "0.1em" }}>annotated cv →</a>

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-import { IndexRail, LetterReveal, PreciseFooter, PreciseNav, PreciseTopBar, useIsMobile, usePreciseScroll, useTelemetry } from '../legacy';
+import { IndexRail, LetterReveal, PreciseFooter, PreciseNav, PreciseTopBar, TerminalPanel, useIsMobile, usePreciseScroll, useTelemetry } from '../legacy';
 
 export function WorkV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
@@ -57,7 +57,7 @@ export function WorkV4({ palette: p, onNavigate, setCursorColor, dark, toggleThe
           </div>
           <div style={{ gridColumn: "3 / span 7" }}>
             <div className="ui caps" style={{ color: p.muted, marginBottom: "1rem", fontSize: 11, letterSpacing: "0.12em" }}>
-              <span className="mono" style={{ color: p.accent, marginRight: 8 }}>§03</span>
+              <span className="mono" style={{ color: "#28CA41", marginRight: 8 }}>§03</span>
               Work · CV · annotated, in chronological reverse
             </div>
             <h1 className="display" style={{ fontSize: "clamp(1.9rem, 7vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em" }}>
@@ -73,15 +73,17 @@ export function WorkV4({ palette: p, onNavigate, setCursorColor, dark, toggleThe
             </p>
           </div>
           <div className="v4-rail-hide" style={{ gridColumn: "10 / span 3", paddingTop: "0.4rem" }}>
-            <div className="mono" style={{ fontSize: 11, color: p.muted, lineHeight: 1.8 }}>
-              <div style={{ color: p.ink }}>fig.01 — record</div>
-              <div>entries&nbsp;&nbsp;&nbsp;{events.length}</div>
-              <div>span&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2019 — now</div>
-              <div>updated&nbsp;{new Date().toISOString().slice(0,10).split('-').reverse().join('/')}</div>
-              <div style={{ marginTop: 12 }}>
-                <a href="uploads/Shubhangi-Sharma-Resume-20260211.pdf" target="_blank" className="link-underline" style={{ color: p.accent }}>cv.pdf ↗</a>
-              </div>
-            </div>
+            <TerminalPanel
+              label="cv.json"
+              rows={[
+                ["fig.01", "record"],
+                ["entries", String(events.length)],
+                ["span", "2019 — now"],
+                ["updated", new Date().toISOString().slice(0,10).split('-').reverse().join('/')],
+                ["cv.pdf", "↗ open", "uploads/Shubhangi-Sharma-Resume-20260211.pdf"],
+              ]}
+              palette={p}
+            />
           </div>
         </div>
       </section>
@@ -90,7 +92,7 @@ export function WorkV4({ palette: p, onNavigate, setCursorColor, dark, toggleThe
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
-            <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>02</span>
+            <span className="mono" style={{ fontSize: 12, color: "#28CA41", marginRight: 12 }}>02</span>
             Trajectory
           </h2>
           <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>2019 — present</span>
@@ -120,7 +122,7 @@ export function WorkV4({ palette: p, onNavigate, setCursorColor, dark, toggleThe
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
-            <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>03</span>
+            <span className="mono" style={{ fontSize: 12, color: "#28CA41", marginRight: 12 }}>03</span>
             Selected work
           </h2>
           <span className="caps mono" style={{ gridColumn: "10 / span 3", color: p.muted, alignSelf: "baseline", fontSize: 11, textAlign: "right" }}>open · internal · founding</span>
@@ -174,7 +176,7 @@ export function WorkV4({ palette: p, onNavigate, setCursorColor, dark, toggleThe
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
-            <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>04</span>
+            <span className="mono" style={{ fontSize: 12, color: "#28CA41", marginRight: 12 }}>04</span>
             Speaking
           </h2>
         </div>

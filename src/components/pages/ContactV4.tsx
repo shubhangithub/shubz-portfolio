@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-import { IndexRail, LetterReveal, PreciseFooter, PreciseNav, PreciseTopBar, useIsMobile, usePreciseScroll, useTelemetry, inputStyle, essayMeta } from '../legacy';
+import { IndexRail, LetterReveal, PreciseFooter, PreciseNav, PreciseTopBar, TerminalPanel, useIsMobile, usePreciseScroll, useTelemetry, inputStyle, essayMeta } from '../legacy';
 
 export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggleTheme }) {
   React.useEffect(() => { setCursorColor(p.accent); document.body.style.background = p.paper; window.scrollTo(0, 0); }, []);
@@ -47,8 +47,8 @@ export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggle
           </div>
           <div style={{ gridColumn: "3 / span 7" }}>
             <div className="ui caps" style={{ color: p.muted, marginBottom: "1rem", fontSize: 11, letterSpacing: "0.12em" }}>
-              <span className="mono" style={{ color: p.accent, marginRight: 8 }}>§05</span>
-              Contact 
+              <span className="mono" style={{ color: "#28CA41", marginRight: 8 }}>§05</span>
+              Contact
             </div>
             <h1 className="display" style={{ fontSize: "clamp(1.9rem, 7vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em" }}>
               <LetterReveal stagger={26}>Say </LetterReveal>
@@ -65,13 +65,17 @@ export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggle
             </p>
           </div>
           <div className="v4-rail-hide" style={{ gridColumn: "10 / span 3", paddingTop: "0.4rem" }}>
-            <div className="mono" style={{ fontSize: 11, color: p.muted, lineHeight: 1.8 }}>
-              <div style={{ color: p.ink }}>fig.01 — protocol</div>
-              <div>preferred&nbsp;email</div>
-              <div>cadence&nbsp;&nbsp;&nbsp;daily</div>
-              <div>reply&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;≤72h</div>
-              <div>noise&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;low</div>
-            </div>
+            <TerminalPanel
+              label="contact.json"
+              rows={[
+                ["fig.01", "protocol"],
+                ["preferred", "email"],
+                ["cadence", "daily"],
+                ["reply", "≤72h"],
+                ["noise", "low"],
+              ]}
+              palette={p}
+            />
           </div>
         </div>
       </section>
@@ -80,7 +84,7 @@ export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggle
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
-            <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>02</span>
+            <span className="mono" style={{ fontSize: 12, color: "#28CA41", marginRight: 12 }}>02</span>
             Channels
           </h2>
         </div>
@@ -104,7 +108,7 @@ export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggle
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
-            <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>03</span>
+            <span className="mono" style={{ fontSize: 12, color: "#28CA41", marginRight: 12 }}>03</span>
             Preferences
           </h2>
         </div>
@@ -126,7 +130,7 @@ export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggle
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
-            <span className="mono" style={{ fontSize: 12, color: p.muted, marginRight: 12 }}>04</span>
+            <span className="mono" style={{ fontSize: 12, color: "#28CA41", marginRight: 12 }}>04</span>
             Compose
           </h2>
         </div>
