@@ -15,7 +15,7 @@ export function ThresholdEssay({ palette: p }) {
       <p>That question became my thesis. Two tumour files from two distinct patients — one around 9,500 cells, the other around 5,500 — six immune markers per cell, and for each marker, a threshold that a pathologist had drawn by eye on a log-transformed intensity histogram. Move that line half a unit and the "positive" population shifts noticeably. Move it the other way and you import background noise. The biology hasn't changed. The category has.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§01</span>
         <span>Six markers, one panel</span>
       </h2>
 
@@ -28,7 +28,7 @@ export function ThresholdEssay({ palette: p }) {
       <p>A cell sitting just inside the CD4+ gate and a cell sitting deep inside it count the same. The gate is binary. The biology is not. That gap is where the interesting problems live.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§02</span>
         <span>Four ways to draw a line</span>
       </h2>
 
@@ -51,7 +51,7 @@ export function ThresholdEssay({ palette: p }) {
       </Figure>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§03</span>
         <span>The marker that broke everything</span>
       </h2>
 
@@ -70,7 +70,7 @@ export function ThresholdEssay({ palette: p }) {
       <PullQuote color={p.accent}>You can automate the easy calls. For the hard ones, you're still relying on the judgement you were trying to replace.</PullQuote>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§04</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§04</span>
         <span>What 0.11 units hides</span>
       </h2>
 

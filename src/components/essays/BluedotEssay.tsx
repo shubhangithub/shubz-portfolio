@@ -17,7 +17,7 @@ export function BluedotEssay({ palette: p }) {
 
       {/* ── §01 ── */}
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§01</span>
         <span>The prize</span>
       </h2>
 
@@ -39,7 +39,7 @@ export function BluedotEssay({ palette: p }) {
 
       {/* ── §02 ── */}
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§02</span>
         <span>The structural obstacle</span>
       </h2>
 
@@ -63,7 +63,7 @@ export function BluedotEssay({ palette: p }) {
 
       {/* ── §03 ── */}
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§03</span>
         <span>What shaping actually looks like</span>
       </h2>
 
@@ -89,7 +89,7 @@ export function BluedotEssay({ palette: p }) {
 
       {/* ── §04 ── */}
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§04</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§04</span>
         <span>The international complication</span>
       </h2>
 
@@ -111,7 +111,7 @@ export function BluedotEssay({ palette: p }) {
 
       {/* ── §05 ── */}
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§05</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§05</span>
         <span>What kind of future, exactly?</span>
       </h2>
 
@@ -131,7 +131,7 @@ export function BluedotEssay({ palette: p }) {
 
       {/* ── §06 ── */}
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§06</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§06</span>
         <span>Who is "we"?</span>
       </h2>
 

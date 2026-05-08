@@ -21,7 +21,7 @@ export function JayaEssay({ palette: p }) {
       <PullQuote color={p.accent}>"Parameter-free" almost always means the parameters are baked in.</PullQuote>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§01</span>
         <span>JAYA, briefly</span>
       </h2>
 
@@ -44,7 +44,7 @@ export function JayaEssay({ palette: p }) {
       </Figure>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§02</span>
         <span>Two modifications</span>
       </h2>
 
@@ -59,7 +59,7 @@ export function JayaEssay({ palette: p }) {
       <p>Second, <strong>elitism</strong>: preserving the best individuals across iterations rather than letting them be overwritten by the stochastic update. Without it, a good solution found early can be lost to random drift in later generations. With it, the population has a floor — the best solution so far is always in the mix.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§03</span>
         <span>Three protein datasets</span>
       </h2>
 
@@ -80,7 +80,7 @@ export function JayaEssay({ palette: p }) {
       <p>We presented the work as poster PP-28 at INBIX'22, the Indian Conference on Bioinformatics, at VFSTR. The conclusion, as we wrote it: a simple algorithm like JAYA with an appropriate fitness function and preserved elite solutions can provide good performance in feature-selection tasks. That sentence is less exciting than it sounds, and more useful than it looks.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§04</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§04</span>
         <span>What "improved" means</span>
       </h2>
 

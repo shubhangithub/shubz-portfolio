@@ -15,7 +15,7 @@ export function SixEnginesEssay({ palette: p }) {
       <p>The constraint, then, was: build something whose <em>recommendations themselves</em> would be the test. If I rolled it out to friends and they said "yeah, that one too," good. If they said "why this," bad. The architecture had to earn that, not the other way around.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§01</span>
         <span>Six engines, one query</span>
       </h2>
 
@@ -39,7 +39,7 @@ export function SixEnginesEssay({ palette: p }) {
       </Figure>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§02</span>
         <span>The dataset that made it tractable</span>
       </h2>
 
@@ -52,7 +52,7 @@ export function SixEnginesEssay({ palette: p }) {
       <p>The original was an R/Shiny app I'd written in 2023 — pretty, slow, single-user. The rebuild is a TypeScript + Next.js frontend on Vercel with a FastAPI backend on Render, serving real recommendations in under 200ms.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02b</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§02b</span>
         <span>Why the ensemble works</span>
       </h2>
 
@@ -65,7 +65,7 @@ export function SixEnginesEssay({ palette: p }) {
       <PullQuote color={p.accent}>The ensemble is less a fusion of strengths than an averaging-out of weaknesses.</PullQuote>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§03</span>
         <span>What the demo actually feels like</span>
       </h2>
 
