@@ -35,7 +35,7 @@ export function MayEssay({ palette: p }) {
       </div>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§01</span>
         <span>What the sliders teach</span>
       </h2>
 
@@ -56,7 +56,7 @@ export function MayEssay({ palette: p }) {
       <PullQuote color={p.accent}>The model is a starting point, not a destination — but you have to start somewhere, and Volterra started with a question from his son-in-law about fish.</PullQuote>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§02</span>
         <span>For Robert May</span>
       </h2>
 

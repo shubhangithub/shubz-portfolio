@@ -15,7 +15,7 @@ export function ConstraintClusterEssay({ palette: p }) {
       <p>The thresholding essay ended with a question: what happens when you stop classifying one marker at a time and try to see the full six-dimensional profile? Clustering is the answer. It's also where everything gets harder, because the algorithms don't know immunology and the immunologists don't write clustering algorithms.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§01</span>
         <span>Why not just threshold?</span>
       </h2>
 
@@ -30,7 +30,7 @@ export function ConstraintClusterEssay({ palette: p }) {
       <p>The problem is that "see it" means very different things to different algorithms.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§02</span>
         <span>What the textbook misses</span>
       </h2>
 
@@ -47,7 +47,7 @@ export function ConstraintClusterEssay({ palette: p }) {
       </Figure>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§03</span>
         <span>Teaching the distance metric</span>
       </h2>
 
@@ -72,7 +72,7 @@ export function ConstraintClusterEssay({ palette: p }) {
       <PullQuote color={p.accent}>The algorithm sees a landscape where biologically impossible neighbours are further apart than the raw intensities suggest.</PullQuote>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§04</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§04</span>
         <span>The honest result</span>
       </h2>
 

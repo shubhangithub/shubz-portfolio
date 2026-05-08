@@ -15,7 +15,7 @@ export function FashionEssay({ palette: p }) {
       <p>The thing I've built is an ML-powered trend intelligence platform — part computer vision, part forecasting pipeline, part trading simulator. Upload an outfit photo and it tells you what you're wearing, what collection it's closest to, and what the colour palette says. Browse runway breakdowns from Prada to Miu Miu. Track hundreds of trend terms across categories. Then, if you're feeling brave, trade on them with virtual currency and see if your instincts beat the model's.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§01</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§01</span>
         <span>Five signals, one composite</span>
       </h2>
 
@@ -42,7 +42,7 @@ export function FashionEssay({ palette: p }) {
       <PullQuote color={p.accent}>None of these is reliable on its own. Together, they're tolerable.</PullQuote>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§02</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§02</span>
         <span>The Trend Exchange</span>
       </h2>
 
@@ -59,7 +59,7 @@ export function FashionEssay({ palette: p }) {
       </Figure>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§03</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§03</span>
         <span>What the camera sees</span>
       </h2>
 
@@ -68,7 +68,7 @@ export function FashionEssay({ palette: p }) {
       <p>Computer vision on fashion data is more interesting than it sounds, because the categories are soft. A "barrel-leg jean" and a "wide-leg trouser" overlap in silhouette but not in cultural signal. The model has to learn that the distinction matters — and that it shifts every season.</p>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
-        <span className="mono" style={{ fontSize: 12, color: p.muted, letterSpacing: "0.1em" }}>§04</span>
+        <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§04</span>
         <span>What I'm optimising for</span>
       </h2>
 
