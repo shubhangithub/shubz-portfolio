@@ -133,7 +133,7 @@ export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggle
                   <textarea required rows="6" placeholder="What would you like to talk about?" value={message} onChange={e => setMessage(e.target.value)} style={{ ...inputStyle(p), width: "100%", resize: "vertical", lineHeight: 1.6 }} />
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 6 }}>
-                  <span className="mono" style={{ fontSize: 11, color: p.muted }}>opens your mail client · spam-screened by hand</span>
+                  <span className="mono" style={{ fontSize: 11, color: p.muted }}>opens your mail client</span>
                   <button type="submit" style={{ all: "unset", cursor: "pointer", padding: "0.55rem 1rem", border: `1px solid ${p.ink}`, color: p.paper, background: p.ink, fontFamily: "var(--f-ui)", fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase" }}>Send →</button>
                 </div>
               </div>

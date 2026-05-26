@@ -156,7 +156,7 @@ export function ContactV5({
           </div>
 
           {/* §03 Compose → Outreach (orange). */}
-          <NBPromptHead t={t} n="§03" command="mail compose --to hello@" comment="opens your mail client" title="Compose" accent={t.orange} level={isMobile ? 22 : 28} />
+          <NBPromptHead t={t} n="§03" command="mail compose --to hello@" title="Compose" accent={t.orange} level={isMobile ? 22 : 28} />
           <form onSubmit={onSubmit} style={{
             border: `2px solid ${t.ink}`, padding: isMobile ? "14px 16px" : "18px 22px",
             background: t.paper2, marginBottom: 56,

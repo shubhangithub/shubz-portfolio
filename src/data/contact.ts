@@ -57,7 +57,7 @@ export const CONTACT_COMPOSE = {
   subjectPlaceholder: "what this is about",
   bodyPlaceholder: "what would you like to talk about?",
   defaultSubject: "Hi from your site",
-  footerNote: "opens your mail client · spam-screened by hand",
+  footerNote: "opens your mail client",
   sendButton: "Send →",
 };
 
