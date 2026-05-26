@@ -1,6 +1,14 @@
 // Essay metadata. Mirrors the frontmatter of each MDX file in
 // src/content/essays/ — kept here as a typed module for layouts that need
 // to enumerate posts (the home page, the writing index, the article rail).
+//
+// V5 fields (`family`, `nbAccent`) are optional and additive — V4 keeps
+// using `accent` (cobalt site-wide); V5 reads `nbAccent` to pull a
+// per-essay colour from NB_LIGHT/NB_DARK in palette.ts. If `nbAccent`
+// is missing, V5 falls back to "blue". See AGENTS-v5.md (in
+// design_handoff_v5_field_notebook/) for the topic-family rules.
+
+import type { NBAccentKey } from "./palette";
 
 export type Post = {
   slug: string;
@@ -12,6 +20,10 @@ export type Post = {
   cardBg: string;
   accent: string;
   tag: string;
+  /** V5 — topic family. */
+  family?: "ai" | "quantum" | "bio" | "optim" | "markets" | "ml" | "ecology" | "physics";
+  /** V5 — per-essay accent key into NB_LIGHT/NB_DARK in palette.ts. */
+  nbAccent?: NBAccentKey;
 };
 
 export const POSTS: Post[] = [
@@ -25,6 +37,8 @@ export const POSTS: Post[] = [
     cardBg: "#E6E8F2",
     accent: "#1F3DBF",
     tag: "ai safety",
+    family: "ai",
+    nbAccent: "blue",
   },
   {
     slug: "zx-calculus",
@@ -36,6 +50,8 @@ export const POSTS: Post[] = [
     cardBg: "#E4EAE6",
     accent: "#1F3DBF",
     tag: "physics",
+    family: "quantum",
+    nbAccent: "prompt",
   },
   {
     slug: "jaya",
@@ -47,6 +63,8 @@ export const POSTS: Post[] = [
     cardBg: "#E5E8F0",
     accent: "#1F3DBF",
     tag: "biology",
+    family: "optim",
+    nbAccent: "orange",
   },
   {
     slug: "fashion-trends",
@@ -58,6 +76,8 @@ export const POSTS: Post[] = [
     cardBg: "#ECEAE3",
     accent: "#1F3DBF",
     tag: "forecasting",
+    family: "markets",
+    nbAccent: "ochre",
   },
   {
     slug: "threshold-gate",
@@ -69,6 +89,8 @@ export const POSTS: Post[] = [
     cardBg: "#EFEEE7",
     accent: "#1F3DBF",
     tag: "biology",
+    family: "bio",
+    nbAccent: "magenta",
   },
   {
     slug: "constraint-clustering",
@@ -80,6 +102,8 @@ export const POSTS: Post[] = [
     cardBg: "#EDE9E4",
     accent: "#1F3DBF",
     tag: "biology",
+    family: "bio",
+    nbAccent: "red",
   },
   {
     slug: "six-engines",
@@ -91,6 +115,8 @@ export const POSTS: Post[] = [
     cardBg: "#EBE8EE",
     accent: "#1F3DBF",
     tag: "ml",
+    family: "ml",
+    nbAccent: "purple",
   },
   {
     slug: "may-2026",
@@ -102,6 +128,8 @@ export const POSTS: Post[] = [
     cardBg: "#E8EEF0",
     accent: "#1F3DBF",
     tag: "ecology",
+    family: "ecology",
+    nbAccent: "teal",
   },
 ];
 
