@@ -1,37 +1,55 @@
 # shubzsharma.com
 
-Shubz Sharma — personal site. Astro + React islands.
+Personal site. Astro + React islands. V5 "field notebook × terminal"
+design system.
 
-## Structure
+---
 
-```
-.
-├── astro.config.mjs           # Astro config (React + MDX + sitemap)
-├── package.json               # deps + scripts
-├── public/                    # static assets served as-is
-│   ├── assets/portrait.png
-│   ├── og/default.svg         # default Open Graph card
-│   ├── robots.txt
-│   └── uploads/               # CV PDF, etc.
-├── scripts/                   # cross-post tooling
-│   ├── export-markdown.js     # essay → .md (NB: needs porting after MDX migration)
-│   └── capture-figures.js     # diagram screenshots via Puppeteer
-├── src/
-│   ├── components/
-│   │   ├── legacy.tsx         # bulk-extracted React app (essays + diagrams + chrome)
-│   │   └── pages/AppShell.tsx # routes the legacy app via {page, slug} props
-│   ├── data/                  # palette, posts, seasonal — typed TS modules
-│   ├── layouts/BaseLayout.astro  # head, meta, OG, canonical, JSON-LD
-│   ├── pages/                 # one Astro page per route
-│   │   ├── index.astro        # /
-│   │   ├── writing.astro      # /writing/
-│   │   ├── work.astro         # /work/
-│   │   ├── now.astro          # /now/
-│   │   ├── contact.astro      # /contact/
-│   │   └── [slug].astro       # /<essay>/  (one per POSTS entry)
-│   └── styles/global.css      # site-wide CSS (palette vars, base, responsive)
-└── .github/workflows/         # cross-post export action
-```
+## Editing content (start here)
+
+**[`EDITING.md`](./EDITING.md)** — the contributor cheat-sheet. It maps
+every visible piece of the site to the file you'd edit to change it
+(home page → `src/data/home.ts`, essays → `src/components/essays/*.tsx`,
+etc.). Common tasks (add an essay, swap a thumbnail, update /now,
+change a category colour) have step-by-step recipes there.
+
+**Quick map:**
+
+| Page on the site                              | File to edit                            |
+|-----------------------------------------------|------------------------------------------|
+| `/` homepage                                   | [`src/data/home.ts`](./src/data/home.ts)     |
+| `/writing/` essay index                        | [`src/data/writing.ts`](./src/data/writing.ts) + [`src/data/posts.ts`](./src/data/posts.ts) |
+| `/work/` annotated CV                          | [`src/data/work.ts`](./src/data/work.ts)     |
+| `/now/` current focus + journal                | [`src/data/now.ts`](./src/data/now.ts)       |
+| `/contact/` channels + compose form            | [`src/data/contact.ts`](./src/data/contact.ts) |
+| `/<essay-slug>/` essay body                    | `src/components/essays/<Name>Essay.tsx` |
+| Home "latest" row (LinkedIn / GH heatmap)      | [`src/data/social.ts`](./src/data/social.ts) |
+| Polaroid thumbnails                            | `public/thumbs/<slug>.jpg` + register in `posts.ts` |
+| Resume PDF                                     | `public/uploads/Shubhangi-Sharma-Resume-…pdf` |
+
+Page components in `src/components/pages/*V5.tsx` are pure renderers —
+they import from the `src/data/*.ts` files. **Edit the data file**;
+the page picks the change up automatically.
+
+---
+
+## Documentation map
+
+- **[`EDITING.md`](./EDITING.md)** — how to edit any piece of content
+  (recipes + quick-map table). The contributor-facing entry point.
+- **[`AGENTS.md`](./AGENTS.md)** — voice + diagram rules. Read before
+  writing prose. British English, drop-cap lede, sidenotes, place-stamped
+  closing line, "no LLM-default phrasings," etc. Cross-vendor convention
+  for AI agents (Claude Code, Cursor, Aider, Copilot).
+- **[`CLAUDE.md`](./CLAUDE.md)** — Claude-specific intro that points at
+  the other three docs. Mostly redirects to `AGENTS.md` for voice and
+  `DECISIONS-v5.md` for the colour system.
+- **[`DECISIONS-v5.md`](./DECISIONS-v5.md)** — canonical reference for
+  the V5 design system. The 10 topic categories + colour mapping +
+  per-page accent rules + reversibility notes. Read §14 before
+  introducing any new colour or topic.
+
+---
 
 ## Local development
 
@@ -40,12 +58,23 @@ npm install
 npm run dev               # localhost:4321
 npm run build             # static dist/
 npm run preview           # serve dist/ locally
+npm run typecheck         # astro check (TS + JSX)
 ```
+
+---
 
 ## Deploy
 
-Vercel auto-detects Astro from `package.json` + `astro.config.mjs`. Push to
-`main` → preview/production deploy. No further config needed.
+Vercel auto-detects Astro from `package.json` + `astro.config.mjs`. Push
+to `main` → production deploy. Push to any other branch → preview
+deploy at `personal-site-git-<branch>-…vercel.app`.
+
+If a Vercel deploy fails with "commit author email not valid," ensure
+your git `user.email` is one of the emails linked to the GitHub account
+that owns the repo (Settings → Emails). The repo expects
+`shubhangixsharma@gmail.com`.
+
+---
 
 ## Cross-post tooling
 
@@ -55,21 +84,36 @@ npm run export:figures    # exported/figures/<slug>-NN.png (Puppeteer)
 npm run export:all        # both
 ```
 
-A GitHub Action (`.github/workflows/export-essays.yml`) wraps the same
-commands and uploads the result as a downloadable artifact.
+`.github/workflows/export-essays.yml` wraps the same commands and
+uploads the result as a downloadable artefact.
 
-## Design language
+---
 
-Voice and conventions live in [`AGENTS.md`](./AGENTS.md). Anyone (human or
-agent) editing prose, adding an essay, or building a new diagram should read
-it first. `CLAUDE.md` redirects to the same file.
+## Architecture (one paragraph)
 
-## Migration notes
+Astro pages in `src/pages/*.astro` are thin layout wrappers. Each mounts
+a single React island (`<AppShell page="…">`) defined in
+`src/components/pages/AppShell.tsx`. AppShell dispatches to per-page
+React components (`HomeV5`, `WritingIndexV5`, `WorkV5`, `NowV5`,
+`ContactV5`, `ArticleV5`). Those components are pure renderers — they
+import content from `src/data/<page>.ts` and chrome primitives from
+`src/components/chrome/NB.tsx`. V4 pages still exist in
+`src/components/pages/*V4.tsx`, gated behind a single `USE_V5` flag in
+AppShell. Flip it to `false` and the site reverts to the pre-V5 design
+without touching any other file.
 
-- `src/components/legacy.tsx` is the bulk-extracted React app from the old
-  single-file `index.html`. It SSRs cleanly through Astro's React integration
-  so the static HTML at each route contains the real prose (good for SEO).
-  Hydration via `client:load` on `<AppShell />` keeps everything interactive.
-- Phase 2: split `legacy.tsx` into proper `src/components/{chrome,diagrams,
-  pages}/*.tsx` modules and convert each essay to MDX in
-  `src/content/essays/`. Tracked in TODO.
+---
+
+## V5 colour system (one paragraph)
+
+The site uses **10 canonical topic categories**, each owning one of 10
+NB pens. Every essay, project, skill, and chip rolls up to exactly one
+category and inherits its pen colour:
+
+1. AI safety (blue) · 2. AI/ML (purple) · 3. Mathematics (magenta) ·
+4. Physics (prompt-green) · 5. Biotech (red) · 6. Geospatial (teal) ·
+7. fintech (ochre) · 8. Hardware (cyan) · 9. Infrastructure (yellow) ·
+10. Outreach (orange).
+
+Full rules in [`DECISIONS-v5.md §14`](./DECISIONS-v5.md). Don't invent
+new accents; reuse one of the ten.
