@@ -75,6 +75,7 @@ const WORK_TOOLBOX: ToolGroup[] = [
     { name: "TypeScript", links: [
       { label: "this site repo", href: PERSONAL_SITE_REPO },
       { label: "six engines (TS + FastAPI rebuild)", href: "/six-engines/" },
+      { label: "fashion-web", href: "https://fashion-web-psi.vercel.app" },
     ] },
     { name: "R", links: [
       { label: "taylor rec (original R/Shiny) · CV", href: CV_PDF },
@@ -86,17 +87,24 @@ const WORK_TOOLBOX: ToolGroup[] = [
     { name: "SQL · PostgreSQL", links: [{ label: "jobsforher backend · CV", href: CV_PDF }] },
   ] },
   { group: "Tools", primary: "teal", items: [
-    { name: "Astro · React islands",     links: [{ label: "this site repo", href: PERSONAL_SITE_REPO }] },
-    { name: "AWS · EC2 · S3 · CloudWatch", links: [{ label: "jobsforher deploy + monitor · CV", href: CV_PDF }] },
-    { name: "Tableau",                   links: [{ label: "kolhapur cultural mapping · CV", href: CV_PDF }] },
-    { name: "Flask",                     links: [{ label: "jobsforher web app · CV", href: CV_PDF }] },
-    { name: "Google APIs · Sheets",      links: [{ label: "student council awards automation · CV", href: CV_PDF }] },
-    { name: "Git · CI/CD",               links: [{ label: "all engineering work · /work", href: "/work/" }] },
-    { name: "Web scraping",              links: [
+    { name: "Astro · React islands",         links: [{ label: "this site repo", href: PERSONAL_SITE_REPO }] },
+    { name: "Next.js · Supabase · Resend",   links: [{ label: "platypus-learn (deployed)", href: "https://platypus-learn.vercel.app" }] },
+    { name: "Vercel",                        links: [
+      { label: "platypus-learn", href: "https://platypus-learn.vercel.app" },
+      { label: "fashion-web", href: "https://fashion-web-psi.vercel.app" },
+      { label: "taylor rec engine", href: "https://shubz-taylor-recommendation-engine.vercel.app" },
+    ] },
+    { name: "AWS · EC2 · S3 · CloudWatch · SNS", links: [{ label: "jobsforher deploy + monitor · CV", href: CV_PDF }] },
+    { name: "ETL · data pipelines",          links: [{ label: "orion · multi-source ingestion · /work", href: "/work/" }] },
+    { name: "Tableau",                       links: [{ label: "kolhapur cultural mapping · CV", href: CV_PDF }] },
+    { name: "Flask",                         links: [{ label: "jobsforher web app · CV", href: CV_PDF }] },
+    { name: "Google APIs · Sheets",          links: [{ label: "student council awards automation · CV", href: CV_PDF }] },
+    { name: "Git · CI/CD",                   links: [{ label: "all engineering work · /work", href: "/work/" }] },
+    { name: "Web scraping",                  links: [
       { label: "merger NLP · CV", href: CV_PDF },
       { label: "natter data collection · CV", href: CV_PDF },
     ] },
-    { name: "D3 · hand-rolled SVG",      links: [
+    { name: "D3 · hand-rolled SVG",          links: [
       { label: "all essay diagrams", href: "/writing/" },
       { label: "jaya figures", href: "/jaya/" },
     ] },
@@ -116,6 +124,7 @@ const WORK_TOOLBOX: ToolGroup[] = [
       { label: "positive by how much", href: "/threshold-gate/" },
       { label: "cells that can't exist", href: "/constraint-clustering/" },
     ] },
+    { name: "statsmodels · Holt-Winters", links: [{ label: "fashion-web composite signal", href: "https://fashion-web-psi.vercel.app" }] },
     { name: "SpaCy · NLTK · Gensim · TextBlob", links: [{ label: "flipkart-walmart merger NLP · CV", href: CV_PDF }] },
     { name: "PyHDF · NetCDF",           links: [{ label: "INSAT-3D cloud detection · CV", href: CV_PDF }] },
     { name: "ggplot · dplyr · tidyr · shiny · purrr", links: [{ label: "taylor rec (R/Shiny) · CV", href: CV_PDF }] },
@@ -124,8 +133,16 @@ const WORK_TOOLBOX: ToolGroup[] = [
   { group: "ML / Data", primary: "purple", items: [
     { name: "Feature selection (JAYA-style)",      links: [{ label: "jaya, improved", href: "/jaya/" }] },
     { name: "Genetic algorithms · crossover/mutation", links: [{ label: "jaya, improved", href: "/jaya/" }] },
-    { name: "Constrained clustering",   links: [{ label: "cells that can't exist", href: "/constraint-clustering/" }] },
+    { name: "Constrained · spectral clustering",   links: [{ label: "cells that can't exist", href: "/constraint-clustering/" }] },
     { name: "Automated thresholding",   links: [{ label: "positive by how much", href: "/threshold-gate/" }] },
+    { name: "Anomaly detection",        links: [{ label: "orion · ML over H3 indexing · /work", href: "/work/" }] },
+    { name: "Confidence-weighted signal fusion", links: [{ label: "orion · multi-source fusion · /work", href: "/work/" }] },
+    { name: "Time-series forecasting",  links: [{ label: "fashion-web (Holt-smoothed composite)", href: "https://fashion-web-psi.vercel.app" }] },
+    { name: "Calibration · Brier scoring", links: [{ label: "fashion-web (house predictions)", href: "https://fashion-web-psi.vercel.app" }] },
+    { name: "Image processing",         links: [
+      { label: "INSAT-3D cloud detection · CV", href: CV_PDF },
+      { label: "MFoCS thesis · multiplex IF", href: "/threshold-gate/" },
+    ] },
     { name: "Recommendation systems",   links: [
       { label: "six engines", href: "/six-engines/" },
       { label: "natter user matching · CV", href: CV_PDF },
@@ -136,6 +153,21 @@ const WORK_TOOLBOX: ToolGroup[] = [
     { name: "Regression modelling",     links: [{ label: "honours thesis · GNSS water vapour · CV", href: CV_PDF }] },
     { name: "LMSR prediction markets",  links: [{ label: "pricing the next scarf", href: "/fashion-trends/" }] },
     { name: "Geospatial ML · H3 indexing", links: [{ label: "orion (founding) · /work", href: "/work/" }] },
+  ] },
+  { group: "AI / LLM tooling", primary: "yellow", items: [
+    { name: "Claude API · Anthropic SDK",        links: [
+      { label: "platypus-learn (PDFs/videos → courses)", href: "https://platypus-learn.vercel.app" },
+      { label: "used to redesign fashion-web · /now", href: "/now/" },
+    ] },
+    { name: "Gemini API (2.5 Flash)",            links: [{ label: "fashion-web outfit recognition", href: "https://fashion-web-psi.vercel.app" }] },
+    { name: "Prompt engineering · tool schemas", links: [{ label: "orion search system · /now", href: "/now/" }] },
+    { name: "Few-shot disambiguation",           links: [{ label: "orion search · few-shot · /now", href: "/now/" }] },
+    { name: "Decision-tree system prompts",      links: [{ label: "orion search system · /now", href: "/now/" }] },
+    { name: "LLM evaluation · output testing",   links: [{ label: "orion search rewrites · /now", href: "/now/" }] },
+    { name: "AI safety / alignment",             links: [
+      { label: "bluedot AGI strategy cohort · /now", href: "/now/" },
+      { label: "a unit on bending the curve", href: "/bluedot-unit1/" },
+    ] },
   ] },
   { group: "Physics", primary: "cyan", items: [
     { name: "Quantum Information",         links: [
@@ -151,13 +183,19 @@ const WORK_TOOLBOX: ToolGroup[] = [
     { name: "Computational Game Theory",   links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
     { name: "Geometric Deep Learning",     links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
     { name: "Graph Theory",                links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
+    { name: "Category Theory",             links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
     { name: "Algorithmic Collective Decision Making", links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
     { name: "Computational Complexity",    links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
+    { name: "Compiler · VM design",        links: [{ label: "Nand2Tetris (all 13 projects) · /work", href: "/work/" }] },
+    { name: "HDL · gate-level design",     links: [{ label: "Nand2Tetris (NAND → computer) · /work", href: "/work/" }] },
     { name: "UI / UX design",              links: [
       { label: "this site", href: "/" },
       { label: "Kurukshetra fest pages · CV", href: CV_PDF },
       { label: "PrintedCraft CMS · CV", href: CV_PDF },
     ] },
+    { name: "Digital marketing · SEO · Google/Facebook Ads", links: [{ label: "PrintedCraft (Google front-page) · CV", href: CV_PDF }] },
+    { name: "Graphic · product design",    links: [{ label: "PrintedCraft (100+ designs) · CV", href: CV_PDF }] },
+    { name: "Qualitative · cultural research", links: [{ label: "kolhapur · Discover India Project · CV", href: CV_PDF }] },
     { name: "Cryptography",                links: [{ label: "cipher program (5-layer) · CV", href: CV_PDF }] },
     { name: "IoT",                         links: [{ label: "IoT weather bot · CV", href: CV_PDF }] },
     { name: "Bioinformatics",              links: [
@@ -183,6 +221,27 @@ const WORK_TOOLBOX: ToolGroup[] = [
     ] },
     { name: "DBS-checked (UK)",                  links: [
       { label: "cleared for under-18s work · /work", href: "/work/" },
+    ] },
+    { name: "Research writing · academic papers", links: [
+      { label: "IEEE ICCUBEA-2025 Best Paper · /work", href: "/work/" },
+      { label: "INBIX'22 poster PP-28 · /work", href: "/work/" },
+      { label: "MFoCS thesis · biomarkers · /work", href: "/work/" },
+      { label: "BSc honours thesis · GNSS · CV", href: CV_PDF },
+    ] },
+    { name: "Conference presentations",          links: [
+      { label: "INBIX'22 (VFSTR) · CV", href: CV_PDF },
+      { label: "IEEE ICCUBEA-2025 · /work", href: "/work/" },
+    ] },
+    { name: "Event organising · community building", links: [
+      { label: "Dotslash (100+ attendees / event) · CV", href: CV_PDF },
+      { label: "UnisphereCo (200+ attendees / session) · CV", href: CV_PDF },
+      { label: "Kurukshetra inter-collegiate fest · CV", href: CV_PDF },
+    ] },
+    { name: "Cross-cultural collaboration",      links: [
+      { label: "India ↔ UK working contexts · /work", href: "/work/" },
+    ] },
+    { name: "Technical documentation",           links: [
+      { label: "Natter — docs + stakeholder presentations · CV", href: CV_PDF },
     ] },
     { name: "Stakeholder communication",         links: [
       { label: "Natter — docs + cross-team presentations · CV", href: CV_PDF },

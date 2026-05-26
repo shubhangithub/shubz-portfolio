@@ -50,28 +50,35 @@ type ToolGroup = { group: string; primary: string; items: { name: string; links:
 
 const HOME_TOOLBOX: ToolGroup[] = [
   { group: "Languages", primary: "blue", items: [
-    { name: "Python",     links: [{ label: "jaya, improved", href: "/jaya/" }, { label: "six engines", href: "/six-engines/" }] },
+    { name: "Python",     links: [{ label: "jaya", href: "/jaya/" }, { label: "six engines", href: "/six-engines/" }] },
     { name: "TypeScript", links: [{ label: "this site", href: "https://github.com/shubhangithub/personal-site" }, { label: "fashion-web", href: "https://fashion-web-psi.vercel.app" }] },
+    { name: "Rust · Golang", links: [{ label: "orion · /work", href: "/work/" }] },
     { name: "R",          links: [{ label: "taylor rec (original) · CV", href: CV_PDF }] },
-    { name: "C++",        links: [{ label: "IoT weather bot · CV", href: CV_PDF }] },
   ] },
   { group: "Tools", primary: "teal", items: [
-    { name: "Astro · React islands", links: [{ label: "this site repo", href: "https://github.com/shubhangithub/personal-site" }] },
-    { name: "AWS · EC2 · S3",        links: [{ label: "jobsforher backend · CV", href: CV_PDF }] },
-    { name: "Tableau",               links: [{ label: "kolhapur cultural mapping · CV", href: CV_PDF }] },
-    { name: "Git · CI/CD",           links: [{ label: "annotated CV", href: "/work/" }] },
+    { name: "Astro · React islands",       links: [{ label: "this site repo", href: "https://github.com/shubhangithub/personal-site" }] },
+    { name: "Next.js · Supabase · Resend", links: [{ label: "platypus-learn", href: "https://platypus-learn.vercel.app" }] },
+    { name: "AWS · EC2 · S3",              links: [{ label: "jobsforher backend · CV", href: CV_PDF }] },
+    { name: "ETL · data pipelines",        links: [{ label: "orion · /work", href: "/work/" }] },
   ] },
   { group: "Libraries", primary: "orange", items: [
     { name: "NumPy · SciPy · Pandas", links: [{ label: "jaya", href: "/jaya/" }] },
     { name: "PyTorch · scikit-learn", links: [{ label: "positive by how much", href: "/threshold-gate/" }] },
     { name: "SpaCy · NLTK · Gensim",  links: [{ label: "merger NLP · CV", href: CV_PDF }] },
-    { name: "ggplot · shiny · dplyr", links: [{ label: "taylor rec (R/Shiny) · CV", href: CV_PDF }] },
+    { name: "statsmodels · Holt-Winters", links: [{ label: "fashion-web composite", href: "https://fashion-web-psi.vercel.app" }] },
   ] },
   { group: "ML / Data", primary: "purple", items: [
-    { name: "Feature selection (JAYA)",     links: [{ label: "jaya, improved", href: "/jaya/" }] },
+    { name: "Anomaly detection · H3",       links: [{ label: "orion · /work", href: "/work/" }] },
     { name: "Recommendation systems",       links: [{ label: "six engines", href: "/six-engines/" }] },
-    { name: "Sentiment + theme extraction", links: [{ label: "merger NLP · CV", href: CV_PDF }] },
+    { name: "Time-series · forecasting",    links: [{ label: "fashion-web", href: "https://fashion-web-psi.vercel.app" }] },
     { name: "LMSR markets",                 links: [{ label: "pricing the next scarf", href: "/fashion-trends/" }] },
+    { name: "Feature selection (JAYA)",     links: [{ label: "jaya, improved", href: "/jaya/" }] },
+  ] },
+  { group: "AI / LLM tooling", primary: "yellow", items: [
+    { name: "Claude API · Anthropic SDK",        links: [{ label: "platypus-learn · fashion-web redesign", href: "https://platypus-learn.vercel.app" }] },
+    { name: "Prompt engineering · few-shot",     links: [{ label: "orion search · /now", href: "/now/" }] },
+    { name: "Gemini API (2.5 Flash)",            links: [{ label: "fashion-web outfit photos", href: "https://fashion-web-psi.vercel.app" }] },
+    { name: "AI safety / alignment",             links: [{ label: "bluedot AGI cohort · bending the curve", href: "/bluedot-unit1/" }] },
   ] },
   { group: "Physics", primary: "cyan", items: [
     { name: "Quantum Information",        links: [{ label: "two colours and a Hadamard", href: "/zx-calculus/" }] },
@@ -81,14 +88,14 @@ const HOME_TOOLBOX: ToolGroup[] = [
   { group: "Other areas", primary: "ochre", items: [
     { name: "Computational Game Theory", links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
     { name: "Geometric Deep Learning",   links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
-    { name: "Cryptography",              links: [{ label: "cipher program · CV", href: CV_PDF }] },
+    { name: "Category Theory",           links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
     { name: "UI / UX",                   links: [{ label: "this site", href: "/" }] },
   ] },
   { group: "Soft skills", primary: "prompt", items: [
     { name: "Team leadership",                    links: [{ label: "Dotslash (10+) · Kolhapur · Council · CV", href: CV_PDF }] },
     { name: "Mentoring under-represented kids",   links: [{ label: "Stemmettes · InnovateHer", href: "/work/" }] },
+    { name: "Research writing · papers",          links: [{ label: "IEEE Best Paper · INBIX'22 · /work", href: "/work/" }] },
     { name: "DBS-checked (UK)",                   links: [{ label: "cleared for under-18s · /work", href: "/work/" }] },
-    { name: "Stakeholder communication",          links: [{ label: "natter docs + presentations · CV", href: CV_PDF }] },
   ] },
 ];
 

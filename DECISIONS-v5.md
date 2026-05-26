@@ -266,15 +266,16 @@ when the link points at an `/<slug>/` route — that preserves the
 "where this skill earned its place" provenance signal without scrambling
 the visual grouping.
 
-| Category    | Primary       | Reason                          |
-|-------------|---------------|---------------------------------|
-| Languages   | `blue`        | code-y / terminal-adjacent      |
-| Tools       | `teal`        | utility / infrastructure        |
-| Libraries   | `orange`      | warm / packaged-up              |
-| ML / Data   | `purple`      | analytical / modelling          |
-| Physics     | `cyan`        | atmospheric / quantum / cool    |
-| Other areas | `ochre`       | varied / academic               |
-| Soft skills | `prompt` (green) | people / growth / "okay" states |
+| Category         | Primary       | Reason                          |
+|------------------|---------------|---------------------------------|
+| Languages        | `blue`        | code-y / terminal-adjacent      |
+| Tools            | `teal`        | utility / infrastructure        |
+| Libraries        | `orange`      | warm / packaged-up              |
+| ML / Data        | `purple`      | analytical / modelling          |
+| AI / LLM tooling | `yellow`      | frontier / experimental         |
+| Physics          | `cyan`        | atmospheric / quantum / cool    |
+| Other areas      | `ochre`       | varied / academic               |
+| Soft skills      | `prompt` (green) | people / growth / "okay" states |
 
 **Every chip-link has a real href.** Resolution order:
 - `/<slug>/` where `<slug>` is a known essay → in-site essay route,
