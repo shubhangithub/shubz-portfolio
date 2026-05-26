@@ -231,7 +231,7 @@ export function HomeV5({
                             alt={p.imageAlt || p.text}
                             loading="lazy"
                             style={{
-                              width: 64, height: 64, objectFit: "cover",
+                              width: 110, height: 110, objectFit: "cover",
                               border: `1px solid ${c}55`,
                               borderRadius: 2,
                               flexShrink: 0,
