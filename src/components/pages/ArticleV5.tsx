@@ -14,7 +14,7 @@
  * in AppShell restores the original V4 article rendering.
  */
 import React from "react";
-import { POSTS, findPost } from "../../data/posts";
+import { POSTS, findPost, thumbUrlFor } from "../../data/posts";
 import { nbTheme } from "../../data/palette";
 import { useIsMobile } from "../../lib/hooks";
 import {
@@ -22,7 +22,7 @@ import {
   MayEssay, SixEnginesEssay, ThresholdEssay, ZXEssay, essayMeta,
 } from "../legacy";
 import {
-  NBPageShell, NBLastUpdated, NBPrompt,
+  NBPageShell, NBLastUpdated, NBPrompt, NBThumb, NBThumbtack,
 } from "../chrome/NB";
 
 type NavFn = (page: string, slug?: string | null) => void;
@@ -211,6 +211,56 @@ export function ArticleV5({
           width: "100%",
         }}>
           <Body palette={essayPalette} />
+
+          {/* Related — driven by `post.related` slug list in posts.ts. Hidden if empty. */}
+          {post.related && post.related.length > 0 && (() => {
+            const relatedPosts = post.related
+              .map((s: string) => findPost(s))
+              .filter((p: any) => p && p.slug !== post.slug);
+            if (relatedPosts.length === 0) return null;
+            return (
+              <section style={{ marginTop: 48, paddingTop: 26, borderTop: `1px solid ${t.muted}55` }}>
+                <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="ls ../related/" comment={`${relatedPosts.length} essays`} accent={t.yellow} />
+                <h2 className="sr-only">Related essays</h2>
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: isMobile ? "1fr" : `repeat(${Math.min(relatedPosts.length, 3)}, 1fr)`,
+                  gap: 16,
+                  marginTop: 14,
+                }}>
+                  {relatedPosts.map((rp: any) => {
+                    const accent = t[rp.nbAccent || "blue"];
+                    return (
+                      <a key={rp.slug}
+                        href={`/${rp.slug}/`}
+                        onClick={(e) => { e.preventDefault(); onNavigate("essay", rp.slug); }}
+                        style={{
+                          padding: 14, border: `1px solid ${t.muted}55`, background: t.paper2,
+                          textDecoration: "none", color: "inherit",
+                          display: "flex", flexDirection: "column", gap: 8,
+                        }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          <NBThumbtack color={accent} ink={t.ink} size={12} />
+                          <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: accent, letterSpacing: "0.06em" }}>
+                            {rp.kicker.replace(/^(Essay|Note)\s*·\s*/i, "").toLowerCase()}
+                          </span>
+                        </div>
+                        <div style={{ fontFamily: "var(--f-display)", fontStyle: "italic", fontSize: 18, color: accent, lineHeight: 1.2 }}>
+                          {rp.title}
+                        </div>
+                        <div style={{ fontFamily: "var(--f-body)", fontSize: 13, color: t.softInk, lineHeight: 1.5 }}>
+                          {rp.dek}
+                        </div>
+                        <div style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, marginTop: "auto" }}>
+                          {rp.minutes} min · ↗ read
+                        </div>
+                      </a>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })()}
 
           {/* Prev / next */}
           {(prev || next) && (

@@ -182,10 +182,10 @@ export function HomeV5({
               padding: "14px 16px",
               borderRadius: 3,
             }}>
-              <div className="caps" style={{
+              <h2 className="caps" style={{
                 fontFamily: "var(--f-ui)", fontSize: 10, letterSpacing: "0.14em",
-                color: t.muted, marginBottom: 12,
-              }}>LATEST · SOCIAL</div>
+                color: t.muted, marginBottom: 12, marginTop: 0, fontWeight: "inherit",
+              }}>LATEST · SOCIAL</h2>
               {SOCIAL_POSTS.length === 0 ? (
                 <div style={{ fontFamily: "var(--f-body)", fontStyle: "italic", color: t.softInk, fontSize: 14 }}>
                   Nothing here yet. Edit <span className="mono" style={{ color: t.muted }}>src/data/social.ts</span> to add entries.
@@ -285,7 +285,9 @@ export function HomeV5({
           {/* §03 PINNED WRITING — first 3 from POSTS. */}
           <NBPrompt t={t} cmd="ls ./writing/pinned/" comment={HOME_PINNED_COMMENT} accent={t.yellow} />
           <div className="caps" style={{ fontFamily: "var(--f-ui)", color: t.muted, fontSize: 11, marginBottom: 14, letterSpacing: "0.16em", display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
-            <span><span style={{ color: t.prompt }}>§03</span>&nbsp;&nbsp;{HOME_PINNED_LABEL.replace(/^§(02|03)\s*/, "")}</span>
+            <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "inherit", letterSpacing: "inherit", color: "inherit", fontWeight: "inherit", textTransform: "inherit" }}>
+              <span style={{ color: t.prompt }}>§03</span>&nbsp;&nbsp;{HOME_PINNED_LABEL.replace(/^§(02|03)\s*/, "")}
+            </h2>
             <a href="/writing/" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} style={{ color: t.blue, fontFamily: "var(--f-mono)", textDecoration: "none" }}>{HOME_VIEW_ALL_TEXT(POSTS.length)}</a>
           </div>
           <ol style={{ listStyle: "none", padding: 0, margin: "0 0 44px" }}>
@@ -310,7 +312,7 @@ export function HomeV5({
                   </span>
                 </a>
                 {!isMobile && (
-                  <NBThumb t={t} accent={e.c} label={e.kicker.split(/[\s&]+/)[0]} tilt={i % 2 === 0 ? -2 : 2.2} w={130} h={96} src={thumbUrlFor(e.slug)} />
+                  <NBThumb t={t} accent={e.c} label={e.kicker.split(/[\s&]+/)[0]} alt={`Thumbnail for ${e.title}`} tilt={i % 2 === 0 ? -2 : 2.2} w={130} h={96} src={thumbUrlFor(e.slug)} />
                 )}
                 <a href={`/${e.slug}/`} onClick={(ev) => { ev.preventDefault(); onNavigate("essay", e.slug); }} style={{ fontFamily: "var(--f-mono)", color: e.c, fontSize: 12, textDecoration: "none", whiteSpace: "nowrap" }}>↗ read</a>
               </li>
@@ -319,6 +321,7 @@ export function HomeV5({
 
           {/* §04 BUILDS — HOME_BUILDS list. */}
           <NBPrompt t={t} cmd="cat ./builds.md" comment="selected" accent={t.orange} />
+          <h2 className="sr-only">Selected builds</h2>
           <div style={{
             border: `2px solid ${t.ink}`,
             padding: isMobile ? "14px 16px" : "18px 22px",
@@ -355,6 +358,7 @@ export function HomeV5({
 
           {/* §05 TOOLBOX — condensed teaser. Full taxonomy on /work#toolbox. */}
           <NBPrompt t={t} cmd="cat ./toolbox.md" comment="what built what" accent={t.yellow} />
+          <h2 className="sr-only">Toolbox</h2>
           <div style={{
             border: `2px solid ${t.ink}`,
             padding: isMobile ? "18px 16px" : "22px 26px 26px",
@@ -448,7 +452,7 @@ export function HomeV5({
               Reuses the same JPG as /contact (public/contact-portrait.jpg). */}
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 24, position: "relative" }}>
             <div style={{ position: "relative" }}>
-              <NBThumb t={t} accent={t.orange} label="shubz" w={130} h={130} tilt={2} src="/contact-portrait.jpg" />
+              <NBThumb t={t} accent={t.orange} label="shubz" alt="Portrait of Shubhangi Sharma" w={130} h={130} tilt={2} src="/contact-portrait.jpg" />
               <div style={{ position: "absolute", top: -6, right: 14 }}>
                 <NBThumbtack color={t.orange} ink={t.ink} size={14} />
               </div>

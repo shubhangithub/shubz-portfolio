@@ -201,7 +201,7 @@ export function ContactV5({
           {/* Portrait polaroid — pinned at the top of the rail. */}
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 28, position: "relative" }}>
             <div style={{ position: "relative" }}>
-              <NBThumb t={t} accent={t.orange} label="shubz" w={180} h={180} tilt={-1.8} src="/contact-portrait.jpg" />
+              <NBThumb t={t} accent={t.orange} label="shubz" alt="Portrait of Shubhangi Sharma" w={180} h={180} tilt={-1.8} src="/contact-portrait.jpg" />
               <div style={{ position: "absolute", top: -6, right: 18 }}>
                 <NBThumbtack color={t.orange} ink={t.ink} size={16} />
               </div>

@@ -40,6 +40,16 @@ export type Post = {
     | "outreach";   // orange — mentoring, leadership, STEM-ed, comms
   /** V5 — per-essay accent key into NB_LIGHT/NB_DARK in palette.ts. */
   nbAccent?: NBAccentKey;
+  /** ISO date the essay was published. Drives Article schema `datePublished`
+   *  and the article:published_time OG meta. Format: "YYYY-MM-DD". */
+  publishedAt?: string;
+  /** ISO date the essay was substantively revised. Drives Article schema
+   *  `dateModified`. Leave unset if never revised; the schema falls back
+   *  to `publishedAt`. */
+  updatedAt?: string;
+  /** Slugs of related essays to surface in the "Related" block on the
+   *  article page. Max 3. Pick by family adjacency + topical overlap. */
+  related?: string[];
 };
 
 export const POSTS: Post[] = [
@@ -55,6 +65,7 @@ export const POSTS: Post[] = [
     tag: "ai safety",
     family: "ai-safety",
     nbAccent: "blue",
+    publishedAt: "2026-05-20",
   },
   {
     slug: "zx-calculus",
@@ -68,6 +79,8 @@ export const POSTS: Post[] = [
     tag: "physics",
     family: "physics",
     nbAccent: "prompt",
+    publishedAt: "2025-09-15",
+    related: ["threshold-gate", "constraint-clustering"],
   },
   {
     slug: "jaya",
@@ -81,6 +94,8 @@ export const POSTS: Post[] = [
     tag: "biology",
     family: "ml-research",
     nbAccent: "purple",
+    publishedAt: "2025-08-10",
+    related: ["threshold-gate", "constraint-clustering"],
   },
   {
     slug: "fashion-trends",
@@ -94,6 +109,8 @@ export const POSTS: Post[] = [
     tag: "forecasting",
     family: "markets",
     nbAccent: "ochre",
+    publishedAt: "2026-04-15",
+    related: ["six-engines"],
   },
   {
     slug: "threshold-gate",
@@ -107,6 +124,8 @@ export const POSTS: Post[] = [
     tag: "biology",
     family: "biotech",
     nbAccent: "red",
+    publishedAt: "2025-09-20",
+    related: ["constraint-clustering", "jaya"],
   },
   {
     slug: "constraint-clustering",
@@ -120,6 +139,8 @@ export const POSTS: Post[] = [
     tag: "biology",
     family: "biotech",
     nbAccent: "red",
+    publishedAt: "2025-10-12",
+    related: ["threshold-gate", "jaya"],
   },
   {
     slug: "six-engines",
@@ -133,6 +154,8 @@ export const POSTS: Post[] = [
     tag: "ml",
     family: "markets",
     nbAccent: "ochre",
+    publishedAt: "2026-01-22",
+    related: ["fashion-trends"],
   },
   {
     slug: "may-2026",
@@ -146,6 +169,8 @@ export const POSTS: Post[] = [
     tag: "ecology",
     family: "biotech",
     nbAccent: "red",
+    publishedAt: "2026-05-01",
+    related: ["threshold-gate", "constraint-clustering"],
   },
 ];
 

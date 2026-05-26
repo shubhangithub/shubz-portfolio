@@ -291,6 +291,7 @@ export function NBThumb({
   t,
   accent,
   label = "img",
+  alt,
   w = 120,
   h = 88,
   tilt = -1.5,
@@ -299,6 +300,9 @@ export function NBThumb({
   t: any;
   accent: string;
   label?: string;
+  /** Descriptive alt text when `src` is set. Defaults to `label`. Empty
+   *  string ("") marks the image as decorative. */
+  alt?: string;
   w?: number;
   h?: number;
   tilt?: number;
@@ -318,12 +322,20 @@ export function NBThumb({
       <div style={{
         width: w, height: h,
         background: src
-          ? `center / cover no-repeat url(${src})`
+          ? "transparent"
           : `repeating-linear-gradient(135deg, ${accent}26 0px, ${accent}26 2px, transparent 2px, transparent 7px), ${accent}10`,
         border: `1px solid ${accent}55`,
         position: "relative",
+        overflow: "hidden",
       }}>
-        {!src && (
+        {src ? (
+          <img
+            src={src}
+            alt={alt ?? label}
+            loading="lazy"
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+        ) : (
           <span style={{
             position: "absolute", inset: 0, display: "grid", placeItems: "center",
             fontFamily: "var(--f-mono)", fontSize: 9, color: accent, letterSpacing: "0.06em",

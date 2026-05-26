@@ -12,16 +12,23 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 
-const jsonLd = {
+const jsonLd: Record<string, unknown> = {
   "@context": "https://schema.org",
   "@type": "Article",
   headline: post.title,
   description: post.dek,
+  inLanguage: "en-GB",
   author: { "@type": "Person", name: "Shubhangi Sharma", url: "https://shubzsharma.com" },
   publisher: { "@type": "Person", name: "Shubhangi Sharma" },
   url: `https://shubzsharma.com/${post.slug}/`,
   mainEntityOfPage: `https://shubzsharma.com/${post.slug}/`,
+  image: `https://shubzsharma.com/og/${post.slug}.svg`,
 };
+
+if (post.publishedAt) {
+  jsonLd.datePublished = post.publishedAt;
+  jsonLd.dateModified = post.updatedAt ?? post.publishedAt;
+}
 ---
 
 <BaseLayout
@@ -30,6 +37,7 @@ const jsonLd = {
   canonicalPath={`/${post.slug}/`}
   ogType="article"
   ogImage={`/og/${post.slug}.svg`}
+  publishedTime={post.publishedAt}
   jsonLd={jsonLd}
 >
   <AppShell page="essay" slug={post.slug} client:load />
