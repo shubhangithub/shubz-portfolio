@@ -11,7 +11,7 @@
  * (net-new V5 content; no existing data source). Filtering is local state.
  */
 import React from "react";
-import { POSTS } from "../../data/posts";
+import { POSTS, thumbUrlFor } from "../../data/posts";
 import { nbTheme } from "../../data/palette";
 import { useIsMobile } from "../../lib/hooks";
 import {
@@ -175,7 +175,24 @@ export function WritingIndexV5({
                   </div>
                 </div>
                 {!isMobile && (
-                  <NBDiagramPlaceholder t={t} accent={featured.c} h={"100%"} label={featured.kicker} />
+                  thumbUrlFor(featured.slug) ? (
+                    <div style={{
+                      position: "relative",
+                      overflow: "hidden",
+                      borderLeft: `1px solid ${featured.c}55`,
+                    }}>
+                      <img
+                        src={thumbUrlFor(featured.slug)}
+                        alt={featured.title}
+                        style={{
+                          width: "100%", height: "100%",
+                          objectFit: "cover", display: "block",
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <NBDiagramPlaceholder t={t} accent={featured.c} h={"100%"} label={featured.kicker} />
+                  )
                 )}
               </a>
             </div>
@@ -205,7 +222,7 @@ export function WritingIndexV5({
                   </span>
                 </a>
                 {!isMobile && (
-                  <NBThumb t={t} accent={e.c} label={e.kicker.split(/[\s&]+/)[0]} tilt={i % 2 === 0 ? -1.8 : 2} w={110} h={82} />
+                  <NBThumb t={t} accent={e.c} label={e.kicker.split(/[\s&]+/)[0]} tilt={i % 2 === 0 ? -1.8 : 2} w={110} h={82} src={thumbUrlFor(e.slug)} />
                 )}
                 <a href={`/${e.slug}/`} onClick={(ev) => { ev.preventDefault(); onNavigate("essay", e.slug); }} style={{ fontFamily: "var(--f-mono)", color: e.c, fontSize: 12, textDecoration: "none", whiteSpace: "nowrap" }}>↗ read</a>
               </li>

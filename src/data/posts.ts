@@ -152,3 +152,21 @@ export const POSTS: Post[] = [
 export function findPost(slug: string): Post | undefined {
   return POSTS.find((p) => p.slug === slug);
 }
+
+/**
+ * Slugs whose polaroid thumbnail exists in `public/thumbs/<slug>.jpg`.
+ * Add a slug here after dropping its image in. HomeV5 + WritingIndexV5
+ * call `thumbUrlFor(slug)` to decide whether to render a real image or
+ * fall back to NBThumb's striped accent placeholder.
+ */
+export const ESSAY_THUMB_SLUGS: ReadonlySet<string> = new Set([
+  "bluedot-unit1",
+  "zx-calculus",
+  "jaya",
+  "fashion-trends",
+  "threshold-gate",
+]);
+
+export function thumbUrlFor(slug: string): string | undefined {
+  return ESSAY_THUMB_SLUGS.has(slug) ? `/thumbs/${slug}.jpg` : undefined;
+}

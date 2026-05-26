@@ -16,7 +16,7 @@
  *   and can flip back with a one-line edit.
  */
 import React from "react";
-import { POSTS } from "../../data/posts";
+import { POSTS, thumbUrlFor } from "../../data/posts";
 import { nbTheme, NB_LIGHT, NB_DARK } from "../../data/palette";
 import { useIsMobile } from "../../lib/hooks";
 import {
@@ -226,7 +226,7 @@ export function HomeV5({
                   </span>
                 </a>
                 {!isMobile && (
-                  <NBThumb t={t} accent={e.c} label={e.kicker.split(/[\s&]+/)[0]} tilt={i % 2 === 0 ? -2 : 2.2} w={130} h={96} />
+                  <NBThumb t={t} accent={e.c} label={e.kicker.split(/[\s&]+/)[0]} tilt={i % 2 === 0 ? -2 : 2.2} w={130} h={96} src={thumbUrlFor(e.slug)} />
                 )}
                 <a href={`/${e.slug}/`} onClick={(ev) => { ev.preventDefault(); onNavigate("essay", e.slug); }} style={{ fontFamily: "var(--f-mono)", color: e.c, fontSize: 12, textDecoration: "none", whiteSpace: "nowrap" }}>↗ read</a>
               </li>
