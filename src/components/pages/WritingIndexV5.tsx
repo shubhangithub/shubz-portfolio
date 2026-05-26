@@ -157,7 +157,7 @@ export function WritingIndexV5({
                 background: t.paper2,
                 border: `2px solid ${t.ink}`,
                 position: "relative",
-                minHeight: 280,
+                minHeight: isMobile ? 0 : 280,
                 textDecoration: "none",
                 color: "inherit",
               }}>

@@ -215,7 +215,7 @@ export function ContactV5({
           <pre style={{
             background: t.paper2, border: `1px solid ${t.rule}`,
             padding: "12px 14px", borderRadius: 3,
-            fontFamily: "var(--f-mono)", fontSize: 11, lineHeight: 1.8,
+            fontFamily: "var(--f-mono)", fontSize: 12, lineHeight: 1.8,
             color: t.softInk, margin: 0, whiteSpace: "pre-wrap",
           }}>{"{\n"}{Object.entries(CONTACT_PROTOCOL).map(([k, v], i, arr) => {
             const pad = " ".repeat(Math.max(0, 9 - k.length));
