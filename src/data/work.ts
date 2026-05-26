@@ -23,17 +23,17 @@ export const PERSONAL_SITE_REPO = "https://github.com/shubhangithub/personal-sit
 // HERO
 // ---------------------------------------------------------------------------
 export const WORK_HERO: Span[] = [
-  "Things I've ",
-  { em: "built", c: "yellow" },
-  " and ",
-  { em: "almost", c: "yellow" },
-  " finished.",
+  "Roles, ",
+  { em: "builds", c: "yellow" },
+  ", and the ",
+  { em: "toolbox", c: "yellow" },
+  " behind them.",
 ];
 
 /** Lede sentence under the H1. The `pdfLink` substring is rendered as
  *  a link to CV_PDF; the rest is plain text. */
 export const WORK_LEDE_PARTS = {
-  before: "The CV with marginalia. Each entry has a footnote — what I actually did, what I would change, what I learned. Available as ",
+  before: "The CV with marginalia. Each entry has a footnote. Available as ",
   pdfLink: "PDF",
   after: " for the more conventional version.",
 };
