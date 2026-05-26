@@ -11,7 +11,13 @@
  * content invented here — pure styling layer.
  */
 import React from "react";
-import { FOCUSES, JOURNAL, CONDITIONS } from "../../data/now";
+import {
+  FOCUSES, JOURNAL, CONDITIONS,
+  NOW_HERO_LINES, NOW_LEDE_PREFIX, NOW_LEDE_LINK_TEXT, NOW_LEDE_LINK_URL, NOW_LEDE_SUFFIX,
+  NOW_MARGINALIA, NOW_LAST_UPDATED_LABEL, NOW_LAST_UPDATED_DATE,
+  NOW_TELEMETRY, NOW_CADENCE_LABEL,
+  type Span,
+} from "../../data/now";
 import { nbTheme } from "../../data/palette";
 import { useIsMobile } from "../../lib/hooks";
 import {
@@ -26,6 +32,14 @@ function shortDate(d: string): string {
   const [yr, mo] = (d || "").split("-");
   if (!mo || !yr) return d || "—";
   return `${MONTHS[Number(mo) - 1]} ${yr.slice(-2)}`;
+}
+
+// Inline span renderer (mirrors the helper in HomeV5).
+function renderSpans(spans: Span[], t: any) {
+  return spans.map((s, i) => {
+    if (typeof s === "string") return s;
+    return <em key={i} style={{ fontStyle: "italic", color: s.c ? t[s.c] : undefined }}>{s.em}</em>;
+  });
 }
 
 export function NowV5({
@@ -69,7 +83,7 @@ export function NowV5({
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
     >
-      <NBLastUpdated t={t} label="NOW · WEEKLY-ISH SNAPSHOT" date="26 may 2026" accent={t.orange} />
+      <NBLastUpdated t={t} label={NOW_LAST_UPDATED_LABEL} date={NOW_LAST_UPDATED_DATE} accent={t.orange} />
 
       <div style={{
         padding: PAGE_PAD,
@@ -91,17 +105,24 @@ export function NowV5({
               letterSpacing: "-0.02em",
               margin: 0, color: t.ink, maxWidth: "18ch",
             }}>
-              {/* V5 canonical: current-state / personal action → Outreach (orange). */}
-              What I'm <em style={{ color: t.orange, fontStyle: "italic" }}>actually</em>{" "}
-              <em style={{ color: t.orange, fontStyle: "italic" }}>doing</em> this week.
+              {NOW_HERO_LINES.map((line, i) => (
+                <React.Fragment key={i}>
+                  {renderSpans(line, t)}
+                  {i < NOW_HERO_LINES.length - 1 && <br />}
+                </React.Fragment>
+              ))}
             </h1>
             <p style={{ fontSize: isMobile ? 16 : 18, lineHeight: 1.6, color: t.softInk, maxWidth: "56ch", marginTop: 26 }}>
-              The <a href="https://nownownow.com/about" target="_blank" rel="noreferrer" style={{ color: t.blue, borderBottom: `1px solid ${t.blue}66`, textDecoration: "none" }}>/now</a> convention — what's on my plate, what I'm reading, where my attention is going. A snapshot, not a profile. Updated whenever I notice it has drifted.
+              {NOW_LEDE_PREFIX}<a href={NOW_LEDE_LINK_URL} target="_blank" rel="noreferrer" style={{ color: t.blue, borderBottom: `1px solid ${t.blue}66`, textDecoration: "none" }}>{NOW_LEDE_LINK_TEXT}</a>{NOW_LEDE_SUFFIX}
             </p>
             {!isMobile && (
-              /* Marginalia = personal philosophy / focus rule → Outreach (orange). */
-              <NBMarginalia t={t} top={130} tilt={2.5} accent={t.orange}>
-                the rule: only<br/>five things at<br/>once. anything<br/>more is fiction.
+              <NBMarginalia t={t} top={130} tilt={2.5} accent={t[NOW_MARGINALIA.accent]}>
+                {NOW_MARGINALIA.lines.map((line, i) => (
+                  <React.Fragment key={i}>
+                    {line}
+                    {i < NOW_MARGINALIA.lines.length - 1 && <br />}
+                  </React.Fragment>
+                ))}
               </NBMarginalia>
             )}
           </div>
@@ -188,18 +209,22 @@ export function NowV5({
           <div style={{ marginTop: 28 }}>
             {/* Telemetry JSON = geospatial location data → teal. */}
             <NBPrompt t={t} cwd="~/now" cmd="telemetry --json" comment="london" accent={t.teal} />
+            {/* Telemetry pre-block — data from NOW_TELEMETRY in now.ts.
+                Keys + values get JSON syntax-highlighting colours (per
+                DECISIONS-v5.md §14 exception for JSON syntax). */}
             <pre style={{
               background: t.paper2, border: `1px solid ${t.rule}`,
               padding: "12px 14px", borderRadius: 3,
               fontFamily: "var(--f-mono)", fontSize: 11, lineHeight: 1.8,
               color: t.softInk, margin: 0, whiteSpace: "pre-wrap",
-            }}>{`{
-  `}<span style={{ color: t.blue }}>"city"</span>{`:    `}<span style={{ color: t.ochre }}>"London"</span>{`,
-  `}<span style={{ color: t.blue }}>"lat"</span>{`:     `}<span style={{ color: t.ochre }}>"51.51°N"</span>{`,
-  `}<span style={{ color: t.blue }}>"lon"</span>{`:     `}<span style={{ color: t.ochre }}>"-0.13°W"</span>{`,
-  `}<span style={{ color: t.blue }}>"tz"</span>{`:      `}<span style={{ color: t.ochre }}>"Europe/London"</span>{`,
-  `}<span style={{ color: t.blue }}>"updated"</span>{`: `}<span style={{ color: t.ochre }}>"26/05/2026"</span>{`
-}`}</pre>
+            }}>{"{\n"}{Object.entries(NOW_TELEMETRY).map(([k, v], i, arr) => {
+              const pad = " ".repeat(Math.max(0, 8 - k.length));
+              return (
+                <React.Fragment key={k}>
+                  {"  "}<span style={{ color: t.blue }}>"{k}"</span>:{pad}<span style={{ color: t.ochre }}>"{v}"</span>{i < arr.length - 1 ? "," : ""}{"\n"}
+                </React.Fragment>
+              );
+            })}{"}"}</pre>
           </div>
 
           <div style={{ marginTop: 28 }}>
@@ -213,7 +238,7 @@ export function NowV5({
             }}>
               <div><span style={{ color: t.muted }}>focuses</span> <span style={{ color: t.ink }}>{FOCUSES.length}</span></div>
               <div><span style={{ color: t.muted }}>journal</span> <span style={{ color: t.ink }}>{JOURNAL.length} entries</span></div>
-              <div><span style={{ color: t.muted }}>cadence</span> <span style={{ color: t.ink }}>weekly-ish</span></div>
+              <div><span style={{ color: t.muted }}>cadence</span> <span style={{ color: t.ink }}>{NOW_CADENCE_LABEL}</span></div>
             </div>
           </div>
         </aside>

@@ -1,8 +1,8 @@
 // Weekly-ish snapshot content. Edit this file (and only this file) when the
 // /now page or the home-page ticker drift. Used by:
-//   - src/components/pages/NowV5.tsx   (focuses, journal, conditions)
+//   - src/components/pages/NowV5.tsx   (focuses, journal, conditions, hero)
 //   - src/components/pages/HomeV5.tsx  (journal ticker → mini-term)
-//   - V4 pages (legacy) still read these arrays too.
+//   - V4 pages (legacy) still read FOCUSES / JOURNAL / CONDITIONS.
 //
 // V5 colour rule: each entry carries a `family` pointing at one of the 10
 // canonical NB palette keys (see palette.ts + DECISIONS-v5.md §14). The
@@ -10,6 +10,48 @@
 // new entry: pick the meta-topic, set `family`, rest is automatic.
 
 import type { NBAccentKey } from "./palette";
+
+// ---------------------------------------------------------------------------
+// HERO — /now page hero H1 + lede paragraph
+// ---------------------------------------------------------------------------
+export type Span = string | { em: string; c?: NBAccentKey };
+
+export const NOW_HERO_LINES: Span[][] = [
+  [
+    "What I'm ",
+    { em: "actually", c: "orange" },
+    " ",
+    { em: "doing", c: "orange" },
+    " this week.",
+  ],
+];
+
+export const NOW_LEDE_PREFIX = "The ";
+export const NOW_LEDE_LINK_TEXT = "/now";
+export const NOW_LEDE_LINK_URL = "https://nownownow.com/about";
+export const NOW_LEDE_SUFFIX =
+  " convention — what's on my plate, what I'm reading, where my attention is going. A snapshot, not a profile. Updated whenever I notice it has drifted.";
+
+export const NOW_MARGINALIA = {
+  lines: ["the rule: only", "five things at", "once. anything", "more is fiction."],
+  accent: "orange" as NBAccentKey,
+};
+
+export const NOW_LAST_UPDATED_LABEL = "NOW · WEEKLY-ISH SNAPSHOT";
+export const NOW_LAST_UPDATED_DATE = "26 may 2026";
+
+// ---------------------------------------------------------------------------
+// TELEMETRY — right-rail JSON pretty-print of where I am
+// ---------------------------------------------------------------------------
+export const NOW_TELEMETRY = {
+  city: "London",
+  lat: "51.51°N",
+  lon: "-0.13°W",
+  tz: "Europe/London",
+  updated: "26/05/2026",
+};
+
+export const NOW_CADENCE_LABEL = "weekly-ish";
 
 export type Focus = { kind: string; what: string; family: NBAccentKey };
 export type JournalEntry = { date: string; note: string; family: NBAccentKey };

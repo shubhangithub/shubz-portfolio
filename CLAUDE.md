@@ -24,6 +24,23 @@ and "graph theory" both colour as math magenta. When adding anything new,
 pick the primary meta-topic, set `POSTS[i].family + nbAccent` for essays,
 or the parent group's `primary` for toolbox chips. Don't invent new accents.
 
+**Editing page text — data-file pattern (V5):**
+
+Each page's copy lives in `src/data/<page>.ts`:
+
+- `src/data/home.ts`      → /
+- `src/data/writing.ts`   → /writing/
+- `src/data/work.ts`      → /work/        (biggest: events, builds, toolbox, speaking)
+- `src/data/now.ts`       → /now/         (focuses, journal, conditions + hero)
+- `src/data/contact.ts`   → /contact/
+- `src/data/posts.ts`     → essay metadata + thumbnail index
+
+The page components in `src/components/pages/*V5.tsx` are pure renderers
+that import constants from these data files. **To change copy:** edit the
+data file. Don't touch the TSX unless you're changing layout. The site's
+status footer carries an "edit this page →" link that opens the relevant
+data file in GitHub's web editor.
+
 **TL;DR for Claude:**
 
 - Read `AGENTS.md` + `DECISIONS-v5.md §14` before any styling or content work.

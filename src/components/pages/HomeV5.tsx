@@ -1,107 +1,57 @@
 // @ts-nocheck
 /* eslint-disable */
 /**
- * HomeV5 — Field-notebook home. Port of design_handoff/home-notebook.jsx.
+ * HomeV5 — pure renderer for the homepage.
  *
- * Layout: mac-chrome shell → last-updated stamp → main+aside grid.
- *   main:  hero (multi-coloured H1 + bio + marginalia) → §02 pinned writing
- *          → §03 builds → §04 toolbox chip grid
- *   aside: cat .now mini-term → Lotka figure → contact slip
+ * All text, lists, and per-essay accents live in `src/data/home.ts`.
+ * The component reads from that file and lays everything out; editing
+ * copy means editing that data file (or clicking the "edit this page →"
+ * link in the page footer). No JSX changes required for content updates.
  *
- * Content: pinned-writing list reads from src/data/posts.ts (first 3).
- *   Toolbox + builds are inlined here (net-new content per V5 spec; not in
- *   existing /data). NB_NOW_LOG sources from src/data/now.ts (JOURNAL).
- *
- * Reversibility: this file is additive. AppShell still has HomeV4 wired
- *   and can flip back with a one-line edit.
+ * V5 colour system: see DECISIONS-v5.md §14. Reversibility: this file is
+ * additive — AppShell has a USE_V5 flag to fall back to HomeV4.
  */
 import React from "react";
 import { POSTS, thumbUrlFor } from "../../data/posts";
-import { nbTheme, NB_LIGHT, NB_DARK } from "../../data/palette";
+import { nbTheme } from "../../data/palette";
 import { useIsMobile } from "../../lib/hooks";
 import {
   NBPageShell, NBLastUpdated, NBPrompt, NBThumbtack, NBThumb, NBMarginalia,
   NBMiniTerm,
 } from "../chrome/NB";
 import { NotebookLotka } from "../diagrams/NotebookLotka";
+import {
+  HERO_LINE_A, HERO_LINE_B, BIO, HOME_MARGINALIA,
+  HOME_BUILDS, HOME_TOOLBOX, HOME_CONTACT_ROWS,
+  HOME_FIG_LABEL, HOME_FIG_CAPTION, HOME_FIG_LINK_TEXT,
+  HOME_PINNED_LABEL, HOME_PINNED_COMMENT, HOME_VIEW_ALL_TEXT,
+  HOME_LAST_UPDATED_LABEL, HOME_LAST_UPDATED_DATE,
+  HOME_CONTACT_HEADER, HOME_ANNOTATED_CV_LINK,
+  HOME_TOOLBOX_SEE_ALL, TOOLBOX_TEASER, TOOLBOX_TEASER_PATH,
+  type Span,
+} from "../../data/home";
 
 type NavFn = (page: string, slug?: string | null) => void;
 
-// V5 canonical: each build's `c` = its primary topic.
-//   fashion-web        → ochre  (markets/predictions/fintech)
-//   taylor-rec-engine  → ochre  (recommendations roll up to markets)
-//   platypus-learn     → purple (ML technical research — LLM-driven learning)
-const HOME_BUILDS = [
-  { name: "fashion-web",         c: "ochre",  blurb: "ML trend intelligence + LMSR exchange.",                year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
-  { name: "taylor-rec-engine",   c: "ochre",  blurb: "Six recommendation engines on one songbook.",           year: "2026",   url: "https://shubz-taylor-recommendation-engine.vercel.app" },
-  { name: "platypus-learn",      c: "purple", blurb: "AI learning platform — PDFs and YouTube → courses.",   year: "2025 —", url: "https://platypus-learn.vercel.app" },
-];
-
-// Toolbox v2 — category-driven colour. Each group has a `primary` accent
-// key; every chip in that group shares it for the left border. Each link
-// has a real href (essay route, project URL, GitHub repo, or CV PDF as
-// fallback for CV-only entries). When the href is an essay path, the link
-// text picks up that essay's accent — chip carries provenance without
-// scrambling the visual grouping.
-//
-// Skills sourced from final_CV.pdf plus Orion stack from existing prose.
-// Home version is curated — top picks per category; the full taxonomy
-// lives on /work.
-const CV_PDF = "/uploads/Shubhangi-Sharma-Resume-20260211.pdf";
-
-type ChipLink = { label: string; href: string };
-type ToolGroup = { group: string; primary: string; items: { name: string; links: ChipLink[] }[] };
-
-// Home toolbox = condensed teaser of the 10 canonical topic categories.
-// Each category shows 1-2 representative chips; the full taxonomy with
-// every skill + project + role lives on /work under §04, reached via
-// the "see all skills →" link below the toolbox. Each chip's colour
-// matches its group's primary (= its meta-topic).
-const HOME_TOOLBOX: ToolGroup[] = [
-  { group: "AI safety & alignment", primary: "blue", items: [
-    { name: "AI alignment research", links: [{ label: "a unit on bending the curve", href: "/bluedot-unit1/" }] },
-    { name: "AI ethics & governance", links: [{ label: "bluedot AGI cohort · /now", href: "/now/" }] },
-  ] },
-  { group: "ML technical research", primary: "purple", items: [
-    { name: "Python",                     links: [{ label: "jaya, threshold, six engines", href: "/jaya/" }] },
-    { name: "Claude API · Anthropic SDK", links: [{ label: "platypus-learn", href: "https://platypus-learn.vercel.app" }] },
-    { name: "Prompt engineering · few-shot", links: [{ label: "orion search · /now", href: "/now/" }] },
-  ] },
-  { group: "Mathematics", primary: "magenta", items: [
-    { name: "Computational Game Theory", links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
-    { name: "Category Theory",           links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
-  ] },
-  { group: "Physics", primary: "prompt", items: [
-    { name: "Quantum Information",        links: [{ label: "two colours and a Hadamard", href: "/zx-calculus/" }] },
-    { name: "GNSS atmospheric modelling", links: [{ label: "honours thesis · CV", href: CV_PDF }] },
-  ] },
-  { group: "Biotech", primary: "red", items: [
-    { name: "Bioinformatics",         links: [{ label: "jaya · proteins", href: "/jaya/" }] },
-    { name: "Lotka–Volterra dynamics", links: [{ label: "predator and prey", href: "/may-2026/" }] },
-  ] },
-  { group: "Geospatial", primary: "teal", items: [
-    { name: "Rust · Golang",               links: [{ label: "orion · /work", href: "/work/" }] },
-    { name: "Geospatial ML · H3 indexing", links: [{ label: "orion · /work", href: "/work/" }] },
-  ] },
-  { group: "Markets, predictions & fintech", primary: "ochre", items: [
-    { name: "LMSR prediction markets", links: [{ label: "pricing the next scarf", href: "/fashion-trends/" }] },
-    { name: "Recommendation systems",  links: [{ label: "six engines", href: "/six-engines/" }] },
-  ] },
-  { group: "Hardware", primary: "cyan", items: [
-    { name: "C++ · embedded", links: [{ label: "IoT weather bot · CV", href: CV_PDF }] },
-    { name: "Compiler · HDL", links: [{ label: "Nand2Tetris · /work", href: "/work/" }] },
-  ] },
-  { group: "Infrastructure & craft", primary: "yellow", items: [
-    { name: "Astro · React islands", links: [{ label: "this site", href: "https://github.com/shubhangithub/personal-site" }] },
-    { name: "Next.js · Supabase",    links: [{ label: "platypus-learn", href: "https://platypus-learn.vercel.app" }] },
-    { name: "UI / UX",               links: [{ label: "this site", href: "/" }] },
-  ] },
-  { group: "Outreach, community & teaching", primary: "orange", items: [
-    { name: "Team leadership",                  links: [{ label: "Dotslash · Kolhapur · Council · CV", href: CV_PDF }] },
-    { name: "Mentoring under-represented kids", links: [{ label: "Stemmettes · InnovateHer", href: "/work/" }] },
-    { name: "DBS-checked (UK)",                 links: [{ label: "cleared for under-18s · /work", href: "/work/" }] },
-  ] },
-];
+// Inline span renderer. Plain strings render as-is; `em` spans become
+// italic display-serif coloured fragments; `tag` spans are non-italic
+// coloured fragments (used for keyword tags in the bio paragraph).
+function renderSpans(spans: Span[], t: any) {
+  return spans.map((s, i) => {
+    if (typeof s === "string") return s;
+    if ("em" in s) {
+      return (
+        <em
+          key={i}
+          style={{ fontStyle: "italic", color: s.c ? t[s.c] : undefined }}
+        >{s.em}</em>
+      );
+    }
+    return (
+      <span key={i} style={{ color: s.c ? t[s.c] : undefined }}>{s.tag}</span>
+    );
+  });
+}
 
 export function HomeV5({
   dark,
@@ -122,9 +72,8 @@ export function HomeV5({
     }
   }, [t.paper]);
 
-  // Pin first 3 essays from POSTS (bluedot-unit1, zx-calculus, jaya by default
-  // — most-featured, V5 spec ordering). Strip "Essay · " / "Note · " prefix
-  // from kicker for the row metadata line.
+  // Pin first 3 essays from POSTS. Each gets its theme-resolved accent
+  // + a shortened kicker for the row metadata line.
   const pinned = POSTS.slice(0, 3).map((post, i) => {
     const accentKey = post.nbAccent || "blue";
     const c = t[accentKey];
@@ -143,7 +92,7 @@ export function HomeV5({
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
     >
-      <NBLastUpdated t={t} label="NOTEBOOK" date="26 may 2026" accent={t.yellow} />
+      <NBLastUpdated t={t} label={HOME_LAST_UPDATED_LABEL} date={HOME_LAST_UPDATED_DATE} accent={t.yellow} />
 
       <div style={{
         padding: PAGE_PAD,
@@ -152,9 +101,9 @@ export function HomeV5({
         gap: isMobile ? 36 : 56,
       }}>
         <main id="main" tabIndex={-1}>
-          {/* Title page */}
+          {/* TITLE PAGE — hero H1 + bio + marginalia. All copy lives in
+              src/data/home.ts (HERO_LINE_A, HERO_LINE_B, BIO, HOME_MARGINALIA). */}
           <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 32, position: "relative" }}>
-            {/* About-section header = personal intro → Outreach (orange). */}
             <NBPrompt t={t} cwd="~/home" cmd="cat ./about.md" comment="who, what, where" accent={t.orange} />
             <h1 style={{
               fontFamily: "var(--f-display)",
@@ -167,42 +116,29 @@ export function HomeV5({
               color: t.ink,
               maxWidth: "16ch",
             }}>
-              {/* V5 canonical colour mapping: each italic keyword sits in
-                  its primary topic colour. maths → magenta (Math), CS → blue
-                  (AI/code), Oxford → ochre (decorative, no clean topic match),
-                  geospatial ML → teal (Geospatial), Orion → teal (Geospatial),
-                  distracted → magenta (decorative match). See DECISIONS-v5.md §14. */}
-              Read <em style={{ color: t.magenta, fontStyle: "italic" }}>maths</em> and{" "}
-              <em style={{ color: t.blue, fontStyle: "italic" }}>CS</em> at{" "}
-              <em style={{ color: t.ochre, fontStyle: "italic" }}>Oxford</em>.<br />
-              Currently building{" "}
-              <em style={{ color: t.teal, fontStyle: "italic" }}>geospatial ML</em>{" "}at{" "}
-              <em style={{ color: t.teal, fontStyle: "italic" }}>Orion</em>, easily{" "}
-              <em style={{ color: t.magenta, fontStyle: "italic" }}>distracted</em>{" "}by other problems.
+              {renderSpans(HERO_LINE_A, t)}<br />
+              {renderSpans(HERO_LINE_B, t)}
             </h1>
             <p style={{ fontSize: isMobile ? 16 : 18, lineHeight: 1.6, color: t.softInk, maxWidth: "56ch", marginTop: 26 }}>
-              {/* V5 canonical mapping: Orion → teal (Geospatial), Oxford /
-                  FLAME → ochre (institution, decorative), Thames rower /
-                  STEM ed / hobby pianist → orange (Outreach, community &
-                  teaching), fashion → ochre (Markets), interactive diagrams
-                  → magenta (Math, visualisation-of-maths). */}
-              I'm a founding engineer at <span style={{ color: t.teal, fontStyle: "italic" }}>Orion</span>, where I build geospatial ML that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths (dabbled in some physics) at <span style={{ color: t.ochre, fontStyle: "italic" }}>Oxford</span> and computer science at <span style={{ color: t.ochre, fontStyle: "italic" }}>FLAME</span>. I am also, in inconvenient order: a <span style={{ color: t.orange }}>Thames rower</span> on Sundays, active in <span style={{ color: t.orange }}>STEM ed outreach</span>, a <span style={{ color: t.orange }}>hobby pianist</span>, a <span style={{ color: t.ochre }}>fashion enthusiast</span>, and very into <span style={{ color: t.magenta }}>interactive diagrams</span>.
+              {renderSpans(BIO, t)}
             </p>
             {!isMobile && (
-              /* Marginalia content = craft methodology ("solve on paper,
-                 then code"). V5 canonical: Infrastructure & craft → yellow. */
-              <NBMarginalia t={t} top={120} right={-10} accent={t.yellow}>
-                first solve it<br />on paper.<br />then in code.
+              <NBMarginalia t={t} top={120} right={-10} accent={t[HOME_MARGINALIA.accent]}>
+                {HOME_MARGINALIA.lines.map((line, i) => (
+                  <React.Fragment key={i}>
+                    {line}
+                    {i < HOME_MARGINALIA.lines.length - 1 && <br />}
+                  </React.Fragment>
+                ))}
               </NBMarginalia>
             )}
           </div>
 
-          {/* §02 Pinned writing */}
-          {/* Pinned-writing section header → Infra & craft (yellow, essay craft). */}
-          <NBPrompt t={t} cmd="ls ./writing/pinned/" comment="3 open on the desk" accent={t.yellow} />
+          {/* §02 PINNED WRITING — first 3 from POSTS. */}
+          <NBPrompt t={t} cmd="ls ./writing/pinned/" comment={HOME_PINNED_COMMENT} accent={t.yellow} />
           <div className="caps" style={{ fontFamily: "var(--f-ui)", color: t.muted, fontSize: 11, marginBottom: 14, letterSpacing: "0.16em", display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
-            <span><span style={{ color: t.prompt }}>§02</span>&nbsp;&nbsp;PINNED · FEATURED WRITING</span>
-            <a href="/writing/" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} style={{ color: t.blue, fontFamily: "var(--f-mono)", textDecoration: "none" }}>all {POSTS.length} essays →</a>
+            <span><span style={{ color: t.prompt }}>§02</span>&nbsp;&nbsp;{HOME_PINNED_LABEL.replace(/^§02\s*/, "")}</span>
+            <a href="/writing/" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} style={{ color: t.blue, fontFamily: "var(--f-mono)", textDecoration: "none" }}>{HOME_VIEW_ALL_TEXT(POSTS.length)}</a>
           </div>
           <ol style={{ listStyle: "none", padding: 0, margin: "0 0 44px" }}>
             {pinned.map((e, i, arr) => (
@@ -233,7 +169,7 @@ export function HomeV5({
             ))}
           </ol>
 
-          {/* §03 Builds */}
+          {/* §03 BUILDS — HOME_BUILDS list. */}
           <NBPrompt t={t} cmd="cat ./builds.md" comment="selected" accent={t.orange} />
           <div style={{
             border: `2px solid ${t.ink}`,
@@ -266,11 +202,10 @@ export function HomeV5({
             ))}
           </div>
           <div style={{ marginBottom: 44, textAlign: "right" }}>
-            <a href="/work/" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} style={{ fontFamily: "var(--f-mono)", color: t.orange, fontSize: 11, textDecoration: "none", letterSpacing: "0.08em" }}>annotated cv →</a>
+            <a href="/work/" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} style={{ fontFamily: "var(--f-mono)", color: t.orange, fontSize: 11, textDecoration: "none", letterSpacing: "0.08em" }}>{HOME_ANNOTATED_CV_LINK}</a>
           </div>
 
-          {/* §04 Toolbox */}
-          {/* Toolbox section header = meta-aggregate of skills → Infra & craft (yellow). */}
+          {/* §04 TOOLBOX — condensed teaser. Full taxonomy on /work#toolbox. */}
           <NBPrompt t={t} cmd="cat ./toolbox.md" comment="what built what" accent={t.yellow} />
           <div style={{
             border: `2px solid ${t.ink}`,
@@ -313,8 +248,6 @@ export function HomeV5({
                         {it.name}
                       </span>
                       {it.links.map((l, li) => {
-                        // Resolve link colour: essay route → essay's accent;
-                        // anything else → category primary.
                         const essayMatch = l.href.match(/^\/([^\/]+)\/$/);
                         const post = essayMatch ? POSTS.find(p => p.slug === essayMatch[1]) : null;
                         const linkColor = post ? t[post.nbAccent || "blue"] : groupColor;
@@ -343,34 +276,28 @@ export function HomeV5({
               </div>
               );
             })}
-            {/* "see all skills" footer — deep-links to /work/#toolbox so the
-                visitor lands on the full taxonomy with provenance arrows. */}
             <div style={{
               marginTop: 6, paddingTop: 14,
               borderTop: `1px dashed ${t.muted}55`,
               display: "flex", justifyContent: "space-between", alignItems: "baseline",
               fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, gap: 12, flexWrap: "wrap",
             }}>
-              <span>this is the teaser · the full taxonomy lives in <span style={{ color: t.softInk }}>./work/toolbox.md</span></span>
+              <span>{TOOLBOX_TEASER} <span style={{ color: t.softInk }}>{TOOLBOX_TEASER_PATH}</span></span>
               <a href="/work/#toolbox" style={{
                 color: t.purple,
                 textDecoration: "none",
                 borderBottom: `1px solid ${t.purple}66`,
                 paddingBottom: 1,
-              }}>see all skills + provenance →</a>
+              }}>{HOME_TOOLBOX_SEE_ALL}</a>
             </div>
           </div>
         </main>
 
-        {/* Right rail */}
+        {/* RIGHT RAIL — cat .now + Lotka figure + contact slip. */}
         <aside>
-          {/* cat .now mini-term — current state → Outreach (orange). */}
           <NBPrompt t={t} cwd="~/home" cmd="cat .now" comment="live · autoplay" accent={t.orange} />
           <NBMiniTerm t={t} accent={t.orange} />
 
-          {/* Figure — accent matches may-2026 essay (Lotka rolls up to
-              Biotech red under the canonical 10). Lotka canvas, thumbtack,
-              prompt, and "see the math →" link all share the essay's accent. */}
           <div style={{ marginTop: 28 }}>
             <NBPrompt t={t} cwd="~/figures" cmd="./figures/may.sh" accent={t.red} />
             <div style={{
@@ -381,19 +308,18 @@ export function HomeV5({
               overflow: "hidden",
             }}>
               <NBThumbtack color={t.red} ink={t.ink} />
-              <span style={{ fontFamily: "var(--f-display)", fontStyle: "italic", fontSize: 16, color: t.ink }}>fig. 01 — predator/prey</span>
+              <span style={{ fontFamily: "var(--f-display)", fontStyle: "italic", fontSize: 16, color: t.ink }}>{HOME_FIG_LABEL}</span>
               <div style={{ marginTop: 10 }}>
                 <NotebookLotka w={isMobile ? 240 : 290} h={isMobile ? 174 : 210} ink={t.ink} accent={t.red} paper={t.paper} muted={t.muted} />
               </div>
               <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, display: "flex", justifyContent: "space-between", marginTop: 8 }}>
-                <span>lotka–volterra · may '26</span>
-                <a href="/may-2026/" onClick={(e) => { e.preventDefault(); onNavigate("essay", "may-2026"); }} style={{ color: t.red, textDecoration: "none" }}>see the math →</a>
+                <span>{HOME_FIG_CAPTION}</span>
+                <a href="/may-2026/" onClick={(e) => { e.preventDefault(); onNavigate("essay", "may-2026"); }} style={{ color: t.red, textDecoration: "none" }}>{HOME_FIG_LINK_TEXT}</a>
               </div>
             </div>
           </div>
 
-          {/* Contact slip — V5 canonical: contact = communication / outreach
-              → orange. Visually matches ContactV5's channel rows. */}
+          {/* Contact slip — orange (communication/outreach). */}
           <div style={{
             marginTop: 28,
             padding: "14px 18px",
@@ -402,12 +328,25 @@ export function HomeV5({
             transform: "rotate(0.5deg)",
             background: t.bgCard,
           }}>
-            <div style={{ fontFamily: "var(--f-display)", fontStyle: "italic", color: t.orange, fontSize: 18, marginBottom: 6 }}>contact —</div>
+            <div style={{ fontFamily: "var(--f-display)", fontStyle: "italic", color: t.orange, fontSize: 18, marginBottom: 6 }}>{HOME_CONTACT_HEADER}</div>
             <div style={{ fontFamily: "var(--f-mono)", fontSize: 12, color: t.softInk, display: "grid", gap: 4 }}>
-              <a href="https://github.com/Shubzthub" target="_blank" rel="noreferrer" style={{ color: t.ink, textDecoration: "none" }}><span style={{ color: t.orange }}>↗</span> github · <span style={{ color: t.muted }}>Shubzthub</span></a>
-              <a href="https://www.linkedin.com/in/Shubz-s-sharma/" target="_blank" rel="noreferrer" style={{ color: t.ink, textDecoration: "none" }}><span style={{ color: t.orange }}>↗</span> linkedin · <span style={{ color: t.muted }}>Shubz-s-sharma</span></a>
-              <a href="mailto:hello@shubzsharma.com" style={{ color: t.ink, textDecoration: "none" }}><span style={{ color: t.orange }}>↗</span> email · <span style={{ color: t.muted }}>hello@shubzsharma.com</span></a>
-              <a href="/contact/" onClick={(e) => { e.preventDefault(); onNavigate("contact"); }} style={{ color: t.ink, textDecoration: "none" }}><span style={{ color: t.orange }}>↗</span> /contact</a>
+              {HOME_CONTACT_ROWS.map((row, i) => {
+                const isMail = row.href.startsWith("mailto:");
+                const isExternal = /^https?:/.test(row.href);
+                const isContactPage = row.href === "/contact/";
+                return (
+                  <a
+                    key={i}
+                    href={row.href}
+                    target={isExternal ? "_blank" : undefined}
+                    rel={isExternal ? "noreferrer" : undefined}
+                    onClick={isContactPage ? (e) => { e.preventDefault(); onNavigate("contact"); } : undefined}
+                    style={{ color: t.ink, textDecoration: "none" }}
+                  >
+                    <span style={{ color: t.orange }}>↗</span> {row.label}{row.handle ? <> · <span style={{ color: t.muted }}>{row.handle}</span></> : null}
+                  </a>
+                );
+              })}
             </div>
           </div>
         </aside>

@@ -18,19 +18,24 @@ import {
   NBPageShell, NBLastUpdated, NBPrompt, NBPromptHead, NBThumbtack, NBThumb,
   NBMarginalia, NBDiagramPlaceholder,
 } from "../chrome/NB";
+import {
+  WRITING_HERO, WRITING_LEDE, WRITING_MARGINALIA,
+  WRITING_LAST_UPDATED_LABEL, WRITING_LAST_UPDATED_DATE,
+  WRITING_WORKING_NOTES, WRITING_DRAFTS,
+} from "../../data/writing";
+import type { Span } from "../../data/home";
 
 type NavFn = (page: string, slug?: string | null) => void;
 
-const WORKING_NOTES = [
-  { t: "AI Safety Fundamentals",                            d: "2023-05", k: "note" },
-  { t: "GNSS Water-Vapour estimation (BSc honours, FLAME)", d: "2023-05", k: "thesis note" },
-  { t: "Feynman's path integral: propagators and pictures", d: "2025-08", k: "note" },
-];
-
-const DRAFTS = [
-  "zx-calculus-ii.draft.mdx",
-  "geospatial-vs-temporal.draft.mdx",
-];
+function renderSpans(spans: Span[], t: any) {
+  return spans.map((s, i) => {
+    if (typeof s === "string") return s;
+    if ("em" in s) {
+      return <em key={i} style={{ fontStyle: "italic", color: s.c ? t[s.c] : undefined }}>{s.em}</em>;
+    }
+    return <span key={i} style={{ color: s.c ? t[s.c] : undefined }}>{s.tag}</span>;
+  });
+}
 
 export function WritingIndexV5({
   dark,
@@ -74,7 +79,7 @@ export function WritingIndexV5({
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
     >
-      <NBLastUpdated t={t} label="WRITING · THE GARDEN" date="26 may 2026" accent={t.yellow} />
+      <NBLastUpdated t={t} label={WRITING_LAST_UPDATED_LABEL} date={WRITING_LAST_UPDATED_DATE} accent={t.yellow} />
 
       <div style={{
         padding: PAGE_PAD,
@@ -96,17 +101,19 @@ export function WritingIndexV5({
               letterSpacing: "-0.02em",
               margin: 0, color: t.ink, maxWidth: "18ch",
             }}>
-              {/* V5 canonical: writing is essay-craft → Infra & craft (yellow). */}
-              An essay <em style={{ color: t.yellow, fontStyle: "italic" }}>garden</em>, growing{" "}
-              <em style={{ color: t.yellow, fontStyle: "italic" }}>slowly</em>.
+              {renderSpans(WRITING_HERO, t)}
             </h1>
             <p style={{ fontSize: isMobile ? 16 : 18, lineHeight: 1.6, color: t.softInk, maxWidth: "56ch", marginTop: 26 }}>
-              Long-form thinking on the projects I actually built. Each essay carries its own colour — pulled from the subject it argues with. Some pieces are finished; some are still arguing with themselves.
+              {WRITING_LEDE}
             </p>
             {!isMobile && (
-              /* Marginalia about diagram-craft → Infrastructure & craft (yellow). */
-              <NBMarginalia t={t} top={120} tilt={-2.4} accent={t.yellow}>
-                every essay has<br/>a hand-coded<br/>diagram. no D3.
+              <NBMarginalia t={t} top={120} tilt={-2.4} accent={t[WRITING_MARGINALIA.accent]}>
+                {WRITING_MARGINALIA.lines.map((line, i) => (
+                  <React.Fragment key={i}>
+                    {line}
+                    {i < WRITING_MARGINALIA.lines.length - 1 && <br />}
+                  </React.Fragment>
+                ))}
               </NBMarginalia>
             )}
           </div>
@@ -239,19 +246,19 @@ export function WritingIndexV5({
             fontSize: 12, lineHeight: 1.8,
             marginBottom: 60,
           }}>
-            {WORKING_NOTES.map((n, i) => (
+            {WRITING_WORKING_NOTES.map((n, i, arr) => (
               <div key={i} style={{
                 display: "grid",
                 gridTemplateColumns: isMobile ? "24px 1fr auto" : "32px 1fr 100px 90px",
                 gap: 12,
                 padding: "4px 0",
-                borderBottom: i === WORKING_NOTES.length - 1 ? "none" : `1px dashed ${t.muted}33`,
+                borderBottom: i === arr.length - 1 ? "none" : `1px dashed ${t.muted}33`,
                 color: t.ink,
               }}>
                 <span style={{ color: t.muted }}>{String(i + 1).padStart(2, "0")}</span>
-                <span style={{ fontFamily: "var(--f-body)", fontStyle: "italic", fontSize: 14, color: t.softInk }}>{n.t}</span>
-                {!isMobile && <span style={{ color: t.muted }}>{n.d}</span>}
-                <span style={{ color: t.ochre, textAlign: "right" }}>↗ {n.k}</span>
+                <span style={{ fontFamily: "var(--f-body)", fontStyle: "italic", fontSize: 14, color: t.softInk }}>{n.title}</span>
+                {!isMobile && <span style={{ color: t.muted }}>{n.date}</span>}
+                <span style={{ color: t.ochre, textAlign: "right" }}>↗ {n.kind}</span>
               </div>
             ))}
           </div>
@@ -291,8 +298,8 @@ export function WritingIndexV5({
             color: t.softInk, borderRadius: 3, margin: 0,
             whiteSpace: "pre-wrap",
           }}>
-            <span style={{ color: t.muted }}>{DRAFTS.length} drafts</span>{"\n"}
-            {DRAFTS.map((d, i) => (
+            <span style={{ color: t.muted }}>{WRITING_DRAFTS.length} drafts</span>{"\n"}
+            {WRITING_DRAFTS.map((d, i) => (
               <span key={i}>
                 <span style={{ color: t.prompt }}>-rw-</span> {d}{"\n"}
               </span>

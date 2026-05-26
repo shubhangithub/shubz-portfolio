@@ -335,6 +335,36 @@ meta-topic** it most belongs to from the table above, set
 `POSTS[i].family` + `POSTS[i].nbAccent` accordingly, or for chips set
 the parent group's `primary`. The chip colour follows automatically.
 
+### Data-file pattern (page editing)
+
+Each V5 page is a **pure renderer** that imports its content from a
+single data file. Components live in `src/components/pages/*V5.tsx`;
+copy lives in `src/data/<page>.ts`. The status footer's "edit this page
+→" link opens the relevant data file in GitHub's web editor.
+
+| Page surface | Data file | Edits include |
+|---|---|---|
+| `/` (HomeV5)        | `src/data/home.ts`    | hero spans, bio, marginalia, builds, toolbox, contact slip, fig captions, all labels |
+| `/writing/`         | `src/data/writing.ts` | hero, lede, marginalia, working notes, drafts list |
+| `/work/`            | `src/data/work.ts`    | hero, marginalia, trajectory events, builds, toolbox (~70 chips), speaking, right-rail blocks |
+| `/now/`             | `src/data/now.ts`     | hero, lede, marginalia, focuses, journal entries, conditions, telemetry JSON |
+| `/contact/`         | `src/data/contact.ts` | hero, marginalia, channels, preferences, compose form copy, protocol JSON, calendar |
+| `/<essay-slug>/`    | `src/components/essays/<Name>.tsx` + `src/data/posts.ts` | essay TSX body + the post metadata |
+
+**Adding new content** means editing the data file, not the TSX. A new
+entry inherits its colour automatically from its `family` or its group's
+`primary`. If you add a new section to a page that needs JSX layout
+changes, that goes in the TSX — but the strings inside it should still
+flow from the data file.
+
+**Inline-coloured prose**: `home.ts` defines a `Span` type used by all
+pages for multi-coloured runs of text:
+- `string` → plain text
+- `{ em, c }` → italic display-serif fragment, coloured by `c`
+- `{ tag, c }` → non-italic coloured fragment (used for keyword tags)
+
+Each page imports `Span` from `home.ts` to avoid duplicating the type.
+
 ### Strict-alignment exceptions (universal-status conventions)
 
 The full site is routed through the canonical 10 above. A small set of
