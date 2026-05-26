@@ -162,16 +162,26 @@ export function HomeV5({
               color: t.ink,
               maxWidth: "16ch",
             }}>
-              Read <em style={{ color: t.prompt, fontStyle: "italic" }}>maths</em> and{" "}
+              {/* V5 canonical colour mapping: each italic keyword sits in
+                  its primary topic colour. maths → magenta (Math), CS → blue
+                  (AI/code), Oxford → ochre (decorative, no clean topic match),
+                  geospatial ML → teal (Geospatial), Orion → teal (Geospatial),
+                  distracted → magenta (decorative match). See DECISIONS-v5.md §14. */}
+              Read <em style={{ color: t.magenta, fontStyle: "italic" }}>maths</em> and{" "}
               <em style={{ color: t.blue, fontStyle: "italic" }}>CS</em> at{" "}
               <em style={{ color: t.ochre, fontStyle: "italic" }}>Oxford</em>.<br />
               Currently building{" "}
-              <em style={{ color: t.orange, fontStyle: "italic" }}>geospatial ML</em>{" "}at{" "}
+              <em style={{ color: t.teal, fontStyle: "italic" }}>geospatial ML</em>{" "}at{" "}
               <em style={{ color: t.teal, fontStyle: "italic" }}>Orion</em>, easily{" "}
               <em style={{ color: t.magenta, fontStyle: "italic" }}>distracted</em>{" "}by other problems.
             </h1>
             <p style={{ fontSize: isMobile ? 16 : 18, lineHeight: 1.6, color: t.softInk, maxWidth: "56ch", marginTop: 26 }}>
-              I'm a founding engineer at <span style={{ color: t.teal, fontStyle: "italic" }}>Orion</span>, where I build geospatial ML that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths (dabbled in some physics) at <span style={{ color: t.ochre, fontStyle: "italic" }}>Oxford</span> and computer science at <span style={{ color: t.ochre, fontStyle: "italic" }}>FLAME</span>. I am also, in inconvenient order: a <span style={{ color: t.teal }}>Thames rower</span> on Sundays, active in <span style={{ color: t.prompt }}>STEM ed outreach</span>, a <span style={{ color: t.purple }}>hobby pianist</span>, a <span style={{ color: t.ochre }}>fashion enthusiast</span>, and very into <span style={{ color: t.magenta }}>interactive diagrams</span>.
+              {/* V5 canonical mapping: Orion → teal (Geospatial), Oxford /
+                  FLAME → ochre (institution, decorative), Thames rower /
+                  STEM ed / hobby pianist → orange (Outreach, community &
+                  teaching), fashion → ochre (Markets), interactive diagrams
+                  → magenta (Math, visualisation-of-maths). */}
+              I'm a founding engineer at <span style={{ color: t.teal, fontStyle: "italic" }}>Orion</span>, where I build geospatial ML that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths (dabbled in some physics) at <span style={{ color: t.ochre, fontStyle: "italic" }}>Oxford</span> and computer science at <span style={{ color: t.ochre, fontStyle: "italic" }}>FLAME</span>. I am also, in inconvenient order: a <span style={{ color: t.orange }}>Thames rower</span> on Sundays, active in <span style={{ color: t.orange }}>STEM ed outreach</span>, a <span style={{ color: t.orange }}>hobby pianist</span>, a <span style={{ color: t.ochre }}>fashion enthusiast</span>, and very into <span style={{ color: t.magenta }}>interactive diagrams</span>.
             </p>
             {!isMobile && (
               <NBMarginalia t={t} top={120} right={-10}>
@@ -372,21 +382,22 @@ export function HomeV5({
             </div>
           </div>
 
-          {/* Contact slip */}
+          {/* Contact slip — V5 canonical: contact = communication / outreach
+              → orange. Visually matches ContactV5's channel rows. */}
           <div style={{
             marginTop: 28,
             padding: "14px 18px",
-            border: `2px solid ${t.blue}`,
+            border: `2px solid ${t.orange}`,
             borderRadius: 2,
             transform: "rotate(0.5deg)",
             background: t.bgCard,
           }}>
-            <div style={{ fontFamily: "var(--f-display)", fontStyle: "italic", color: t.blue, fontSize: 18, marginBottom: 6 }}>contact —</div>
+            <div style={{ fontFamily: "var(--f-display)", fontStyle: "italic", color: t.orange, fontSize: 18, marginBottom: 6 }}>contact —</div>
             <div style={{ fontFamily: "var(--f-mono)", fontSize: 12, color: t.softInk, display: "grid", gap: 4 }}>
-              <a href="https://github.com/Shubzthub" target="_blank" rel="noreferrer" style={{ color: t.ink, textDecoration: "none" }}><span style={{ color: t.blue }}>↗</span> github · <span style={{ color: t.muted }}>Shubzthub</span></a>
-              <a href="https://www.linkedin.com/in/Shubz-s-sharma/" target="_blank" rel="noreferrer" style={{ color: t.ink, textDecoration: "none" }}><span style={{ color: t.blue }}>↗</span> linkedin · <span style={{ color: t.muted }}>Shubz-s-sharma</span></a>
-              <a href="mailto:hello@shubzsharma.com" style={{ color: t.ink, textDecoration: "none" }}><span style={{ color: t.blue }}>↗</span> email · <span style={{ color: t.muted }}>hello@shubzsharma.com</span></a>
-              <a href="/contact/" onClick={(e) => { e.preventDefault(); onNavigate("contact"); }} style={{ color: t.ink, textDecoration: "none" }}><span style={{ color: t.blue }}>↗</span> /contact</a>
+              <a href="https://github.com/Shubzthub" target="_blank" rel="noreferrer" style={{ color: t.ink, textDecoration: "none" }}><span style={{ color: t.orange }}>↗</span> github · <span style={{ color: t.muted }}>Shubzthub</span></a>
+              <a href="https://www.linkedin.com/in/Shubz-s-sharma/" target="_blank" rel="noreferrer" style={{ color: t.ink, textDecoration: "none" }}><span style={{ color: t.orange }}>↗</span> linkedin · <span style={{ color: t.muted }}>Shubz-s-sharma</span></a>
+              <a href="mailto:hello@shubzsharma.com" style={{ color: t.ink, textDecoration: "none" }}><span style={{ color: t.orange }}>↗</span> email · <span style={{ color: t.muted }}>hello@shubzsharma.com</span></a>
+              <a href="/contact/" onClick={(e) => { e.preventDefault(); onNavigate("contact"); }} style={{ color: t.ink, textDecoration: "none" }}><span style={{ color: t.orange }}>↗</span> /contact</a>
             </div>
           </div>
         </aside>

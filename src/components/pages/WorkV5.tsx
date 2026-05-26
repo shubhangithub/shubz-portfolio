@@ -499,8 +499,8 @@ export function WorkV5({
           </div>
           </div>{/* /#toolbox */}
 
-          {/* §05 Speaking */}
-          <NBPromptHead t={t} n="§05" command="cat ./speaking.md" title="Speaking & STEM outreach" accent={t.magenta} level={isMobile ? 22 : 28} />
+          {/* §05 Speaking — V5 canonical: outreach/community/teaching = orange. */}
+          <NBPromptHead t={t} n="§05" command="cat ./speaking.md" title="Speaking & STEM outreach" accent={t.orange} level={isMobile ? 22 : 28} />
           <div style={{ marginBottom: 60, borderTop: `1px solid ${t.muted}55` }}>
             {WORK_SPEAKING.map((s, i) => (
               <div key={i} style={{
@@ -509,7 +509,7 @@ export function WorkV5({
                 padding: "14px 0",
                 borderBottom: `1px solid ${t.muted}33`,
               }}>
-                <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.magenta, letterSpacing: "0.08em", textTransform: "uppercase" }}>{s.event}</span>
+                <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.orange, letterSpacing: "0.08em", textTransform: "uppercase" }}>{s.event}</span>
                 <span style={{ fontFamily: "var(--f-body)", fontStyle: "italic", fontSize: 15, color: t.softInk }}>{s.talk}</span>
                 <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, textAlign: isMobile ? "left" : "right" }}>{s.year}</span>
               </div>

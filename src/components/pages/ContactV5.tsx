@@ -53,10 +53,12 @@ export function ContactV5({
     padding: "2px 0",
   };
 
+  // V5 canonical: Email + LinkedIn are communication/outreach channels →
+  // orange. GitHub is code/infrastructure → yellow. See DECISIONS-v5.md §14.
   const channels = [
-    { label: "Email",    handle: "hello@shubzsharma.com",          note: "Best — read once a day in the morning.",   c: "prompt", href: "mailto:hello@shubzsharma.com" },
-    { label: "LinkedIn", handle: "linkedin.com/in/Shubz-s-sharma", note: "Conventional channel; checked weekly-ish.", c: "blue",   href: "https://www.linkedin.com/in/Shubz-s-sharma/" },
-    { label: "GitHub",   handle: "github.com/Shubzthub",           note: "For code or issues on the open repos.",     c: "purple", href: "https://github.com/Shubzthub" },
+    { label: "Email",    handle: "hello@shubzsharma.com",          note: "Best — read once a day in the morning.",   c: "orange", href: "mailto:hello@shubzsharma.com" },
+    { label: "LinkedIn", handle: "linkedin.com/in/Shubz-s-sharma", note: "Conventional channel; checked weekly-ish.", c: "orange", href: "https://www.linkedin.com/in/Shubz-s-sharma/" },
+    { label: "GitHub",   handle: "github.com/Shubzthub",           note: "For code or issues on the open repos.",     c: "yellow", href: "https://github.com/Shubzthub" },
   ];
 
   const preferences: [string, string, string][] = [

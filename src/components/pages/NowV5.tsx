@@ -47,8 +47,21 @@ export function NowV5({
     }
   }, [t.paper]);
 
-  const focusColours = [t.prompt, t.ochre, t.blue, t.magenta, t.teal];
-  const condColours = [t.cyan, t.ochre, t.prompt, t.magenta];
+  // V5 canonical mapping: each FOCUS coloured by its primary topic.
+  // FOCUSES[0] Building Orion search (LLM eng) → purple (ML technical research)
+  // FOCUSES[1] Studying BlueDot AGI Strategy   → blue (AI safety)
+  // FOCUSES[2] Reading AI safety papers        → blue (AI safety)
+  // FOCUSES[3] Refining this site (typography) → yellow (Infrastructure & craft)
+  // FOCUSES[4] Writing ZX-calculus essay       → prompt-green (Physics)
+  // See DECISIONS-v5.md §14. If FOCUSES changes shape in src/data/now.ts,
+  // re-pick each colour by topic.
+  const focusColours = [t.purple, t.blue, t.blue, t.yellow, t.prompt];
+  // CONDITIONS are personal state markers, not topical — but the user
+  // asked for canonical alignment, so each maps to its content's topic:
+  // Mood (study-mode) → blue (AI-safety study), Music (tame impala) →
+  // orange (personal/community), Reading (AI safety papers) → blue
+  // (AI safety), Drink (matcha) → orange (personal/community).
+  const condColours = [t.blue, t.orange, t.blue, t.orange];
 
   // Build mini-term lines from JOURNAL with cycling accent.
   const journalAccents = ["prompt", "teal", "ochre", "magenta", "purple", "red"];
