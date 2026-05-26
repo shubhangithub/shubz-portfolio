@@ -25,15 +25,25 @@ export type SocialPost = {
   /** V5 canonical accent key. Defaults to the platform's natural colour
    *  when omitted (linkedin → blue, github → yellow, x → magenta, etc). */
   family?: NBAccentKey;
+  /** Optional accompanying image. Path relative to /public, e.g.
+   *  "/social/minstp.jpg". Renders as a small square thumb next to
+   *  the post text. Drop the file in public/social/ and reference here. */
+  image?: string;
+  /** Optional alt text for the image (a11y). Defaults to the post text
+   *  if omitted, but a tighter description is better. */
+  imageAlt?: string;
 };
 
 export const SOCIAL_POSTS: SocialPost[] = [
   {
-    date: "26 May 2026",
+    date: "Feb 2026",
     platform: "linkedin",
-    text: "Some context — placeholder. Replace with your actual latest LinkedIn post. Edit src/data/social.ts to update.",
+    text:
+      "Elected a Member of the Institute of Physics, the learned society for physics in the UK and Ireland. My QM modules in MFoCS deepened my love for physics — grateful for the recognition and the chance to be part of a long-standing scientific institution.",
     url: "https://www.linkedin.com/in/Shubz-s-sharma/",
-    family: "blue",
+    family: "prompt", // green = Physics (canonical topical match for this post)
+    image: "/social/minstp.jpg",
+    imageAlt: "MInstP certificate from the Institute of Physics",
   },
 ];
 
@@ -47,13 +57,17 @@ export const PLATFORM_DEFAULT_FAMILY: Record<string, NBAccentKey> = {
 };
 
 // ---------------------------------------------------------------------------
-// GITHUB CONTRIBUTION GRAPH — driven by ghchart.rshah.org which renders a
-// year-of-commits heatmap as an SVG. Free, no auth, embed-as-img. Falls
-// back to nothing visible if the service is down — failure mode is benign.
+// GITHUB CONTRIBUTION GRAPH — rendered on the home page via
+// react-github-calendar (see HomeV5). The library fetches from
+// github-contributions-api.jogruber.de which scrapes the public profile.
+//
+// Important: the count shown reflects PUBLIC contributions only by default.
+// To include private-repo commits on the public profile (and therefore in
+// the heatmap), turn on:
+//   GitHub Settings → Public profile → "Include private contributions on
+//   my profile"
+// If you have multiple emails making commits, also confirm each one is
+// linked in Settings → Emails so they count toward your contribution
+// graph.
 // ---------------------------------------------------------------------------
 export const GITHUB_USERNAME = "shubhangithub";
-
-/** Build the chart URL for the active theme's accent colour (hex without #). */
-export function ghChartUrl(hexNoHash: string, username: string = GITHUB_USERNAME): string {
-  return `https://ghchart.rshah.org/${hexNoHash}/${username}`;
-}

@@ -175,12 +175,13 @@ export function HomeV5({
                         rel="noreferrer"
                         style={{
                           display: "grid",
-                          gridTemplateColumns: "auto 1fr",
+                          gridTemplateColumns: p.image ? "auto 1fr auto" : "auto 1fr",
                           gap: 12,
                           padding: "8px 0",
                           borderBottom: i === SOCIAL_POSTS.length - 1 ? "none" : `1px dashed ${t.muted}33`,
                           textDecoration: "none",
                           color: "inherit",
+                          alignItems: "start",
                         }}
                       >
                         <span style={{
@@ -192,6 +193,19 @@ export function HomeV5({
                           <div style={{ fontFamily: "var(--f-body)", fontSize: 14, color: t.ink, lineHeight: 1.5 }}>{p.text}</div>
                           <div style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, marginTop: 4 }}>{p.date}</div>
                         </div>
+                        {p.image && (
+                          <img
+                            src={p.image}
+                            alt={p.imageAlt || p.text}
+                            loading="lazy"
+                            style={{
+                              width: 64, height: 64, objectFit: "cover",
+                              border: `1px solid ${c}55`,
+                              borderRadius: 2,
+                              flexShrink: 0,
+                            }}
+                          />
+                        )}
                       </a>
                     );
                   })}
