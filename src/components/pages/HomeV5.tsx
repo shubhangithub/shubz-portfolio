@@ -85,11 +85,16 @@ const HOME_TOOLBOX: ToolGroup[] = [
     { name: "GNSS atmospheric modelling", links: [{ label: "honours thesis · CV", href: CV_PDF }] },
     { name: "Lotka–Volterra dynamics",    links: [{ label: "predator and prey", href: "/may-2026/" }] },
   ] },
-  { group: "Other areas", primary: "ochre", items: [
+  { group: "Mathematics", primary: "magenta", items: [
     { name: "Computational Game Theory", links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
     { name: "Geometric Deep Learning",   links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
     { name: "Category Theory",           links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
+    { name: "Cryptography · number theory", links: [{ label: "cipher program · CV", href: CV_PDF }] },
+  ] },
+  { group: "Other areas", primary: "ochre", items: [
     { name: "UI / UX",                   links: [{ label: "this site", href: "/" }] },
+    { name: "Compiler · VM design",      links: [{ label: "Nand2Tetris · /work", href: "/work/" }] },
+    { name: "Bioinformatics",            links: [{ label: "jaya · proteins", href: "/jaya/" }] },
   ] },
   { group: "Soft skills", primary: "prompt", items: [
     { name: "Team leadership",                    links: [{ label: "Dotslash (10+) · Kolhapur · Council · CV", href: CV_PDF }] },

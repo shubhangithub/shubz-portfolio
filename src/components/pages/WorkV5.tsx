@@ -179,13 +179,20 @@ const WORK_TOOLBOX: ToolGroup[] = [
     { name: "Satellite remote sensing",    links: [{ label: "INSAT-3D cloud detection · CV", href: CV_PDF }] },
     { name: "Lotka–Volterra dynamics",     links: [{ label: "predator and prey", href: "/may-2026/" }] },
   ] },
+  { group: "Mathematics", primary: "magenta", items: [
+    { name: "Computational Game Theory",   links: [{ label: "Oxford MFoCS module · CV", href: CV_PDF }] },
+    { name: "Geometric Deep Learning",     links: [{ label: "Oxford MFoCS module · CV", href: CV_PDF }] },
+    { name: "Graph Theory",                links: [{ label: "Oxford MFoCS module · CV", href: CV_PDF }] },
+    { name: "Category Theory",             links: [{ label: "Oxford MFoCS module · CV", href: CV_PDF }] },
+    { name: "Algorithmic Foundations of Collective Decision Making", links: [{ label: "Oxford MFoCS module · CV", href: CV_PDF }] },
+    { name: "Computational Complexity",    links: [{ label: "Oxford MFoCS module · CV", href: CV_PDF }] },
+    { name: "Cryptography · number theory", links: [{ label: "cipher program (5-layer) · CV", href: CV_PDF }] },
+    { name: "Linear algebra · transforms", links: [
+      { label: "GNSS regression · CV", href: CV_PDF },
+      { label: "cipher program · CV", href: CV_PDF },
+    ] },
+  ] },
   { group: "Other areas", primary: "ochre", items: [
-    { name: "Computational Game Theory",   links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
-    { name: "Geometric Deep Learning",     links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
-    { name: "Graph Theory",                links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
-    { name: "Category Theory",             links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
-    { name: "Algorithmic Collective Decision Making", links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
-    { name: "Computational Complexity",    links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
     { name: "Compiler · VM design",        links: [{ label: "Nand2Tetris (all 13 projects) · /work", href: "/work/" }] },
     { name: "HDL · gate-level design",     links: [{ label: "Nand2Tetris (NAND → computer) · /work", href: "/work/" }] },
     { name: "UI / UX design",              links: [
@@ -196,7 +203,6 @@ const WORK_TOOLBOX: ToolGroup[] = [
     { name: "Digital marketing · SEO · Google/Facebook Ads", links: [{ label: "PrintedCraft (Google front-page) · CV", href: CV_PDF }] },
     { name: "Graphic · product design",    links: [{ label: "PrintedCraft (100+ designs) · CV", href: CV_PDF }] },
     { name: "Qualitative · cultural research", links: [{ label: "kolhapur · Discover India Project · CV", href: CV_PDF }] },
-    { name: "Cryptography",                links: [{ label: "cipher program (5-layer) · CV", href: CV_PDF }] },
     { name: "IoT",                         links: [{ label: "IoT weather bot · CV", href: CV_PDF }] },
     { name: "Bioinformatics",              links: [
       { label: "jaya · proteins", href: "/jaya/" },

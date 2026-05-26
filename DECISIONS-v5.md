@@ -266,16 +266,42 @@ when the link points at an `/<slug>/` route — that preserves the
 "where this skill earned its place" provenance signal without scrambling
 the visual grouping.
 
-| Category         | Primary       | Reason                          |
-|------------------|---------------|---------------------------------|
-| Languages        | `blue`        | code-y / terminal-adjacent      |
-| Tools            | `teal`        | utility / infrastructure        |
-| Libraries        | `orange`      | warm / packaged-up              |
-| ML / Data        | `purple`      | analytical / modelling          |
-| AI / LLM tooling | `yellow`      | frontier / experimental         |
-| Physics          | `cyan`        | atmospheric / quantum / cool    |
-| Other areas      | `ochre`       | varied / academic               |
-| Soft skills      | `prompt` (green) | people / growth / "okay" states |
+| Category         | Primary       | Reason                                |
+|------------------|---------------|---------------------------------------|
+| Languages        | `blue`        | code-y / terminal-adjacent            |
+| Tools            | `teal`        | utility / infrastructure              |
+| Libraries        | `orange`      | warm / packaged-up                    |
+| ML / Data        | `purple`      | analytical / modelling                |
+| AI / LLM tooling | `yellow`      | frontier / experimental               |
+| Mathematics      | `magenta`     | rigorous / abstract / foundational    |
+| Physics          | `cyan`        | atmospheric / quantum / cool          |
+| Other areas      | `ochre`       | varied / applied / misc               |
+| Soft skills      | `prompt` (green) | people / growth / "okay" states    |
+
+### Link colour rules (inside each chip)
+
+The chip has **two layers of colour**, deliberately:
+
+- **Left border + group label = category** (what kind of skill this is).
+- **Each `↗ link` text = provenance** (where the skill earned its place):
+
+| Link `href`                | Text colour                                   |
+|----------------------------|-----------------------------------------------|
+| `/<slug>/` (essay route)   | that essay's accent (`POSTS[i].nbAccent`)     |
+| `https://…` (project URL, GitHub) | chip's category primary               |
+| `/uploads/…CV…pdf`         | chip's category primary                       |
+| `/work/`, `/writing/`, `/`, `/now/` | chip's category primary              |
+
+So a Python chip sits in Languages (blue border) but its individual links
+read: `↗ jaya, improved` in **orange** (JAYA essay accent), `↗ positive by
+how much` in **magenta** (threshold-gate accent), `↗ honours thesis · CV`
+in **blue** (no essay → falls back to category). The chip's border tells
+you "this is a language"; the link colours tell you the kind of place
+each link goes. Two signals, both legible, no clashes.
+
+If a chip is in the same category as an essay it links to, the link's
+text just matches the border — which is the correct "wait, this isn't
+random" signal that triggered redesigning the system in the first place.
 
 **Every chip-link has a real href.** Resolution order:
 - `/<slug>/` where `<slug>` is a known essay → in-site essay route,
