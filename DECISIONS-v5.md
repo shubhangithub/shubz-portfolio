@@ -335,6 +335,47 @@ meta-topic** it most belongs to from the table above, set
 `POSTS[i].family` + `POSTS[i].nbAccent` accordingly, or for chips set
 the parent group's `primary`. The chip colour follows automatically.
 
+### Strict-alignment exceptions (universal-status conventions)
+
+The full site is routed through the canonical 10 above. A small set of
+chrome elements stay outside the topical system because they carry
+*universal status meaning* that's stronger than any topic:
+
+- **`prompt`-green status dots** (`● connected`, `● ready`, `● connected · zsh 5.9`)
+  read as "okay / live" by universal convention. The V5 spec itself
+  defines green as "okay states" — keeping these green preserves the
+  signal. Changing per-topic would break the cue.
+- **Terminal cursor blink** (`NBBlinker`) — prompt-green by universal
+  terminal-cursor convention.
+- **Trajectory current-job dot** on WorkV5 §02 — prompt-green = "active"
+  status marker.
+- **Mac chrome traffic lights** (red/yellow/green) — system colours,
+  not from the NB palette.
+- **JSON syntax highlighting** inside pre-blocks (`{ "key": "value" }`
+  in ContactV5 protocol, NowV5 telemetry, ArticleV5 essay meta) —
+  keys + values use a blue/ochre/orange pattern for readability of
+  JSON syntax. The enclosing block's `NBPrompt` accent carries the
+  topical signal; the syntax inside is decorative.
+
+Everything else — chip border, link text, marginalia, last-updated
+stamp, section headers, hero accent italics, builds card, OG cards,
+focus rows, condition cards, channel rows, preference rows — is
+strictly canonical.
+
+### Per-page page-level topic resolution
+
+For chrome that needs *a* topical accent but the page isn't a single
+topic, use this default:
+
+| Page                              | Default accent                    |
+|-----------------------------------|-----------------------------------|
+| `/` (HomeV5)                      | yellow for meta-stamp; per-content topical accents inline |
+| `/writing/` (WritingIndexV5)      | yellow (Infrastructure & craft — essay-craft)             |
+| `/work/` (WorkV5)                 | yellow (Infrastructure & craft — career/building)          |
+| `/now/` (NowV5)                   | orange (Outreach — personal current state)                 |
+| `/contact/` (ContactV5)           | orange (Outreach — communication)                          |
+| `/<slug>/` (ArticleV5)            | that essay's `nbAccent`                                    |
+
 **Every chip-link has a real href.** Resolution order:
 - `/<slug>/` where `<slug>` is a known essay → in-site essay route,
   link text gets that essay's accent

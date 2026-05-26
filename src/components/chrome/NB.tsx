@@ -165,12 +165,17 @@ export function NBLastUpdated({
   t,
   label = "NOTEBOOK",
   date = "26 may 2026",
+  accent,
 }: {
   t: any;
   label?: string;
   date?: string;
+  /** V5 canonical: pass the page's primary topic colour (see DECISIONS-v5.md §14).
+   *  Defaults to yellow (Infrastructure & craft) — stamps are meta-site info. */
+  accent?: string;
 }) {
   const isMobile = useIsMobile();
+  const stampColour = accent || t.yellow;
   return (
     <div style={{
       padding: isMobile ? "14px 20px 0" : "18px 64px 0",
@@ -181,7 +186,7 @@ export function NBLastUpdated({
       <span><span style={{ color: t.prompt, marginRight: 8 }}>●</span>SHUBZ SHARMA · {label}</span>
       <span style={{
         padding: "4px 10px", border: `1.5px dashed ${t.muted}`, fontSize: 11,
-        transform: "rotate(-1.2deg)", color: t.ochre,
+        transform: "rotate(-1.2deg)", color: stampColour,
       }}>
         <span style={{ color: t.muted, marginRight: 6 }}>last updated</span>· {date}
       </span>
@@ -330,7 +335,10 @@ export function NBThumb({
 }
 
 // =============================================================================
-// MARGINALIA — rotated red italic, absolute-positioned
+// MARGINALIA — rotated italic, absolute-positioned. V5 canonical: pass the
+// `accent` prop with the marginalia's TOPICAL colour (the topic the note's
+// content belongs to). Defaults to red (legacy "red pen" pen-metaphor); the
+// fully-aligned site overrides on every call. See DECISIONS-v5.md §14.
 // =============================================================================
 export function NBMarginalia({
   t,
@@ -338,20 +346,24 @@ export function NBMarginalia({
   top = 130,
   right = -20,
   tilt = 2.5,
+  accent,
 }: {
   t: any;
   children: React.ReactNode;
   top?: number;
   right?: number;
   tilt?: number;
+  /** V5: topical accent for this margin note. */
+  accent?: string;
 }) {
+  const c = accent || t.red;
   return (
     <div className="nb-marginalia" style={{
       position: "absolute", right, top,
       transform: `rotate(${tilt}deg)`,
       fontFamily: "var(--f-display)", fontStyle: "italic",
-      fontSize: 16, color: t.red, lineHeight: 1.3, maxWidth: 130,
-      borderLeft: `2px solid ${t.red}`, paddingLeft: 8,
+      fontSize: 16, color: c, lineHeight: 1.3, maxWidth: 130,
+      borderLeft: `2px solid ${c}`, paddingLeft: 8,
       pointerEvents: "none",
     }}>
       {children}

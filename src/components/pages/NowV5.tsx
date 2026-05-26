@@ -47,27 +47,16 @@ export function NowV5({
     }
   }, [t.paper]);
 
-  // V5 canonical mapping: each FOCUS coloured by its primary topic.
-  // FOCUSES[0] Building Orion search (LLM eng) → purple (ML technical research)
-  // FOCUSES[1] Studying BlueDot AGI Strategy   → blue (AI safety)
-  // FOCUSES[2] Reading AI safety papers        → blue (AI safety)
-  // FOCUSES[3] Refining this site (typography) → yellow (Infrastructure & craft)
-  // FOCUSES[4] Writing ZX-calculus essay       → prompt-green (Physics)
-  // See DECISIONS-v5.md §14. If FOCUSES changes shape in src/data/now.ts,
-  // re-pick each colour by topic.
-  const focusColours = [t.purple, t.blue, t.blue, t.yellow, t.prompt];
-  // CONDITIONS are personal state markers, not topical — but the user
-  // asked for canonical alignment, so each maps to its content's topic:
-  // Mood (study-mode) → blue (AI-safety study), Music (tame impala) →
-  // orange (personal/community), Reading (AI safety papers) → blue
-  // (AI safety), Drink (matcha) → orange (personal/community).
-  const condColours = [t.blue, t.orange, t.blue, t.orange];
+  // V5 canonical: each FOCUS / CONDITION carries its own `family` (an
+  // NBAccentKey) in src/data/now.ts. We resolve `family` → palette colour
+  // here, so the data file is the single source of truth for which topic
+  // each entry belongs to. Re-tag entries in now.ts to recolour them.
 
-  // Build mini-term lines from JOURNAL with cycling accent.
-  const journalAccents = ["prompt", "teal", "ochre", "magenta", "purple", "red"];
-  const miniLines = JOURNAL.map((j: any, i: number) => ({
+  // Build mini-term lines from JOURNAL. Each entry's date colour comes
+  // from its `family` field in src/data/now.ts (the canonical topic).
+  const miniLines = JOURNAL.map((j) => ({
     d: shortDate(j.date),
-    c: t[journalAccents[i % journalAccents.length]] || t.ink,
+    c: t[j.family] || t.ink,
     txt: j.note,
   }));
 
@@ -80,7 +69,7 @@ export function NowV5({
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
     >
-      <NBLastUpdated t={t} label="NOW · WEEKLY-ISH SNAPSHOT" date="26 may 2026" />
+      <NBLastUpdated t={t} label="NOW · WEEKLY-ISH SNAPSHOT" date="26 may 2026" accent={t.orange} />
 
       <div style={{
         padding: PAGE_PAD,
@@ -91,7 +80,8 @@ export function NowV5({
         <main id="main" tabIndex={-1}>
           {/* Title */}
           <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 32, position: "relative" }}>
-            <NBPrompt t={t} cwd="~/now" cmd="watch -n 0 cat .now" comment="live" accent={t.prompt} />
+            {/* Title prompt — accent on '%' = current-state Outreach orange. */}
+            <NBPrompt t={t} cwd="~/now" cmd="watch -n 0 cat .now" comment="live" accent={t.orange} />
             <h1 style={{
               fontFamily: "var(--f-display)",
               fontVariationSettings: '"opsz" 144, "SOFT" 50',
@@ -101,21 +91,24 @@ export function NowV5({
               letterSpacing: "-0.02em",
               margin: 0, color: t.ink, maxWidth: "18ch",
             }}>
-              What I'm <em style={{ color: t.prompt, fontStyle: "italic" }}>actually</em>{" "}
-              <em style={{ color: t.ochre, fontStyle: "italic" }}>doing</em> this week.
+              {/* V5 canonical: current-state / personal action → Outreach (orange). */}
+              What I'm <em style={{ color: t.orange, fontStyle: "italic" }}>actually</em>{" "}
+              <em style={{ color: t.orange, fontStyle: "italic" }}>doing</em> this week.
             </h1>
             <p style={{ fontSize: isMobile ? 16 : 18, lineHeight: 1.6, color: t.softInk, maxWidth: "56ch", marginTop: 26 }}>
               The <a href="https://nownownow.com/about" target="_blank" rel="noreferrer" style={{ color: t.blue, borderBottom: `1px solid ${t.blue}66`, textDecoration: "none" }}>/now</a> convention — what's on my plate, what I'm reading, where my attention is going. A snapshot, not a profile. Updated whenever I notice it has drifted.
             </p>
             {!isMobile && (
-              <NBMarginalia t={t} top={130} tilt={2.5}>
+              /* Marginalia = personal philosophy / focus rule → Outreach (orange). */
+              <NBMarginalia t={t} top={130} tilt={2.5} accent={t.orange}>
                 the rule: only<br/>five things at<br/>once. anything<br/>more is fiction.
               </NBMarginalia>
             )}
           </div>
 
           {/* §02 Right now */}
-          <NBPromptHead t={t} n="§02" command="jobs" comment={`${FOCUSES.length} concurrent threads`} title="Right now" accent={t.ochre} level={isMobile ? 22 : 28} />
+          {/* §02 Right now — section accent = orange (Outreach, current state). */}
+          <NBPromptHead t={t} n="§02" command="jobs" comment={`${FOCUSES.length} concurrent threads`} title="Right now" accent={t.orange} level={isMobile ? 22 : 28} />
           <div style={{ marginBottom: 56, borderTop: `1px solid ${t.muted}55` }}>
             {FOCUSES.map((f, i) => (
               <div key={i} style={{
@@ -125,7 +118,7 @@ export function NowV5({
                 padding: "16px 0",
                 borderBottom: `1px dashed ${t.muted}33`,
               }}>
-                <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: focusColours[i % focusColours.length], textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t[f.family] || t.ink, textTransform: "uppercase", letterSpacing: "0.08em" }}>
                   ● {f.kind}
                 </span>
                 <span style={{ fontFamily: "var(--f-body)", fontSize: 16, color: t.ink, lineHeight: 1.55 }}>{f.what}</span>
@@ -138,8 +131,9 @@ export function NowV5({
             ))}
           </div>
 
-          {/* §03 Field journal */}
-          <NBPromptHead t={t} n="§03" command="tail -n 60 ./journal.log" comment="newest first" title="Field journal" accent={t.magenta} level={isMobile ? 22 : 28} />
+          {/* §03 Field journal — section accent = orange (Outreach, since
+              field journal is personal current-state recording). */}
+          <NBPromptHead t={t} n="§03" command="tail -n 60 ./journal.log" comment="newest first" title="Field journal" accent={t.orange} level={isMobile ? 22 : 28} />
           <div style={{ marginBottom: 56, borderTop: `1px solid ${t.muted}55` }}>
             {JOURNAL.map((j, i) => (
               <div key={i} style={{
@@ -148,27 +142,31 @@ export function NowV5({
                 padding: "12px 0",
                 borderBottom: `1px dashed ${t.muted}33`,
               }}>
-                <span style={{ fontFamily: "var(--f-mono)", fontSize: 12, color: t[journalAccents[i % journalAccents.length]] || t.ink }}>{shortDate(j.date)}</span>
+                <span style={{ fontFamily: "var(--f-mono)", fontSize: 12, color: t[j.family] || t.ink }}>{shortDate(j.date)}</span>
                 <span style={{ fontFamily: "var(--f-body)", fontSize: 15, color: t.softInk, lineHeight: 1.55, fontStyle: "italic" }}>{j.note}</span>
               </div>
             ))}
           </div>
 
-          {/* §04 Conditions */}
-          <NBPromptHead t={t} n="§04" command="uptime; weather; mood" title="Conditions" accent={t.cyan} level={isMobile ? 22 : 28} />
+          {/* §04 Conditions — section accent = orange (Outreach, personal/
+              community state). Each condition card pulls its colour from
+              its `family` field in src/data/now.ts. */}
+          <NBPromptHead t={t} n="§04" command="uptime; weather; mood" title="Conditions" accent={t.orange} level={isMobile ? 22 : 28} />
           <div style={{
             display: "grid",
             gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
             gap: 12, marginBottom: 60,
           }}>
-            {CONDITIONS.map((c, i) => (
+            {CONDITIONS.map((c, i) => {
+              const cc = t[c.family] || t.ink;
+              return (
               <div key={i} style={{ borderRadius: 3, overflow: "hidden", border: `1px solid ${t.rule}`, background: t.paper2 }}>
                 <div style={{
                   display: "flex", alignItems: "center", gap: 6,
                   padding: "6px 10px", borderBottom: `1px dashed ${t.muted}33`,
-                  fontFamily: "var(--f-mono)", fontSize: 10, color: condColours[i % condColours.length], letterSpacing: "0.1em",
+                  fontFamily: "var(--f-mono)", fontSize: 10, color: cc, letterSpacing: "0.1em",
                 }}>
-                  <span style={{ width: 7, height: 7, borderRadius: 999, background: condColours[i % condColours.length] }} />
+                  <span style={{ width: 7, height: 7, borderRadius: 999, background: cc }} />
                   {c.k.toUpperCase()}
                 </div>
                 <div style={{ padding: "10px 12px 12px" }}>
@@ -176,17 +174,20 @@ export function NowV5({
                   <div style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, marginTop: 6 }}>{c.sub}</div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </main>
 
         {/* Right rail */}
         <aside>
-          <NBPrompt t={t} cwd="~/now" cmd="cat .now" comment="autoplay" accent={t.prompt} />
-          <NBMiniTerm t={t} accent={t.blue} lines={miniLines} cwd="~/now" />
+          {/* Right-rail mini-term — both prompts use orange (current state). */}
+          <NBPrompt t={t} cwd="~/now" cmd="cat .now" comment="autoplay" accent={t.orange} />
+          <NBMiniTerm t={t} accent={t.orange} lines={miniLines} cwd="~/now" />
 
           <div style={{ marginTop: 28 }}>
-            <NBPrompt t={t} cwd="~/now" cmd="telemetry --json" comment="london" accent={t.cyan} />
+            {/* Telemetry JSON = geospatial location data → teal. */}
+            <NBPrompt t={t} cwd="~/now" cmd="telemetry --json" comment="london" accent={t.teal} />
             <pre style={{
               background: t.paper2, border: `1px solid ${t.rule}`,
               padding: "12px 14px", borderRadius: 3,
@@ -202,7 +203,8 @@ export function NowV5({
           </div>
 
           <div style={{ marginTop: 28 }}>
-            <NBPrompt t={t} cwd="~/now" cmd="cat .threads" comment="counts" accent={t.purple} />
+            {/* .threads is meta-summary (counts) → Infra & craft (yellow). */}
+            <NBPrompt t={t} cwd="~/now" cmd="cat .threads" comment="counts" accent={t.yellow} />
             <div style={{
               background: t.paper2, border: `1px solid ${t.rule}`,
               padding: "14px 16px", borderRadius: 3,

@@ -27,10 +27,14 @@ import { NotebookLotka } from "../diagrams/NotebookLotka";
 
 type NavFn = (page: string, slug?: string | null) => void;
 
+// V5 canonical: each build's `c` = its primary topic.
+//   fashion-web        → ochre  (markets/predictions/fintech)
+//   taylor-rec-engine  → ochre  (recommendations roll up to markets)
+//   platypus-learn     → purple (ML technical research — LLM-driven learning)
 const HOME_BUILDS = [
   { name: "fashion-web",         c: "ochre",  blurb: "ML trend intelligence + LMSR exchange.",                year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
-  { name: "taylor-rec-engine",   c: "purple", blurb: "Six recommendation engines on one songbook.",           year: "2026",   url: "https://shubz-taylor-recommendation-engine.vercel.app" },
-  { name: "platypus-learn",      c: "blue",   blurb: "AI learning platform — PDFs and YouTube → courses.",   year: "2025 —", url: "https://platypus-learn.vercel.app" },
+  { name: "taylor-rec-engine",   c: "ochre",  blurb: "Six recommendation engines on one songbook.",           year: "2026",   url: "https://shubz-taylor-recommendation-engine.vercel.app" },
+  { name: "platypus-learn",      c: "purple", blurb: "AI learning platform — PDFs and YouTube → courses.",   year: "2025 —", url: "https://platypus-learn.vercel.app" },
 ];
 
 // Toolbox v2 — category-driven colour. Each group has a `primary` accent
@@ -139,7 +143,7 @@ export function HomeV5({
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
     >
-      <NBLastUpdated t={t} label="NOTEBOOK" date="26 may 2026" />
+      <NBLastUpdated t={t} label="NOTEBOOK" date="26 may 2026" accent={t.yellow} />
 
       <div style={{
         padding: PAGE_PAD,
@@ -150,7 +154,8 @@ export function HomeV5({
         <main id="main" tabIndex={-1}>
           {/* Title page */}
           <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 32, position: "relative" }}>
-            <NBPrompt t={t} cwd="~/home" cmd="cat ./about.md" comment="who, what, where" accent={t.prompt} />
+            {/* About-section header = personal intro → Outreach (orange). */}
+            <NBPrompt t={t} cwd="~/home" cmd="cat ./about.md" comment="who, what, where" accent={t.orange} />
             <h1 style={{
               fontFamily: "var(--f-display)",
               fontVariationSettings: '"opsz" 144, "SOFT" 50',
@@ -184,14 +189,17 @@ export function HomeV5({
               I'm a founding engineer at <span style={{ color: t.teal, fontStyle: "italic" }}>Orion</span>, where I build geospatial ML that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths (dabbled in some physics) at <span style={{ color: t.ochre, fontStyle: "italic" }}>Oxford</span> and computer science at <span style={{ color: t.ochre, fontStyle: "italic" }}>FLAME</span>. I am also, in inconvenient order: a <span style={{ color: t.orange }}>Thames rower</span> on Sundays, active in <span style={{ color: t.orange }}>STEM ed outreach</span>, a <span style={{ color: t.orange }}>hobby pianist</span>, a <span style={{ color: t.ochre }}>fashion enthusiast</span>, and very into <span style={{ color: t.magenta }}>interactive diagrams</span>.
             </p>
             {!isMobile && (
-              <NBMarginalia t={t} top={120} right={-10}>
+              /* Marginalia content = craft methodology ("solve on paper,
+                 then code"). V5 canonical: Infrastructure & craft → yellow. */
+              <NBMarginalia t={t} top={120} right={-10} accent={t.yellow}>
                 first solve it<br />on paper.<br />then in code.
               </NBMarginalia>
             )}
           </div>
 
           {/* §02 Pinned writing */}
-          <NBPrompt t={t} cmd="ls ./writing/pinned/" comment="3 open on the desk" accent={t.blue} />
+          {/* Pinned-writing section header → Infra & craft (yellow, essay craft). */}
+          <NBPrompt t={t} cmd="ls ./writing/pinned/" comment="3 open on the desk" accent={t.yellow} />
           <div className="caps" style={{ fontFamily: "var(--f-ui)", color: t.muted, fontSize: 11, marginBottom: 14, letterSpacing: "0.16em", display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
             <span><span style={{ color: t.prompt }}>§02</span>&nbsp;&nbsp;PINNED · FEATURED WRITING</span>
             <a href="/writing/" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} style={{ color: t.blue, fontFamily: "var(--f-mono)", textDecoration: "none" }}>all {POSTS.length} essays →</a>
@@ -262,7 +270,8 @@ export function HomeV5({
           </div>
 
           {/* §04 Toolbox */}
-          <NBPrompt t={t} cmd="cat ./toolbox.md" comment="what built what" accent={t.purple} />
+          {/* Toolbox section header = meta-aggregate of skills → Infra & craft (yellow). */}
+          <NBPrompt t={t} cmd="cat ./toolbox.md" comment="what built what" accent={t.yellow} />
           <div style={{
             border: `2px solid ${t.ink}`,
             padding: isMobile ? "18px 16px" : "22px 26px 26px",
@@ -355,14 +364,15 @@ export function HomeV5({
 
         {/* Right rail */}
         <aside>
-          <NBPrompt t={t} cwd="~/home" cmd="cat .now" comment="live · autoplay" accent={t.prompt} />
-          <NBMiniTerm t={t} accent={t.blue} />
+          {/* cat .now mini-term — current state → Outreach (orange). */}
+          <NBPrompt t={t} cwd="~/home" cmd="cat .now" comment="live · autoplay" accent={t.orange} />
+          <NBMiniTerm t={t} accent={t.orange} />
 
-          {/* Figure — Lotka size adapts so it never overflows narrow phones
-              (canvas dims are imperatively set so we compute w/h up-front
-              rather than relying on CSS scaling). */}
+          {/* Figure — accent matches may-2026 essay (Lotka rolls up to
+              Biotech red under the canonical 10). Lotka canvas, thumbtack,
+              prompt, and "see the math →" link all share the essay's accent. */}
           <div style={{ marginTop: 28 }}>
-            <NBPrompt t={t} cwd="~/figures" cmd="./figures/may.sh" accent={t.teal} />
+            <NBPrompt t={t} cwd="~/figures" cmd="./figures/may.sh" accent={t.red} />
             <div style={{
               border: `2px solid ${t.ink}`,
               padding: 16,
@@ -370,14 +380,14 @@ export function HomeV5({
               position: "relative",
               overflow: "hidden",
             }}>
-              <NBThumbtack color={t.teal} ink={t.ink} />
+              <NBThumbtack color={t.red} ink={t.ink} />
               <span style={{ fontFamily: "var(--f-display)", fontStyle: "italic", fontSize: 16, color: t.ink }}>fig. 01 — predator/prey</span>
               <div style={{ marginTop: 10 }}>
-                <NotebookLotka w={isMobile ? 240 : 290} h={isMobile ? 174 : 210} ink={t.ink} accent={t.teal} paper={t.paper} muted={t.muted} />
+                <NotebookLotka w={isMobile ? 240 : 290} h={isMobile ? 174 : 210} ink={t.ink} accent={t.red} paper={t.paper} muted={t.muted} />
               </div>
               <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, display: "flex", justifyContent: "space-between", marginTop: 8 }}>
                 <span>lotka–volterra · may '26</span>
-                <a href="/may-2026/" onClick={(e) => { e.preventDefault(); onNavigate("essay", "may-2026"); }} style={{ color: t.teal, textDecoration: "none" }}>see the math →</a>
+                <a href="/may-2026/" onClick={(e) => { e.preventDefault(); onNavigate("essay", "may-2026"); }} style={{ color: t.red, textDecoration: "none" }}>see the math →</a>
               </div>
             </div>
           </div>

@@ -74,7 +74,7 @@ export function WritingIndexV5({
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
     >
-      <NBLastUpdated t={t} label="WRITING · THE GARDEN" date="26 may 2026" />
+      <NBLastUpdated t={t} label="WRITING · THE GARDEN" date="26 may 2026" accent={t.yellow} />
 
       <div style={{
         padding: PAGE_PAD,
@@ -85,7 +85,8 @@ export function WritingIndexV5({
         <main id="main" tabIndex={-1}>
           {/* Title */}
           <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 32, position: "relative" }}>
-            <NBPrompt t={t} cwd="~/writing" cmd="cat ./README.md" comment="essays · notes · half-formed ideas" accent={t.prompt} />
+            {/* Writing index header → Infra & craft (yellow, essay craft). */}
+            <NBPrompt t={t} cwd="~/writing" cmd="cat ./README.md" comment="essays · notes · half-formed ideas" accent={t.yellow} />
             <h1 style={{
               fontFamily: "var(--f-display)",
               fontVariationSettings: '"opsz" 144, "SOFT" 50',
@@ -95,14 +96,16 @@ export function WritingIndexV5({
               letterSpacing: "-0.02em",
               margin: 0, color: t.ink, maxWidth: "18ch",
             }}>
-              An essay <em style={{ color: t.prompt, fontStyle: "italic" }}>garden</em>, growing{" "}
-              <em style={{ color: t.ochre, fontStyle: "italic" }}>slowly</em>.
+              {/* V5 canonical: writing is essay-craft → Infra & craft (yellow). */}
+              An essay <em style={{ color: t.yellow, fontStyle: "italic" }}>garden</em>, growing{" "}
+              <em style={{ color: t.yellow, fontStyle: "italic" }}>slowly</em>.
             </h1>
             <p style={{ fontSize: isMobile ? 16 : 18, lineHeight: 1.6, color: t.softInk, maxWidth: "56ch", marginTop: 26 }}>
               Long-form thinking on the projects I actually built. Each essay carries its own colour — pulled from the subject it argues with. Some pieces are finished; some are still arguing with themselves.
             </p>
             {!isMobile && (
-              <NBMarginalia t={t} top={120} tilt={-2.4}>
+              /* Marginalia about diagram-craft → Infrastructure & craft (yellow). */
+              <NBMarginalia t={t} top={120} tilt={-2.4} accent={t.yellow}>
                 every essay has<br/>a hand-coded<br/>diagram. no D3.
               </NBMarginalia>
             )}
@@ -110,7 +113,8 @@ export function WritingIndexV5({
 
           {/* Filter strip */}
           <div style={{ marginBottom: 26 }}>
-            <NBPrompt t={t} cmd={`grep -l '${active}' *.mdx`} comment={`${visible.length} of ${essays.length}`} accent={t.ochre} />
+            {/* Filter chips section → Infra & craft (yellow, organizing essays). */}
+            <NBPrompt t={t} cmd={`grep -l '${active}' *.mdx`} comment={`${visible.length} of ${essays.length}`} accent={t.yellow} />
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               {tags.map((tag) => {
                 const isActive = tag === active;
@@ -178,7 +182,8 @@ export function WritingIndexV5({
           )}
 
           {/* All essays */}
-          <NBPromptHead t={t} n="§03" command="ls ./essays/" title="All essays" accent={t.blue} level={22} comment={`${visible.length} listed`} />
+          {/* §03 All essays listing → Infra & craft (yellow). */}
+          <NBPromptHead t={t} n="§03" command="ls ./essays/" title="All essays" accent={t.yellow} level={22} comment={`${visible.length} listed`} />
           <ol style={{ listStyle: "none", padding: 0, margin: "0 0 44px" }}>
             {rest.map((e, i, arr) => (
               <li key={e.slug} style={{
@@ -237,7 +242,8 @@ export function WritingIndexV5({
 
         {/* Right rail */}
         <aside>
-          <NBPrompt t={t} cwd="~/writing" cmd="cat .topics" comment="counts" accent={t.purple} />
+          {/* Topic counts in right rail = meta-summary → Infra & craft (yellow). */}
+          <NBPrompt t={t} cwd="~/writing" cmd="cat .topics" comment="counts" accent={t.yellow} />
           <div style={{
             background: t.paper2, border: `1px solid ${t.rule}`,
             padding: "14px 16px", borderRadius: 3, marginBottom: 28,

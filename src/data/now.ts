@@ -1,34 +1,56 @@
 // Weekly-ish snapshot content. Edit this file (and only this file) when the
 // /now page or the home-page ticker drift. Used by:
-//   - src/components/pages/NowV4.tsx     (focuses, journal, conditions)
-//   - src/components/pages/HomeV4.tsx    (journal ticker — latest 3 entries)
+//   - src/components/pages/NowV5.tsx   (focuses, journal, conditions)
+//   - src/components/pages/HomeV5.tsx  (journal ticker → mini-term)
+//   - V4 pages (legacy) still read these arrays too.
+//
+// V5 colour rule: each entry carries a `family` pointing at one of the 10
+// canonical NB palette keys (see palette.ts + DECISIONS-v5.md §14). The
+// page components resolve `family` → `t[family]` to colour rows. Adding a
+// new entry: pick the meta-topic, set `family`, rest is automatic.
 
-export type Focus = { kind: string; what: string };
-export type JournalEntry = { date: string; note: string };
-export type Condition = { k: string; v: string; sub: string };
+import type { NBAccentKey } from "./palette";
+
+export type Focus = { kind: string; what: string; family: NBAccentKey };
+export type JournalEntry = { date: string; note: string; family: NBAccentKey };
+export type Condition = { k: string; v: string; sub: string; family: NBAccentKey };
 
 // /now · "Right now" — five concurrent threads
 export const FOCUSES: Focus[] = [
-  { kind: "Building",  what: "Orion's search system. Rewriting tool schemas, system prompts with decision trees, fewshot disambiguation. Three weeks of rewrites; the results finally stopped feeling stochastic." },
-  { kind: "Studying",  what: "BlueDot's AGI Strategy cohort, May into June. The strategic frame around the technical work I already do." },
-  { kind: "Reading",   what: "AI safety: Betley on weird generalisation and inductive backdoors, Bengio's Scientist AI, Anthropic's Persona Selection Model, Nanda on pragmatic interpretability." },
-  { kind: "Refining",  what: "This site, slowly. The fun is in the typography." },
-  { kind: "Writing",   what: "A second ZX-calculus essay." },
+  // Orion search (LLM eng / tool schemas / few-shot) → ML technical research
+  { kind: "Building",  family: "purple", what: "Orion's search system. Rewriting tool schemas, system prompts with decision trees, fewshot disambiguation. Three weeks of rewrites; the results finally stopped feeling stochastic." },
+  // BlueDot AGI Strategy → AI safety
+  { kind: "Studying",  family: "blue",   what: "BlueDot's AGI Strategy cohort, May into June. The strategic frame around the technical work I already do." },
+  // AI safety reading list → AI safety
+  { kind: "Reading",   family: "blue",   what: "AI safety: Betley on weird generalisation and inductive backdoors, Bengio's Scientist AI, Anthropic's Persona Selection Model, Nanda on pragmatic interpretability." },
+  // This site / typography → Infrastructure & craft
+  { kind: "Refining",  family: "yellow", what: "This site, slowly. The fun is in the typography." },
+  // ZX-calculus essay → Physics
+  { kind: "Writing",   family: "prompt", what: "A second ZX-calculus essay." },
 ];
 
 // /now · "Field journal" — newest first
 export const JOURNAL: JournalEntry[] = [
-  { date: "2026-05", note: "Started BlueDot's AGI Strategy cohort. Pre-reading has already moved more pieces around in my head than I expected." },
-  { date: "2026-05", note: "Rewriting Orion's search system — tool schemas, decision-tree prompts, fewshot disambiguation. Three weeks in. The results finally stopped feeling stochastic." },
-  { date: "2026-04", note: "Used Claude to redesign fashion-web. Broke more than I expected. Still putting it back together." },
-  { date: "2026-02", note: "Elected MInstP. The certificate is small and unreasonably satisfying." },
-  { date: "2025-12", note: "Built a second pass at the Taylor Swift recommender — six engines, Python and TypeScript. Learning a lot about how recommendation systems actually work when you try to make them good." },
+  // BlueDot cohort → AI safety
+  { date: "2026-05", family: "blue",   note: "Started BlueDot's AGI Strategy cohort. Pre-reading has already moved more pieces around in my head than I expected." },
+  // Orion search rewrite → ML technical research (LLM eng)
+  { date: "2026-05", family: "purple", note: "Rewriting Orion's search system — tool schemas, decision-tree prompts, fewshot disambiguation. Three weeks in. The results finally stopped feeling stochastic." },
+  // fashion-web redesign → Markets (the product is markets)
+  { date: "2026-04", family: "ochre",  note: "Used Claude to redesign fashion-web. Broke more than I expected. Still putting it back together." },
+  // MInstP election → Physics
+  { date: "2026-02", family: "prompt", note: "Elected MInstP. The certificate is small and unreasonably satisfying." },
+  // Taylor rec second pass → Markets (recommendations)
+  { date: "2025-12", family: "ochre",  note: "Built a second pass at the Taylor Swift recommender — six engines, Python and TypeScript. Learning a lot about how recommendation systems actually work when you try to make them good." },
 ];
 
 // /now · "Conditions" tile
 export const CONDITIONS: Condition[] = [
-  { k: "Mood",    v: "study-mode",         sub: "rare and protected" },
-  { k: "Music",   v: "tame impala",         sub: "currents, specifically" },
-  { k: "Reading", v: "ai safety papers",   sub: "allegedly also a novel" },
-  { k: "Drink",   v: "strawberry matcha",  sub: "from blank street" },
+  // Study-mode → AI safety (BlueDot study)
+  { k: "Mood",    family: "blue",   v: "study-mode",        sub: "rare and protected" },
+  // Music → Outreach (personal/community)
+  { k: "Music",   family: "orange", v: "tame impala",       sub: "currents, specifically" },
+  // Reading AI safety papers → AI safety
+  { k: "Reading", family: "blue",   v: "ai safety papers",  sub: "allegedly also a novel" },
+  // Drink → Outreach (personal)
+  { k: "Drink",   family: "orange", v: "strawberry matcha", sub: "from blank street" },
 ];

@@ -100,7 +100,7 @@ export function ArticleV5({
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
     >
-      <NBLastUpdated t={t} label={`ESSAY · ${kicker.toUpperCase()} · NO.${pin}`} date="26 may 2026" />
+      <NBLastUpdated t={t} label={`ESSAY · ${kicker.toUpperCase()} · NO.${pin}`} date="26 may 2026" accent={accent} />
 
       {/* HERO */}
       <div style={{ padding: PAGE_PAD, maxWidth: 1100, margin: "0 auto" }}>
@@ -208,7 +208,8 @@ export function ArticleV5({
                 </>
               )}
 
-              <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="cat .meta" accent={t.ochre} />
+              {/* Essay meta JSON = meta-info about the essay → Infra & craft (yellow). */}
+              <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="cat .meta" accent={t.yellow} />
               <pre style={{
                 background: t.paper2, border: `1px solid ${t.rule}`,
                 padding: "10px 12px", borderRadius: 3,

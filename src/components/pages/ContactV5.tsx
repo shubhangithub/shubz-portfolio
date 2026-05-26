@@ -61,10 +61,15 @@ export function ContactV5({
     { label: "GitHub",   handle: "github.com/Shubzthub",           note: "For code or issues on the open repos.",     c: "yellow", href: "https://github.com/Shubzthub" },
   ];
 
+  // V5 canonical: each preference's accent maps to its topical content.
+  //   Will read   → orange (Outreach — public-facing topic announcement)
+  //   Won't read  → orange (Outreach — public-facing etiquette rule)
+  //   Reply time  → yellow (Infrastructure & craft — process metadata)
+  //   Based       → teal   (Geospatial — location)
   const preferences: [string, string, string][] = [
-    ["Will read",  "AI safety, geospatial ML, quantum computation, computational biology, recommendation systems, fashion forecasting, or anything at the intersection of maths and something unexpected.", "prompt"],
-    ["Won't read", "Generic outreach. \"Quick question\" emails. Anything with the word 'leverage'.",                                                                                                       "red"],
-    ["Reply time", "≤ 72 hours for substantive emails. Faster if it makes me laugh.",                                                                                                                       "ochre"],
+    ["Will read",  "AI safety, geospatial ML, quantum computation, computational biology, recommendation systems, fashion forecasting, or anything at the intersection of maths and something unexpected.", "orange"],
+    ["Won't read", "Generic outreach. \"Quick question\" emails. Anything with the word 'leverage'.",                                                                                                       "orange"],
+    ["Reply time", "≤ 72 hours for substantive emails. Faster if it makes me laugh.",                                                                                                                       "yellow"],
     ["Based",      "London — happy on calls in any reasonable timezone.",                                                                                                                                   "teal"],
   ];
 
@@ -85,7 +90,7 @@ export function ContactV5({
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
     >
-      <NBLastUpdated t={t} label="CONTACT · CHANNELS + COMPOSE" date="26 may 2026" />
+      <NBLastUpdated t={t} label="CONTACT · CHANNELS + COMPOSE" date="26 may 2026" accent={t.orange} />
 
       <div style={{
         padding: PAGE_PAD,
@@ -96,7 +101,8 @@ export function ContactV5({
         <main id="main" tabIndex={-1}>
           {/* Title */}
           <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 32, position: "relative" }}>
-            <NBPrompt t={t} cwd="~/contact" cmd="mail -h" comment="how to reach me" accent={t.prompt} />
+            {/* Contact page title prompt → Outreach (orange). */}
+            <NBPrompt t={t} cwd="~/contact" cmd="mail -h" comment="how to reach me" accent={t.orange} />
             <h1 style={{
               fontFamily: "var(--f-display)",
               fontVariationSettings: '"opsz" 144, "SOFT" 50',
@@ -106,21 +112,24 @@ export function ContactV5({
               letterSpacing: "-0.02em",
               margin: 0, color: t.ink, maxWidth: "16ch",
             }}>
-              Say <em style={{ color: t.prompt, fontStyle: "italic" }}>hello</em>.<br/>
-              I read everything <em style={{ color: t.ochre, fontStyle: "italic" }}>eventually</em>.
+              {/* V5 canonical: greeting + communication → Outreach (orange). */}
+              Say <em style={{ color: t.orange, fontStyle: "italic" }}>hello</em>.<br/>
+              I read everything <em style={{ color: t.orange, fontStyle: "italic" }}>eventually</em>.
             </h1>
             <p style={{ fontSize: isMobile ? 16 : 18, lineHeight: 1.6, color: t.softInk, maxWidth: "56ch", marginTop: 26 }}>
               I prefer email. If you're writing about <span style={{ color: t.red }}>computational biology</span>, <span style={{ color: t.teal }}>geospatial ML</span>, or <span style={{ color: t.purple }}>music recommendations</span>, you will get a longer reply than you expect.
             </p>
             {!isMobile && (
-              <NBMarginalia t={t} top={120} tilt={-2.4}>
+              /* Marginalia about communication etiquette → Outreach (orange). */
+              <NBMarginalia t={t} top={120} tilt={-2.4} accent={t.orange}>
                 don't begin with<br/>"quick question."
               </NBMarginalia>
             )}
           </div>
 
           {/* §02 Channels */}
-          <NBPromptHead t={t} n="§02" command="ls ./channels/" comment={`${channels.length} ways in`} title="Channels" accent={t.blue} level={isMobile ? 22 : 28} />
+          {/* §02 Channels → Outreach (orange). */}
+          <NBPromptHead t={t} n="§02" command="ls ./channels/" comment={`${channels.length} ways in`} title="Channels" accent={t.orange} level={isMobile ? 22 : 28} />
           <div style={{ marginBottom: 56, borderTop: `1px solid ${t.muted}55` }}>
             {channels.map((c, i) => (
               <a key={i} href={c.href} target={c.href.startsWith("mailto:") ? undefined : "_blank"} rel="noreferrer" style={{
@@ -145,7 +154,8 @@ export function ContactV5({
           </div>
 
           {/* §03 Preferences */}
-          <NBPromptHead t={t} n="§03" command="cat ./preferences.md" title="Preferences" accent={t.ochre} level={isMobile ? 22 : 28} />
+          {/* §03 Preferences → Outreach (orange). */}
+          <NBPromptHead t={t} n="§03" command="cat ./preferences.md" title="Preferences" accent={t.orange} level={isMobile ? 22 : 28} />
           <div style={{ marginBottom: 56, borderTop: `1px solid ${t.muted}55` }}>
             {preferences.map(([k, v, c], i) => (
               <div key={i} style={{
@@ -161,7 +171,8 @@ export function ContactV5({
           </div>
 
           {/* §04 Compose */}
-          <NBPromptHead t={t} n="§04" command="mail compose --to hello@" comment="opens your mail client" title="Compose" accent={t.magenta} level={isMobile ? 22 : 28} />
+          {/* §04 Compose → Outreach (orange). */}
+          <NBPromptHead t={t} n="§04" command="mail compose --to hello@" comment="opens your mail client" title="Compose" accent={t.orange} level={isMobile ? 22 : 28} />
           <form onSubmit={onSubmit} style={{
             border: `2px solid ${t.ink}`, padding: isMobile ? "14px 16px" : "18px 22px",
             background: t.paper2, marginBottom: 56,
@@ -203,7 +214,8 @@ export function ContactV5({
 
         {/* Right rail */}
         <aside>
-          <NBPrompt t={t} cwd="~/contact" cmd="cat .protocol" comment="how I read mail" accent={t.prompt} />
+          {/* Protocol pre block → Outreach (orange). */}
+          <NBPrompt t={t} cwd="~/contact" cmd="cat .protocol" comment="how I read mail" accent={t.orange} />
           <pre style={{
             background: t.paper2, border: `1px solid ${t.rule}`,
             padding: "12px 14px", borderRadius: 3,
@@ -217,15 +229,19 @@ export function ContactV5({
 }`}</pre>
 
           <div style={{ marginTop: 28 }}>
-            <NBPrompt t={t} cwd="~/contact" cmd="cal" accent={t.cyan} />
+            {/* Calendar block — V5 canonical: communication days = orange
+                (Outreach); rowing/piano on weekends ALSO orange (community/
+                personal — same category). Visual differentiation comes from
+                weight (mon-thu solid, sat-sun muted). */}
+            <NBPrompt t={t} cwd="~/contact" cmd="cal" accent={t.orange} />
             <div style={{
               background: t.paper2, border: `1px solid ${t.rule}`,
               padding: "12px 14px", borderRadius: 3,
               fontFamily: "var(--f-mono)", fontSize: 11, color: t.softInk, lineHeight: 1.8,
             }}>
               <div style={{ color: t.muted }}>typical replies</div>
-              <div><span style={{ color: t.prompt }}>mon–thu</span> &nbsp;am, before 09:00</div>
-              <div><span style={{ color: t.ochre }}>fri</span> &nbsp;mixed</div>
+              <div><span style={{ color: t.orange }}>mon–thu</span> &nbsp;am, before 09:00</div>
+              <div><span style={{ color: t.orange }}>fri</span> &nbsp;mixed</div>
               <div><span style={{ color: t.muted }}>sat–sun</span> &nbsp;rowing / piano</div>
             </div>
           </div>

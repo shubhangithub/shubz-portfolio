@@ -303,7 +303,7 @@ export function WorkV5({
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
     >
-      <NBLastUpdated t={t} label="WORK · CV WITH MARGINALIA" date="26 may 2026" />
+      <NBLastUpdated t={t} label="WORK · CV WITH MARGINALIA" date="26 may 2026" accent={t.yellow} />
 
       <div style={{
         padding: PAGE_PAD,
@@ -314,7 +314,8 @@ export function WorkV5({
         <main id="main" tabIndex={-1}>
           {/* Title */}
           <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 32, position: "relative" }}>
-            <NBPrompt t={t} cwd="~/work" cmd="cat ./cv.md" comment="annotated · chronological reverse" accent={t.prompt} />
+            {/* CV header = body-of-work meta → Infra & craft (yellow). */}
+            <NBPrompt t={t} cwd="~/work" cmd="cat ./cv.md" comment="annotated · chronological reverse" accent={t.yellow} />
             <h1 style={{
               fontFamily: "var(--f-display)",
               fontVariationSettings: '"opsz" 144, "SOFT" 50',
@@ -324,21 +325,24 @@ export function WorkV5({
               letterSpacing: "-0.02em",
               margin: 0, color: t.ink, maxWidth: "18ch",
             }}>
-              Things I've <em style={{ color: t.teal, fontStyle: "italic" }}>built</em> and{" "}
-              <em style={{ color: t.ochre, fontStyle: "italic" }}>almost</em> finished.
+              {/* V5 canonical: building things = Infra & craft (yellow). */}
+              Things I've <em style={{ color: t.yellow, fontStyle: "italic" }}>built</em> and{" "}
+              <em style={{ color: t.yellow, fontStyle: "italic" }}>almost</em> finished.
             </h1>
             <p style={{ fontSize: isMobile ? 16 : 18, lineHeight: 1.6, color: t.softInk, maxWidth: "56ch", marginTop: 26 }}>
               The CV with marginalia. Each entry has a footnote — what I actually did, what I would change, what I learned. Available as <a href="/uploads/Shubhangi-Sharma-Resume-20260211.pdf" target="_blank" rel="noreferrer" style={{ color: t.blue, borderBottom: `1px solid ${t.blue}66` }}>PDF</a> for the more conventional version.
             </p>
             {!isMobile && (
-              <NBMarginalia t={t} top={120} tilt={-1.8}>
+              /* Marginalia about meta-cross-linking → Infra & craft (yellow). */
+              <NBMarginalia t={t} top={120} tilt={-1.8} accent={t.yellow}>
                 every tool here<br/>links to the essay<br/>where it earned<br/>its place.
               </NBMarginalia>
             )}
           </div>
 
           {/* §02 Trajectory */}
-          <NBPromptHead t={t} n="§02" command="git log --since=2019 --reverse | tac" comment="2019 → present" title="Trajectory" accent={t.ochre} level={isMobile ? 22 : 28} />
+          {/* §02 Trajectory = career timeline → Infra & craft (yellow). */}
+          <NBPromptHead t={t} n="§02" command="git log --since=2019 --reverse | tac" comment="2019 → present" title="Trajectory" accent={t.yellow} level={isMobile ? 22 : 28} />
           <div style={{ position: "relative", paddingLeft: isMobile ? 24 : 36, marginBottom: 56 }}>
             <div style={{ position: "absolute", left: 6, top: 8, bottom: 8, width: 2, background: t.rule }} />
             {WORK_EVENTS.map((e, i) => (
@@ -349,7 +353,10 @@ export function WorkV5({
                   background: t.paper, border: `3px solid ${i === 0 ? t.prompt : t.muted}`,
                 }} />
                 <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "90px 1fr 160px", gap: isMobile ? 8 : 18, alignItems: "baseline" }}>
-                  <span style={{ fontFamily: "var(--f-mono)", fontSize: 12, color: i === 0 ? t.prompt : t.ochre }}>{e.year}</span>
+                  {/* Year marker: current job stays prompt-green (universal
+                      "active" status); past years go yellow (Infra & craft —
+                      structural date metadata, see DECISIONS-v5.md §14). */}
+                  <span style={{ fontFamily: "var(--f-mono)", fontSize: 12, color: i === 0 ? t.prompt : t.yellow }}>{e.year}</span>
                   <div>
                     <div style={{ fontFamily: "var(--f-body)", fontSize: isMobile ? 15 : 17, color: t.ink, lineHeight: 1.3 }}>{e.what}</div>
                     {e.note && <div style={{ fontSize: 14, color: t.softInk, marginTop: 4, fontStyle: "italic", maxWidth: "58ch", lineHeight: 1.55 }}>{e.note}</div>}
@@ -366,7 +373,8 @@ export function WorkV5({
           </div>
 
           {/* §03 Selected builds */}
-          <NBPromptHead t={t} n="§03" command="ls -la ./builds/" comment="selected · open · founding" title="Selected work" accent={t.teal} level={isMobile ? 22 : 28} />
+          {/* §03 Selected builds = body of work → Infra & craft (yellow). */}
+          <NBPromptHead t={t} n="§03" command="ls -la ./builds/" comment="selected · open · founding" title="Selected work" accent={t.yellow} level={isMobile ? 22 : 28} />
           <div style={{ marginBottom: 56 }}>
             {WORK_BUILDS.map((b, i, arr) => {
               const linkedEssay = b.essay ? essayBySlug[b.essay] : null;
@@ -425,7 +433,8 @@ export function WorkV5({
           {/* §04 Toolbox — id="toolbox" so HomeV5's "see all skills →" link
               can deep-link straight to this section via /work/#toolbox. */}
           <div id="toolbox" style={{ scrollMarginTop: 80 }}>
-          <NBPromptHead t={t} n="§04" command="cat ./toolbox.md" comment="what built what" title="Toolbox" accent={t.purple} level={isMobile ? 22 : 28} />
+          {/* §04 Toolbox = meta-aggregate of skills → Infra & craft (yellow). */}
+          <NBPromptHead t={t} n="§04" command="cat ./toolbox.md" comment="what built what" title="Toolbox" accent={t.yellow} level={isMobile ? 22 : 28} />
           <div style={{ border: `2px solid ${t.ink}`, padding: isMobile ? "18px 16px" : "22px 26px", background: t.bgCard, marginBottom: 56 }}>
             {WORK_TOOLBOX.map((g, gi, arr) => {
               const groupColor = t[g.primary] || t.blue;
@@ -519,7 +528,8 @@ export function WorkV5({
 
         {/* Right rail */}
         <aside>
-          <NBPrompt t={t} cwd="~/work" cmd="stat cv.pdf" accent={t.blue} />
+          {/* CV PDF stat block in right rail = meta → Infra & craft (yellow). */}
+          <NBPrompt t={t} cwd="~/work" cmd="stat cv.pdf" accent={t.yellow} />
           <div style={{
             background: t.paper2, border: `1px solid ${t.rule}`,
             padding: "14px 16px", borderRadius: 3, marginBottom: 28,
@@ -535,7 +545,8 @@ export function WorkV5({
             </div>
           </div>
 
-          <NBPrompt t={t} cwd="~/work" cmd="cat ./open-to.md" comment="collab" accent={t.prompt} />
+          {/* Open-to-collaboration prompt → Outreach (orange). */}
+          <NBPrompt t={t} cwd="~/work" cmd="cat ./open-to.md" comment="collab" accent={t.orange} />
           <div style={{
             background: t.paper2, border: `1px solid ${t.rule}`,
             padding: "14px 16px", borderRadius: 3, marginBottom: 28,
@@ -548,7 +559,8 @@ export function WorkV5({
             </div>
           </div>
 
-          <NBPrompt t={t} cwd="~/work" cmd="cat ./based.md" accent={t.ochre} />
+          {/* Location/timezone block → Geospatial (teal). */}
+          <NBPrompt t={t} cwd="~/work" cmd="cat ./based.md" accent={t.teal} />
           <div style={{
             background: t.paper2, border: `1px solid ${t.rule}`,
             padding: "14px 16px", borderRadius: 3, marginBottom: 28,
