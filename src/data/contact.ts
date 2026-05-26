@@ -22,7 +22,7 @@ export const CONTACT_LEDE: Span[] = [
 ];
 
 export const CONTACT_MARGINALIA = {
-  lines: ["don't begin with", '"quick question."'],
+  lines: ["best on email,", "read once daily —", "morning, usually."],
   accent: "orange" as NBAccentKey,
 };
 
@@ -53,7 +53,7 @@ export type Preference = { k: string; v: string; c: NBAccentKey };
 
 export const CONTACT_PREFERENCES: Preference[] = [
   { k: "Will read",  v: "AI safety, geospatial ML, quantum computation, computational biology, recommendation systems, fashion forecasting, or anything at the intersection of maths and something unexpected.", c: "orange" },
-  { k: "Won't read", v: "Generic outreach. \"Quick question\" emails. Anything with the word 'leverage'.",                                                                                                       c: "orange" },
+  { k: "Won't read", v: "Generic outreach. LLM-tone emails (telltale words: 'leverage', 'tapestry', 'delve').",                                                                                                  c: "orange" },
   { k: "Reply time", v: "≤ 72 hours for substantive emails. Faster if it makes me laugh.",                                                                                                                       c: "yellow" },
   { k: "Based",      v: "London — happy on calls in any reasonable timezone.",                                                                                                                                   c: "teal"   },
 ];
@@ -67,7 +67,7 @@ export const CONTACT_COMPOSE = {
   readyLabel: "● ready",
   fromPlaceholder: "your name & email",
   subjectPlaceholder: "what this is about",
-  bodyPlaceholder: "don't begin with 'quick question'.",
+  bodyPlaceholder: "what would you like to talk about?",
   defaultSubject: "Hi from your site",
   footerNote: "opens your mail client · spam-screened by hand",
   sendButton: "Send →",

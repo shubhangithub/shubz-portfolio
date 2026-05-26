@@ -157,7 +157,7 @@ export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggle
                   <input placeholder="what this is about" value={subject} onChange={e => setSubject(e.target.value)} style={inputStyle(p)} />
                 </div>
                 <div style={{ paddingTop: 6 }}>
-                  <textarea required rows="6" placeholder="Don't begin with 'quick question'." value={message} onChange={e => setMessage(e.target.value)} style={{ ...inputStyle(p), width: "100%", resize: "vertical", lineHeight: 1.6 }} />
+                  <textarea required rows="6" placeholder="What would you like to talk about?" value={message} onChange={e => setMessage(e.target.value)} style={{ ...inputStyle(p), width: "100%", resize: "vertical", lineHeight: 1.6 }} />
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 6 }}>
                   <span className="mono" style={{ fontSize: 11, color: p.muted }}>opens your mail client · spam-screened by hand</span>
