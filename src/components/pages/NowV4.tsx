@@ -53,8 +53,6 @@ export function NowV4({ palette: p, onNavigate, setCursorColor, dark, toggleThem
               label="now.json"
               rows={[
                 ["fig.01", "london"],
-                ["lat", "51.51°N"],
-                ["lon", "-0.13°W"],
                 ["temp", `${tempC}°C`],
                 ["rain", `${rainPct}%`],
                 ["updated", new Date().toISOString().slice(0,10).split('-').reverse().join('/')],

@@ -91,7 +91,7 @@ export function WritingIndexV5({
           {/* Title */}
           <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 32, position: "relative" }}>
             {/* Writing index header → Infra & craft (yellow, essay craft). */}
-            <NBPrompt t={t} cwd="~/writing" cmd="cat ./README.md" comment="essays · notes · half-formed ideas" accent={t.yellow} />
+            <NBPrompt t={t} cwd="~/writing" cmd="cat ./README.md" comment="essays · notes · ideas" accent={t.yellow} />
             <h1 style={{
               fontFamily: "var(--f-display)",
               fontVariationSettings: '"opsz" 144, "SOFT" 50',

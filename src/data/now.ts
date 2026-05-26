@@ -45,8 +45,6 @@ export const NOW_LAST_UPDATED_DATE = "26 may 2026";
 // ---------------------------------------------------------------------------
 export const NOW_TELEMETRY = {
   city: "London",
-  lat: "51.51°N",
-  lon: "-0.13°W",
   tz: "Europe/London",
   updated: "26/05/2026",
 };

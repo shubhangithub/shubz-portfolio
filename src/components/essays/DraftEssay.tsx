@@ -6,7 +6,7 @@ export function DraftEssay({ post, palette: p, onNavigate }) {
   return (
     <>
       <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
-        This essay is in the drawer. The kicker — <em>{post.kicker.replace(/^Essay · /, "").replace(/^Notes · /, "")}</em> — is real, the research is real, the argument is half-formed.
+        This essay is in the drawer. The kicker — <em>{post.kicker.replace(/^Essay · /, "").replace(/^Notes · /, "")}</em> — is real, the research is real, the argument is still forming.
       </p>
 
       <p>Until I'm willing to defend it in print, here's what it'll cover:</p>

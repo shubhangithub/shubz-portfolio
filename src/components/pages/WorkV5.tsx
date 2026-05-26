@@ -388,8 +388,7 @@ export function WorkV5({
             fontFamily: "var(--f-mono)", fontSize: 11.5, lineHeight: 1.8,
             color: t.softInk,
           }}>
-            <div><span style={{ color: t.muted }}>lat</span> {WORK_BASED.lat}</div>
-            <div><span style={{ color: t.muted }}>lon</span> {WORK_BASED.lon}</div>
+            <div><span style={{ color: t.muted }}>city</span> london, uk</div>
             <div><span style={{ color: t.muted }}>tz</span> {WORK_BASED.tz}</div>
             <div><span style={{ color: t.muted }}>calls</span> {WORK_BASED.calls}</div>
           </div>

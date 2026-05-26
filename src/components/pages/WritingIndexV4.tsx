@@ -43,7 +43,7 @@ export function WritingIndexV4({ palette: p, onNavigate, setCursorColor, dark, t
           <div style={{ gridColumn: "3 / span 7" }}>
             <div className="ui caps" style={{ color: p.muted, marginBottom: "1rem", fontFamily: "var(--f-ui)", fontSize: 11, letterSpacing: "0.12em" }}>
               <span className="mono" style={{ color: "#28CA41", marginRight: 8 }}>§02</span>
-              The Garden · essays, notes, half-formed ideas
+              The Garden · essays, notes, ideas
             </div>
             <h1 className="display" style={{ fontSize: "clamp(1.9rem, 7vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em" }}>
               <LetterReveal stagger={26}>An essay garden,</LetterReveal>

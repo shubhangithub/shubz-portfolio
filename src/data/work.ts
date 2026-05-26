@@ -321,8 +321,6 @@ export const WORK_CV_STAT = {
 // CONTACT_OPEN_TO in src/data/contact.ts.
 
 export const WORK_BASED = {
-  lat: "51.51°N",
-  lon: "-0.13°W",
   tz: "Europe/London (BST)",
   calls: "any reasonable tz",
 };
