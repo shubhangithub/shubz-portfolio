@@ -105,10 +105,10 @@ export function ArticleV5({
     >
       <NBLastUpdated t={t} label={`ESSAY · ${kicker.toUpperCase()} · NO.${pin}`} date="26 may 2026" accent={accent} />
 
-      {/* HERO — full-width outer container, matching the other V5 pages.
-          Typographic max-widths on the H1 (14ch) + dek (44ch) below
-          still keep the reading rhythm tight. */}
-      <div style={{ padding: PAGE_PAD }}>
+      {/* HERO — outer container caps at 1380px so the body grid below
+          doesn't sprawl on ultra-wide displays. Centred. The hero itself
+          spans this max-width; the H1 + dek still cap typographically. */}
+      <div style={{ padding: PAGE_PAD, maxWidth: 1380, margin: "0 auto" }}>
         <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 36, position: "relative" }}>
           <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="cat ./meta.json" comment="essay header" accent={accent} />
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 22, marginTop: 18, gap: 12, flexWrap: "wrap" }}>
@@ -147,13 +147,16 @@ export function ArticleV5({
             Left:   TOC + meta JSON   (sticky)
             Middle: article body      (caps at 62ch for readable line-length)
             Right:  cite + sources    (sticky) + "↤ all essays"
-          Mobile stacks single-column: left rail collapses above article,
-          right rail collapses below. */}
+          Outer container caps at 1380px so columns sit close together on
+          wide displays (otherwise the 62ch middle leaves big empty gaps
+          inside its 1fr cell). Mobile stacks single-column. */}
       <div style={{
-        padding: isMobile ? "0 20px" : "0 64px",
+        padding: isMobile ? "0 20px" : "0 48px",
+        maxWidth: isMobile ? "100%" : 1380,
+        margin: "0 auto",
         display: "grid",
-        gridTemplateColumns: isMobile ? "1fr" : "240px minmax(0, 1fr) 260px",
-        gap: isMobile ? 36 : 48,
+        gridTemplateColumns: isMobile ? "1fr" : "220px minmax(0, 1fr) 240px",
+        gap: isMobile ? 36 : 36,
         position: "relative",
       }}>
         {/* LEFT RAIL — TOC + meta JSON. Sticky on desktop, scrolls above
