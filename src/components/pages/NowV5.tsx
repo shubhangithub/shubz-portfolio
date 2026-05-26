@@ -15,7 +15,7 @@ import {
   FOCUSES, JOURNAL, CONDITIONS,
   NOW_HERO_LINES, NOW_LEDE_PREFIX, NOW_LEDE_LINK_TEXT, NOW_LEDE_LINK_URL, NOW_LEDE_SUFFIX,
   NOW_MARGINALIA, NOW_LAST_UPDATED_LABEL, NOW_LAST_UPDATED_DATE,
-  NOW_TELEMETRY, NOW_CADENCE_LABEL,
+  NOW_CADENCE_LABEL,
   type Span,
 } from "../../data/now";
 import { nbTheme } from "../../data/palette";
@@ -193,27 +193,6 @@ export function NowV5({
           {/* Right-rail mini-term — both prompts use orange (current state). */}
           <NBPrompt t={t} cwd="~/now" cmd="cat .now" comment="autoplay" accent={t.orange} />
           <NBMiniTerm t={t} accent={t.orange} lines={miniLines} cwd="~/now" />
-
-          <div style={{ marginTop: 28 }}>
-            {/* Telemetry JSON = geospatial location data → teal. */}
-            <NBPrompt t={t} cwd="~/now" cmd="telemetry --json" comment="london" accent={t.teal} />
-            {/* Telemetry pre-block — data from NOW_TELEMETRY in now.ts.
-                Keys + values get JSON syntax-highlighting colours (per
-                DECISIONS-v5.md §14 exception for JSON syntax). */}
-            <pre style={{
-              background: t.paper2, border: `1px solid ${t.rule}`,
-              padding: "12px 14px", borderRadius: 3,
-              fontFamily: "var(--f-mono)", fontSize: 11, lineHeight: 1.8,
-              color: t.softInk, margin: 0, whiteSpace: "pre-wrap",
-            }}>{"{\n"}{Object.entries(NOW_TELEMETRY).map(([k, v], i, arr) => {
-              const pad = " ".repeat(Math.max(0, 8 - k.length));
-              return (
-                <React.Fragment key={k}>
-                  {"  "}<span style={{ color: t.blue }}>"{k}"</span>:{pad}<span style={{ color: t.ochre }}>"{v}"</span>{i < arr.length - 1 ? "," : ""}{"\n"}
-                </React.Fragment>
-              );
-            })}{"}"}</pre>
-          </div>
 
           <div style={{ marginTop: 28 }}>
             {/* .threads is meta-summary (counts) → Infra & craft (yellow). */}

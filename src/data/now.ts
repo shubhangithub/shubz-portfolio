@@ -40,15 +40,6 @@ export const NOW_MARGINALIA = {
 export const NOW_LAST_UPDATED_LABEL = "NOW · WEEKLY-ISH SNAPSHOT";
 export const NOW_LAST_UPDATED_DATE = "26 may 2026";
 
-// ---------------------------------------------------------------------------
-// TELEMETRY — right-rail JSON pretty-print of where I am
-// ---------------------------------------------------------------------------
-export const NOW_TELEMETRY = {
-  city: "London",
-  tz: "Europe/London",
-  updated: "26/05/2026",
-};
-
 export const NOW_CADENCE_LABEL = "weekly-ish";
 
 export type Focus = { kind: string; what: string; family: NBAccentKey };
