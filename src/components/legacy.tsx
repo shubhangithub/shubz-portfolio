@@ -378,12 +378,11 @@ export const PALETTE_V4 = PALETTE_V4_LIGHT;
 export function App() {
   const [route, setRoute] = useState({ page: "home", slug: null });
   const [dark, setDark] = useState(() => {
+    // Default to dark; only switch to light if the user explicitly chose it.
     if (typeof localStorage !== "undefined") {
-      const saved = localStorage.getItem("theme");
-      if (saved === "dark") return true;
-      if (saved === "light") return false;
+      return localStorage.getItem("theme") !== "light";
     }
-    return typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return true;
   });
   const toggleTheme = () => setDark(d => { const next = !d; localStorage.setItem("theme", next ? "dark" : "light"); return next; });
   const p = dark ? PALETTE_V4_DARK : PALETTE_V4_LIGHT;
