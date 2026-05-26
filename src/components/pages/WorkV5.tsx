@@ -103,7 +103,7 @@ export function WorkV5({
             </h1>
             <p style={{ fontSize: isMobile ? 16 : 18, lineHeight: 1.6, color: t.softInk, maxWidth: "56ch", marginTop: 26 }}>
               {WORK_LEDE_PARTS.before}
-              <a href={CV_PDF} target="_blank" rel="noreferrer" style={{ color: t.blue, borderBottom: `1px solid ${t.blue}66` }}>{WORK_LEDE_PARTS.pdfLink}</a>
+              <a href={CV_PDF} download="Shubhangi-Sharma-Resume.pdf" style={{ color: t.blue, borderBottom: `1px solid ${t.blue}66` }}>{WORK_LEDE_PARTS.pdfLink}</a>
               {WORK_LEDE_PARTS.after}
             </p>
             {!isMobile && (
@@ -115,8 +115,7 @@ export function WorkV5({
                       {isLastWithLink ? (
                         <a
                           href={WORK_MARGINALIA.seeHereHref}
-                          target="_blank"
-                          rel="noreferrer"
+                          download="Shubhangi-Sharma-Resume.pdf"
                           style={{ color: "inherit", textDecoration: "none", borderBottom: `1px solid currentColor`, paddingBottom: 1, pointerEvents: "auto" }}
                         >{line}</a>
                       ) : line}
@@ -373,7 +372,7 @@ export function WorkV5({
               ))}
             </div>
             <div style={{ marginTop: 8 }}>
-              <a href={CV_PDF} target="_blank" rel="noreferrer" style={{ color: t.blue, borderBottom: `1px solid ${t.blue}66`, textDecoration: "none" }}>{WORK_CV_STAT.openText}</a>
+              <a href={CV_PDF} download="Shubhangi-Sharma-Resume.pdf" style={{ color: t.blue, borderBottom: `1px solid ${t.blue}66`, textDecoration: "none" }}>{WORK_CV_STAT.openText}</a>
             </div>
           </div>
 

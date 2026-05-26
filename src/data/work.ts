@@ -42,7 +42,7 @@ export const WORK_MARGINALIA = {
   /** Lines render with <br/> between them. The last line is a link to
    *  CV_PDF when `seeHereLink` is true — used to invite the visitor to
    *  the traditional CV alongside this annotated view. */
-  lines: ["for the more", "traditional CV,", "see here →"],
+  lines: ["for the more", "traditional CV,", "download here →"],
   accent: "yellow" as NBAccentKey,
   /** When set, wraps "see here" in the last line with a link to this URL. */
   seeHereHref: CV_PDF,
@@ -309,7 +309,7 @@ export const WORK_CV_STAT = {
   filename: "cv.pdf",
   span: "2019 — now",
   updatedDisplay: "26/05/2026",
-  openText: "↗ open pdf",
+  openText: "↗ download pdf",
   /** Sections shown on this /work page. Listed in the right-rail stat
    *  block so a visitor scanning the CV knows what's covered without
    *  scrolling. Update if you add a §06 onward. */
