@@ -272,7 +272,7 @@ meta-topic and share its colour — the colour is the internal taxonomy.
 | #  | Category                                  | Pen              | What rolls up here                                                                          |
 |----|-------------------------------------------|------------------|----------------------------------------------------------------------------------------------|
 | 1  | AI safety                                  | `blue`           | bluedot · alignment · AI ethics · governance · policy                                        |
-| 2  | Artificial Intelligence/Machine Learning    | `purple`         | classical ML · NLP · LLM eng (Claude / Gemini / prompt eng / evals) · optim · feature eng    |
+| 2  | AI/ML    | `purple`         | classical ML · NLP · LLM eng (Claude / Gemini / prompt eng / evals) · optim · feature eng    |
 | 3  | Mathematics                                | `magenta`        | game / cat / graph theory · complexity · GDL · cryptography · linear algebra                 |
 | 4  | Physics                                    | `prompt` (green) | quantum · ZX-calculus · atmospheric · GNSS · satellite remote sensing                     |
 | 5  | Biotech                                    | `red`            | biology · ecology · bioinformatics · biomarkers · immunology · comp-bio                      |

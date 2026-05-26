@@ -122,7 +122,7 @@ export const HOME_TOOLBOX: ToolGroup[] = [
     { name: "AI alignment research", links: [{ label: "a unit on bending the curve", href: "/bluedot-unit1/" }] },
     { name: "AI ethics & governance", links: [{ label: "bluedot AGI cohort · /now", href: "/now/" }] },
   ] },
-  { group: "Artificial Intelligence/Machine Learning", primary: "purple", items: [
+  { group: "AI/ML", primary: "purple", items: [
     { name: "Python",                     links: [{ label: "jaya, threshold, six engines", href: "/jaya/" }] },
     { name: "Claude API · Anthropic SDK", links: [{ label: "platypus-learn", href: "https://platypus-learn.vercel.app" }] },
     { name: "Prompt engineering · few-shot", links: [{ label: "orion search · /now", href: "/now/" }] },

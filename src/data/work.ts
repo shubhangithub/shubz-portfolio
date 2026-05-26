@@ -62,7 +62,9 @@ export type WorkEvent = {
 };
 
 export const WORK_EVENTS: WorkEvent[] = [
+  { year: "May 2026 —",              what: "BlueDot AGI Research cohort",                                                  where: "BlueDot Impact",    note: "Pre-reading + weekly seminars on AGI strategy, alignment, and the policy landscape around frontier AI. The strategic frame around the technical work I already do." },
   { year: "Feb 2026",                what: "Elected MInstP · Institute of Physics",                                       where: "London",            note: "The UK's professional body for physics. The certificate is small and unreasonably satisfying." },
+  { year: "2025 —",                  what: "Mentor · Stemmettes, InnovateHer, I'm a… Programme",                          where: "STEM-ed outreach",  note: "Three orgs running workshops, panels, and one-on-ones for girls, non-binary kids, and under-represented young people moving toward engineering, maths, and CS. DBS-checked." },
   { year: "Apr 2024 —",              what: "Founding Engineer · Orion",                                                   where: "London",            note: "Building geospatial intelligence infrastructure from scratch — data pipelines for high-volume multi-source streams, ML anomaly detection over H3 spatial indexing, backend services in Python and Golang. The job description keeps getting shorter; the scope keeps getting wider. Joined as Data Engineer (Apr 2024 → Nov 2024), then Data & ML Engineer (Nov 2024 → Aug 2025), then Founding Engineer." },
   { year: "Oct 2023 —",              what: "Student Ambassador · Oxford Mathematical Institute",                          where: "Oxford · LMH",      note: "Working with prospective applicants at the Mathematical Institute and Lady Margaret Hall — answering questions, sitting on Q&A panels, demystifying the application process." },
   { year: "Aug 2025",                what: "Best Paper · IEEE ICCUBEA-2025",                                              where: "co-author",         note: "\"Decoding Flipkart-Walmart Merger\" — theme extraction and sentiment mining across four years of news coverage. 1,240 submissions, 220 accepted, one Best Paper. Co-authored with Prof. Chakraborty; started as a scrape, ended as an award." },
@@ -127,7 +129,7 @@ export const WORK_TOOLBOX: ToolGroup[] = [
       { label: "bluedot AGI strategy cohort · /now", href: "/now/" },
     ] },
   ] },
-  { group: "Artificial Intelligence/Machine Learning", primary: "purple", items: [
+  { group: "AI/ML", primary: "purple", items: [
     { name: "Python",            links: [
       { label: "jaya, improved", href: "/jaya/" },
       { label: "positive by how much", href: "/threshold-gate/" },

@@ -44,7 +44,7 @@ export const PALETTE_DARK: Palette = {
 //
 // CANONICAL 10 (`<NBAccentKey>` below = pen, comment = meta-topic):
 //   blue    → AI safety                                  (bluedot · alignment · ethics · governance)
-//   purple  → Artificial Intelligence/Machine Learning    (classical ML · NLP · LLM eng · optim)
+//   purple  → AI/ML    (classical ML · NLP · LLM eng · optim)
 //   magenta → Mathematics                                 (game/cat/graph theory · complexity · GDL · crypto)
 //   prompt  → Physics                                     (quantum · ZX · atmospheric · GNSS · satellite)
 //   red     → Biotech                                     (biology · ecology · bioinformatics · biomarkers)

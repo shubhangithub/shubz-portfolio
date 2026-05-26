@@ -12,7 +12,7 @@ topic categories**, each owning one of the 10 NB pens defined in
 [`src/data/palette.ts`](./src/data/palette.ts). Every essay, project, skill,
 chip, or new piece of content must roll up to exactly one of those ten:
 
-1. AI safety (blue) · 2. Artificial Intelligence/Machine Learning (purple) ·
+1. AI safety (blue) · 2. AI/ML (purple) ·
 3. Mathematics (magenta) · 4. Physics (prompt-green) · 5. Biotech (red) ·
 6. Geospatial (teal) · 7. fintech (ochre) ·
 8. Hardware (cyan) · 9. Infrastructure (yellow) ·
