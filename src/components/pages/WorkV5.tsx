@@ -128,37 +128,75 @@ export function WorkV5({
             )}
           </div>
 
-          {/* §02 Trajectory */}
-          {/* §02 Trajectory = career timeline → Infra & craft (yellow). */}
+          {/* §02 Trajectory — alternating left/right timeline around a
+              central vertical rule on desktop; single-column stack on
+              mobile. Each entry has its dot anchored on the centre line.
+              Current job (index 0) keeps the prompt-green dot ("active"
+              universal status); past entries use the muted ring. */}
           <NBPromptHead t={t} n="§02" command="git log --since=2019 --reverse | tac" comment="2019 → present" title="Trajectory" accent={t.yellow} level={isMobile ? 22 : 28} />
-          <div style={{ position: "relative", paddingLeft: isMobile ? 24 : 36, marginBottom: 56 }}>
-            <div style={{ position: "absolute", left: 6, top: 8, bottom: 8, width: 2, background: t.rule }} />
-            {WORK_EVENTS.map((e, i) => (
-              <div key={i} style={{ position: "relative", paddingBottom: 22 }}>
-                <div style={{
-                  position: "absolute", left: isMobile ? -24 : -36, top: 6,
-                  width: 14, height: 14, borderRadius: 999,
-                  background: t.paper, border: `3px solid ${i === 0 ? t.prompt : t.muted}`,
-                }} />
-                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "90px 1fr 160px", gap: isMobile ? 8 : 18, alignItems: "baseline" }}>
-                  {/* Year marker: current job stays prompt-green (universal
-                      "active" status); past years go yellow (Infra & craft —
-                      structural date metadata, see DECISIONS-v5.md §14). */}
-                  <span style={{ fontFamily: "var(--f-mono)", fontSize: 12, color: i === 0 ? t.prompt : t.yellow }}>{e.year}</span>
-                  <div>
-                    <div style={{ fontFamily: "var(--f-body)", fontSize: isMobile ? 15 : 17, color: t.ink, lineHeight: 1.3 }}>{e.what}</div>
-                    {e.note && <div style={{ fontSize: 14, color: t.softInk, marginTop: 4, fontStyle: "italic", maxWidth: "58ch", lineHeight: 1.55 }}>{e.note}</div>}
+          {!isMobile ? (
+            <div style={{ position: "relative", marginBottom: 56, paddingTop: 8 }}>
+              {/* Central spine */}
+              <div style={{ position: "absolute", left: "50%", top: 8, bottom: 8, width: 2, background: t.rule, transform: "translateX(-1px)" }} />
+              {WORK_EVENTS.map((e, i) => {
+                const onLeft = i % 2 === 0;
+                const isCurrent = i === 0;
+                return (
+                  <div key={i} style={{ position: "relative", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0, paddingBottom: 28, alignItems: "start" }}>
+                    {/* Dot on the spine */}
+                    <div style={{
+                      position: "absolute", left: "50%", top: 6,
+                      width: 14, height: 14, borderRadius: 999,
+                      background: t.paper, border: `3px solid ${isCurrent ? t.prompt : t.muted}`,
+                      transform: "translateX(-7px)", zIndex: 1,
+                    }} />
+                    {/* Left cell */}
+                    <div style={{ paddingRight: 36, textAlign: "right" }}>
+                      {onLeft ? (
+                        <>
+                          <div style={{ fontFamily: "var(--f-mono)", fontSize: 12, color: isCurrent ? t.prompt : t.yellow }}>{e.year}</div>
+                          <div style={{ fontFamily: "var(--f-body)", fontSize: 17, color: t.ink, lineHeight: 1.3, marginTop: 4 }}>{e.what}</div>
+                          {e.note && <div style={{ fontSize: 14, color: t.softInk, marginTop: 4, fontStyle: "italic", lineHeight: 1.55, marginLeft: "auto", maxWidth: "44ch" }}>{e.note}</div>}
+                          <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, marginTop: 6 }}>{e.where}</div>
+                        </>
+                      ) : null}
+                    </div>
+                    {/* Right cell */}
+                    <div style={{ paddingLeft: 36, textAlign: "left" }}>
+                      {!onLeft ? (
+                        <>
+                          <div style={{ fontFamily: "var(--f-mono)", fontSize: 12, color: isCurrent ? t.prompt : t.yellow }}>{e.year}</div>
+                          <div style={{ fontFamily: "var(--f-body)", fontSize: 17, color: t.ink, lineHeight: 1.3, marginTop: 4 }}>{e.what}</div>
+                          {e.note && <div style={{ fontSize: 14, color: t.softInk, marginTop: 4, fontStyle: "italic", lineHeight: 1.55, maxWidth: "44ch" }}>{e.note}</div>}
+                          <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, marginTop: 6 }}>{e.where}</div>
+                        </>
+                      ) : null}
+                    </div>
                   </div>
-                  {!isMobile && (
-                    <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, textAlign: "right" }}>{e.where}</span>
-                  )}
-                  {isMobile && (
-                    <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted }}>{e.where}</span>
-                  )}
+                );
+              })}
+            </div>
+          ) : (
+            /* Mobile: single column, dots on the left, classic timeline. */
+            <div style={{ position: "relative", paddingLeft: 24, marginBottom: 56 }}>
+              <div style={{ position: "absolute", left: 6, top: 8, bottom: 8, width: 2, background: t.rule }} />
+              {WORK_EVENTS.map((e, i) => (
+                <div key={i} style={{ position: "relative", paddingBottom: 22 }}>
+                  <div style={{
+                    position: "absolute", left: -24, top: 6,
+                    width: 14, height: 14, borderRadius: 999,
+                    background: t.paper, border: `3px solid ${i === 0 ? t.prompt : t.muted}`,
+                  }} />
+                  <div>
+                    <div style={{ fontFamily: "var(--f-mono)", fontSize: 12, color: i === 0 ? t.prompt : t.yellow }}>{e.year}</div>
+                    <div style={{ fontFamily: "var(--f-body)", fontSize: 15, color: t.ink, lineHeight: 1.3, marginTop: 4 }}>{e.what}</div>
+                    {e.note && <div style={{ fontSize: 14, color: t.softInk, marginTop: 4, fontStyle: "italic", lineHeight: 1.55 }}>{e.note}</div>}
+                    <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, marginTop: 4 }}>{e.where}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* §03 Selected builds */}
           {/* §03 Selected builds = body of work → Infra & craft (yellow). */}
