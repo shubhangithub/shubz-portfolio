@@ -21,7 +21,7 @@ import {
 import {
   WRITING_HERO, WRITING_LEDE, WRITING_MARGINALIA,
   WRITING_LAST_UPDATED_LABEL, WRITING_LAST_UPDATED_DATE,
-  WRITING_WORKING_NOTES, WRITING_DRAFTS,
+  WRITING_DRAFTS,
 } from "../../data/writing";
 import type { Span } from "../../data/home";
 
@@ -236,32 +236,6 @@ export function WritingIndexV5({
             ))}
           </ol>
 
-          {/* Working notes */}
-          <NBPromptHead t={t} n="§04" command="ls -la ./notes/" comment="working · private until linked" title="Working notes" accent={t.muted} level={22} />
-          <div style={{
-            border: `1px solid ${t.rule}`,
-            background: t.paper2,
-            padding: "12px 14px",
-            fontFamily: "var(--f-mono)",
-            fontSize: 12, lineHeight: 1.8,
-            marginBottom: 60,
-          }}>
-            {WRITING_WORKING_NOTES.map((n, i, arr) => (
-              <div key={i} style={{
-                display: "grid",
-                gridTemplateColumns: isMobile ? "24px 1fr auto" : "32px 1fr 100px 90px",
-                gap: 12,
-                padding: "4px 0",
-                borderBottom: i === arr.length - 1 ? "none" : `1px dashed ${t.muted}33`,
-                color: t.ink,
-              }}>
-                <span style={{ color: t.muted }}>{String(i + 1).padStart(2, "0")}</span>
-                <span style={{ fontFamily: "var(--f-body)", fontStyle: "italic", fontSize: 14, color: t.softInk }}>{n.title}</span>
-                {!isMobile && <span style={{ color: t.muted }}>{n.date}</span>}
-                <span style={{ color: t.ochre, textAlign: "right" }}>↗ {n.kind}</span>
-              </div>
-            ))}
-          </div>
         </main>
 
         {/* Right rail */}
