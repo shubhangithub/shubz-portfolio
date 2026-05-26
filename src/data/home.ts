@@ -182,7 +182,7 @@ export const HOME_FIG_LABEL = "fig. 01 — predator/prey";
 export const HOME_FIG_CAPTION = "lotka–volterra · may '26";
 export const HOME_FIG_LINK_TEXT = "see the math →";
 
-export const HOME_PINNED_LABEL = "§02  PINNED · FEATURED WRITING";
+export const HOME_PINNED_LABEL = "§03  PINNED · FEATURED WRITING";
 export const HOME_PINNED_COMMENT = "3 open on the desk";
 export const HOME_VIEW_ALL_TEXT = (count: number) => `all ${count} essays →`;
 

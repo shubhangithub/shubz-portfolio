@@ -19,6 +19,7 @@ import {
   NBPageShell, NBLastUpdated, NBPrompt, NBThumbtack, NBThumb, NBMarginalia,
   NBMiniTerm,
 } from "../chrome/NB";
+import { GitHubCalendar } from "react-github-calendar";
 import { NotebookLotka } from "../diagrams/NotebookLotka";
 import {
   HERO_LINE_A, HERO_LINE_B, BIO, HOME_MARGINALIA,
@@ -30,7 +31,7 @@ import {
   HOME_TOOLBOX_SEE_ALL, TOOLBOX_TEASER, TOOLBOX_TEASER_PATH,
   type Span,
 } from "../../data/home";
-import { SOCIAL_POSTS, PLATFORM_DEFAULT_FAMILY, ghChartUrl, GITHUB_USERNAME } from "../../data/social";
+import { SOCIAL_POSTS, PLATFORM_DEFAULT_FAMILY, GITHUB_USERNAME } from "../../data/social";
 
 type NavFn = (page: string, slug?: string | null) => void;
 
@@ -135,10 +136,110 @@ export function HomeV5({
             )}
           </div>
 
-          {/* §02 PINNED WRITING — first 3 from POSTS. */}
+          {/* §02 LATEST — manual social feed (LinkedIn doesn't have public
+              profile RSS) on the left, GitHub contribution heatmap on the
+              right. Placed near the top so the most "alive" content meets
+              the visitor first. */}
+          <NBPrompt t={t} cwd="~/home" cmd="cat ./latest.md" comment={`${SOCIAL_POSTS.length} on linkedin · ${GITHUB_USERNAME} on github`} accent={t.yellow} />
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr" : "1.2fr 1fr",
+            gap: isMobile ? 24 : 28,
+            marginBottom: 44,
+          }}>
+            {/* LinkedIn / social posts column */}
+            <div style={{
+              border: `1px solid ${t.rule}`,
+              background: t.paper2,
+              padding: "14px 16px",
+              borderRadius: 3,
+            }}>
+              <div className="caps" style={{
+                fontFamily: "var(--f-ui)", fontSize: 10, letterSpacing: "0.14em",
+                color: t.muted, marginBottom: 12,
+              }}>LATEST · SOCIAL</div>
+              {SOCIAL_POSTS.length === 0 ? (
+                <div style={{ fontFamily: "var(--f-body)", fontStyle: "italic", color: t.softInk, fontSize: 14 }}>
+                  Nothing here yet. Edit <span className="mono" style={{ color: t.muted }}>src/data/social.ts</span> to add entries.
+                </div>
+              ) : (
+                <div style={{ display: "grid", gap: 12 }}>
+                  {SOCIAL_POSTS.map((p, i) => {
+                    const fam = p.family || PLATFORM_DEFAULT_FAMILY[p.platform] || "blue";
+                    const c = t[fam] || t.blue;
+                    return (
+                      <a
+                        key={i}
+                        href={p.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "auto 1fr",
+                          gap: 12,
+                          padding: "8px 0",
+                          borderBottom: i === SOCIAL_POSTS.length - 1 ? "none" : `1px dashed ${t.muted}33`,
+                          textDecoration: "none",
+                          color: "inherit",
+                        }}
+                      >
+                        <span style={{
+                          fontFamily: "var(--f-mono)", fontSize: 10, color: c,
+                          textTransform: "uppercase", letterSpacing: "0.1em",
+                          whiteSpace: "nowrap", paddingTop: 3,
+                        }}>● {p.platform}</span>
+                        <div>
+                          <div style={{ fontFamily: "var(--f-body)", fontSize: 14, color: t.ink, lineHeight: 1.5 }}>{p.text}</div>
+                          <div style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, marginTop: 4 }}>{p.date}</div>
+                        </div>
+                      </a>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* GitHub contribution heatmap — rendered by react-github-calendar
+                as a real SVG component (not an external image embed). Pulls
+                contributions from github-contributions-api.jogruber.de on
+                mount, so no auth required. Theme palette uses canonical
+                yellow scaled to 5 contribution levels. */}
+            <div style={{
+              border: `1px solid ${t.rule}`,
+              background: t.paper2,
+              padding: "14px 16px",
+              borderRadius: 3,
+              minWidth: 0,
+              overflowX: "auto",
+            }}>
+              <div className="caps" style={{
+                fontFamily: "var(--f-ui)", fontSize: 10, letterSpacing: "0.14em",
+                color: t.muted, marginBottom: 12,
+                display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8, flexWrap: "wrap",
+              }}>
+                <span>GITHUB · COMMIT HEATMAP</span>
+                <a href={`https://github.com/${GITHUB_USERNAME}`} target="_blank" rel="noreferrer" style={{ color: t.yellow, fontFamily: "var(--f-mono)", textDecoration: "none", fontSize: 10, letterSpacing: "0.04em", textTransform: "none" }}>↗ {GITHUB_USERNAME}</a>
+              </div>
+              <GitHubCalendar
+                username={GITHUB_USERNAME}
+                colorScheme={mode}
+                theme={{
+                  light: [t.rule, `${t.yellow}33`, `${t.yellow}66`, `${t.yellow}cc`, t.yellow],
+                  dark:  [t.rule, `${t.yellow}33`, `${t.yellow}66`, `${t.yellow}cc`, t.yellow],
+                }}
+                blockSize={isMobile ? 9 : 11}
+                blockMargin={isMobile ? 2 : 3}
+                fontSize={isMobile ? 10 : 11}
+                hideColorLegend
+                style={{ color: t.muted, fontFamily: "var(--f-mono)" }}
+              />
+            </div>
+          </div>
+
+          {/* §03 PINNED WRITING — first 3 from POSTS. */}
           <NBPrompt t={t} cmd="ls ./writing/pinned/" comment={HOME_PINNED_COMMENT} accent={t.yellow} />
           <div className="caps" style={{ fontFamily: "var(--f-ui)", color: t.muted, fontSize: 11, marginBottom: 14, letterSpacing: "0.16em", display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
-            <span><span style={{ color: t.prompt }}>§02</span>&nbsp;&nbsp;{HOME_PINNED_LABEL.replace(/^§02\s*/, "")}</span>
+            <span><span style={{ color: t.prompt }}>§03</span>&nbsp;&nbsp;{HOME_PINNED_LABEL.replace(/^§(02|03)\s*/, "")}</span>
             <a href="/writing/" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} style={{ color: t.blue, fontFamily: "var(--f-mono)", textDecoration: "none" }}>{HOME_VIEW_ALL_TEXT(POSTS.length)}</a>
           </div>
           <ol style={{ listStyle: "none", padding: 0, margin: "0 0 44px" }}>
@@ -170,7 +271,7 @@ export function HomeV5({
             ))}
           </ol>
 
-          {/* §03 BUILDS — HOME_BUILDS list. */}
+          {/* §04 BUILDS — HOME_BUILDS list. */}
           <NBPrompt t={t} cmd="cat ./builds.md" comment="selected" accent={t.orange} />
           <div style={{
             border: `2px solid ${t.ink}`,
@@ -206,7 +307,7 @@ export function HomeV5({
             <a href="/work/" onClick={(e) => { e.preventDefault(); onNavigate("work"); }} style={{ fontFamily: "var(--f-mono)", color: t.orange, fontSize: 11, textDecoration: "none", letterSpacing: "0.08em" }}>{HOME_ANNOTATED_CV_LINK}</a>
           </div>
 
-          {/* §04 TOOLBOX — condensed teaser. Full taxonomy on /work#toolbox. */}
+          {/* §05 TOOLBOX — condensed teaser. Full taxonomy on /work#toolbox. */}
           <NBPrompt t={t} cmd="cat ./toolbox.md" comment="what built what" accent={t.yellow} />
           <div style={{
             border: `2px solid ${t.ink}`,
@@ -293,97 +394,6 @@ export function HomeV5({
             </div>
           </div>
 
-          {/* §05 LATEST — manual social feed (LinkedIn doesn't have public
-              profile RSS) on the left, GitHub contribution heatmap on the
-              right. Both update independently; LinkedIn updates by editing
-              src/data/social.ts (~weekly), GitHub graph re-fetches from
-              ghchart.rshah.org on every page load. */}
-          <NBPrompt t={t} cwd="~/home" cmd="cat ./latest.md" comment={`${SOCIAL_POSTS.length} on linkedin · ${GITHUB_USERNAME} on github`} accent={t.yellow} />
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "1.2fr 1fr",
-            gap: isMobile ? 24 : 28,
-            marginBottom: 60,
-          }}>
-            {/* LinkedIn / social posts column */}
-            <div style={{
-              border: `1px solid ${t.rule}`,
-              background: t.paper2,
-              padding: "14px 16px",
-              borderRadius: 3,
-            }}>
-              <div className="caps" style={{
-                fontFamily: "var(--f-ui)", fontSize: 10, letterSpacing: "0.14em",
-                color: t.muted, marginBottom: 12,
-              }}>LATEST · SOCIAL</div>
-              {SOCIAL_POSTS.length === 0 ? (
-                <div style={{ fontFamily: "var(--f-body)", fontStyle: "italic", color: t.softInk, fontSize: 14 }}>
-                  Nothing here yet. Edit <span className="mono" style={{ color: t.muted }}>src/data/social.ts</span> to add entries.
-                </div>
-              ) : (
-                <div style={{ display: "grid", gap: 12 }}>
-                  {SOCIAL_POSTS.map((p, i) => {
-                    const fam = p.family || PLATFORM_DEFAULT_FAMILY[p.platform] || "blue";
-                    const c = t[fam] || t.blue;
-                    return (
-                      <a
-                        key={i}
-                        href={p.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns: "auto 1fr",
-                          gap: 12,
-                          padding: "8px 0",
-                          borderBottom: i === SOCIAL_POSTS.length - 1 ? "none" : `1px dashed ${t.muted}33`,
-                          textDecoration: "none",
-                          color: "inherit",
-                        }}
-                      >
-                        <span style={{
-                          fontFamily: "var(--f-mono)", fontSize: 10, color: c,
-                          textTransform: "uppercase", letterSpacing: "0.1em",
-                          whiteSpace: "nowrap", paddingTop: 3,
-                        }}>● {p.platform}</span>
-                        <div>
-                          <div style={{ fontFamily: "var(--f-body)", fontSize: 14, color: t.ink, lineHeight: 1.5 }}>{p.text}</div>
-                          <div style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, marginTop: 4 }}>{p.date}</div>
-                        </div>
-                      </a>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-
-            {/* GitHub contribution graph. ghchart.rshah.org returns an SVG
-                heatmap given a username + an accent hex. Failure mode if
-                the service is down: img doesn't render — no crash, just
-                missing graph. */}
-            <div style={{
-              border: `1px solid ${t.rule}`,
-              background: t.paper2,
-              padding: "14px 16px",
-              borderRadius: 3,
-              minWidth: 0,
-            }}>
-              <div className="caps" style={{
-                fontFamily: "var(--f-ui)", fontSize: 10, letterSpacing: "0.14em",
-                color: t.muted, marginBottom: 12,
-                display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8, flexWrap: "wrap",
-              }}>
-                <span>GITHUB · COMMIT HEATMAP</span>
-                <a href={`https://github.com/${GITHUB_USERNAME}`} target="_blank" rel="noreferrer" style={{ color: t.yellow, fontFamily: "var(--f-mono)", textDecoration: "none", fontSize: 10, letterSpacing: "0.04em", textTransform: "none" }}>↗ {GITHUB_USERNAME}</a>
-              </div>
-              <img
-                src={ghChartUrl((t.yellow as string).replace(/^#/, ""), GITHUB_USERNAME)}
-                alt={`${GITHUB_USERNAME} GitHub contribution graph`}
-                loading="lazy"
-                style={{ width: "100%", display: "block" }}
-              />
-            </div>
-          </div>
         </main>
 
         {/* RIGHT RAIL — cat .now + Lotka figure + contact slip. */}

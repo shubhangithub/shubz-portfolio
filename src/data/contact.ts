@@ -90,3 +90,19 @@ export const CONTACT_CALENDAR: CalendarRow[] = [
   { label: "fri",     c: "orange", note: "mixed" },
   { label: "sat–sun", c: "muted",  note: "rowing / piano" },
 ];
+
+// ---------------------------------------------------------------------------
+// "Open to" block — what kinds of collaboration / topics. Moved here from
+// /work since this is a contact / communication preference, not a CV item.
+// ---------------------------------------------------------------------------
+export const CONTACT_OPEN_TO: Span[] = [
+  "Open to collaboration on ",
+  { tag: "geospatial ML", c: "teal" },
+  ", ",
+  { tag: "AI safety", c: "blue" },
+  ", ",
+  { tag: "computational biology", c: "red" },
+  ", ",
+  { tag: "STEM-ed outreach", c: "prompt" },
+  ", or anything that crosses these.",
+];

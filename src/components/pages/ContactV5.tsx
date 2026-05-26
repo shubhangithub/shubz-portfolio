@@ -15,7 +15,7 @@ import {
   CONTACT_HERO_LINES, CONTACT_LEDE, CONTACT_MARGINALIA,
   CONTACT_LAST_UPDATED_LABEL, CONTACT_LAST_UPDATED_DATE,
   CONTACT_CHANNELS, CONTACT_PREFERENCES, CONTACT_COMPOSE,
-  CONTACT_PROTOCOL, CONTACT_CALENDAR,
+  CONTACT_PROTOCOL, CONTACT_CALENDAR, CONTACT_OPEN_TO,
 } from "../../data/contact";
 import type { Span } from "../../data/home";
 
@@ -253,6 +253,20 @@ export function ContactV5({
                   &nbsp;{row.note}
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Open-to block — moved here from /work. It's a communication
+              preference (who I'd love to hear from), not a CV item. */}
+          <div style={{ marginTop: 28 }}>
+            <NBPrompt t={t} cwd="~/contact" cmd="cat ./open-to.md" comment="collab" accent={t.orange} />
+            <div style={{
+              background: t.paper2, border: `1px solid ${t.rule}`,
+              padding: "14px 16px", borderRadius: 3,
+              fontFamily: "var(--f-body)", fontSize: 14, lineHeight: 1.55,
+              color: t.softInk,
+            }}>
+              {renderSpans(CONTACT_OPEN_TO, t)}
             </div>
           </div>
         </aside>

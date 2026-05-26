@@ -225,6 +225,42 @@ export function ArticleV5({
   `}<span style={{ color: t.blue }}>"updated"</span>{`:   `}<span style={{ color: t.ochre }}>"may '26"</span>{`
 }`}</pre>
 
+              {/* CITE — how to reference this essay. Stays in the rail
+                  regardless of essay so visitors always have a citation
+                  pattern to hand. */}
+              <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="cat .cite" accent={t.yellow} />
+              <div style={{
+                background: t.paper2, border: `1px solid ${t.rule}`,
+                padding: "10px 12px", borderRadius: 3,
+                fontFamily: "var(--f-mono)", fontSize: 10.5, lineHeight: 1.7,
+                color: t.softInk, marginBottom: 28,
+              }}>
+                Sharma, S. (2026).<br/>
+                <em>{post.title}</em>.<br/>
+                <span style={{ color: t.muted }}>shubzsharma.com/{post.slug}</span>
+              </div>
+
+              {/* SOURCES — references for this essay. Data in
+                  src/lib/essay-meta.ts under sources[slug]. Add new
+                  citations there; they show up here automatically. */}
+              {meta.sources && meta.sources.length > 0 && (
+                <>
+                  <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="cat .sources" comment={`${meta.sources.length} refs`} accent={t.yellow} />
+                  <div style={{
+                    background: t.paper2, border: `1px solid ${t.rule}`,
+                    padding: "10px 12px", borderRadius: 3,
+                    fontFamily: "var(--f-mono)", fontSize: 10.5, lineHeight: 1.7,
+                    color: t.softInk, marginBottom: 28,
+                  }}>
+                    {meta.sources.map((pair: [string, string], i: number) => (
+                      <div key={i} style={{ marginBottom: 6, color: t.ink }}>
+                        <span>{pair[0]}</span><em style={{ color: t.softInk }}>{pair[1]}</em>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+
               <a href="/writing/" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} style={{
                 display: "inline-block",
                 fontFamily: "var(--f-mono)", fontSize: 11, color: accent,

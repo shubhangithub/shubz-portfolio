@@ -324,17 +324,9 @@ export const WORK_CV_STAT = {
   sections: ["trajectory", "selected work", "toolbox", "speaking"],
 };
 
-export const WORK_OPEN_TO: Span[] = [
-  "Open to collaboration on ",
-  { tag: "geospatial ML", c: "teal" },
-  ", ",
-  { tag: "AI safety", c: "blue" },
-  ", ",
-  { tag: "computational biology", c: "red" },
-  ", ",
-  { tag: "STEM-ed outreach", c: "prompt" },
-  ", or anything that crosses these.",
-];
+// WORK_OPEN_TO removed — the "open to collaboration on …" block moved to
+// /contact (it's a communication preference, not a work artefact). See
+// CONTACT_OPEN_TO in src/data/contact.ts.
 
 export const WORK_BASED = {
   lat: "51.51°N",

@@ -22,7 +22,7 @@ import {
   WORK_HERO, WORK_LEDE_PARTS, WORK_MARGINALIA,
   WORK_LAST_UPDATED_LABEL, WORK_LAST_UPDATED_DATE,
   WORK_EVENTS, WORK_BUILDS, WORK_TOOLBOX, WORK_SPEAKING,
-  WORK_CV_STAT, WORK_OPEN_TO, WORK_BASED,
+  WORK_CV_STAT, WORK_BASED,
 } from "../../data/work";
 import type { Span } from "../../data/home";
 
@@ -377,18 +377,8 @@ export function WorkV5({
             </div>
           </div>
 
-          {/* Open-to-collaboration prompt → Outreach (orange). */}
-          <NBPrompt t={t} cwd="~/work" cmd="cat ./open-to.md" comment="collab" accent={t.orange} />
-          {/* Open-to block — no "get in touch" link (Contact page exists
-              and is reachable from the tab strip). Just the prose. */}
-          <div style={{
-            background: t.paper2, border: `1px solid ${t.rule}`,
-            padding: "14px 16px", borderRadius: 3, marginBottom: 28,
-            fontFamily: "var(--f-body)", fontSize: 14, lineHeight: 1.55,
-            color: t.softInk,
-          }}>
-            {renderSpans(WORK_OPEN_TO, t)}
-          </div>
+          {/* Open-to block moved to /contact (it's a communication
+              preference, not a CV item). See CONTACT_OPEN_TO. */}
 
           {/* Location/timezone block → Geospatial (teal). */}
           <NBPrompt t={t} cwd="~/work" cmd="cat ./based.md" accent={t.teal} />
