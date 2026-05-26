@@ -47,73 +47,151 @@ const WORK_BUILDS = [
   { name: "this site",                            c: "blue",    scope: "open",                 year: "2026",   essay: null,                      url: "https://github.com/Shubzthub/personal-site",                        blurb: "Started as a single-file HTML + CSS + inline React app; migrated to Astro during the astro-migration branch. Essays, animated diagrams, and an unreasonable amount of time spent on typography." },
 ];
 
-// Six-category toolbox per CV. Languages / Tools / Libraries / ML-Data /
-// Physics / Other areas. Items lifted from final_CV.pdf where present;
-// Orion-era stack (Rust, Golang, geospatial) added because it's affirmed
-// in the existing trajectory + builds prose.
+// Toolbox v2 — category-driven colour. Each group has a `primary` accent
+// key driving every chip's left border. Each `link` is a real href:
 //
-// "links" = where this skill earned its place. Slugs (second element) point
-// at essays so the chip's colour follows that essay's accent.
-const WORK_TOOLBOX = [
-  { group: "Languages", items: [
-    { name: "Python",       c: "orange",  links: [["jaya, improved", "jaya"], ["positive by how much", "threshold-gate"], ["six engines", "six-engines"], ["honours thesis · GNSS", null]] },
-    { name: "TypeScript",   c: "blue",    links: [["this site", null], ["six engines", "six-engines"]] },
-    { name: "R",            c: "red",     links: [["taylor rec (original R/Shiny)", null], ["peer tutoring · FLAME", null]] },
-    { name: "Rust",         c: "teal",    links: [["orion (founding)", null]] },
-    { name: "Golang",       c: "teal",    links: [["orion (founding)", null]] },
-    { name: "C++",          c: "cyan",    links: [["IoT weather bot · ThingSpeak", null]] },
-    { name: "SQL · PostgreSQL", c: "purple", links: [["jobsforher backend", null]] },
+//   /<slug>/                  → in-site essay (link text uses essay accent)
+//   /work/, /, /contact/      → in-site route (link text uses category primary)
+//   https://…                 → external (project URL, GitHub repo)
+//   CV_PDF                    → resume PDF (fallback for CV-only entries)
+//
+// Skills sourced from final_CV.pdf + Orion stack from existing prose. The
+// chip's name is purely descriptive; the colour signals category, the
+// links signal where the skill earned its place.
+const CV_PDF = "/uploads/Shubhangi-Sharma-Resume-20260211.pdf";
+const PERSONAL_SITE_REPO = "https://github.com/shubhangithub/personal-site";
+
+type ChipLink = { label: string; href: string };
+type ToolGroup = { group: string; primary: string; items: { name: string; links: ChipLink[] }[] };
+
+const WORK_TOOLBOX: ToolGroup[] = [
+  { group: "Languages", primary: "blue", items: [
+    { name: "Python", links: [
+      { label: "jaya, improved", href: "/jaya/" },
+      { label: "positive by how much", href: "/threshold-gate/" },
+      { label: "six engines", href: "/six-engines/" },
+      { label: "honours thesis · GNSS · CV", href: CV_PDF },
+    ] },
+    { name: "TypeScript", links: [
+      { label: "this site repo", href: PERSONAL_SITE_REPO },
+      { label: "six engines (TS + FastAPI rebuild)", href: "/six-engines/" },
+    ] },
+    { name: "R", links: [
+      { label: "taylor rec (original R/Shiny) · CV", href: CV_PDF },
+      { label: "FLAME peer tutoring · CV", href: CV_PDF },
+    ] },
+    { name: "Rust",   links: [{ label: "orion (founding) · /work", href: "/work/" }] },
+    { name: "Golang", links: [{ label: "orion (founding) · /work", href: "/work/" }] },
+    { name: "C++",    links: [{ label: "IoT weather bot · ThingSpeak · CV", href: CV_PDF }] },
+    { name: "SQL · PostgreSQL", links: [{ label: "jobsforher backend · CV", href: CV_PDF }] },
   ] },
-  { group: "Tools", items: [
-    { name: "Astro · React islands",   c: "blue",    links: [["this site", null]] },
-    { name: "AWS · EC2 · S3 · CloudWatch", c: "orange", links: [["jobsforher · deploy + monitor", null]] },
-    { name: "Tableau",                 c: "ochre",   links: [["kolhapur cultural mapping", null]] },
-    { name: "Flask",                   c: "prompt",  links: [["jobsforher web app", null]] },
-    { name: "Google APIs · Sheets",    c: "blue",    links: [["student council awards automation", null]] },
-    { name: "Git · CI/CD",             c: "teal",    links: [["all engineering work", null]] },
-    { name: "Web scraping",            c: "purple",  links: [["merger NLP", null], ["natter data collection", null]] },
-    { name: "D3 · hand-rolled SVG",    c: "purple",  links: [["all essay diagrams", null]] },
-    { name: "ThingSpeak · microcontrollers", c: "yellow", links: [["IoT weather bot", null]] },
+  { group: "Tools", primary: "teal", items: [
+    { name: "Astro · React islands",     links: [{ label: "this site repo", href: PERSONAL_SITE_REPO }] },
+    { name: "AWS · EC2 · S3 · CloudWatch", links: [{ label: "jobsforher deploy + monitor · CV", href: CV_PDF }] },
+    { name: "Tableau",                   links: [{ label: "kolhapur cultural mapping · CV", href: CV_PDF }] },
+    { name: "Flask",                     links: [{ label: "jobsforher web app · CV", href: CV_PDF }] },
+    { name: "Google APIs · Sheets",      links: [{ label: "student council awards automation · CV", href: CV_PDF }] },
+    { name: "Git · CI/CD",               links: [{ label: "all engineering work · /work", href: "/work/" }] },
+    { name: "Web scraping",              links: [
+      { label: "merger NLP · CV", href: CV_PDF },
+      { label: "natter data collection · CV", href: CV_PDF },
+    ] },
+    { name: "D3 · hand-rolled SVG",      links: [
+      { label: "all essay diagrams", href: "/writing/" },
+      { label: "jaya figures", href: "/jaya/" },
+    ] },
+    { name: "ThingSpeak · microcontrollers", links: [{ label: "IoT weather bot · CV", href: CV_PDF }] },
   ] },
-  { group: "Libraries", items: [
-    { name: "NumPy · SciPy · Pandas",  c: "orange",  links: [["jaya", "jaya"], ["honours thesis · GNSS", null], ["INSAT-3D cloud detection", null]] },
-    { name: "matplotlib",              c: "orange",  links: [["jaya", "jaya"], ["INSAT-3D cloud detection", null]] },
-    { name: "PyTorch · scikit-learn",  c: "red",     links: [["ML work, generally", null]] },
-    { name: "SpaCy · NLTK · Gensim · TextBlob", c: "purple", links: [["flipkart-walmart merger NLP", null]] },
-    { name: "PyHDF · NetCDF",          c: "cyan",    links: [["INSAT-3D cloud detection", null]] },
-    { name: "ggplot · dplyr · tidyr · shiny · purrr", c: "red", links: [["taylor rec (original R/Shiny)", null]] },
-    { name: "FastAPI",                 c: "prompt",  links: [["six engines · backend", "six-engines"]] },
+  { group: "Libraries", primary: "orange", items: [
+    { name: "NumPy · SciPy · Pandas", links: [
+      { label: "jaya", href: "/jaya/" },
+      { label: "honours thesis · CV", href: CV_PDF },
+      { label: "INSAT-3D cloud detection · CV", href: CV_PDF },
+    ] },
+    { name: "matplotlib", links: [
+      { label: "jaya plots", href: "/jaya/" },
+      { label: "INSAT-3D cloud detection · CV", href: CV_PDF },
+    ] },
+    { name: "PyTorch · scikit-learn",   links: [
+      { label: "positive by how much", href: "/threshold-gate/" },
+      { label: "cells that can't exist", href: "/constraint-clustering/" },
+    ] },
+    { name: "SpaCy · NLTK · Gensim · TextBlob", links: [{ label: "flipkart-walmart merger NLP · CV", href: CV_PDF }] },
+    { name: "PyHDF · NetCDF",           links: [{ label: "INSAT-3D cloud detection · CV", href: CV_PDF }] },
+    { name: "ggplot · dplyr · tidyr · shiny · purrr", links: [{ label: "taylor rec (R/Shiny) · CV", href: CV_PDF }] },
+    { name: "FastAPI",                  links: [{ label: "six engines backend", href: "/six-engines/" }] },
   ] },
-  { group: "ML / Data", items: [
-    { name: "Feature selection (JAYA-style)", c: "orange",  links: [["jaya, improved", "jaya"]] },
-    { name: "Genetic algorithms · crossover/mutation", c: "orange", links: [["jaya, improved", "jaya"]] },
-    { name: "Constrained clustering",  c: "red",     links: [["cells that can't exist", "constraint-clustering"]] },
-    { name: "Automated thresholding",  c: "magenta", links: [["positive by how much", "threshold-gate"]] },
-    { name: "Recommendation systems",  c: "purple",  links: [["six engines for one songbook", "six-engines"], ["natter user matching", null]] },
-    { name: "Ensemble methods",        c: "purple",  links: [["six engines", "six-engines"]] },
-    { name: "Sentiment + theme extraction", c: "purple", links: [["flipkart-walmart merger", null]] },
-    { name: "Explainable AI (WOE)",    c: "magenta", links: [["protein sequence decoding", null]] },
-    { name: "Regression modelling",    c: "blue",    links: [["honours thesis · GNSS water vapour", null]] },
-    { name: "LMSR prediction markets", c: "ochre",   links: [["pricing the next scarf", "fashion-trends"]] },
-    { name: "Geospatial ML · H3 indexing", c: "teal", links: [["orion (founding)", null]] },
+  { group: "ML / Data", primary: "purple", items: [
+    { name: "Feature selection (JAYA-style)",      links: [{ label: "jaya, improved", href: "/jaya/" }] },
+    { name: "Genetic algorithms · crossover/mutation", links: [{ label: "jaya, improved", href: "/jaya/" }] },
+    { name: "Constrained clustering",   links: [{ label: "cells that can't exist", href: "/constraint-clustering/" }] },
+    { name: "Automated thresholding",   links: [{ label: "positive by how much", href: "/threshold-gate/" }] },
+    { name: "Recommendation systems",   links: [
+      { label: "six engines", href: "/six-engines/" },
+      { label: "natter user matching · CV", href: CV_PDF },
+    ] },
+    { name: "Ensemble methods",         links: [{ label: "six engines · consensus boost", href: "/six-engines/" }] },
+    { name: "Sentiment + theme extraction", links: [{ label: "flipkart-walmart merger · CV", href: CV_PDF }] },
+    { name: "Explainable AI (WOE binning)", links: [{ label: "protein sequence decoding · CV", href: CV_PDF }] },
+    { name: "Regression modelling",     links: [{ label: "honours thesis · GNSS water vapour · CV", href: CV_PDF }] },
+    { name: "LMSR prediction markets",  links: [{ label: "pricing the next scarf", href: "/fashion-trends/" }] },
+    { name: "Geospatial ML · H3 indexing", links: [{ label: "orion (founding) · /work", href: "/work/" }] },
   ] },
-  { group: "Physics", items: [
-    { name: "Quantum Information",         c: "prompt",  links: [["oxford module", null], ["two colours and a Hadamard", "zx-calculus"]] },
-    { name: "ZX-rewriting",                c: "prompt",  links: [["two colours and a Hadamard", "zx-calculus"]] },
-    { name: "GNSS atmospheric modelling",  c: "cyan",    links: [["honours thesis · water vapour", null]] },
-    { name: "Satellite remote sensing",    c: "cyan",    links: [["INSAT-3D cloud detection", null]] },
-    { name: "Lotka–Volterra dynamics",     c: "teal",    links: [["predator and prey", "may-2026"]] },
+  { group: "Physics", primary: "cyan", items: [
+    { name: "Quantum Information",         links: [
+      { label: "Oxford MFoCS module · CV", href: CV_PDF },
+      { label: "two colours and a Hadamard", href: "/zx-calculus/" },
+    ] },
+    { name: "ZX-rewriting",                links: [{ label: "two colours and a Hadamard", href: "/zx-calculus/" }] },
+    { name: "GNSS atmospheric modelling",  links: [{ label: "honours thesis · water vapour · CV", href: CV_PDF }] },
+    { name: "Satellite remote sensing",    links: [{ label: "INSAT-3D cloud detection · CV", href: CV_PDF }] },
+    { name: "Lotka–Volterra dynamics",     links: [{ label: "predator and prey", href: "/may-2026/" }] },
   ] },
-  { group: "Other areas", items: [
-    { name: "Computational Game Theory",            c: "purple",  links: [["oxford module", null]] },
-    { name: "Geometric Deep Learning",              c: "blue",    links: [["oxford module", null]] },
-    { name: "Graph Theory",                         c: "purple",  links: [["oxford module", null]] },
-    { name: "Algorithmic Collective Decision Making", c: "magenta", links: [["oxford module", null]] },
-    { name: "Computational Complexity",             c: "ochre",   links: [["oxford module", null]] },
-    { name: "UI / UX design",                       c: "magenta", links: [["kurukshetra fest pages", null], ["PrintedCraft CMS", null]] },
-    { name: "Cryptography",                         c: "red",     links: [["cipher program (5-layer)", null]] },
-    { name: "IoT",                                  c: "yellow",  links: [["IoT weather bot", null]] },
-    { name: "Bioinformatics",                       c: "red",     links: [["jaya · proteins", "jaya"], ["MFoCS thesis · biomarkers", "threshold-gate"]] },
+  { group: "Other areas", primary: "ochre", items: [
+    { name: "Computational Game Theory",   links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
+    { name: "Geometric Deep Learning",     links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
+    { name: "Graph Theory",                links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
+    { name: "Algorithmic Collective Decision Making", links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
+    { name: "Computational Complexity",    links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
+    { name: "UI / UX design",              links: [
+      { label: "this site", href: "/" },
+      { label: "Kurukshetra fest pages · CV", href: CV_PDF },
+      { label: "PrintedCraft CMS · CV", href: CV_PDF },
+    ] },
+    { name: "Cryptography",                links: [{ label: "cipher program (5-layer) · CV", href: CV_PDF }] },
+    { name: "IoT",                         links: [{ label: "IoT weather bot · CV", href: CV_PDF }] },
+    { name: "Bioinformatics",              links: [
+      { label: "jaya · proteins", href: "/jaya/" },
+      { label: "MFoCS thesis · biomarkers", href: "/threshold-gate/" },
+    ] },
+  ] },
+  { group: "Soft skills", primary: "prompt", items: [
+    { name: "Team leadership",                  links: [
+      { label: "Dotslash tech club (10+ people) · CV", href: CV_PDF },
+      { label: "Kolhapur project (5 people) · CV", href: CV_PDF },
+      { label: "Student Council vice-captain · CV", href: CV_PDF },
+    ] },
+    { name: "Mentoring under-represented young people", links: [
+      { label: "Stemmettes + InnovateHer · /work", href: "/work/" },
+      { label: "Oxford Mathematical Institute Ambassador · CV", href: CV_PDF },
+    ] },
+    { name: "Teaching",                          links: [
+      { label: "FLAME Quantitative Centre peer tutor (R + Python) · CV", href: CV_PDF },
+    ] },
+    { name: "STEM-ed outreach",                  links: [
+      { label: "Stemmettes · InnovateHer · I'm a… Programme · /work", href: "/work/" },
+    ] },
+    { name: "DBS-checked (UK)",                  links: [
+      { label: "cleared for under-18s work · /work", href: "/work/" },
+    ] },
+    { name: "Stakeholder communication",         links: [
+      { label: "Natter — docs + cross-team presentations · CV", href: CV_PDF },
+    ] },
+    { name: "Founding / building from zero",     links: [
+      { label: "PrintedCraft · CV", href: CV_PDF },
+      { label: "UnisphereCo (200+ attendees) · CV", href: CV_PDF },
+      { label: "orion (first eng on data stack) · /work", href: "/work/" },
+    ] },
   ] },
 ];
 
@@ -283,7 +361,9 @@ export function WorkV5({
           {/* §04 Toolbox */}
           <NBPromptHead t={t} n="§04" command="cat ./toolbox.md" comment="what built what" title="Toolbox" accent={t.purple} level={isMobile ? 22 : 28} />
           <div style={{ border: `2px solid ${t.ink}`, padding: isMobile ? "18px 16px" : "22px 26px", background: t.bgCard, marginBottom: 56 }}>
-            {WORK_TOOLBOX.map((g, gi, arr) => (
+            {WORK_TOOLBOX.map((g, gi, arr) => {
+              const groupColor = t[g.primary] || t.blue;
+              return (
               <div key={g.group} style={{
                 display: "grid",
                 gridTemplateColumns: isMobile ? "1fr" : "140px 1fr",
@@ -292,50 +372,64 @@ export function WorkV5({
                 borderBottom: gi === arr.length - 1 ? "none" : `1px dashed ${t.muted}55`,
                 alignItems: "start",
               }}>
-                <div style={{ fontFamily: "var(--f-display)", fontStyle: "italic", fontSize: 18, color: t.softInk, paddingTop: 6 }}>
+                <div style={{ fontFamily: "var(--f-display)", fontStyle: "italic", fontSize: 18, color: groupColor, paddingTop: 6 }}>
                   {g.group}.
                 </div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-                  {g.items.map((it: any) => {
-                    const ic = t[it.c] || t.blue;
-                    return (
-                      <span key={it.name} style={{
-                        display: "inline-flex", flexDirection: "column", gap: 4,
-                        padding: "8px 14px 10px",
-                        background: t.paper2,
-                        border: `1px solid ${ic}44`,
-                        borderLeft: `3px solid ${ic}`,
-                        borderRadius: 2,
-                        minWidth: isMobile ? 0 : 200,
-                        maxWidth: "100%",
-                      }}>
-                        <span style={{ fontFamily: "var(--f-body)", fontSize: 15, color: t.ink, lineHeight: 1.2 }}>{it.name}</span>
-                        <span style={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                          {it.links.map(([label, slug]: any, j: number) => {
-                            const ess = slug ? essayBySlug[slug] : null;
-                            const c = ess ? ess.c : t.muted;
-                            return slug ? (
-                              <a key={j} href={`/${slug}/`} onClick={(e) => { e.preventDefault(); onNavigate("essay", slug); }} style={{
-                                fontFamily: "var(--f-mono)", fontSize: 10.5, color: c,
+                  {g.items.map((it) => (
+                    <span key={it.name} style={{
+                      display: "inline-flex", flexDirection: "column", gap: 4,
+                      padding: "8px 14px 10px",
+                      background: t.paper2,
+                      border: `1px solid ${groupColor}44`,
+                      borderLeft: `3px solid ${groupColor}`,
+                      borderRadius: 2,
+                      minWidth: isMobile ? 0 : 200,
+                      maxWidth: "100%",
+                    }}>
+                      <span style={{ fontFamily: "var(--f-body)", fontSize: 15, color: t.ink, lineHeight: 1.2 }}>{it.name}</span>
+                      <span style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                        {it.links.map((l, j) => {
+                          // Resolve link colour: essay route → essay's accent;
+                          // anything else → category primary.
+                          const essayMatch = l.href.match(/^\/([^\/]+)\/$/);
+                          const post = essayMatch ? POSTS.find((p) => p.slug === essayMatch[1]) : null;
+                          const linkColor = post ? t[post.nbAccent || "blue"] : groupColor;
+                          const isExternal = /^https?:/.test(l.href);
+                          const isInSiteRoute = l.href.startsWith("/") && !l.href.startsWith("/uploads/");
+                          const navHandler = post
+                            ? (e: React.MouseEvent) => { e.preventDefault(); onNavigate("essay", post.slug); }
+                            : isInSiteRoute && l.href === "/work/"
+                              ? (e: React.MouseEvent) => { e.preventDefault(); onNavigate("work"); }
+                              : isInSiteRoute && l.href === "/writing/"
+                                ? (e: React.MouseEvent) => { e.preventDefault(); onNavigate("writing"); }
+                                : isInSiteRoute && l.href === "/"
+                                  ? (e: React.MouseEvent) => { e.preventDefault(); onNavigate("home"); }
+                                  : undefined;
+                          return (
+                            <a
+                              key={j}
+                              href={l.href}
+                              target={isExternal || l.href.endsWith(".pdf") ? "_blank" : undefined}
+                              rel={isExternal ? "noreferrer" : undefined}
+                              onClick={navHandler}
+                              style={{
+                                fontFamily: "var(--f-mono)", fontSize: 10.5, color: linkColor,
                                 letterSpacing: "0.02em",
-                                borderBottom: `1px solid ${c}44`,
+                                borderBottom: `1px solid ${linkColor}44`,
                                 alignSelf: "flex-start",
                                 textDecoration: "none",
-                              }}>↗ {label}</a>
-                            ) : (
-                              <span key={j} style={{
-                                fontFamily: "var(--f-mono)", fontSize: 10.5, color: c,
-                                letterSpacing: "0.02em",
-                              }}>↗ {label}</span>
-                            );
-                          })}
-                        </span>
+                              }}
+                            >↗ {l.label}</a>
+                          );
+                        })}
                       </span>
-                    );
-                  })}
+                    </span>
+                  ))}
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* §05 Speaking */}

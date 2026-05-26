@@ -33,45 +33,62 @@ const HOME_BUILDS = [
   { name: "platypus-learn",      c: "blue",   blurb: "AI learning platform — PDFs and YouTube → courses.",   year: "2025 —", url: "https://platypus-learn.vercel.app" },
 ];
 
-// Skills sourced from final_CV.pdf (Feb 2024 snapshot) plus the Orion stack
-// affirmed in the site's existing prose. Six categories per user request:
-// Languages / Tools / Libraries / ML-Data / Physics / Other. Home version is
-// curated — top picks per category; the full set lives on the Work page.
-const HOME_TOOLBOX = [
-  { group: "Languages", items: [
-    { name: "Python",     c: "orange",  used: "jaya · threshold · six-engines" },
-    { name: "TypeScript", c: "blue",    used: "this site · fashion-web" },
-    { name: "R",          c: "red",     used: "taylor rec (original) · tutoring" },
-    { name: "C++",        c: "cyan",    used: "iot weather bot" },
+// Toolbox v2 — category-driven colour. Each group has a `primary` accent
+// key; every chip in that group shares it for the left border. Each link
+// has a real href (essay route, project URL, GitHub repo, or CV PDF as
+// fallback for CV-only entries). When the href is an essay path, the link
+// text picks up that essay's accent — chip carries provenance without
+// scrambling the visual grouping.
+//
+// Skills sourced from final_CV.pdf plus Orion stack from existing prose.
+// Home version is curated — top picks per category; the full taxonomy
+// lives on /work.
+const CV_PDF = "/uploads/Shubhangi-Sharma-Resume-20260211.pdf";
+
+type ChipLink = { label: string; href: string };
+type ToolGroup = { group: string; primary: string; items: { name: string; links: ChipLink[] }[] };
+
+const HOME_TOOLBOX: ToolGroup[] = [
+  { group: "Languages", primary: "blue", items: [
+    { name: "Python",     links: [{ label: "jaya, improved", href: "/jaya/" }, { label: "six engines", href: "/six-engines/" }] },
+    { name: "TypeScript", links: [{ label: "this site", href: "https://github.com/shubhangithub/personal-site" }, { label: "fashion-web", href: "https://fashion-web-psi.vercel.app" }] },
+    { name: "R",          links: [{ label: "taylor rec (original) · CV", href: CV_PDF }] },
+    { name: "C++",        links: [{ label: "IoT weather bot · CV", href: CV_PDF }] },
   ] },
-  { group: "Tools", items: [
-    { name: "Astro · React islands", c: "blue",   used: "this site" },
-    { name: "AWS · EC2 · S3",        c: "orange", used: "jobsforher backend" },
-    { name: "Tableau",               c: "ochre",  used: "kolhapur cultural mapping" },
-    { name: "Git · CI/CD",           c: "teal",   used: "everywhere" },
+  { group: "Tools", primary: "teal", items: [
+    { name: "Astro · React islands", links: [{ label: "this site repo", href: "https://github.com/shubhangithub/personal-site" }] },
+    { name: "AWS · EC2 · S3",        links: [{ label: "jobsforher backend · CV", href: CV_PDF }] },
+    { name: "Tableau",               links: [{ label: "kolhapur cultural mapping · CV", href: CV_PDF }] },
+    { name: "Git · CI/CD",           links: [{ label: "annotated CV", href: "/work/" }] },
   ] },
-  { group: "Libraries", items: [
-    { name: "NumPy · SciPy · Pandas",   c: "orange",  used: "all ML, plotting, GNSS" },
-    { name: "PyTorch · scikit-learn",   c: "red",     used: "modelling generally" },
-    { name: "SpaCy · NLTK · Gensim",    c: "purple",  used: "merger NLP, sentiment" },
-    { name: "ggplot · shiny · dplyr",   c: "red",     used: "taylor rec (original)" },
+  { group: "Libraries", primary: "orange", items: [
+    { name: "NumPy · SciPy · Pandas", links: [{ label: "jaya", href: "/jaya/" }] },
+    { name: "PyTorch · scikit-learn", links: [{ label: "positive by how much", href: "/threshold-gate/" }] },
+    { name: "SpaCy · NLTK · Gensim",  links: [{ label: "merger NLP · CV", href: CV_PDF }] },
+    { name: "ggplot · shiny · dplyr", links: [{ label: "taylor rec (R/Shiny) · CV", href: CV_PDF }] },
   ] },
-  { group: "ML / Data", items: [
-    { name: "Feature selection (JAYA)",    c: "orange",  used: "jaya, improved" },
-    { name: "Recommendation systems",      c: "purple",  used: "six engines · natter matching" },
-    { name: "Sentiment + theme extraction", c: "purple",  used: "flipkart–walmart merger" },
-    { name: "Regression / classification", c: "blue",    used: "GNSS · platform moderation" },
+  { group: "ML / Data", primary: "purple", items: [
+    { name: "Feature selection (JAYA)",     links: [{ label: "jaya, improved", href: "/jaya/" }] },
+    { name: "Recommendation systems",       links: [{ label: "six engines", href: "/six-engines/" }] },
+    { name: "Sentiment + theme extraction", links: [{ label: "merger NLP · CV", href: CV_PDF }] },
+    { name: "LMSR markets",                 links: [{ label: "pricing the next scarf", href: "/fashion-trends/" }] },
   ] },
-  { group: "Physics", items: [
-    { name: "Quantum Information",       c: "prompt",  used: "oxford · two colours and a Hadamard" },
-    { name: "GNSS atmospheric modelling", c: "cyan",    used: "honours thesis · water vapour" },
-    { name: "Lotka–Volterra dynamics",    c: "teal",    used: "predator and prey" },
+  { group: "Physics", primary: "cyan", items: [
+    { name: "Quantum Information",        links: [{ label: "two colours and a Hadamard", href: "/zx-calculus/" }] },
+    { name: "GNSS atmospheric modelling", links: [{ label: "honours thesis · CV", href: CV_PDF }] },
+    { name: "Lotka–Volterra dynamics",    links: [{ label: "predator and prey", href: "/may-2026/" }] },
   ] },
-  { group: "Other areas", items: [
-    { name: "Computational Game Theory",  c: "purple",  used: "oxford module" },
-    { name: "Geometric Deep Learning",    c: "blue",    used: "oxford module" },
-    { name: "Cryptography",               c: "red",     used: "cipher program" },
-    { name: "UI/UX",                      c: "magenta", used: "kurukshetra fest · CMS work" },
+  { group: "Other areas", primary: "ochre", items: [
+    { name: "Computational Game Theory", links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
+    { name: "Geometric Deep Learning",   links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
+    { name: "Cryptography",              links: [{ label: "cipher program · CV", href: CV_PDF }] },
+    { name: "UI / UX",                   links: [{ label: "this site", href: "/" }] },
+  ] },
+  { group: "Soft skills", primary: "prompt", items: [
+    { name: "Team leadership",                    links: [{ label: "Dotslash (10+) · Kolhapur · Council · CV", href: CV_PDF }] },
+    { name: "Mentoring under-represented kids",   links: [{ label: "Stemmettes · InnovateHer", href: "/work/" }] },
+    { name: "DBS-checked (UK)",                   links: [{ label: "cleared for under-18s · /work", href: "/work/" }] },
+    { name: "Stakeholder communication",          links: [{ label: "natter docs + presentations · CV", href: CV_PDF }] },
   ] },
 ];
 
@@ -236,7 +253,9 @@ export function HomeV5({
             marginBottom: 60,
             position: "relative",
           }}>
-            {HOME_TOOLBOX.map((g, gi, arr) => (
+            {HOME_TOOLBOX.map((g, gi, arr) => {
+              const groupColor = t[g.primary] || t.blue;
+              return (
               <div key={g.group} style={{
                 display: "grid",
                 gridTemplateColumns: isMobile ? "1fr" : "140px 1fr",
@@ -250,33 +269,54 @@ export function HomeV5({
                   fontFamily: "var(--f-display)",
                   fontStyle: "italic",
                   fontSize: 18,
-                  color: t.softInk,
+                  color: groupColor,
                   paddingTop: 6,
                 }}>{g.group}.</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-                  {g.items.map(it => {
-                    const ic = t[it.c] || t.blue;
-                    return (
-                      <span key={it.name} style={{
-                        display: "inline-flex", flexDirection: "column", gap: 2,
-                        padding: "7px 14px 8px",
-                        background: t.paper2,
-                        border: `1px solid ${ic}44`,
-                        borderLeft: `3px solid ${ic}`,
-                        borderRadius: 2,
-                      }}>
-                        <span style={{ fontFamily: "var(--f-body)", fontSize: 15, color: t.ink, lineHeight: 1.2 }}>
-                          {it.name}
-                        </span>
-                        <span style={{ fontFamily: "var(--f-mono)", fontSize: 10.5, color: ic, letterSpacing: "0.02em" }}>
-                          ↗ {it.used}
-                        </span>
+                  {g.items.map(it => (
+                    <span key={it.name} style={{
+                      display: "inline-flex", flexDirection: "column", gap: 2,
+                      padding: "7px 14px 8px",
+                      background: t.paper2,
+                      border: `1px solid ${groupColor}44`,
+                      borderLeft: `3px solid ${groupColor}`,
+                      borderRadius: 2,
+                      maxWidth: "100%",
+                    }}>
+                      <span style={{ fontFamily: "var(--f-body)", fontSize: 15, color: t.ink, lineHeight: 1.2 }}>
+                        {it.name}
                       </span>
-                    );
-                  })}
+                      {it.links.map((l, li) => {
+                        // Resolve link colour: essay route → essay's accent;
+                        // anything else → category primary.
+                        const essayMatch = l.href.match(/^\/([^\/]+)\/$/);
+                        const post = essayMatch ? POSTS.find(p => p.slug === essayMatch[1]) : null;
+                        const linkColor = post ? t[post.nbAccent || "blue"] : groupColor;
+                        const isExternal = /^https?:/.test(l.href);
+                        const isInternal = l.href.startsWith("/") && !l.href.startsWith("/uploads/");
+                        return (
+                          <a
+                            key={li}
+                            href={l.href}
+                            target={isExternal || l.href.endsWith(".pdf") ? "_blank" : undefined}
+                            rel={isExternal ? "noreferrer" : undefined}
+                            onClick={post ? (e) => { e.preventDefault(); onNavigate("essay", post.slug); }
+                              : isInternal && l.href === "/work/" ? (e) => { e.preventDefault(); onNavigate("work"); }
+                              : isInternal && l.href === "/" ? (e) => { e.preventDefault(); onNavigate("home"); }
+                              : undefined}
+                            style={{
+                              fontFamily: "var(--f-mono)", fontSize: 10.5, color: linkColor,
+                              letterSpacing: "0.02em", textDecoration: "none",
+                            }}
+                          >↗ {l.label}</a>
+                        );
+                      })}
+                    </span>
+                  ))}
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </main>
 

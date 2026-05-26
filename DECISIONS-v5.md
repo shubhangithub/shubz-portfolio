@@ -46,15 +46,13 @@ Why this matters:
   tracker — unchanged.
 
 **Net-new content I authored** (called out so you can swap with your own copy):
-- Home + Work toolbox skills (Languages / Tools / Libraries / ML-Data /
-  Physics / Other areas). Six-category restructure per user request,
-  populated from `final_CV.pdf` (Feb 2024) plus Orion-era stack
-  (Rust/Golang/geospatial ML) carried forward from existing site prose.
-  Home version is curated (~3 per group); Work version is comprehensive
-  with essay-provenance links where applicable. Replaces the V5
-  prototype's original 4-group home toolbox + 3-group work toolbox.
-  The interests row ("Off-keyboard") was dropped — those things are
-  mentioned in the bio paragraph instead.
+- Home + Work toolbox skills, seven categories (Languages / Tools /
+  Libraries / ML-Data / Physics / Other / Soft skills). Populated from
+  `final_CV.pdf` (Feb 2024) plus Orion-era stack (Rust/Golang/geospatial
+  ML) carried forward from existing site prose. Home is curated; Work is
+  comprehensive. The interests row ("Off-keyboard") was dropped — rowing
+  / piano / STEM-ed / fashion already live in the hero bio paragraph.
+  Colour system documented in §15 below.
 - Home builds card (`HomeV5.tsx`, `HOME_BUILDS` array) — three current
   deployed projects with one-liner blurbs.
 - Writing index "working notes" rows (`WritingIndexV5.tsx`,
@@ -254,7 +252,44 @@ DECISIONS-v5.md` and revert the additive edits to `palette.ts`, `posts.ts`,
 
 ---
 
-## 14. How to verify locally
+## 14. Toolbox colour system
+
+The first toolbox pass coloured each chip individually by its strongest
+project/essay association (Python = orange because of JAYA; R = red
+because of comp-bio; etc.). This looked random in practice — every
+category had four different colours and the grouping carried no signal.
+
+**Current system:** category-driven. Each group has a `primary` accent
+key; every chip in that group shares it for the left-border + outer
+border. The "↗ link" text inside the chip uses the linked essay's accent
+when the link points at an `/<slug>/` route — that preserves the
+"where this skill earned its place" provenance signal without scrambling
+the visual grouping.
+
+| Category    | Primary       | Reason                          |
+|-------------|---------------|---------------------------------|
+| Languages   | `blue`        | code-y / terminal-adjacent      |
+| Tools       | `teal`        | utility / infrastructure        |
+| Libraries   | `orange`      | warm / packaged-up              |
+| ML / Data   | `purple`      | analytical / modelling          |
+| Physics     | `cyan`        | atmospheric / quantum / cool    |
+| Other areas | `ochre`       | varied / academic               |
+| Soft skills | `prompt` (green) | people / growth / "okay" states |
+
+**Every chip-link has a real href.** Resolution order:
+- `/<slug>/` where `<slug>` is a known essay → in-site essay route,
+  link text gets that essay's accent
+- `/work/`, `/writing/`, `/` → in-site nav
+- `https://…` → external (opens in new tab); GitHub repo, project URL
+- `/uploads/Shubhangi-Sharma-Resume-…pdf` → CV PDF (opens in new tab)
+
+CV is the fallback when a skill has no on-site destination (Oxford
+modules, pre-CV jobs, college projects). The constant `CV_PDF` is at
+the top of both `HomeV5.tsx` and `WorkV5.tsx` for easy update.
+
+---
+
+## 15. How to verify locally
 
 ```bash
 cd /Users/shubzpersonal2/.superset/worktrees/personal-site/v5-field-notebook
