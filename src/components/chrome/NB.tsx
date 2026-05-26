@@ -109,8 +109,8 @@ export function NBTabStrip({
   const tabs: [string, NBPageKey][] = [
     ["~/home", "home"],
     ["~/now", "now"],
-    ["~/writing", "writing"],
     ["~/work", "work"],
+    ["~/writing", "writing"],
     ["~/contact", "contact"],
   ];
   const isMobile = useIsMobile();

@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react'
 import { useIsMobile } from '../legacy';
 
 export function PreciseNav({ palette: p, current, onNavigate }) {
-  const items = [["Home", "home"], ["Now", "now"], ["Writing", "writing"], ["Work", "work"], ["Contact", "contact"]];
+  const items = [["Home", "home"], ["Now", "now"], ["Work", "work"], ["Writing", "writing"], ["Contact", "contact"]];
   const isMobile = useIsMobile();
   if (isMobile) {
     return (
