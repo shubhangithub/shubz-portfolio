@@ -309,7 +309,7 @@ export const WORK_CV_STAT = {
   filename: "cv.pdf",
   span: "2019 — now",
   updatedDisplay: "26/05/2026",
-  openText: "↗ download pdf",
+  openText: "↗ open pdf",
   /** Sections shown on this /work page. Listed in the right-rail stat
    *  block so a visitor scanning the CV knows what's covered without
    *  scrolling. Update if you add a §06 onward. */

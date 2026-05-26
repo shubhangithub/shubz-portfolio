@@ -372,7 +372,7 @@ export function WorkV5({
               ))}
             </div>
             <div style={{ marginTop: 8 }}>
-              <a href={CV_PDF} download="Shubhangi-Sharma-Resume.pdf" style={{ color: t.blue, borderBottom: `1px solid ${t.blue}66`, textDecoration: "none" }}>{WORK_CV_STAT.openText}</a>
+              <a href={CV_PDF} target="_blank" rel="noreferrer" style={{ color: t.blue, borderBottom: `1px solid ${t.blue}66`, textDecoration: "none" }}>{WORK_CV_STAT.openText}</a>
             </div>
           </div>
 
