@@ -252,56 +252,88 @@ DECISIONS-v5.md` and revert the additive edits to `palette.ts`, `posts.ts`,
 
 ---
 
-## 14. Toolbox colour system
+## 14. Colour system — 10 canonical topic categories
 
-The first toolbox pass coloured each chip individually by its strongest
-project/essay association (Python = orange because of JAYA; R = red
-because of comp-bio; etc.). This looked random in practice — every
-category had four different colours and the grouping carried no signal.
+Earlier passes layered two colour axes (essays = topic-coded, toolbox =
+skill-type-coded), which produced unrelated overlaps (e.g. `blue` meant
+"AI" for the bluedot essay AND "Languages" for the toolbox category).
+The legibility complaint was real.
 
-**Current system:** category-driven. Each group has a `primary` accent
-key; every chip in that group shares it for the left-border + outer
-border. The "↗ link" text inside the chip uses the linked essay's accent
-when the link points at an `/<slug>/` route — that preserves the
-"where this skill earned its place" provenance signal without scrambling
-the visual grouping.
+**Current system (canonical):** the site has **10 meta-topic categories**,
+each owning one of the 10 NB pens. Every essay, project, skill, and
+toolbox chip rolls up to exactly one of them, and inherits that
+category's pen colour. The 10 categories were chosen to cover everything
+on the site without gaps. More-specific sub-topics (e.g. "ecology",
+"immunology", "graph theory", "category theory") roll up to a parent
+meta-topic and share its colour — the colour is the internal taxonomy.
 
-| Category         | Primary       | Reason                                |
-|------------------|---------------|---------------------------------------|
-| Languages        | `blue`        | code-y / terminal-adjacent            |
-| Tools            | `teal`        | utility / infrastructure              |
-| Libraries        | `orange`      | warm / packaged-up                    |
-| ML / Data        | `purple`      | analytical / modelling                |
-| AI / LLM tooling | `yellow`      | frontier / experimental               |
-| Mathematics      | `magenta`     | rigorous / abstract / foundational    |
-| Physics          | `cyan`        | atmospheric / quantum / cool          |
-| Other areas      | `ochre`       | varied / applied / misc               |
-| Soft skills      | `prompt` (green) | people / growth / "okay" states    |
+### The 10 canonical categories
+
+| #  | Category                          | Pen           | What rolls up here                                                                          |
+|----|-----------------------------------|---------------|----------------------------------------------------------------------------------------------|
+| 1  | AI safety & alignment              | `blue`        | bluedot · alignment · AI ethics · governance · policy                                        |
+| 2  | ML technical research              | `purple`      | classical ML · NLP · LLM eng (Claude / Gemini / prompt eng / evals) · optim · feature eng    |
+| 3  | Mathematics                        | `magenta`     | game / cat / graph theory · complexity · GDL · cryptography · linear algebra                 |
+| 4  | Physics                            | `prompt` (green) | quantum · ZX-calculus · atmospheric · GNSS · satellite remote sensing                     |
+| 5  | Biotech                            | `red`         | biology · ecology · bioinformatics · biomarkers · immunology · comp-bio                      |
+| 6  | Geospatial                         | `teal`        | geospatial ML · GIS · H3 indexing · mapping · spatial analysis                                |
+| 7  | Markets, predictions & fintech     | `ochre`       | LMSR · time-series · forecasting · recommendations · prediction markets · trading            |
+| 8  | Hardware                           | `cyan`        | IoT · embedded · HDL · compiler / VM · electronics · sensors                                 |
+| 9  | Infrastructure & craft             | `yellow`      | data arch · UI / UX · web stack · cloud · DevOps · languages-as-infra · design tools         |
+| 10 | Outreach, community & teaching     | `orange`      | mentoring · leadership · STEM-ed · DBS · stakeholder comm · founding · marketing             |
+
+### Slotting rule
+
+A skill that genuinely serves multiple topics picks its **primary** one
+(the topic it most-often earned its place in this user's work).
+Provenance to other topics is preserved via essay link-colours inside
+the chip — but the chip's own colour is one and only one category.
+
+Examples:
+- **Python** → ML technical research (purple). Used in JAYA, threshold-
+  gate, six-engines — but the *skill* is general-purpose ML scripting.
+- **R** → ML technical research (purple). Taylor rec original was R/Shiny
+  ML; FLAME peer tutoring was Python + R for analytics.
+- **Rust / Golang** → Geospatial (teal). Orion-only.
+- **C++** → Hardware (cyan). IoT weather bot.
+- **Constrained clustering** → Biotech (red). Even though it's an
+  ML technique, on this site it earned its place in the comp-bio essay.
 
 ### Link colour rules (inside each chip)
 
 The chip has **two layers of colour**, deliberately:
 
-- **Left border + group label = category** (what kind of skill this is).
+- **Left border + group label = category** (the meta-topic).
 - **Each `↗ link` text = provenance** (where the skill earned its place):
 
-| Link `href`                | Text colour                                   |
-|----------------------------|-----------------------------------------------|
-| `/<slug>/` (essay route)   | that essay's accent (`POSTS[i].nbAccent`)     |
-| `https://…` (project URL, GitHub) | chip's category primary               |
-| `/uploads/…CV…pdf`         | chip's category primary                       |
-| `/work/`, `/writing/`, `/`, `/now/` | chip's category primary              |
+| Link `href`                       | Text colour                              |
+|-----------------------------------|------------------------------------------|
+| `/<slug>/` (essay route)          | that essay's accent (`POSTS[i].nbAccent`) |
+| `https://…` (project URL, GitHub) | chip's category primary                   |
+| `/uploads/…CV…pdf`                | chip's category primary                   |
+| `/work/`, `/writing/`, `/`, `/now/` | chip's category primary                  |
 
-So a Python chip sits in Languages (blue border) but its individual links
-read: `↗ jaya, improved` in **orange** (JAYA essay accent), `↗ positive by
-how much` in **magenta** (threshold-gate accent), `↗ honours thesis · CV`
-in **blue** (no essay → falls back to category). The chip's border tells
-you "this is a language"; the link colours tell you the kind of place
-each link goes. Two signals, both legible, no clashes.
+### Essay accent flips (v5)
 
-If a chip is in the same category as an essay it links to, the link's
-text just matches the border — which is the correct "wait, this isn't
-random" signal that triggered redesigning the system in the first place.
+Switching to this canonical system required flipping four essay accents
+so each essay sits in exactly one of the 10 categories:
+
+| Essay                  | Before     | After      | Reason                          |
+|------------------------|------------|------------|----------------------------------|
+| `jaya`                 | `orange`   | `purple`   | ML technical research absorbs optim |
+| `threshold-gate`       | `magenta`  | `red`      | Biotech (was bio "low-signal")    |
+| `six-engines`          | `purple`   | `ochre`    | Recommendations roll up to markets |
+| `may-2026`             | `teal`     | `red`      | Ecology rolls up to biotech       |
+
+Unchanged: `bluedot-unit1` (blue), `zx-calculus` (prompt-green),
+`fashion-trends` (ochre), `constraint-clustering` (red).
+
+### Where to make new content fit
+
+When adding an essay, a project, a skill, or a CV entry: pick the **one
+meta-topic** it most belongs to from the table above, set
+`POSTS[i].family` + `POSTS[i].nbAccent` accordingly, or for chips set
+the parent group's `primary`. The chip colour follows automatically.
 
 **Every chip-link has a real href.** Resolution order:
 - `/<slug>/` where `<slug>` is a known essay → in-site essay route,

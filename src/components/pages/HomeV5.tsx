@@ -48,46 +48,54 @@ const CV_PDF = "/uploads/Shubhangi-Sharma-Resume-20260211.pdf";
 type ChipLink = { label: string; href: string };
 type ToolGroup = { group: string; primary: string; items: { name: string; links: ChipLink[] }[] };
 
-// Home toolbox = condensed teaser. Each category shows the 1-2 highest-
-// signal chips with a single representative link. The full taxonomy
-// (everything from the CV + Orion stack + provenance) lives on /work
-// under §04 — reached via the "see all skills →" link below the toolbox.
+// Home toolbox = condensed teaser of the 10 canonical topic categories.
+// Each category shows 1-2 representative chips; the full taxonomy with
+// every skill + project + role lives on /work under §04, reached via
+// the "see all skills →" link below the toolbox. Each chip's colour
+// matches its group's primary (= its meta-topic).
 const HOME_TOOLBOX: ToolGroup[] = [
-  { group: "Languages", primary: "blue", items: [
-    { name: "Python",        links: [{ label: "jaya, threshold, six engines", href: "/jaya/" }] },
-    { name: "Rust · Golang", links: [{ label: "orion · /work", href: "/work/" }] },
+  { group: "AI safety & alignment", primary: "blue", items: [
+    { name: "AI alignment research", links: [{ label: "a unit on bending the curve", href: "/bluedot-unit1/" }] },
+    { name: "AI ethics & governance", links: [{ label: "bluedot AGI cohort · /now", href: "/now/" }] },
   ] },
-  { group: "Tools", primary: "teal", items: [
-    { name: "Astro · React islands",       links: [{ label: "this site", href: "https://github.com/shubhangithub/personal-site" }] },
-    { name: "Next.js · Supabase · Resend", links: [{ label: "platypus-learn", href: "https://platypus-learn.vercel.app" }] },
-  ] },
-  { group: "Libraries", primary: "orange", items: [
-    { name: "PyTorch · scikit-learn", links: [{ label: "positive by how much", href: "/threshold-gate/" }] },
-    { name: "NumPy · SciPy · Pandas", links: [{ label: "jaya", href: "/jaya/" }] },
-  ] },
-  { group: "ML / Data", primary: "purple", items: [
-    { name: "Anomaly detection · H3", links: [{ label: "orion · /work", href: "/work/" }] },
-    { name: "LMSR markets",           links: [{ label: "pricing the next scarf", href: "/fashion-trends/" }] },
-  ] },
-  { group: "AI / LLM tooling", primary: "yellow", items: [
-    { name: "Claude API · Anthropic SDK",    links: [{ label: "platypus-learn", href: "https://platypus-learn.vercel.app" }] },
+  { group: "ML technical research", primary: "purple", items: [
+    { name: "Python",                     links: [{ label: "jaya, threshold, six engines", href: "/jaya/" }] },
+    { name: "Claude API · Anthropic SDK", links: [{ label: "platypus-learn", href: "https://platypus-learn.vercel.app" }] },
     { name: "Prompt engineering · few-shot", links: [{ label: "orion search · /now", href: "/now/" }] },
   ] },
   { group: "Mathematics", primary: "magenta", items: [
     { name: "Computational Game Theory", links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
     { name: "Category Theory",           links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
   ] },
-  { group: "Physics", primary: "cyan", items: [
-    { name: "Quantum Information",     links: [{ label: "two colours and a Hadamard", href: "/zx-calculus/" }] },
+  { group: "Physics", primary: "prompt", items: [
+    { name: "Quantum Information",        links: [{ label: "two colours and a Hadamard", href: "/zx-calculus/" }] },
+    { name: "GNSS atmospheric modelling", links: [{ label: "honours thesis · CV", href: CV_PDF }] },
+  ] },
+  { group: "Biotech", primary: "red", items: [
+    { name: "Bioinformatics",         links: [{ label: "jaya · proteins", href: "/jaya/" }] },
     { name: "Lotka–Volterra dynamics", links: [{ label: "predator and prey", href: "/may-2026/" }] },
   ] },
-  { group: "Other areas", primary: "ochre", items: [
-    { name: "UI / UX",         links: [{ label: "this site", href: "/" }] },
-    { name: "Bioinformatics",  links: [{ label: "jaya · proteins", href: "/jaya/" }] },
+  { group: "Geospatial", primary: "teal", items: [
+    { name: "Rust · Golang",               links: [{ label: "orion · /work", href: "/work/" }] },
+    { name: "Geospatial ML · H3 indexing", links: [{ label: "orion · /work", href: "/work/" }] },
   ] },
-  { group: "Soft skills", primary: "prompt", items: [
+  { group: "Markets, predictions & fintech", primary: "ochre", items: [
+    { name: "LMSR prediction markets", links: [{ label: "pricing the next scarf", href: "/fashion-trends/" }] },
+    { name: "Recommendation systems",  links: [{ label: "six engines", href: "/six-engines/" }] },
+  ] },
+  { group: "Hardware", primary: "cyan", items: [
+    { name: "C++ · embedded", links: [{ label: "IoT weather bot · CV", href: CV_PDF }] },
+    { name: "Compiler · HDL", links: [{ label: "Nand2Tetris · /work", href: "/work/" }] },
+  ] },
+  { group: "Infrastructure & craft", primary: "yellow", items: [
+    { name: "Astro · React islands", links: [{ label: "this site", href: "https://github.com/shubhangithub/personal-site" }] },
+    { name: "Next.js · Supabase",    links: [{ label: "platypus-learn", href: "https://platypus-learn.vercel.app" }] },
+    { name: "UI / UX",               links: [{ label: "this site", href: "/" }] },
+  ] },
+  { group: "Outreach, community & teaching", primary: "orange", items: [
     { name: "Team leadership",                  links: [{ label: "Dotslash · Kolhapur · Council · CV", href: CV_PDF }] },
     { name: "Mentoring under-represented kids", links: [{ label: "Stemmettes · InnovateHer", href: "/work/" }] },
+    { name: "DBS-checked (UK)",                 links: [{ label: "cleared for under-18s · /work", href: "/work/" }] },
   ] },
 ];
 

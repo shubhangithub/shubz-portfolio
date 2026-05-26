@@ -1,11 +1,25 @@
 # AGENTS.md — design + voice guidelines
 
-Read this **before** editing `index.html`. These rules are not optional. The
-site has a tight, deliberate voice; pattern-matching from a generic blog-post
-prior will produce writing that's ejected on review.
+Read this **before** any styling or content work. These rules are not
+optional. The site has a tight, deliberate voice; pattern-matching from a
+generic blog-post prior will produce writing that's ejected on review.
 
 This file is the canonical source. `CLAUDE.md` redirects here. Cursor, Aider,
 Copilot, and Claude Code agents all pick up `AGENTS.md` automatically.
+
+> **V5 colour system (canonical, must read before assigning colours).**
+> The site uses **10 meta-topic categories**, each owning one of 10 NB pens.
+> Every essay, project, skill, chip, or new piece of content rolls up to
+> exactly one category and inherits its pen colour. Full table + slotting
+> rules + per-essay accent map in [`DECISIONS-v5.md §14`](./DECISIONS-v5.md).
+> Don't invent new accents; pick from the 10.
+
+> **Architecture note.** §6 below references `index.html` and a single-file
+> architecture — that was the V4 state before the `astro-migration` branch.
+> Main is now Astro + React islands; the V5 redesign lives in
+> `src/components/pages/*V5.tsx`, gated by `USE_V5` in `AppShell.tsx` for a
+> one-line revert. Voice + diagram rules below still apply universally; the
+> file-shape rules in §6 are V4 history.
 
 ---
 

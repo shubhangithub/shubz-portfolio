@@ -6,18 +6,40 @@ This file exists so Claude Code picks up the rules automatically. The actual
 content lives in `AGENTS.md` (cross-vendor convention — Cursor, Aider, Copilot,
 and Claude Code all read it).
 
+**V5 colour system (mandatory read before any styling work):**
+See [`DECISIONS-v5.md`](./DECISIONS-v5.md) §14. The site uses **10 canonical
+topic categories**, each owning one of the 10 NB pens defined in
+[`src/data/palette.ts`](./src/data/palette.ts). Every essay, project, skill,
+chip, or new piece of content must roll up to exactly one of those ten:
+
+1. AI safety & alignment (blue) · 2. ML technical research (purple) ·
+3. Mathematics (magenta) · 4. Physics (prompt-green) · 5. Biotech (red) ·
+6. Geospatial (teal) · 7. Markets, predictions & fintech (ochre) ·
+8. Hardware (cyan) · 9. Infrastructure & craft (yellow) ·
+10. Outreach, community & teaching (orange)
+
+The colour is the internal taxonomy. Sub-topics roll up — e.g. an essay
+on "ecology" or "immunology" both colour as biotech red; "category theory"
+and "graph theory" both colour as math magenta. When adding anything new,
+pick the primary meta-topic, set `POSTS[i].family + nbAccent` for essays,
+or the parent group's `primary` for toolbox chips. Don't invent new accents.
+
 **TL;DR for Claude:**
 
-- Read `AGENTS.md` before touching `index.html`.
+- Read `AGENTS.md` + `DECISIONS-v5.md §14` before any styling or content work.
 - Read the existing `JayaEssay` end-to-end before writing any new essay.
-- Two custom SVG diagrams per essay, palette-token colours only.
+- Two custom diagrams per essay, palette-token colours only (per-essay accent).
 - Drop-cap lede, mono `§` section numbers, `<PullQuote>`, sidenotes, italic
   place-stamped closing line.
 - British English. No LLM-default phrasings ("leverage," "robust," "delve,"
   "tapestry," etc.).
-- Single-file HTML, no build step. New work goes in the V4 section.
+- Site is Astro + React islands (post-`astro-migration`). New work goes in
+  `src/components/pages/*V5.tsx`; V4 stays in place behind a `USE_V5` flag
+  in `AppShell.tsx` for one-line revert.
 - Adding an essay touches: diagram components, `<Slug>Essay`, `essayMeta()`,
-  `ArticleV4` dispatcher, `POSTS`. All five. In that order.
+  `POSTS` (with `family` + `nbAccent`), `ArticleV5` dispatcher. All five.
+- New skill / project / role goes in the relevant `WORK_TOOLBOX` group in
+  `WorkV5.tsx` (and optionally `HOME_TOOLBOX` for prominent ones).
 
-If the rules in `AGENTS.md` and a user request conflict, surface the conflict
-to the user before proceeding.
+If the rules in `AGENTS.md` / `DECISIONS-v5.md` and a user request conflict,
+surface the conflict to the user before proceeding.

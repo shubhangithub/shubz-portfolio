@@ -20,8 +20,24 @@ export type Post = {
   cardBg: string;
   accent: string;
   tag: string;
-  /** V5 — topic family. */
-  family?: "ai" | "quantum" | "bio" | "optim" | "markets" | "ml" | "ecology" | "physics";
+  /**
+   * V5 — meta-topic this essay rolls up to. One of the 10 canonical
+   * categories (see palette.ts header + DECISIONS-v5.md §14). Specific
+   * sub-topics like "ecology" or "immunology" both colour as `biotech`;
+   * "game theory" and "graph theory" both colour as `math`. The family
+   * value drives the chip colour via `nbAccent`.
+   */
+  family?:
+    | "ai-safety"   // blue   — alignment, ethics, governance
+    | "ml-research" // purple — classical ML, NLP, LLM eng, optim
+    | "math"        // magenta — game/cat/graph theory, complexity, GDL, crypto
+    | "physics"     // prompt-green — quantum, atmospheric, GNSS, satellite
+    | "biotech"     // red    — biology, ecology, bioinformatics, biomarkers
+    | "geospatial"  // teal   — geospatial ML, GIS, H3, mapping
+    | "markets"     // ochre  — LMSR, time-series, recommendations, forecasting
+    | "hardware"    // cyan   — IoT, embedded, HDL, compiler/VM
+    | "infra"       // yellow — data arch, UI/UX, web stack, cloud
+    | "outreach";   // orange — mentoring, leadership, STEM-ed, comms
   /** V5 — per-essay accent key into NB_LIGHT/NB_DARK in palette.ts. */
   nbAccent?: NBAccentKey;
 };
@@ -37,7 +53,7 @@ export const POSTS: Post[] = [
     cardBg: "#E6E8F2",
     accent: "#1F3DBF",
     tag: "ai safety",
-    family: "ai",
+    family: "ai-safety",
     nbAccent: "blue",
   },
   {
@@ -50,7 +66,7 @@ export const POSTS: Post[] = [
     cardBg: "#E4EAE6",
     accent: "#1F3DBF",
     tag: "physics",
-    family: "quantum",
+    family: "physics",
     nbAccent: "prompt",
   },
   {
@@ -63,8 +79,8 @@ export const POSTS: Post[] = [
     cardBg: "#E5E8F0",
     accent: "#1F3DBF",
     tag: "biology",
-    family: "optim",
-    nbAccent: "orange",
+    family: "ml-research",
+    nbAccent: "purple",
   },
   {
     slug: "fashion-trends",
@@ -89,8 +105,8 @@ export const POSTS: Post[] = [
     cardBg: "#EFEEE7",
     accent: "#1F3DBF",
     tag: "biology",
-    family: "bio",
-    nbAccent: "magenta",
+    family: "biotech",
+    nbAccent: "red",
   },
   {
     slug: "constraint-clustering",
@@ -102,7 +118,7 @@ export const POSTS: Post[] = [
     cardBg: "#EDE9E4",
     accent: "#1F3DBF",
     tag: "biology",
-    family: "bio",
+    family: "biotech",
     nbAccent: "red",
   },
   {
@@ -115,8 +131,8 @@ export const POSTS: Post[] = [
     cardBg: "#EBE8EE",
     accent: "#1F3DBF",
     tag: "ml",
-    family: "ml",
-    nbAccent: "purple",
+    family: "markets",
+    nbAccent: "ochre",
   },
   {
     slug: "may-2026",
@@ -128,8 +144,8 @@ export const POSTS: Post[] = [
     cardBg: "#E8EEF0",
     accent: "#1F3DBF",
     tag: "ecology",
-    family: "ecology",
-    nbAccent: "teal",
+    family: "biotech",
+    nbAccent: "red",
   },
 ];
 

@@ -47,17 +47,30 @@ const WORK_BUILDS = [
   { name: "this site",                            c: "blue",    scope: "open",                 year: "2026",   essay: null,                      url: "https://github.com/Shubzthub/personal-site",                        blurb: "Started as a single-file HTML + CSS + inline React app; migrated to Astro during the astro-migration branch. Essays, animated diagrams, and an unreasonable amount of time spent on typography." },
 ];
 
-// Toolbox v2 — category-driven colour. Each group has a `primary` accent
-// key driving every chip's left border. Each `link` is a real href:
+// Toolbox v5 — 10 canonical topic categories. Groups ARE the colour codes;
+// every chip in a group shares its colour. Skills are placed under their
+// PRIMARY-topic group (so Python lives under ML technical research, Rust
+// under Geospatial, C++ under Hardware, etc.). A skill that serves
+// multiple topics picks one as primary — the others show up via essay
+// link-colours inside the chip.
 //
-//   /<slug>/                  → in-site essay (link text uses essay accent)
-//   /work/, /, /contact/      → in-site route (link text uses category primary)
+// 10 canonical groups (see DECISIONS-v5.md §14):
+//   1. AI safety & alignment       (blue)
+//   2. ML technical research       (purple)
+//   3. Mathematics                  (magenta)
+//   4. Physics                      (prompt-green)
+//   5. Biotech                      (red)
+//   6. Geospatial                   (teal)
+//   7. Markets, predictions & fintech (ochre)
+//   8. Hardware                     (cyan)
+//   9. Infrastructure & craft       (yellow)
+//   10. Outreach, community & teaching (orange)
+//
+// Each `link` is a real href:
+//   /<slug>/                  → in-site essay (text uses essay accent)
+//   /work/, /, /contact/      → in-site route (text uses category primary)
 //   https://…                 → external (project URL, GitHub repo)
 //   CV_PDF                    → resume PDF (fallback for CV-only entries)
-//
-// Skills sourced from final_CV.pdf + Orion stack from existing prose. The
-// chip's name is purely descriptive; the colour signals category, the
-// links signal where the skill earned its place.
 const CV_PDF = "/uploads/Shubhangi-Sharma-Resume-20260211.pdf";
 const PERSONAL_SITE_REPO = "https://github.com/shubhangithub/personal-site";
 
@@ -65,119 +78,54 @@ type ChipLink = { label: string; href: string };
 type ToolGroup = { group: string; primary: string; items: { name: string; links: ChipLink[] }[] };
 
 const WORK_TOOLBOX: ToolGroup[] = [
-  { group: "Languages", primary: "blue", items: [
-    { name: "Python", links: [
+  { group: "AI safety & alignment", primary: "blue", items: [
+    { name: "AI alignment research", links: [
+      { label: "a unit on bending the curve", href: "/bluedot-unit1/" },
+      { label: "bluedot AGI strategy cohort · /now", href: "/now/" },
+    ] },
+    { name: "AI ethics & governance", links: [
+      { label: "bluedot AGI strategy cohort · /now", href: "/now/" },
+    ] },
+  ] },
+  { group: "ML technical research", primary: "purple", items: [
+    { name: "Python",            links: [
       { label: "jaya, improved", href: "/jaya/" },
       { label: "positive by how much", href: "/threshold-gate/" },
       { label: "six engines", href: "/six-engines/" },
       { label: "honours thesis · GNSS · CV", href: CV_PDF },
     ] },
-    { name: "TypeScript", links: [
-      { label: "this site repo", href: PERSONAL_SITE_REPO },
-      { label: "six engines (TS + FastAPI rebuild)", href: "/six-engines/" },
-      { label: "fashion-web", href: "https://fashion-web-psi.vercel.app" },
-    ] },
-    { name: "R", links: [
+    { name: "R",                 links: [
       { label: "taylor rec (original R/Shiny) · CV", href: CV_PDF },
       { label: "FLAME peer tutoring · CV", href: CV_PDF },
     ] },
-    { name: "Rust",   links: [{ label: "orion (founding) · /work", href: "/work/" }] },
-    { name: "Golang", links: [{ label: "orion (founding) · /work", href: "/work/" }] },
-    { name: "C++",    links: [{ label: "IoT weather bot · ThingSpeak · CV", href: CV_PDF }] },
-    { name: "SQL · PostgreSQL", links: [{ label: "jobsforher backend · CV", href: CV_PDF }] },
-  ] },
-  { group: "Tools", primary: "teal", items: [
-    { name: "Astro · React islands",         links: [{ label: "this site repo", href: PERSONAL_SITE_REPO }] },
-    { name: "Next.js · Supabase · Resend",   links: [{ label: "platypus-learn (deployed)", href: "https://platypus-learn.vercel.app" }] },
-    { name: "Vercel",                        links: [
-      { label: "platypus-learn", href: "https://platypus-learn.vercel.app" },
-      { label: "fashion-web", href: "https://fashion-web-psi.vercel.app" },
-      { label: "taylor rec engine", href: "https://shubz-taylor-recommendation-engine.vercel.app" },
-    ] },
-    { name: "AWS · EC2 · S3 · CloudWatch · SNS", links: [{ label: "jobsforher deploy + monitor · CV", href: CV_PDF }] },
-    { name: "ETL · data pipelines",          links: [{ label: "orion · multi-source ingestion · /work", href: "/work/" }] },
-    { name: "Tableau",                       links: [{ label: "kolhapur cultural mapping · CV", href: CV_PDF }] },
-    { name: "Flask",                         links: [{ label: "jobsforher web app · CV", href: CV_PDF }] },
-    { name: "Google APIs · Sheets",          links: [{ label: "student council awards automation · CV", href: CV_PDF }] },
-    { name: "Git · CI/CD",                   links: [{ label: "all engineering work · /work", href: "/work/" }] },
-    { name: "Web scraping",                  links: [
-      { label: "merger NLP · CV", href: CV_PDF },
-      { label: "natter data collection · CV", href: CV_PDF },
-    ] },
-    { name: "D3 · hand-rolled SVG",          links: [
-      { label: "all essay diagrams", href: "/writing/" },
-      { label: "jaya figures", href: "/jaya/" },
-    ] },
-    { name: "ThingSpeak · microcontrollers", links: [{ label: "IoT weather bot · CV", href: CV_PDF }] },
-  ] },
-  { group: "Libraries", primary: "orange", items: [
     { name: "NumPy · SciPy · Pandas", links: [
       { label: "jaya", href: "/jaya/" },
       { label: "honours thesis · CV", href: CV_PDF },
-      { label: "INSAT-3D cloud detection · CV", href: CV_PDF },
     ] },
-    { name: "matplotlib", links: [
-      { label: "jaya plots", href: "/jaya/" },
-      { label: "INSAT-3D cloud detection · CV", href: CV_PDF },
-    ] },
-    { name: "PyTorch · scikit-learn",   links: [
+    { name: "matplotlib",        links: [{ label: "jaya plots", href: "/jaya/" }] },
+    { name: "PyTorch · scikit-learn", links: [
       { label: "positive by how much", href: "/threshold-gate/" },
       { label: "cells that can't exist", href: "/constraint-clustering/" },
     ] },
-    { name: "statsmodels · Holt-Winters", links: [{ label: "fashion-web composite signal", href: "https://fashion-web-psi.vercel.app" }] },
     { name: "SpaCy · NLTK · Gensim · TextBlob", links: [{ label: "flipkart-walmart merger NLP · CV", href: CV_PDF }] },
-    { name: "PyHDF · NetCDF",           links: [{ label: "INSAT-3D cloud detection · CV", href: CV_PDF }] },
     { name: "ggplot · dplyr · tidyr · shiny · purrr", links: [{ label: "taylor rec (R/Shiny) · CV", href: CV_PDF }] },
-    { name: "FastAPI",                  links: [{ label: "six engines backend", href: "/six-engines/" }] },
-  ] },
-  { group: "ML / Data", primary: "purple", items: [
-    { name: "Feature selection (JAYA-style)",      links: [{ label: "jaya, improved", href: "/jaya/" }] },
-    { name: "Genetic algorithms · crossover/mutation", links: [{ label: "jaya, improved", href: "/jaya/" }] },
-    { name: "Constrained · spectral clustering",   links: [{ label: "cells that can't exist", href: "/constraint-clustering/" }] },
-    { name: "Automated thresholding",   links: [{ label: "positive by how much", href: "/threshold-gate/" }] },
-    { name: "Anomaly detection",        links: [{ label: "orion · ML over H3 indexing · /work", href: "/work/" }] },
-    { name: "Confidence-weighted signal fusion", links: [{ label: "orion · multi-source fusion · /work", href: "/work/" }] },
-    { name: "Time-series forecasting",  links: [{ label: "fashion-web (Holt-smoothed composite)", href: "https://fashion-web-psi.vercel.app" }] },
-    { name: "Calibration · Brier scoring", links: [{ label: "fashion-web (house predictions)", href: "https://fashion-web-psi.vercel.app" }] },
-    { name: "Image processing",         links: [
-      { label: "INSAT-3D cloud detection · CV", href: CV_PDF },
-      { label: "MFoCS thesis · multiplex IF", href: "/threshold-gate/" },
-    ] },
-    { name: "Recommendation systems",   links: [
-      { label: "six engines", href: "/six-engines/" },
-      { label: "natter user matching · CV", href: CV_PDF },
-    ] },
-    { name: "Ensemble methods",         links: [{ label: "six engines · consensus boost", href: "/six-engines/" }] },
-    { name: "Sentiment + theme extraction", links: [{ label: "flipkart-walmart merger · CV", href: CV_PDF }] },
-    { name: "Explainable AI (WOE binning)", links: [{ label: "protein sequence decoding · CV", href: CV_PDF }] },
-    { name: "Regression modelling",     links: [{ label: "honours thesis · GNSS water vapour · CV", href: CV_PDF }] },
-    { name: "LMSR prediction markets",  links: [{ label: "pricing the next scarf", href: "/fashion-trends/" }] },
-    { name: "Geospatial ML · H3 indexing", links: [{ label: "orion (founding) · /work", href: "/work/" }] },
-  ] },
-  { group: "AI / LLM tooling", primary: "yellow", items: [
-    { name: "Claude API · Anthropic SDK",        links: [
+    { name: "Claude API · Anthropic SDK", links: [
       { label: "platypus-learn (PDFs/videos → courses)", href: "https://platypus-learn.vercel.app" },
       { label: "used to redesign fashion-web · /now", href: "/now/" },
     ] },
-    { name: "Gemini API (2.5 Flash)",            links: [{ label: "fashion-web outfit recognition", href: "https://fashion-web-psi.vercel.app" }] },
+    { name: "Gemini API (2.5 Flash)", links: [{ label: "fashion-web outfit recognition", href: "https://fashion-web-psi.vercel.app" }] },
     { name: "Prompt engineering · tool schemas", links: [{ label: "orion search system · /now", href: "/now/" }] },
-    { name: "Few-shot disambiguation",           links: [{ label: "orion search · few-shot · /now", href: "/now/" }] },
-    { name: "Decision-tree system prompts",      links: [{ label: "orion search system · /now", href: "/now/" }] },
-    { name: "LLM evaluation · output testing",   links: [{ label: "orion search rewrites · /now", href: "/now/" }] },
-    { name: "AI safety / alignment",             links: [
-      { label: "bluedot AGI strategy cohort · /now", href: "/now/" },
-      { label: "a unit on bending the curve", href: "/bluedot-unit1/" },
+    { name: "Few-shot disambiguation", links: [{ label: "orion search · /now", href: "/now/" }] },
+    { name: "Decision-tree system prompts", links: [{ label: "orion search system · /now", href: "/now/" }] },
+    { name: "LLM evaluation · output testing", links: [{ label: "orion search rewrites · /now", href: "/now/" }] },
+    { name: "Feature selection (JAYA-style)", links: [{ label: "jaya, improved", href: "/jaya/" }] },
+    { name: "Genetic algorithms · crossover/mutation", links: [{ label: "jaya, improved", href: "/jaya/" }] },
+    { name: "Regression modelling", links: [{ label: "honours thesis · GNSS water vapour · CV", href: CV_PDF }] },
+    { name: "Sentiment + theme extraction", links: [{ label: "flipkart-walmart merger · CV", href: CV_PDF }] },
+    { name: "Web scraping",      links: [
+      { label: "merger NLP · CV", href: CV_PDF },
+      { label: "natter data collection · CV", href: CV_PDF },
     ] },
-  ] },
-  { group: "Physics", primary: "cyan", items: [
-    { name: "Quantum Information",         links: [
-      { label: "Oxford MFoCS module · CV", href: CV_PDF },
-      { label: "two colours and a Hadamard", href: "/zx-calculus/" },
-    ] },
-    { name: "ZX-rewriting",                links: [{ label: "two colours and a Hadamard", href: "/zx-calculus/" }] },
-    { name: "GNSS atmospheric modelling",  links: [{ label: "honours thesis · water vapour · CV", href: CV_PDF }] },
-    { name: "Satellite remote sensing",    links: [{ label: "INSAT-3D cloud detection · CV", href: CV_PDF }] },
-    { name: "Lotka–Volterra dynamics",     links: [{ label: "predator and prey", href: "/may-2026/" }] },
   ] },
   { group: "Mathematics", primary: "magenta", items: [
     { name: "Computational Game Theory",   links: [{ label: "Oxford MFoCS module · CV", href: CV_PDF }] },
@@ -192,25 +140,85 @@ const WORK_TOOLBOX: ToolGroup[] = [
       { label: "cipher program · CV", href: CV_PDF },
     ] },
   ] },
-  { group: "Other areas", primary: "ochre", items: [
-    { name: "Compiler · VM design",        links: [{ label: "Nand2Tetris (all 13 projects) · /work", href: "/work/" }] },
-    { name: "HDL · gate-level design",     links: [{ label: "Nand2Tetris (NAND → computer) · /work", href: "/work/" }] },
-    { name: "UI / UX design",              links: [
-      { label: "this site", href: "/" },
-      { label: "Kurukshetra fest pages · CV", href: CV_PDF },
-      { label: "PrintedCraft CMS · CV", href: CV_PDF },
+  { group: "Physics", primary: "prompt", items: [
+    { name: "Quantum Information",         links: [
+      { label: "Oxford MFoCS module · CV", href: CV_PDF },
+      { label: "two colours and a Hadamard", href: "/zx-calculus/" },
     ] },
-    { name: "Digital marketing · SEO · Google/Facebook Ads", links: [{ label: "PrintedCraft (Google front-page) · CV", href: CV_PDF }] },
-    { name: "Graphic · product design",    links: [{ label: "PrintedCraft (100+ designs) · CV", href: CV_PDF }] },
-    { name: "Qualitative · cultural research", links: [{ label: "kolhapur · Discover India Project · CV", href: CV_PDF }] },
-    { name: "IoT",                         links: [{ label: "IoT weather bot · CV", href: CV_PDF }] },
+    { name: "ZX-rewriting",                links: [{ label: "two colours and a Hadamard", href: "/zx-calculus/" }] },
+    { name: "GNSS atmospheric modelling",  links: [{ label: "honours thesis · water vapour · CV", href: CV_PDF }] },
+    { name: "Satellite remote sensing",    links: [{ label: "INSAT-3D cloud detection · CV", href: CV_PDF }] },
+    { name: "PyHDF · NetCDF",              links: [{ label: "INSAT-3D cloud detection · CV", href: CV_PDF }] },
+  ] },
+  { group: "Biotech", primary: "red", items: [
     { name: "Bioinformatics",              links: [
       { label: "jaya · proteins", href: "/jaya/" },
       { label: "MFoCS thesis · biomarkers", href: "/threshold-gate/" },
     ] },
+    { name: "Constrained · spectral clustering", links: [{ label: "cells that can't exist", href: "/constraint-clustering/" }] },
+    { name: "Automated thresholding",      links: [{ label: "positive by how much", href: "/threshold-gate/" }] },
+    { name: "Image processing (multiplex IF)", links: [{ label: "MFoCS thesis · biomarkers", href: "/threshold-gate/" }] },
+    { name: "Explainable AI (WOE binning)", links: [{ label: "protein sequence decoding · CV", href: CV_PDF }] },
+    { name: "Lotka–Volterra dynamics",     links: [{ label: "predator and prey", href: "/may-2026/" }] },
   ] },
-  { group: "Soft skills", primary: "prompt", items: [
-    { name: "Team leadership",                  links: [
+  { group: "Geospatial", primary: "teal", items: [
+    { name: "Rust",   links: [{ label: "orion (founding) · /work", href: "/work/" }] },
+    { name: "Golang", links: [{ label: "orion (founding) · /work", href: "/work/" }] },
+    { name: "Geospatial ML · H3 indexing", links: [{ label: "orion · /work", href: "/work/" }] },
+    { name: "Anomaly detection",           links: [{ label: "orion · ML over H3 · /work", href: "/work/" }] },
+    { name: "Confidence-weighted signal fusion", links: [{ label: "orion · multi-source fusion · /work", href: "/work/" }] },
+    { name: "ETL · data pipelines",        links: [{ label: "orion · multi-source ingestion · /work", href: "/work/" }] },
+  ] },
+  { group: "Markets, predictions & fintech", primary: "ochre", items: [
+    { name: "LMSR prediction markets",     links: [{ label: "pricing the next scarf", href: "/fashion-trends/" }] },
+    { name: "Time-series forecasting",     links: [{ label: "fashion-web (Holt-smoothed composite)", href: "https://fashion-web-psi.vercel.app" }] },
+    { name: "statsmodels · Holt-Winters",  links: [{ label: "fashion-web composite signal", href: "https://fashion-web-psi.vercel.app" }] },
+    { name: "Calibration · Brier scoring", links: [{ label: "fashion-web (house predictions)", href: "https://fashion-web-psi.vercel.app" }] },
+    { name: "Recommendation systems",      links: [
+      { label: "six engines", href: "/six-engines/" },
+      { label: "natter user matching · CV", href: CV_PDF },
+    ] },
+    { name: "Ensemble methods",            links: [{ label: "six engines · consensus boost", href: "/six-engines/" }] },
+  ] },
+  { group: "Hardware", primary: "cyan", items: [
+    { name: "C++",                          links: [{ label: "IoT weather bot · ThingSpeak · CV", href: CV_PDF }] },
+    { name: "IoT",                          links: [{ label: "IoT weather bot · CV", href: CV_PDF }] },
+    { name: "ThingSpeak · microcontrollers", links: [{ label: "IoT weather bot · CV", href: CV_PDF }] },
+    { name: "Compiler · VM design",         links: [{ label: "Nand2Tetris (all 13 projects) · /work", href: "/work/" }] },
+    { name: "HDL · gate-level design",      links: [{ label: "Nand2Tetris (NAND → computer) · /work", href: "/work/" }] },
+  ] },
+  { group: "Infrastructure & craft", primary: "yellow", items: [
+    { name: "TypeScript", links: [
+      { label: "this site repo", href: PERSONAL_SITE_REPO },
+      { label: "six engines (TS + FastAPI rebuild)", href: "/six-engines/" },
+      { label: "fashion-web", href: "https://fashion-web-psi.vercel.app" },
+    ] },
+    { name: "SQL · PostgreSQL", links: [{ label: "jobsforher backend · CV", href: CV_PDF }] },
+    { name: "Astro · React islands",     links: [{ label: "this site repo", href: PERSONAL_SITE_REPO }] },
+    { name: "Next.js · Supabase · Resend", links: [{ label: "platypus-learn (deployed)", href: "https://platypus-learn.vercel.app" }] },
+    { name: "Vercel",                    links: [
+      { label: "platypus-learn", href: "https://platypus-learn.vercel.app" },
+      { label: "fashion-web", href: "https://fashion-web-psi.vercel.app" },
+      { label: "taylor rec engine", href: "https://shubz-taylor-recommendation-engine.vercel.app" },
+    ] },
+    { name: "AWS · EC2 · S3 · CloudWatch · SNS", links: [{ label: "jobsforher deploy + monitor · CV", href: CV_PDF }] },
+    { name: "Tableau",                   links: [{ label: "kolhapur cultural mapping · CV", href: CV_PDF }] },
+    { name: "Flask",                     links: [{ label: "jobsforher web app · CV", href: CV_PDF }] },
+    { name: "Google APIs · Sheets",      links: [{ label: "student council awards automation · CV", href: CV_PDF }] },
+    { name: "Git · CI/CD",               links: [{ label: "all engineering work · /work", href: "/work/" }] },
+    { name: "D3 · hand-rolled SVG",      links: [
+      { label: "all essay diagrams", href: "/writing/" },
+      { label: "jaya figures", href: "/jaya/" },
+    ] },
+    { name: "FastAPI",                   links: [{ label: "six engines backend", href: "/six-engines/" }] },
+    { name: "UI / UX design",            links: [
+      { label: "this site", href: "/" },
+      { label: "Kurukshetra fest pages · CV", href: CV_PDF },
+      { label: "PrintedCraft CMS · CV", href: CV_PDF },
+    ] },
+  ] },
+  { group: "Outreach, community & teaching", primary: "orange", items: [
+    { name: "Team leadership", links: [
       { label: "Dotslash tech club (10+ people) · CV", href: CV_PDF },
       { label: "Kolhapur project (5 people) · CV", href: CV_PDF },
       { label: "Student Council vice-captain · CV", href: CV_PDF },
@@ -219,22 +227,16 @@ const WORK_TOOLBOX: ToolGroup[] = [
       { label: "Stemmettes + InnovateHer · /work", href: "/work/" },
       { label: "Oxford Mathematical Institute Ambassador · CV", href: CV_PDF },
     ] },
-    { name: "Teaching",                          links: [
-      { label: "FLAME Quantitative Centre peer tutor (R + Python) · CV", href: CV_PDF },
-    ] },
-    { name: "STEM-ed outreach",                  links: [
-      { label: "Stemmettes · InnovateHer · I'm a… Programme · /work", href: "/work/" },
-    ] },
-    { name: "DBS-checked (UK)",                  links: [
-      { label: "cleared for under-18s work · /work", href: "/work/" },
-    ] },
+    { name: "Teaching",                  links: [{ label: "FLAME Quantitative Centre peer tutor (R + Python) · CV", href: CV_PDF }] },
+    { name: "STEM-ed outreach",          links: [{ label: "Stemmettes · InnovateHer · I'm a… Programme · /work", href: "/work/" }] },
+    { name: "DBS-checked (UK)",          links: [{ label: "cleared for under-18s work · /work", href: "/work/" }] },
     { name: "Research writing · academic papers", links: [
       { label: "IEEE ICCUBEA-2025 Best Paper · /work", href: "/work/" },
       { label: "INBIX'22 poster PP-28 · /work", href: "/work/" },
       { label: "MFoCS thesis · biomarkers · /work", href: "/work/" },
       { label: "BSc honours thesis · GNSS · CV", href: CV_PDF },
     ] },
-    { name: "Conference presentations",          links: [
+    { name: "Conference presentations",  links: [
       { label: "INBIX'22 (VFSTR) · CV", href: CV_PDF },
       { label: "IEEE ICCUBEA-2025 · /work", href: "/work/" },
     ] },
@@ -243,20 +245,17 @@ const WORK_TOOLBOX: ToolGroup[] = [
       { label: "UnisphereCo (200+ attendees / session) · CV", href: CV_PDF },
       { label: "Kurukshetra inter-collegiate fest · CV", href: CV_PDF },
     ] },
-    { name: "Cross-cultural collaboration",      links: [
-      { label: "India ↔ UK working contexts · /work", href: "/work/" },
-    ] },
-    { name: "Technical documentation",           links: [
-      { label: "Natter — docs + stakeholder presentations · CV", href: CV_PDF },
-    ] },
-    { name: "Stakeholder communication",         links: [
-      { label: "Natter — docs + cross-team presentations · CV", href: CV_PDF },
-    ] },
-    { name: "Founding / building from zero",     links: [
+    { name: "Cross-cultural collaboration", links: [{ label: "India ↔ UK working contexts · /work", href: "/work/" }] },
+    { name: "Technical documentation",   links: [{ label: "Natter — docs + stakeholder presentations · CV", href: CV_PDF }] },
+    { name: "Stakeholder communication", links: [{ label: "Natter — docs + cross-team presentations · CV", href: CV_PDF }] },
+    { name: "Founding / building from zero", links: [
       { label: "PrintedCraft · CV", href: CV_PDF },
       { label: "UnisphereCo (200+ attendees) · CV", href: CV_PDF },
       { label: "orion (first eng on data stack) · /work", href: "/work/" },
     ] },
+    { name: "Digital marketing · SEO · Google/Facebook Ads", links: [{ label: "PrintedCraft (Google front-page) · CV", href: CV_PDF }] },
+    { name: "Graphic · product design",  links: [{ label: "PrintedCraft (100+ designs) · CV", href: CV_PDF }] },
+    { name: "Qualitative · cultural research", links: [{ label: "kolhapur · Discover India Project · CV", href: CV_PDF }] },
   ] },
 ];
 

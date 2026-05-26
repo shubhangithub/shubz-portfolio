@@ -33,9 +33,27 @@ export const PALETTE_DARK: Palette = {
 };
 
 // ============================================================================
-// V5 — "Field notebook × terminal" palette. Per-essay accents pulled from a
-// 10-colour reserve (each essay carries a key into this map via posts.ts).
-// See AGENTS-v5.md (in design_handoff_v5_field_notebook/) for topic-family rules.
+// V5 — "Field notebook × terminal" palette + 10 canonical topic categories.
+//
+// The site's colour system: 10 pens, each a META-TOPIC. Every essay, chip,
+// project, or skill picks a category by primary topic-affinity, and gets
+// that category's pen colour. Specific subtopics roll up to the umbrella
+// (e.g. an essay tagged "ecology" or "immunology" both colour as biotech red;
+// a "category theory" topic and "graph theory" topic both colour as math
+// magenta). Full reasoning + per-chip placement rules in DECISIONS-v5.md §14.
+//
+// CANONICAL 10 (`<NBAccentKey>` below = pen, comment = meta-topic):
+//   blue    → AI safety & alignment           (bluedot · alignment · ethics)
+//   purple  → ML technical research            (classical ML · NLP · LLM eng · optim)
+//   magenta → Mathematics                      (game/cat/graph theory · complexity · GDL · crypto)
+//   prompt  → Physics                          (quantum · ZX · atmospheric · GNSS · satellite)
+//   red     → Biotech                          (biology · ecology · bioinformatics · biomarkers)
+//   teal    → Geospatial                       (geospatial ML · GIS · H3 · mapping)
+//   ochre   → Markets, predictions & fintech   (LMSR · time-series · recommendations · forecasting)
+//   cyan    → Hardware                         (IoT · embedded · HDL · compiler/VM · sensors)
+//   yellow  → Infrastructure & craft           (data arch · UI/UX · web stack · cloud · DevOps)
+//   orange  → Outreach, community & teaching   (mentoring · leadership · STEM-ed · comms · founding)
+//
 // V4's PALETTE_* above stays untouched — V4 pages still consume them.
 // ============================================================================
 
