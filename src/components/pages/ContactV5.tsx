@@ -10,12 +10,13 @@ import { nbTheme } from "../../data/palette";
 import { useIsMobile } from "../../lib/hooks";
 import {
   NBPageShell, NBLastUpdated, NBPrompt, NBPromptHead, NBMarginalia,
+  NBThumb, NBThumbtack,
 } from "../chrome/NB";
 import {
   CONTACT_HERO_LINES, CONTACT_LEDE, CONTACT_MARGINALIA,
   CONTACT_LAST_UPDATED_LABEL, CONTACT_LAST_UPDATED_DATE,
   CONTACT_CHANNELS, CONTACT_COMPOSE,
-  CONTACT_PROTOCOL, CONTACT_CALENDAR, CONTACT_OPEN_TO,
+  CONTACT_PROTOCOL, CONTACT_OPEN_TO,
 } from "../../data/contact";
 import type { Span } from "../../data/home";
 
@@ -197,6 +198,16 @@ export function ContactV5({
 
         {/* Right rail */}
         <aside>
+          {/* Portrait polaroid — pinned at the top of the rail. */}
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 28, position: "relative" }}>
+            <div style={{ position: "relative" }}>
+              <NBThumb t={t} accent={t.orange} label="shubz" w={180} h={180} tilt={-1.8} src="/contact-portrait.jpg" />
+              <div style={{ position: "absolute", top: -6, right: 18 }}>
+                <NBThumbtack color={t.orange} ink={t.ink} size={16} />
+              </div>
+            </div>
+          </div>
+
           {/* Protocol pre block → Outreach (orange). */}
           <NBPrompt t={t} cwd="~/contact" cmd="cat .protocol" comment="how I read mail" accent={t.orange} />
           {/* Protocol pre — data from CONTACT_PROTOCOL. JSON syntax
@@ -214,27 +225,6 @@ export function ContactV5({
               </React.Fragment>
             );
           })}{"}"}</pre>
-
-          <div style={{ marginTop: 28 }}>
-            {/* Calendar block — V5 canonical: communication days = orange
-                (Outreach); rowing/piano on weekends ALSO orange (community/
-                personal — same category). Visual differentiation comes from
-                weight (mon-thu solid, sat-sun muted). */}
-            <NBPrompt t={t} cwd="~/contact" cmd="cal" accent={t.orange} />
-            <div style={{
-              background: t.paper2, border: `1px solid ${t.rule}`,
-              padding: "12px 14px", borderRadius: 3,
-              fontFamily: "var(--f-mono)", fontSize: 11, color: t.softInk, lineHeight: 1.8,
-            }}>
-              <div style={{ color: t.muted }}>typical replies</div>
-              {CONTACT_CALENDAR.map((row, i) => (
-                <div key={i}>
-                  <span style={{ color: row.c === "muted" ? t.muted : t[row.c] }}>{row.label}</span>
-                  &nbsp;{row.note}
-                </div>
-              ))}
-            </div>
-          </div>
 
           {/* Open-to block — moved here from /work. It's a communication
               preference (who I'd love to hear from), not a CV item. */}

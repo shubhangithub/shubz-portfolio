@@ -67,17 +67,7 @@ export const CONTACT_COMPOSE = {
 export const CONTACT_PROTOCOL = {
   preferred: "email",
   cadence:   "daily, am",
-  reply:     "≤72h",
-  noise:     "low",
 };
-
-export type CalendarRow = { label: string; c: NBAccentKey | "muted"; note: string };
-
-export const CONTACT_CALENDAR: CalendarRow[] = [
-  { label: "mon–thu", c: "orange", note: "am, before 09:00" },
-  { label: "fri",     c: "orange", note: "mixed" },
-  { label: "sat–sun", c: "muted",  note: "rowing / piano" },
-];
 
 // ---------------------------------------------------------------------------
 // "Open to" block — what kinds of collaboration / topics. Moved here from
