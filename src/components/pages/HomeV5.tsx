@@ -442,8 +442,19 @@ export function HomeV5({
 
         </main>
 
-        {/* RIGHT RAIL — cat .now + Lotka figure + contact slip. */}
+        {/* RIGHT RAIL — portrait polaroid + cat .now + Lotka figure + contact slip. */}
         <aside>
+          {/* Small portrait polaroid — identity anchor at the top of the rail.
+              Reuses the same JPG as /contact (public/contact-portrait.jpg). */}
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 24, position: "relative" }}>
+            <div style={{ position: "relative" }}>
+              <NBThumb t={t} accent={t.orange} label="shubz" w={130} h={130} tilt={2} src="/contact-portrait.jpg" />
+              <div style={{ position: "absolute", top: -6, right: 14 }}>
+                <NBThumbtack color={t.orange} ink={t.ink} size={14} />
+              </div>
+            </div>
+          </div>
+
           <NBPrompt t={t} cwd="~/home" cmd="cat .now" comment="live · autoplay" accent={t.orange} />
           <NBMiniTerm t={t} accent={t.orange} />
 
