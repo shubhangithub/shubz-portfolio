@@ -39,8 +39,13 @@ export const WORK_LEDE_PARTS = {
 };
 
 export const WORK_MARGINALIA = {
-  lines: ["every tool here", "links to the essay", "where it earned", "its place."],
+  /** Lines render with <br/> between them. The last line is a link to
+   *  CV_PDF when `seeHereLink` is true — used to invite the visitor to
+   *  the traditional CV alongside this annotated view. */
+  lines: ["for the more", "traditional CV,", "see here →"],
   accent: "yellow" as NBAccentKey,
+  /** When set, wraps "see here" in the last line with a link to this URL. */
+  seeHereHref: CV_PDF,
 };
 
 export const WORK_LAST_UPDATED_LABEL = "WORK · CV WITH MARGINALIA";
@@ -57,16 +62,18 @@ export type WorkEvent = {
 };
 
 export const WORK_EVENTS: WorkEvent[] = [
-  { year: "2026 —", what: "Elected MInstP · Institute of Physics", where: "London · Feb 2026", note: "The UK's professional body for physics. The certificate is small and unreasonably satisfying." },
-  { year: "2025 —", what: "Founding Engineer · Orion", where: "London", note: "Building geospatial intelligence infrastructure from scratch — data pipelines for high-volume multi-source streams, ML anomaly detection over H3 spatial indexing, backend services in Python and Golang. The job description keeps getting shorter; the scope keeps getting wider. Joined as Data Engineer (Apr 2024 → Nov 2024), then Data & ML Engineer (Nov 2024 → Aug 2025), then Founding Engineer." },
-  { year: "2025",   what: "Best Paper · IEEE ICCUBEA-2025", where: "co-author · Aug 2025", note: "\"Decoding Flipkart-Walmart Merger\" — theme extraction and sentiment mining across four years of news coverage. 1,240 submissions, 220 accepted, one Best Paper. Co-authored with Prof. Chakraborty; started as a scrape, ended as an award." },
-  { year: "2024",   what: "MFoCS · Oxford · Lady Margaret Hall", where: "Mathematical & Computational Sciences", note: "Thesis: automated immune biomarker detection on multiplex immunofluorescence data from tumour samples. Modules included Geometric Deep Learning, Computational Game Theory, Quantum Information, and Category Theory. The place where everything I'd been doing separately started making sense together." },
-  { year: "2023",   what: "ML Engineering Intern · Natter", where: "London", note: "Content moderation models for bullying, mental-distress, and spam detection on social text, plus a user-matching recommender. First time building something that needed to work reliably for people who didn't know it existed." },
-  { year: "2023",   what: "BSc (Hons) Computer Science · FLAME University", where: "CGPA 8.53 · Dean's Roll of Honour", note: "Graduated ranked 3rd in cohort (from 41st in year one). Honours thesis on GNSS water-vapour estimation via ML, outperforming traditional linear baselines. Three years of learning how to work." },
-  { year: "2022",   what: "Research Intern · Prof. Jayaraman Valadi, FLAME", where: "Bioinformatics", note: "Improved the JAYA stochastic optimizer — size-penalised fitness function and elitism — for protein function identification on three biological datasets. Poster PP-28 at INBIX'22, VFSTR. First time a modification of mine made something measurably better." },
-  { year: "2021",   what: "Data Analyst & Researcher · Centre for Knowledge Alternatives", where: "Pune", note: "Cultural mapping of Kolhapur district for the Discover India Project — government datasets, Tableau, sector reports. First time data told a story about real places and real people." },
-  { year: "2020",   what: "Co-founder · UnisphereCo", where: "Hyderabad", note: "Online platform for the undergraduate-application process: mentors from 50+ universities, 200+ attendees per session. First time running something that other people depended on." },
-  { year: "2019",   what: "Founder · PrintedCraft", where: "Bangalore", note: "Personalised printing business. Built a Python connector to a cloud product database for real-time promotions. First time code made something happen in the physical world." },
+  { year: "Feb 2026",                what: "Elected MInstP · Institute of Physics",                                       where: "London",            note: "The UK's professional body for physics. The certificate is small and unreasonably satisfying." },
+  { year: "Apr 2024 —",              what: "Founding Engineer · Orion",                                                   where: "London",            note: "Building geospatial intelligence infrastructure from scratch — data pipelines for high-volume multi-source streams, ML anomaly detection over H3 spatial indexing, backend services in Python and Golang. The job description keeps getting shorter; the scope keeps getting wider. Joined as Data Engineer (Apr 2024 → Nov 2024), then Data & ML Engineer (Nov 2024 → Aug 2025), then Founding Engineer." },
+  { year: "Oct 2023 —",              what: "Student Ambassador · Oxford Mathematical Institute",                         where: "Oxford · LMH",      note: "Working with prospective applicants at the Mathematical Institute and Lady Margaret Hall — answering questions, sitting on Q&A panels, demystifying the application process." },
+  { year: "Aug 2025",                what: "Best Paper · IEEE ICCUBEA-2025",                                              where: "co-author",         note: "\"Decoding Flipkart-Walmart Merger\" — theme extraction and sentiment mining across four years of news coverage. 1,240 submissions, 220 accepted, one Best Paper. Co-authored with Prof. Chakraborty; started as a scrape, ended as an award." },
+  { year: "Sep 2023 – Jul 2024",     what: "MFoCS · Oxford · Lady Margaret Hall",                                          where: "Math + CS",         note: "Thesis: automated immune biomarker detection on multiplex immunofluorescence data from tumour samples. Modules included Geometric Deep Learning, Computational Game Theory, Quantum Information, and Category Theory. The place where everything I'd been doing separately started making sense together." },
+  { year: "Jun – Sep 2023",          what: "ML Engineering Intern · Natter",                                               where: "London",            note: "Content moderation models for bullying, mental-distress, and spam detection on social text, plus a user-matching recommender. First time building something that needed to work reliably for people who didn't know it existed." },
+  { year: "Sep 2020 – May 2023",     what: "BSc (Hons) Computer Science · FLAME University",                              where: "CGPA 8.53 · Dean's", note: "Graduated ranked 3rd in cohort (from 41st in year one). Honours thesis on GNSS water-vapour estimation via ML, outperforming traditional linear baselines. Three years of learning how to work." },
+  { year: "May – Jul 2022",          what: "Backend Developer Intern · JobsForHer",                                        where: "Bangalore",         note: "Built user-facing flows in Flask, queried PostgreSQL, configured and deployed scaleable services on AWS (EC2, S3, load balancers, CloudWatch, SNS). First production stack from request to deploy." },
+  { year: "Jan – Aug 2022",          what: "Research Intern · Prof. Jayaraman Valadi, FLAME",                              where: "Bioinformatics",    note: "Improved the JAYA stochastic optimizer — size-penalised fitness function and elitism — for protein function identification on three biological datasets. Poster PP-28 at INBIX'22, VFSTR. First time a modification of mine made something measurably better." },
+  { year: "Oct 2021 – Apr 2022",     what: "Data Analyst & Researcher · Centre for Knowledge Alternatives",                where: "Pune",              note: "Cultural mapping of Kolhapur district for the Discover India Project — government datasets, Tableau, sector reports. Led a five-person team analysing law and order data. First time data told a story about real places and real people." },
+  { year: "Jun 2020 – Jun 2021",     what: "Co-founder · UnisphereCo",                                                     where: "Hyderabad",         note: "Online platform for the undergraduate-application process: mentors from 50+ universities, 200+ attendees per session. First time running something that other people depended on." },
+  { year: "Jul 2019 – Jul 2021",     what: "Founder · PrintedCraft",                                                       where: "Bangalore",         note: "Personalised printing business. Built a Python connector to a cloud product database for real-time promotions. Integrated Google + Facebook Ads to land on Google's first page. 100+ product designs, suppliers across the country. First time code made something happen in the physical world." },
 ];
 
 // ---------------------------------------------------------------------------
@@ -307,6 +314,10 @@ export const WORK_CV_STAT = {
   span: "2019 — now",
   updatedDisplay: "26/05/2026",
   openText: "↗ open pdf",
+  /** Sections shown on this /work page. Listed in the right-rail stat
+   *  block so a visitor scanning the CV knows what's covered without
+   *  scrolling. Update if you add a §06 onward. */
+  sections: ["trajectory", "selected work", "toolbox", "speaking"],
 };
 
 export const WORK_OPEN_TO: Span[] = [

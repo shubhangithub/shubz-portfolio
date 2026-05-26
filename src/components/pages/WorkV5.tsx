@@ -108,12 +108,22 @@ export function WorkV5({
             </p>
             {!isMobile && (
               <NBMarginalia t={t} top={120} tilt={-1.8} accent={t[WORK_MARGINALIA.accent]}>
-                {WORK_MARGINALIA.lines.map((line, i) => (
-                  <React.Fragment key={i}>
-                    {line}
-                    {i < WORK_MARGINALIA.lines.length - 1 && <br />}
-                  </React.Fragment>
-                ))}
+                {WORK_MARGINALIA.lines.map((line, i) => {
+                  const isLastWithLink = WORK_MARGINALIA.seeHereHref && i === WORK_MARGINALIA.lines.length - 1;
+                  return (
+                    <React.Fragment key={i}>
+                      {isLastWithLink ? (
+                        <a
+                          href={WORK_MARGINALIA.seeHereHref}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{ color: "inherit", textDecoration: "none", borderBottom: `1px solid currentColor`, paddingBottom: 1, pointerEvents: "auto" }}
+                        >{line}</a>
+                      ) : line}
+                      {i < WORK_MARGINALIA.lines.length - 1 && <br />}
+                    </React.Fragment>
+                  );
+                })}
               </NBMarginalia>
             )}
           </div>
@@ -318,6 +328,12 @@ export function WorkV5({
             <div><span style={{ color: t.muted }}>entries</span> <span style={{ color: t.ink }}>{WORK_EVENTS.length}</span></div>
             <div><span style={{ color: t.muted }}>span</span> <span style={{ color: t.ink }}>{WORK_CV_STAT.span}</span></div>
             <div><span style={{ color: t.muted }}>updated</span> <span style={{ color: t.ink }}>{WORK_CV_STAT.updatedDisplay}</span></div>
+            <div style={{ marginTop: 6, color: t.muted }}>includes</div>
+            <div style={{ paddingLeft: 10 }}>
+              {WORK_CV_STAT.sections.map((s, i) => (
+                <div key={i} style={{ color: t.softInk }}>· {s}</div>
+              ))}
+            </div>
             <div style={{ marginTop: 8 }}>
               <a href={CV_PDF} target="_blank" rel="noreferrer" style={{ color: t.blue, borderBottom: `1px solid ${t.blue}66`, textDecoration: "none" }}>{WORK_CV_STAT.openText}</a>
             </div>
@@ -325,6 +341,8 @@ export function WorkV5({
 
           {/* Open-to-collaboration prompt → Outreach (orange). */}
           <NBPrompt t={t} cwd="~/work" cmd="cat ./open-to.md" comment="collab" accent={t.orange} />
+          {/* Open-to block — no "get in touch" link (Contact page exists
+              and is reachable from the tab strip). Just the prose. */}
           <div style={{
             background: t.paper2, border: `1px solid ${t.rule}`,
             padding: "14px 16px", borderRadius: 3, marginBottom: 28,
@@ -332,9 +350,6 @@ export function WorkV5({
             color: t.softInk,
           }}>
             {renderSpans(WORK_OPEN_TO, t)}
-            <div style={{ marginTop: 12 }}>
-              <a href="/contact/" onClick={(e) => { e.preventDefault(); onNavigate("contact"); }} style={{ color: t.prompt, fontFamily: "var(--f-mono)", fontSize: 11, borderBottom: `1px solid ${t.prompt}66`, textDecoration: "none" }}>↗ get in touch</a>
-            </div>
           </div>
 
           {/* Location/timezone block → Geospatial (teal). */}

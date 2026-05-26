@@ -152,27 +152,15 @@ export function NowV5({
             ))}
           </div>
 
-          {/* §03 Field journal — section accent = orange (Outreach, since
-              field journal is personal current-state recording). */}
-          <NBPromptHead t={t} n="§03" command="tail -n 60 ./journal.log" comment="newest first" title="Field journal" accent={t.orange} level={isMobile ? 22 : 28} />
-          <div style={{ marginBottom: 56, borderTop: `1px solid ${t.muted}55` }}>
-            {JOURNAL.map((j, i) => (
-              <div key={i} style={{
-                display: "grid", gridTemplateColumns: isMobile ? "1fr" : "90px 1fr",
-                gap: isMobile ? 4 : 18, alignItems: "baseline",
-                padding: "12px 0",
-                borderBottom: `1px dashed ${t.muted}33`,
-              }}>
-                <span style={{ fontFamily: "var(--f-mono)", fontSize: 12, color: t[j.family] || t.ink }}>{shortDate(j.date)}</span>
-                <span style={{ fontFamily: "var(--f-body)", fontSize: 15, color: t.softInk, lineHeight: 1.55, fontStyle: "italic" }}>{j.note}</span>
-              </div>
-            ))}
-          </div>
+          {/* §03 Field journal removed — the right-rail cat .now mini-term
+              streams the same JOURNAL entries (from src/data/now.ts), so
+              having it twice on /now was redundant. Mini-term still here. */}
 
-          {/* §04 Conditions — section accent = orange (Outreach, personal/
+          {/* §03 Conditions — section accent = orange (Outreach, personal/
               community state). Each condition card pulls its colour from
-              its `family` field in src/data/now.ts. */}
-          <NBPromptHead t={t} n="§04" command="uptime; weather; mood" title="Conditions" accent={t.orange} level={isMobile ? 22 : 28} />
+              its `family` field in src/data/now.ts. (Renumbered from §04
+              after Field journal section was removed.) */}
+          <NBPromptHead t={t} n="§03" command="uptime; weather; mood" title="Conditions" accent={t.orange} level={isMobile ? 22 : 28} />
           <div style={{
             display: "grid",
             gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
