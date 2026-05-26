@@ -118,7 +118,7 @@ export function HomeV5({
       t={t}
       mode={mode}
       current="home"
-      label="shubz — ~/home — vim · vol.04"
+      label="shubz — ~/home — vim"
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
     >

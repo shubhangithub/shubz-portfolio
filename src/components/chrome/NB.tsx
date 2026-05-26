@@ -386,7 +386,7 @@ export function NBStatusFooter({ t, page = "home" }: { t: any; page?: NBPageKey 
       flexWrap: "wrap", gap: 8,
       fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted,
     }}>
-      <span><span style={{ color: t.prompt }}>●</span> connected · zsh 5.9 · vol.04</span>
+      <span><span style={{ color: t.prompt }}>●</span> connected · zsh 5.9</span>
       <span style={{ fontFamily: "var(--f-display)", fontStyle: "italic", color: t.softInk, fontSize: 13 }}>Made in London.</span>
       <span>© Shubz Sharma · /{page === "home" ? "" : page}</span>
     </div>
