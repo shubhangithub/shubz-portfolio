@@ -40,7 +40,7 @@ export const SOCIAL_POSTS: SocialPost[] = [
     platform: "linkedin",
     text:
       "Elected a Member of the Institute of Physics, the learned society for physics in the UK and Ireland. My QM modules in MFoCS deepened my love for physics — grateful for the recognition and the chance to be part of a long-standing scientific institution.",
-    url: "https://www.linkedin.com/in/Shubz-s-sharma/",
+    url: "https://www.linkedin.com/in/shubhangi-s-sharma/",
     family: "prompt", // green = Physics (canonical topical match for this post)
     image: "/social/minstp.jpg",
     imageAlt: "MInstP certificate from the Institute of Physics",
