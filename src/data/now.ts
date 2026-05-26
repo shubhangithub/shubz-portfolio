@@ -59,13 +59,13 @@ export type Condition = { k: string; v: string; sub: string; family: NBAccentKey
 
 // /now · "Right now" — five concurrent threads
 export const FOCUSES: Focus[] = [
-  // Orion search (LLM eng / tool schemas / few-shot) → ML technical research
+  // Orion search (LLM eng / tool schemas / few-shot) → Artificial Intelligence/Machine Learning
   { kind: "Building",  family: "purple", what: "Orion's search system. Rewriting tool schemas, system prompts with decision trees, fewshot disambiguation. Three weeks of rewrites; the results finally stopped feeling stochastic." },
   // BlueDot AGI Strategy → AI safety
   { kind: "Studying",  family: "blue",   what: "BlueDot's AGI Strategy cohort, May into June. The strategic frame around the technical work I already do." },
   // AI safety reading list → AI safety
   { kind: "Reading",   family: "blue",   what: "AI safety: Betley on weird generalisation and inductive backdoors, Bengio's Scientist AI, Anthropic's Persona Selection Model, Nanda on pragmatic interpretability." },
-  // This site / typography → Infrastructure & craft
+  // This site / typography → Infrastructure
   { kind: "Refining",  family: "yellow", what: "This site, slowly. The fun is in the typography." },
   // ZX-calculus essay → Physics
   { kind: "Writing",   family: "prompt", what: "A second ZX-calculus essay." },
@@ -75,7 +75,7 @@ export const FOCUSES: Focus[] = [
 export const JOURNAL: JournalEntry[] = [
   // BlueDot cohort → AI safety
   { date: "2026-05", family: "blue",   note: "Started BlueDot's AGI Strategy cohort. Pre-reading has already moved more pieces around in my head than I expected." },
-  // Orion search rewrite → ML technical research (LLM eng)
+  // Orion search rewrite → Artificial Intelligence/Machine Learning (LLM eng)
   { date: "2026-05", family: "purple", note: "Rewriting Orion's search system — tool schemas, decision-tree prompts, fewshot disambiguation. Three weeks in. The results finally stopped feeling stochastic." },
   // fashion-web redesign → Markets (the product is markets)
   { date: "2026-04", family: "ochre",  note: "Used Claude to redesign fashion-web. Broke more than I expected. Still putting it back together." },

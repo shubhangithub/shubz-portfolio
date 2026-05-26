@@ -118,7 +118,7 @@ export type ToolItem = { name: string; links: ChipLink[] };
 export type ToolGroup = { group: string; primary: NBAccentKey; items: ToolItem[] };
 
 export const WORK_TOOLBOX: ToolGroup[] = [
-  { group: "AI safety & alignment", primary: "blue", items: [
+  { group: "AI safety", primary: "blue", items: [
     { name: "AI alignment research", links: [
       { label: "a unit on bending the curve", href: "/bluedot-unit1/" },
       { label: "bluedot AGI strategy cohort · /now", href: "/now/" },
@@ -127,7 +127,7 @@ export const WORK_TOOLBOX: ToolGroup[] = [
       { label: "bluedot AGI strategy cohort · /now", href: "/now/" },
     ] },
   ] },
-  { group: "ML technical research", primary: "purple", items: [
+  { group: "Artificial Intelligence/Machine Learning", primary: "purple", items: [
     { name: "Python",            links: [
       { label: "jaya, improved", href: "/jaya/" },
       { label: "positive by how much", href: "/threshold-gate/" },
@@ -209,7 +209,7 @@ export const WORK_TOOLBOX: ToolGroup[] = [
     { name: "Confidence-weighted signal fusion", links: [{ label: "orion · multi-source fusion · /work", href: "/work/" }] },
     { name: "ETL · data pipelines",        links: [{ label: "orion · multi-source ingestion · /work", href: "/work/" }] },
   ] },
-  { group: "Markets, predictions & fintech", primary: "ochre", items: [
+  { group: "fintech", primary: "ochre", items: [
     { name: "LMSR prediction markets",     links: [{ label: "pricing the next scarf", href: "/fashion-trends/" }] },
     { name: "Time-series forecasting",     links: [{ label: "fashion-web (Holt-smoothed composite)", href: "https://fashion-web-psi.vercel.app" }] },
     { name: "statsmodels · Holt-Winters",  links: [{ label: "fashion-web composite signal", href: "https://fashion-web-psi.vercel.app" }] },
@@ -227,7 +227,7 @@ export const WORK_TOOLBOX: ToolGroup[] = [
     { name: "Compiler · VM design",         links: [{ label: "Nand2Tetris (all 13 projects) · /work", href: "/work/" }] },
     { name: "HDL · gate-level design",      links: [{ label: "Nand2Tetris (NAND → computer) · /work", href: "/work/" }] },
   ] },
-  { group: "Infrastructure & craft", primary: "yellow", items: [
+  { group: "Infrastructure", primary: "yellow", items: [
     { name: "TypeScript", links: [
       { label: "this site repo", href: PERSONAL_SITE_REPO },
       { label: "six engines (TS + FastAPI rebuild)", href: "/six-engines/" },
@@ -257,7 +257,7 @@ export const WORK_TOOLBOX: ToolGroup[] = [
       { label: "PrintedCraft CMS · CV", href: CV_PDF },
     ] },
   ] },
-  { group: "Outreach, community & teaching", primary: "orange", items: [
+  { group: "Outreach", primary: "orange", items: [
     { name: "Team leadership", links: [
       { label: "Dotslash tech club (10+ people) · CV", href: CV_PDF },
       { label: "Kolhapur project (5 people) · CV", href: CV_PDF },

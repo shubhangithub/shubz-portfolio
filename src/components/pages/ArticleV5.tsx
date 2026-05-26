@@ -105,8 +105,10 @@ export function ArticleV5({
     >
       <NBLastUpdated t={t} label={`ESSAY · ${kicker.toUpperCase()} · NO.${pin}`} date="26 may 2026" accent={accent} />
 
-      {/* HERO */}
-      <div style={{ padding: PAGE_PAD, maxWidth: 1100, margin: "0 auto" }}>
+      {/* HERO — full-width outer container, matching the other V5 pages.
+          Typographic max-widths on the H1 (14ch) + dek (44ch) below
+          still keep the reading rhythm tight. */}
+      <div style={{ padding: PAGE_PAD }}>
         <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 36, position: "relative" }}>
           <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="cat ./meta.json" comment="essay header" accent={accent} />
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 22, marginTop: 18, gap: 12, flexWrap: "wrap" }}>
@@ -141,10 +143,11 @@ export function ArticleV5({
         </div>
       </div>
 
-      {/* BODY + RAIL */}
+      {/* BODY + RAIL — full-width outer; the inner <article> caps its own
+          line-length at 62ch (the right reading width for essays per
+          AGENTS.md voice rules). Right rail is fixed 280px. */}
       <div style={{
         padding: isMobile ? "0 20px" : "0 64px",
-        maxWidth: 1100, margin: "0 auto",
         display: "grid",
         gridTemplateColumns: isMobile ? "1fr" : "1fr 280px",
         gap: isMobile ? 36 : 56,

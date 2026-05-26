@@ -12,11 +12,11 @@ topic categories**, each owning one of the 10 NB pens defined in
 [`src/data/palette.ts`](./src/data/palette.ts). Every essay, project, skill,
 chip, or new piece of content must roll up to exactly one of those ten:
 
-1. AI safety & alignment (blue) · 2. ML technical research (purple) ·
+1. AI safety (blue) · 2. Artificial Intelligence/Machine Learning (purple) ·
 3. Mathematics (magenta) · 4. Physics (prompt-green) · 5. Biotech (red) ·
-6. Geospatial (teal) · 7. Markets, predictions & fintech (ochre) ·
-8. Hardware (cyan) · 9. Infrastructure & craft (yellow) ·
-10. Outreach, community & teaching (orange)
+6. Geospatial (teal) · 7. fintech (ochre) ·
+8. Hardware (cyan) · 9. Infrastructure (yellow) ·
+10. Outreach (orange)
 
 The colour is the internal taxonomy. Sub-topics roll up — e.g. an essay
 on "ecology" or "immunology" both colour as biotech red; "category theory"

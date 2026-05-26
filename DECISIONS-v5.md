@@ -269,18 +269,18 @@ meta-topic and share its colour — the colour is the internal taxonomy.
 
 ### The 10 canonical categories
 
-| #  | Category                          | Pen           | What rolls up here                                                                          |
-|----|-----------------------------------|---------------|----------------------------------------------------------------------------------------------|
-| 1  | AI safety & alignment              | `blue`        | bluedot · alignment · AI ethics · governance · policy                                        |
-| 2  | ML technical research              | `purple`      | classical ML · NLP · LLM eng (Claude / Gemini / prompt eng / evals) · optim · feature eng    |
-| 3  | Mathematics                        | `magenta`     | game / cat / graph theory · complexity · GDL · cryptography · linear algebra                 |
-| 4  | Physics                            | `prompt` (green) | quantum · ZX-calculus · atmospheric · GNSS · satellite remote sensing                     |
-| 5  | Biotech                            | `red`         | biology · ecology · bioinformatics · biomarkers · immunology · comp-bio                      |
-| 6  | Geospatial                         | `teal`        | geospatial ML · GIS · H3 indexing · mapping · spatial analysis                                |
-| 7  | Markets, predictions & fintech     | `ochre`       | LMSR · time-series · forecasting · recommendations · prediction markets · trading            |
-| 8  | Hardware                           | `cyan`        | IoT · embedded · HDL · compiler / VM · electronics · sensors                                 |
-| 9  | Infrastructure & craft             | `yellow`      | data arch · UI / UX · web stack · cloud · DevOps · languages-as-infra · design tools         |
-| 10 | Outreach, community & teaching     | `orange`      | mentoring · leadership · STEM-ed · DBS · stakeholder comm · founding · marketing             |
+| #  | Category                                  | Pen              | What rolls up here                                                                          |
+|----|-------------------------------------------|------------------|----------------------------------------------------------------------------------------------|
+| 1  | AI safety                                  | `blue`           | bluedot · alignment · AI ethics · governance · policy                                        |
+| 2  | Artificial Intelligence/Machine Learning    | `purple`         | classical ML · NLP · LLM eng (Claude / Gemini / prompt eng / evals) · optim · feature eng    |
+| 3  | Mathematics                                | `magenta`        | game / cat / graph theory · complexity · GDL · cryptography · linear algebra                 |
+| 4  | Physics                                    | `prompt` (green) | quantum · ZX-calculus · atmospheric · GNSS · satellite remote sensing                     |
+| 5  | Biotech                                    | `red`            | biology · ecology · bioinformatics · biomarkers · immunology · comp-bio                      |
+| 6  | Geospatial                                 | `teal`           | geospatial ML · GIS · H3 indexing · mapping · spatial analysis                                |
+| 7  | fintech                                    | `ochre`          | LMSR · time-series · forecasting · recommendations · prediction markets · trading            |
+| 8  | Hardware                                   | `cyan`           | IoT · embedded · HDL · compiler / VM · electronics · sensors                                 |
+| 9  | Infrastructure                             | `yellow`         | data arch · UI / UX · web stack · cloud · DevOps · languages-as-infra · design tools         |
+| 10 | Outreach                                   | `orange`         | mentoring · leadership · STEM-ed · DBS · stakeholder comm · founding · marketing             |
 
 ### Slotting rule
 

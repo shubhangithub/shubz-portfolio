@@ -43,16 +43,16 @@ export const PALETTE_DARK: Palette = {
 // magenta). Full reasoning + per-chip placement rules in DECISIONS-v5.md §14.
 //
 // CANONICAL 10 (`<NBAccentKey>` below = pen, comment = meta-topic):
-//   blue    → AI safety & alignment           (bluedot · alignment · ethics)
-//   purple  → ML technical research            (classical ML · NLP · LLM eng · optim)
-//   magenta → Mathematics                      (game/cat/graph theory · complexity · GDL · crypto)
-//   prompt  → Physics                          (quantum · ZX · atmospheric · GNSS · satellite)
-//   red     → Biotech                          (biology · ecology · bioinformatics · biomarkers)
-//   teal    → Geospatial                       (geospatial ML · GIS · H3 · mapping)
-//   ochre   → Markets, predictions & fintech   (LMSR · time-series · recommendations · forecasting)
-//   cyan    → Hardware                         (IoT · embedded · HDL · compiler/VM · sensors)
-//   yellow  → Infrastructure & craft           (data arch · UI/UX · web stack · cloud · DevOps)
-//   orange  → Outreach, community & teaching   (mentoring · leadership · STEM-ed · comms · founding)
+//   blue    → AI safety                                  (bluedot · alignment · ethics · governance)
+//   purple  → Artificial Intelligence/Machine Learning    (classical ML · NLP · LLM eng · optim)
+//   magenta → Mathematics                                 (game/cat/graph theory · complexity · GDL · crypto)
+//   prompt  → Physics                                     (quantum · ZX · atmospheric · GNSS · satellite)
+//   red     → Biotech                                     (biology · ecology · bioinformatics · biomarkers)
+//   teal    → Geospatial                                  (geospatial ML · GIS · H3 · mapping)
+//   ochre   → fintech                                     (LMSR · time-series · recommendations · forecasting)
+//   cyan    → Hardware                                    (IoT · embedded · HDL · compiler/VM · sensors)
+//   yellow  → Infrastructure                              (data arch · UI/UX · web stack · cloud · DevOps)
+//   orange  → Outreach                                    (mentoring · leadership · STEM-ed · comms · founding)
 //
 // V4's PALETTE_* above stays untouched — V4 pages still consume them.
 // ============================================================================

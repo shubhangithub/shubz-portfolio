@@ -118,11 +118,11 @@ export type ToolGroup = { group: string; primary: NBAccentKey; items: ToolItem[]
 const CV_PDF = "/uploads/Shubhangi-Sharma-Resume-20260211.pdf";
 
 export const HOME_TOOLBOX: ToolGroup[] = [
-  { group: "AI safety & alignment", primary: "blue", items: [
+  { group: "AI safety", primary: "blue", items: [
     { name: "AI alignment research", links: [{ label: "a unit on bending the curve", href: "/bluedot-unit1/" }] },
     { name: "AI ethics & governance", links: [{ label: "bluedot AGI cohort · /now", href: "/now/" }] },
   ] },
-  { group: "ML technical research", primary: "purple", items: [
+  { group: "Artificial Intelligence/Machine Learning", primary: "purple", items: [
     { name: "Python",                     links: [{ label: "jaya, threshold, six engines", href: "/jaya/" }] },
     { name: "Claude API · Anthropic SDK", links: [{ label: "platypus-learn", href: "https://platypus-learn.vercel.app" }] },
     { name: "Prompt engineering · few-shot", links: [{ label: "orion search · /now", href: "/now/" }] },
@@ -143,7 +143,7 @@ export const HOME_TOOLBOX: ToolGroup[] = [
     { name: "Rust · Golang",               links: [{ label: "orion · /work", href: "/work/" }] },
     { name: "Geospatial ML · H3 indexing", links: [{ label: "orion · /work", href: "/work/" }] },
   ] },
-  { group: "Markets, predictions & fintech", primary: "ochre", items: [
+  { group: "fintech", primary: "ochre", items: [
     { name: "LMSR prediction markets", links: [{ label: "pricing the next scarf", href: "/fashion-trends/" }] },
     { name: "Recommendation systems",  links: [{ label: "six engines", href: "/six-engines/" }] },
   ] },
@@ -151,12 +151,12 @@ export const HOME_TOOLBOX: ToolGroup[] = [
     { name: "C++ · embedded", links: [{ label: "IoT weather bot · CV", href: CV_PDF }] },
     { name: "Compiler · HDL", links: [{ label: "Nand2Tetris · /work", href: "/work/" }] },
   ] },
-  { group: "Infrastructure & craft", primary: "yellow", items: [
+  { group: "Infrastructure", primary: "yellow", items: [
     { name: "Astro · React islands", links: [{ label: "this site", href: "https://github.com/shubhangithub/personal-site" }] },
     { name: "Next.js · Supabase",    links: [{ label: "platypus-learn", href: "https://platypus-learn.vercel.app" }] },
     { name: "UI / UX",               links: [{ label: "this site", href: "/" }] },
   ] },
-  { group: "Outreach, community & teaching", primary: "orange", items: [
+  { group: "Outreach", primary: "orange", items: [
     { name: "Team leadership",                  links: [{ label: "Dotslash · Kolhapur · Council · CV", href: CV_PDF }] },
     { name: "Mentoring under-represented kids", links: [{ label: "Stemmettes · InnovateHer", href: "/work/" }] },
     { name: "DBS-checked (UK)",                 links: [{ label: "cleared for under-18s · /work", href: "/work/" }] },
