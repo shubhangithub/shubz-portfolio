@@ -98,7 +98,7 @@ export type WorkBuild = {
 };
 
 export const WORK_BUILDS: WorkBuild[] = [
-  { name: "Orion intelligence platform",        c: "teal",    scope: "founding-eng",          year: "2024 —", essay: null,              blurb: "Geospatial intelligence over H3 spatial indexing — data infrastructure for high-volume multi-source streams, ML anomaly detection and confidence-weighted signal fusion, backend services in Python and Golang. Built from scratch as the first engineer on the data stack." },
+  { name: "Orion intelligence platform",        c: "teal",    scope: "founding-eng",          year: "2024 —", essay: null,              blurb: "Geospatial intelligence over H3 spatial indexing — data infrastructure for high-volume multi-source streams, ML anomaly detection and confidence-weighted signal fusion, backend services in Python and Golang. Joined as one of two founding engineers (first hires after the founders); building the data stack from scratch and currently rewriting the LLM-driven search system end-to-end — tool schemas, decision-tree system prompts, few-shot disambiguation, output evaluation." },
   { name: "fashion-web",                        c: "ochre",   scope: "deployed · solo",       year: "2026 —", essay: "fashion-trends",  url: "https://fashion-web-psi.vercel.app",                              blurb: "Predicts which fashion micro-trends will peak 30 days out. Five live sources (Google Trends, Bluesky firehose, Pinterest, Reddit, YouTube) merge into a Holt-smoothed composite signal tracking 250+ terms across silhouettes, colours, and aesthetics. A logarithmic prediction market (LMSR, b=100) lets traders compete against the house model with virtual StyleCoins. Gemini 2.5 Flash breaks down outfit photos and matches them against runway collections from eight major houses. House predictions are Brier-scored." },
   { name: "platypus-learn",                     c: "purple",  scope: "deployed · solo",       year: "2025 —", essay: null,              url: "https://platypus-learn.vercel.app",                                blurb: "Turns PDFs and YouTube videos into structured courses. Drop in a paper or a lecture; get back a coherent learning path with assessments, a weekly goals dashboard, and an email digest. Built with Next.js, Supabase, Claude API, and Resend." },
   { name: "Taylor Swift recommendation engine", c: "ochre",   scope: "open",                  year: "2026",   essay: "six-engines",     url: "https://shubz-taylor-recommendation-engine.vercel.app",            blurb: "Six engines running in parallel — Sentence-BERT on lyrics, a variational autoencoder compressing Spotify audio features to 16 dimensions, graph node2vec embeddings, neural collaborative filtering, contrastive self-supervised learning, and a weighted ensemble with a consensus boost for cross-engine agreement. Runs over Taylor's full discography plus hand-curated editorial bridges to related artists. Rebuilt from an R/Shiny original in TypeScript + FastAPI; recommendations in under 200ms." },
@@ -131,18 +131,16 @@ export const WORK_TOOLBOX: ToolGroup[] = [
   ] },
   { group: "AI/ML", primary: "purple", items: [
     { name: "Python",            links: [
-      { label: "jaya, improved", href: "/jaya/" },
-      { label: "positive by how much", href: "/threshold-gate/" },
-      { label: "six engines", href: "/six-engines/" },
-      { label: "honours thesis · GNSS · CV", href: CV_PDF },
+      { label: "orion backend services · /work", href: "/work/" },
+      { label: "six engines (2026)", href: "/six-engines/" },
     ] },
     { name: "R",                 links: [
       { label: "taylor rec (original R/Shiny) · CV", href: CV_PDF },
       { label: "FLAME peer tutoring · CV", href: CV_PDF },
     ] },
     { name: "NumPy · SciPy · Pandas", links: [
-      { label: "jaya", href: "/jaya/" },
-      { label: "honours thesis · CV", href: CV_PDF },
+      { label: "positive by how much (MFoCS, 2024)", href: "/threshold-gate/" },
+      { label: "six engines (2026)", href: "/six-engines/" },
     ] },
     { name: "matplotlib",        links: [{ label: "jaya plots", href: "/jaya/" }] },
     { name: "PyTorch · scikit-learn", links: [
@@ -233,15 +231,13 @@ export const WORK_TOOLBOX: ToolGroup[] = [
     { name: "TypeScript", links: [
       { label: "this site repo", href: PERSONAL_SITE_REPO },
       { label: "six engines (TS + FastAPI rebuild)", href: "/six-engines/" },
-      { label: "fashion-web", href: "https://fashion-web-psi.vercel.app" },
     ] },
     { name: "SQL · PostgreSQL", links: [{ label: "jobsforher backend · CV", href: CV_PDF }] },
     { name: "Astro · React islands",     links: [{ label: "this site repo", href: PERSONAL_SITE_REPO }] },
     { name: "Next.js · Supabase · Resend", links: [{ label: "platypus-learn (deployed)", href: "https://platypus-learn.vercel.app" }] },
     { name: "Vercel",                    links: [
-      { label: "platypus-learn", href: "https://platypus-learn.vercel.app" },
       { label: "fashion-web", href: "https://fashion-web-psi.vercel.app" },
-      { label: "taylor rec engine", href: "https://shubz-taylor-recommendation-engine.vercel.app" },
+      { label: "platypus-learn", href: "https://platypus-learn.vercel.app" },
     ] },
     { name: "AWS · EC2 · S3 · CloudWatch · SNS", links: [{ label: "jobsforher deploy + monitor · CV", href: CV_PDF }] },
     { name: "Tableau",                   links: [{ label: "kolhapur cultural mapping · CV", href: CV_PDF }] },
@@ -255,15 +251,13 @@ export const WORK_TOOLBOX: ToolGroup[] = [
     { name: "FastAPI",                   links: [{ label: "six engines backend", href: "/six-engines/" }] },
     { name: "UI / UX design",            links: [
       { label: "this site", href: "/" },
-      { label: "Kurukshetra fest pages · CV", href: CV_PDF },
-      { label: "PrintedCraft CMS · CV", href: CV_PDF },
+      { label: "PrintedCraft CMS (100+ designs) · CV", href: CV_PDF },
     ] },
   ] },
   { group: "Outreach", primary: "orange", items: [
     { name: "Team leadership", links: [
       { label: "Dotslash tech club (10+ people) · CV", href: CV_PDF },
       { label: "Kolhapur project (5 people) · CV", href: CV_PDF },
-      { label: "Student Council vice-captain · CV", href: CV_PDF },
     ] },
     { name: "Mentoring under-represented young people", links: [
       { label: "Stemmettes + InnovateHer · /work", href: "/work/" },
@@ -274,26 +268,22 @@ export const WORK_TOOLBOX: ToolGroup[] = [
     { name: "DBS-checked (UK)",          links: [{ label: "cleared for under-18s work · /work", href: "/work/" }] },
     { name: "Research writing · academic papers", links: [
       { label: "IEEE ICCUBEA-2025 Best Paper · /work", href: "/work/" },
-      { label: "INBIX'22 poster PP-28 · /work", href: "/work/" },
-      { label: "MFoCS thesis · biomarkers · /work", href: "/work/" },
-      { label: "BSc honours thesis · GNSS · CV", href: CV_PDF },
+      { label: "MFoCS thesis · biomarkers (Oxford, 2024)", href: "/threshold-gate/" },
     ] },
     { name: "Conference presentations",  links: [
       { label: "INBIX'22 (VFSTR) · CV", href: CV_PDF },
       { label: "IEEE ICCUBEA-2025 · /work", href: "/work/" },
     ] },
     { name: "Event organising · community building", links: [
-      { label: "Dotslash (100+ attendees / event) · CV", href: CV_PDF },
       { label: "UnisphereCo (200+ attendees / session) · CV", href: CV_PDF },
-      { label: "Kurukshetra inter-collegiate fest · CV", href: CV_PDF },
+      { label: "Dotslash (100+ attendees / event) · CV", href: CV_PDF },
     ] },
     { name: "Cross-cultural collaboration", links: [{ label: "India ↔ UK working contexts · /work", href: "/work/" }] },
     { name: "Technical documentation",   links: [{ label: "Natter — docs + stakeholder presentations · CV", href: CV_PDF }] },
     { name: "Stakeholder communication", links: [{ label: "Natter — docs + cross-team presentations · CV", href: CV_PDF }] },
     { name: "Founding / building from zero", links: [
-      { label: "PrintedCraft · CV", href: CV_PDF },
+      { label: "orion (one of two founding engineers) · /work", href: "/work/" },
       { label: "UnisphereCo (200+ attendees) · CV", href: CV_PDF },
-      { label: "orion (first eng on data stack) · /work", href: "/work/" },
     ] },
     { name: "Digital marketing · SEO · Google/Facebook Ads", links: [{ label: "PrintedCraft (Google front-page) · CV", href: CV_PDF }] },
     { name: "Graphic · product design",  links: [{ label: "PrintedCraft (100+ designs) · CV", href: CV_PDF }] },
