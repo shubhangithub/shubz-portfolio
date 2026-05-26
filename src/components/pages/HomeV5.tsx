@@ -48,59 +48,46 @@ const CV_PDF = "/uploads/Shubhangi-Sharma-Resume-20260211.pdf";
 type ChipLink = { label: string; href: string };
 type ToolGroup = { group: string; primary: string; items: { name: string; links: ChipLink[] }[] };
 
+// Home toolbox = condensed teaser. Each category shows the 1-2 highest-
+// signal chips with a single representative link. The full taxonomy
+// (everything from the CV + Orion stack + provenance) lives on /work
+// under §04 — reached via the "see all skills →" link below the toolbox.
 const HOME_TOOLBOX: ToolGroup[] = [
   { group: "Languages", primary: "blue", items: [
-    { name: "Python",     links: [{ label: "jaya", href: "/jaya/" }, { label: "six engines", href: "/six-engines/" }] },
-    { name: "TypeScript", links: [{ label: "this site", href: "https://github.com/shubhangithub/personal-site" }, { label: "fashion-web", href: "https://fashion-web-psi.vercel.app" }] },
+    { name: "Python",        links: [{ label: "jaya, threshold, six engines", href: "/jaya/" }] },
     { name: "Rust · Golang", links: [{ label: "orion · /work", href: "/work/" }] },
-    { name: "R",          links: [{ label: "taylor rec (original) · CV", href: CV_PDF }] },
   ] },
   { group: "Tools", primary: "teal", items: [
-    { name: "Astro · React islands",       links: [{ label: "this site repo", href: "https://github.com/shubhangithub/personal-site" }] },
+    { name: "Astro · React islands",       links: [{ label: "this site", href: "https://github.com/shubhangithub/personal-site" }] },
     { name: "Next.js · Supabase · Resend", links: [{ label: "platypus-learn", href: "https://platypus-learn.vercel.app" }] },
-    { name: "AWS · EC2 · S3",              links: [{ label: "jobsforher backend · CV", href: CV_PDF }] },
-    { name: "ETL · data pipelines",        links: [{ label: "orion · /work", href: "/work/" }] },
   ] },
   { group: "Libraries", primary: "orange", items: [
-    { name: "NumPy · SciPy · Pandas", links: [{ label: "jaya", href: "/jaya/" }] },
     { name: "PyTorch · scikit-learn", links: [{ label: "positive by how much", href: "/threshold-gate/" }] },
-    { name: "SpaCy · NLTK · Gensim",  links: [{ label: "merger NLP · CV", href: CV_PDF }] },
-    { name: "statsmodels · Holt-Winters", links: [{ label: "fashion-web composite", href: "https://fashion-web-psi.vercel.app" }] },
+    { name: "NumPy · SciPy · Pandas", links: [{ label: "jaya", href: "/jaya/" }] },
   ] },
   { group: "ML / Data", primary: "purple", items: [
-    { name: "Anomaly detection · H3",       links: [{ label: "orion · /work", href: "/work/" }] },
-    { name: "Recommendation systems",       links: [{ label: "six engines", href: "/six-engines/" }] },
-    { name: "Time-series · forecasting",    links: [{ label: "fashion-web", href: "https://fashion-web-psi.vercel.app" }] },
-    { name: "LMSR markets",                 links: [{ label: "pricing the next scarf", href: "/fashion-trends/" }] },
-    { name: "Feature selection (JAYA)",     links: [{ label: "jaya, improved", href: "/jaya/" }] },
+    { name: "Anomaly detection · H3", links: [{ label: "orion · /work", href: "/work/" }] },
+    { name: "LMSR markets",           links: [{ label: "pricing the next scarf", href: "/fashion-trends/" }] },
   ] },
   { group: "AI / LLM tooling", primary: "yellow", items: [
-    { name: "Claude API · Anthropic SDK",        links: [{ label: "platypus-learn · fashion-web redesign", href: "https://platypus-learn.vercel.app" }] },
-    { name: "Prompt engineering · few-shot",     links: [{ label: "orion search · /now", href: "/now/" }] },
-    { name: "Gemini API (2.5 Flash)",            links: [{ label: "fashion-web outfit photos", href: "https://fashion-web-psi.vercel.app" }] },
-    { name: "AI safety / alignment",             links: [{ label: "bluedot AGI cohort · bending the curve", href: "/bluedot-unit1/" }] },
-  ] },
-  { group: "Physics", primary: "cyan", items: [
-    { name: "Quantum Information",        links: [{ label: "two colours and a Hadamard", href: "/zx-calculus/" }] },
-    { name: "GNSS atmospheric modelling", links: [{ label: "honours thesis · CV", href: CV_PDF }] },
-    { name: "Lotka–Volterra dynamics",    links: [{ label: "predator and prey", href: "/may-2026/" }] },
+    { name: "Claude API · Anthropic SDK",    links: [{ label: "platypus-learn", href: "https://platypus-learn.vercel.app" }] },
+    { name: "Prompt engineering · few-shot", links: [{ label: "orion search · /now", href: "/now/" }] },
   ] },
   { group: "Mathematics", primary: "magenta", items: [
     { name: "Computational Game Theory", links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
-    { name: "Geometric Deep Learning",   links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
     { name: "Category Theory",           links: [{ label: "Oxford MFoCS · CV", href: CV_PDF }] },
-    { name: "Cryptography · number theory", links: [{ label: "cipher program · CV", href: CV_PDF }] },
+  ] },
+  { group: "Physics", primary: "cyan", items: [
+    { name: "Quantum Information",     links: [{ label: "two colours and a Hadamard", href: "/zx-calculus/" }] },
+    { name: "Lotka–Volterra dynamics", links: [{ label: "predator and prey", href: "/may-2026/" }] },
   ] },
   { group: "Other areas", primary: "ochre", items: [
-    { name: "UI / UX",                   links: [{ label: "this site", href: "/" }] },
-    { name: "Compiler · VM design",      links: [{ label: "Nand2Tetris · /work", href: "/work/" }] },
-    { name: "Bioinformatics",            links: [{ label: "jaya · proteins", href: "/jaya/" }] },
+    { name: "UI / UX",         links: [{ label: "this site", href: "/" }] },
+    { name: "Bioinformatics",  links: [{ label: "jaya · proteins", href: "/jaya/" }] },
   ] },
   { group: "Soft skills", primary: "prompt", items: [
-    { name: "Team leadership",                    links: [{ label: "Dotslash (10+) · Kolhapur · Council · CV", href: CV_PDF }] },
-    { name: "Mentoring under-represented kids",   links: [{ label: "Stemmettes · InnovateHer", href: "/work/" }] },
-    { name: "Research writing · papers",          links: [{ label: "IEEE Best Paper · INBIX'22 · /work", href: "/work/" }] },
-    { name: "DBS-checked (UK)",                   links: [{ label: "cleared for under-18s · /work", href: "/work/" }] },
+    { name: "Team leadership",                  links: [{ label: "Dotslash · Kolhapur · Council · CV", href: CV_PDF }] },
+    { name: "Mentoring under-represented kids", links: [{ label: "Stemmettes · InnovateHer", href: "/work/" }] },
   ] },
 ];
 
@@ -329,6 +316,22 @@ export function HomeV5({
               </div>
               );
             })}
+            {/* "see all skills" footer — deep-links to /work/#toolbox so the
+                visitor lands on the full taxonomy with provenance arrows. */}
+            <div style={{
+              marginTop: 6, paddingTop: 14,
+              borderTop: `1px dashed ${t.muted}55`,
+              display: "flex", justifyContent: "space-between", alignItems: "baseline",
+              fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, gap: 12, flexWrap: "wrap",
+            }}>
+              <span>this is the teaser · the full taxonomy lives in <span style={{ color: t.softInk }}>./work/toolbox.md</span></span>
+              <a href="/work/#toolbox" style={{
+                color: t.purple,
+                textDecoration: "none",
+                borderBottom: `1px solid ${t.purple}66`,
+                paddingBottom: 1,
+              }}>see all skills + provenance →</a>
+            </div>
           </div>
         </main>
 

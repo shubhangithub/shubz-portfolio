@@ -423,7 +423,9 @@ export function WorkV5({
             })}
           </div>
 
-          {/* §04 Toolbox */}
+          {/* §04 Toolbox — id="toolbox" so HomeV5's "see all skills →" link
+              can deep-link straight to this section via /work/#toolbox. */}
+          <div id="toolbox" style={{ scrollMarginTop: 80 }}>
           <NBPromptHead t={t} n="§04" command="cat ./toolbox.md" comment="what built what" title="Toolbox" accent={t.purple} level={isMobile ? 22 : 28} />
           <div style={{ border: `2px solid ${t.ink}`, padding: isMobile ? "18px 16px" : "22px 26px", background: t.bgCard, marginBottom: 56 }}>
             {WORK_TOOLBOX.map((g, gi, arr) => {
@@ -496,6 +498,7 @@ export function WorkV5({
               );
             })}
           </div>
+          </div>{/* /#toolbox */}
 
           {/* §05 Speaking */}
           <NBPromptHead t={t} n="§05" command="cat ./speaking.md" title="Speaking & STEM outreach" accent={t.magenta} level={isMobile ? 22 : 28} />

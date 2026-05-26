@@ -32,9 +32,14 @@ export function NBMacChrome({
   label?: string;
   onToggle?: () => void;
 }) {
+  // Mode toggle is a real bordered button with a sun/moon glyph in the
+  // accent colour, so it reads as obviously interactive rather than as
+  // a passive chrome label. "100×42" easter egg stays in muted tone.
+  const isDark = mode === "dark";
+  const iconColor = isDark ? t.blue : t.ochre;
   return (
     <div style={{
-      height: 30, background: t.chrome, display: "flex", alignItems: "center",
+      height: 32, background: t.chrome, display: "flex", alignItems: "center",
       padding: "0 12px", gap: 14, borderBottom: `1px solid ${t.rule}`,
       fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted,
     }}>
@@ -46,12 +51,37 @@ export function NBMacChrome({
       <span style={{ flex: 1, textAlign: "center", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{label}</span>
       <button
         onClick={onToggle}
-        title={mode === "dark" ? "switch to light" : "switch to dark"}
-        style={{ all: "unset", cursor: onToggle ? "pointer" : "default", opacity: 0.7, padding: "0 4px", borderRadius: 2 }}
-        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = "1"; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = "0.7"; }}
+        aria-label={isDark ? "switch to light mode" : "switch to dark mode"}
+        title={isDark ? "switch to light mode" : "switch to dark mode"}
+        style={{
+          all: "unset",
+          cursor: onToggle ? "pointer" : "default",
+          display: "inline-flex", alignItems: "center", gap: 6,
+          padding: "3px 10px",
+          border: `1px dashed ${t.muted}`,
+          borderRadius: 3,
+          fontFamily: "var(--f-mono)", fontSize: 11,
+          color: t.ink,
+          transition: "background 160ms var(--ease-out), border-color 160ms var(--ease-out)",
+        }}
+        onMouseEnter={(e) => {
+          const el = e.currentTarget as HTMLElement;
+          el.style.borderStyle = "solid";
+          el.style.borderColor = iconColor;
+          el.style.background = `${iconColor}14`;
+        }}
+        onMouseLeave={(e) => {
+          const el = e.currentTarget as HTMLElement;
+          el.style.borderStyle = "dashed";
+          el.style.borderColor = t.muted;
+          el.style.background = "transparent";
+        }}
       >
-        {mode === "dark" ? "dark · 100×42" : "light · 100×42"}
+        <span style={{ color: iconColor, fontSize: 13, lineHeight: 1 }}>
+          {isDark ? "☾" : "☀"}
+        </span>
+        <span>{isDark ? "dark" : "light"}</span>
+        <span style={{ color: t.muted }}>· 100×42</span>
       </button>
     </div>
   );

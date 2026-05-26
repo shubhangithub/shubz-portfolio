@@ -260,16 +260,6 @@ export function WritingIndexV5({
             })}
           </div>
 
-          <NBPrompt t={t} cwd="~/writing" cmd="cat .palette" comment="how colours are picked" accent={t.ochre} />
-          <div style={{
-            background: t.paper2, border: `1px solid ${t.rule}`,
-            padding: "14px 16px", borderRadius: 3, marginBottom: 28,
-            fontFamily: "var(--f-body)", fontSize: 13, fontStyle: "italic",
-            color: t.softInk, lineHeight: 1.55,
-          }}>
-            Each essay's accent is pulled from its subject. ZX-calculus is its spider green; JAYA is protein orange; threshold-gate is stain magenta. New essays inherit their <em>topic family</em>: comp-bio stays in the red-magenta range; quantum stays green; AI stays blue.
-          </div>
-
           <NBPrompt t={t} cwd="~/writing" cmd="ls -la *.draft.mdx" comment="in progress" accent={t.red} />
           <pre style={{
             background: t.paper2, border: `1px solid ${t.rule}`,
