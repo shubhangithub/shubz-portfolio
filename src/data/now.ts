@@ -63,7 +63,7 @@ export const FOCUSES: Focus[] = [
 // /now · "Field journal" — newest first
 export const JOURNAL: JournalEntry[] = [
   // BlueDot cohort → AI safety
-  { date: "2026-05", family: "blue",   note: "Started BlueDot's AGI Strategy cohort. Pre-reading has already moved more pieces around in my head than I expected." },
+  { date: "2026-05", family: "blue",   note: "Wrapping up BlueDot's AGI Strategy cohort. Pre-reading moved more pieces around in my head than I expected." },
   // Orion search rewrite → AI/ML (LLM eng)
   { date: "2026-05", family: "purple", note: "Rewriting Orion's search system — tool schemas, decision-tree prompts, fewshot disambiguation. Three weeks in. The results finally stopped feeling stochastic." },
   // fashion-web redesign → Markets (the product is markets)
