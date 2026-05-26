@@ -33,13 +33,19 @@ Each page's copy lives in `src/data/<page>.ts`:
 - `src/data/work.ts`      → /work/        (biggest: events, builds, toolbox, speaking)
 - `src/data/now.ts`       → /now/         (focuses, journal, conditions + hero)
 - `src/data/contact.ts`   → /contact/
+- `src/data/social.ts`    → home "latest" row + GitHub graph username
 - `src/data/posts.ts`     → essay metadata + thumbnail index
 
 The page components in `src/components/pages/*V5.tsx` are pure renderers
 that import constants from these data files. **To change copy:** edit the
-data file. Don't touch the TSX unless you're changing layout. The site's
-status footer carries an "edit this page →" link that opens the relevant
-data file in GitHub's web editor.
+data file. Don't touch the TSX unless you're changing layout.
+
+**Full contributor guide:** [`EDITING.md`](./EDITING.md) at repo root —
+detailed map of every editable surface, common cookbook tasks (adding an
+essay, swapping a thumbnail, updating /now content, etc.), and the
+codebase anatomy. Point new contributors at that file; it replaces the
+old in-footer "edit this page →" link (removed to keep the public chrome
+clean).
 
 **TL;DR for Claude:**
 

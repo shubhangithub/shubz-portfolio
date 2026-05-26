@@ -374,32 +374,8 @@ export function NBMarginalia({
 // =============================================================================
 // STATUS FOOTER — zsh status row
 // =============================================================================
-/** Maps a page key → the source file to open when "edit this page →" is
- *  clicked. Each page's text lives in `src/data/<page>.ts`; clicking opens
- *  GitHub's web editor for that file, no clone required. */
-const EDIT_PATHS: Record<NBPageKey, string> = {
-  home: "src/data/home.ts",
-  writing: "src/data/writing.ts",
-  work: "src/data/work.ts",
-  now: "src/data/now.ts",
-  contact: "src/data/contact.ts",
-  essay: "src/data/posts.ts",
-};
-const REPO_BASE = "https://github.com/shubhangithub/personal-site/edit/main";
-
-export function NBStatusFooter({
-  t,
-  page = "home",
-  editPath,
-}: {
-  t: any;
-  page?: NBPageKey;
-  /** Override the default edit path for this page. */
-  editPath?: string;
-}) {
+export function NBStatusFooter({ t, page = "home" }: { t: any; page?: NBPageKey }) {
   const isMobile = useIsMobile();
-  const path = editPath || EDIT_PATHS[page];
-  const editUrl = `${REPO_BASE}/${path}`;
   return (
     <div style={{
       marginTop: 32,
@@ -412,16 +388,7 @@ export function NBStatusFooter({
     }}>
       <span><span style={{ color: t.prompt }}>●</span> connected · zsh 5.9 · vol.04</span>
       <span style={{ fontFamily: "var(--f-display)", fontStyle: "italic", color: t.softInk, fontSize: 13 }}>Made in London.</span>
-      <span style={{ display: "inline-flex", alignItems: "center", gap: 14 }}>
-        <a
-          href={editUrl}
-          target="_blank"
-          rel="noreferrer"
-          title="open this page's source in GitHub's web editor"
-          style={{ color: t.muted, textDecoration: "none", borderBottom: `1px dashed ${t.muted}`, paddingBottom: 1 }}
-        >edit this page →</a>
-        <span>© Shubz Sharma · /{page === "home" ? "" : page}</span>
-      </span>
+      <span>© Shubz Sharma · /{page === "home" ? "" : page}</span>
     </div>
   );
 }
@@ -574,7 +541,6 @@ export function NBPageShell({
   label = "shubz — ~/notebook — vim",
   onNavigate,
   onToggle,
-  editPath,
   children,
 }: {
   t: any;
@@ -583,9 +549,6 @@ export function NBPageShell({
   label?: string;
   onNavigate?: (p: NBPageKey) => void;
   onToggle?: () => void;
-  /** Override the default "edit this page →" target. ArticleV5 uses this
-   *  to point at the per-essay TSX. Other pages use the per-page default. */
-  editPath?: string;
   children: React.ReactNode;
 }) {
   const gridColor = mode === "dark" ? "rgba(126,148,255,0.07)" : t.rule;
@@ -602,7 +565,7 @@ export function NBPageShell({
       <NBMacChrome t={t} mode={mode} label={label} onToggle={onToggle} />
       <NBTabStrip t={t} current={current} onNavigate={onNavigate} />
       {children}
-      <NBStatusFooter t={t} page={current} editPath={editPath} />
+      <NBStatusFooter t={t} page={current} />
     </div>
   );
 }

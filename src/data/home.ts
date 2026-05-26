@@ -169,7 +169,7 @@ export const HOME_TOOLBOX: ToolGroup[] = [
 export type ContactRow = { label: string; handle?: string; href: string };
 
 export const HOME_CONTACT_ROWS: ContactRow[] = [
-  { label: "github",   handle: "Shubzthub",          href: "https://github.com/Shubzthub" },
+  { label: "github",   handle: "shubhangithub",          href: "https://github.com/shubhangithub" },
   { label: "linkedin", handle: "Shubz-s-sharma",     href: "https://www.linkedin.com/in/Shubz-s-sharma/" },
   { label: "email",    handle: "hello@shubzsharma.com", href: "mailto:hello@shubzsharma.com" },
   { label: "/contact", href: "/contact/" },

@@ -8,7 +8,7 @@ export function essayMeta(slug) {
       sources: [
         ['[1] Rao, R. V. (2016). ', '"Jaya: A simple and new optimization algorithm." Int. J. Industrial Engineering Computations.'],
         ['[2] Gandhi, N., Sharma, S., Rawat, O., Bhosale, H., Sane, A., & Jayaraman, V. K. (2022). ', '"Improved Jaya algorithm for identification of protein functions." Poster PP-28, INBIX\'22, VFSTR.'],
-        ['[3] ', "github.com/Shubzthub/inbix22"],
+        ['[3] ', "github.com/shubhangithub/inbix22"],
       ],
       sidenotes: 4,
     },

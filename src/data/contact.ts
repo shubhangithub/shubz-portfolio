@@ -43,7 +43,7 @@ export type Channel = {
 export const CONTACT_CHANNELS: Channel[] = [
   { label: "Email",    handle: "hello@shubzsharma.com",          note: "Best — read once a day in the morning.",   c: "orange", href: "mailto:hello@shubzsharma.com" },
   { label: "LinkedIn", handle: "linkedin.com/in/Shubz-s-sharma", note: "Conventional channel; checked weekly-ish.", c: "orange", href: "https://www.linkedin.com/in/Shubz-s-sharma/" },
-  { label: "GitHub",   handle: "github.com/Shubzthub",           note: "For code or issues on the open repos.",     c: "yellow", href: "https://github.com/Shubzthub" },
+  { label: "GitHub",   handle: "github.com/shubhangithub",           note: "For code or issues on the open repos.",     c: "yellow", href: "https://github.com/shubhangithub" },
 ];
 
 // ---------------------------------------------------------------------------

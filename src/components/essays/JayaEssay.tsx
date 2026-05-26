@@ -90,7 +90,7 @@ export function JayaEssay({ palette: p }) {
 
       <p>The highest-leverage modification wasn't anything exotic — it was rewriting the objective. Re-asking <em>what</em> you're optimising for tends to outperform re-engineering <em>how</em>. The fitness function that penalises large subsets did more than any operator change could. Elitism kept the search honest. Together, they turned a parameter-free algorithm into a slightly-less-parameter-free algorithm that knew what it was looking for.</p>
 
-      <p>The poster is still up at <a href="https://github.com/Shubzthub/inbix22" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>github.com/Shubzthub/inbix22</a>.</p>
+      <p>The poster is still up at <a href="https://github.com/shubhangithub/inbix22" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>github.com/shubhangithub/inbix22</a>.</p>
 
       <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written between two stops at the British Library, on a Wednesday.</p>
     </>

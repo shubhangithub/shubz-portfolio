@@ -51,7 +51,7 @@ export const PLATFORM_DEFAULT_FAMILY: Record<string, NBAccentKey> = {
 // year-of-commits heatmap as an SVG. Free, no auth, embed-as-img. Falls
 // back to nothing visible if the service is down — failure mode is benign.
 // ---------------------------------------------------------------------------
-export const GITHUB_USERNAME = "Shubzthub";
+export const GITHUB_USERNAME = "shubhangithub";
 
 /** Build the chart URL for the active theme's accent colour (hex without #). */
 export function ghChartUrl(hexNoHash: string, username: string = GITHUB_USERNAME): string {

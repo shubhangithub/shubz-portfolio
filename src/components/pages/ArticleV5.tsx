@@ -41,18 +41,8 @@ function essayBodyFor(slug: string) {
   }
 }
 
-/** Slug → essay component path on GitHub. Drives the "edit this page →"
- *  link in the status footer so essay editing opens the actual essay TSX. */
-const ESSAY_EDIT_PATHS: Record<string, string> = {
-  "jaya":                  "src/components/essays/JayaEssay.tsx",
-  "threshold-gate":        "src/components/essays/ThresholdEssay.tsx",
-  "constraint-clustering": "src/components/essays/ConstraintClusterEssay.tsx",
-  "six-engines":           "src/components/essays/SixEnginesEssay.tsx",
-  "fashion-trends":        "src/components/essays/FashionEssay.tsx",
-  "may-2026":              "src/components/essays/MayEssay.tsx",
-  "bluedot-unit1":         "src/components/essays/BluedotEssay.tsx",
-  "zx-calculus":           "src/components/essays/ZXEssay.tsx",
-};
+// The public footer no longer carries an "edit this page" link; see
+// EDITING.md at repo root for where to edit each page.
 
 export function ArticleV5({
   slug,
@@ -112,7 +102,6 @@ export function ArticleV5({
       label={`shubz — ~/writing/${post.slug}.mdx — vim`}
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
-      editPath={ESSAY_EDIT_PATHS[post.slug] || "src/data/posts.ts"}
     >
       <NBLastUpdated t={t} label={`ESSAY · ${kicker.toUpperCase()} · NO.${pin}`} date="26 may 2026" accent={accent} />
 
