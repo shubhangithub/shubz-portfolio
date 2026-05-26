@@ -143,24 +143,69 @@ export function ArticleV5({
         </div>
       </div>
 
-      {/* BODY + RAIL — full-width outer; the inner <article> caps its own
-          line-length at 62ch (the right reading width for essays per
-          AGENTS.md voice rules). Right rail is fixed 280px. */}
+      {/* BODY + LEFT-RAIL + RIGHT-RAIL — 3-column layout on desktop.
+            Left:   TOC + meta JSON   (sticky)
+            Middle: article body      (caps at 62ch for readable line-length)
+            Right:  cite + sources    (sticky) + "↤ all essays"
+          Mobile stacks single-column: left rail collapses above article,
+          right rail collapses below. */}
       <div style={{
         padding: isMobile ? "0 20px" : "0 64px",
         display: "grid",
-        gridTemplateColumns: isMobile ? "1fr" : "1fr 280px",
-        gap: isMobile ? 36 : 56,
+        gridTemplateColumns: isMobile ? "1fr" : "240px minmax(0, 1fr) 260px",
+        gap: isMobile ? 36 : 48,
         position: "relative",
       }}>
-        {/* Essay body — palette adapter passes V4-shaped object to the
-            unmodified essay component. Sidenote CSS lives in global.css. */}
+        {/* LEFT RAIL — TOC + meta JSON. Sticky on desktop, scrolls above
+            article on mobile. */}
+        {!isMobile && (
+          <aside style={{ position: "relative" }}>
+            <div style={{ position: "sticky", top: 24 }}>
+              {meta.toc && meta.toc.length > 1 && (
+                <>
+                  <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="grep '^##' ." comment="toc" accent={accent} />
+                  <div style={{
+                    background: t.paper2, border: `1px solid ${t.rule}`,
+                    padding: "12px 14px", borderRadius: 3,
+                    fontFamily: "var(--f-mono)", fontSize: 11.5, lineHeight: 1.9,
+                    marginBottom: 28,
+                  }}>
+                    {meta.toc.slice(1).map((entry: string, i: number) => (
+                      <div key={i} style={{ color: i === 0 ? accent : t.softInk }}>
+                        §{String(i + 1).padStart(2, "0")} · {entry}
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {/* Essay meta JSON = meta-info about the essay → Infra & craft (yellow). */}
+              <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="cat .meta" accent={t.yellow} />
+              <pre style={{
+                background: t.paper2, border: `1px solid ${t.rule}`,
+                padding: "10px 12px", borderRadius: 3,
+                fontFamily: "var(--f-mono)", fontSize: 10.5, lineHeight: 1.8,
+                color: t.softInk, margin: 0, whiteSpace: "pre-wrap",
+              }}>{`{
+  `}<span style={{ color: t.blue }}>"family"</span>{`:    `}<span style={{ color: t.ochre }}>{`"${post.family || "—"}"`}</span>{`,
+  `}<span style={{ color: t.blue }}>"reading"</span>{`:   `}<span style={{ color: t.ochre }}>{`"${post.minutes} min"`}</span>{`,
+  `}<span style={{ color: t.blue }}>"sidenotes"</span>{`: `}<span style={{ color: t.ochre }}>{`"${meta.sidenotes || 0}"`}</span>{`,
+  `}<span style={{ color: t.blue }}>"updated"</span>{`:   `}<span style={{ color: t.ochre }}>"may '26"</span>{`
+}`}</pre>
+            </div>
+          </aside>
+        )}
+
+        {/* MIDDLE — essay body. Capped at 62ch for readable line-length;
+            margin: 0 auto centres it inside the (wider) middle column. */}
         <article style={{
           fontFamily: "var(--f-body)",
           fontSize: isMobile ? "1.08rem" : "1.12rem",
           lineHeight: 1.72,
           color: t.ink,
           maxWidth: "62ch",
+          margin: "0 auto",
+          width: "100%",
         }}>
           <Body palette={essayPalette} />
 
@@ -192,45 +237,12 @@ export function ArticleV5({
           )}
         </article>
 
-        {/* Right rail — TOC + meta JSON + back link. Sticky on desktop. */}
+        {/* RIGHT RAIL — cite block + sources + "↤ all essays". Sticky on
+            desktop, scrolls below article on mobile. */}
         {!isMobile && (
           <aside style={{ position: "relative" }}>
             <div style={{ position: "sticky", top: 24 }}>
-              {meta.toc && meta.toc.length > 1 && (
-                <>
-                  <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="grep '^##' ." comment="toc" accent={accent} />
-                  <div style={{
-                    background: t.paper2, border: `1px solid ${t.rule}`,
-                    padding: "12px 14px", borderRadius: 3,
-                    fontFamily: "var(--f-mono)", fontSize: 11.5, lineHeight: 1.9,
-                    marginBottom: 28,
-                  }}>
-                    {meta.toc.slice(1).map((entry: string, i: number) => (
-                      <div key={i} style={{ color: i === 0 ? accent : t.softInk }}>
-                        §{String(i + 1).padStart(2, "0")} · {entry}
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
-
-              {/* Essay meta JSON = meta-info about the essay → Infra & craft (yellow). */}
-              <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="cat .meta" accent={t.yellow} />
-              <pre style={{
-                background: t.paper2, border: `1px solid ${t.rule}`,
-                padding: "10px 12px", borderRadius: 3,
-                fontFamily: "var(--f-mono)", fontSize: 10.5, lineHeight: 1.8,
-                color: t.softInk, margin: 0, marginBottom: 28, whiteSpace: "pre-wrap",
-              }}>{`{
-  `}<span style={{ color: t.blue }}>"family"</span>{`:    `}<span style={{ color: t.ochre }}>{`"${post.family || "—"}"`}</span>{`,
-  `}<span style={{ color: t.blue }}>"reading"</span>{`:   `}<span style={{ color: t.ochre }}>{`"${post.minutes} min"`}</span>{`,
-  `}<span style={{ color: t.blue }}>"sidenotes"</span>{`: `}<span style={{ color: t.ochre }}>{`"${meta.sidenotes || 0}"`}</span>{`,
-  `}<span style={{ color: t.blue }}>"updated"</span>{`:   `}<span style={{ color: t.ochre }}>"may '26"</span>{`
-}`}</pre>
-
-              {/* CITE — how to reference this essay. Stays in the rail
-                  regardless of essay so visitors always have a citation
-                  pattern to hand. */}
+              {/* CITE — how to reference this essay. */}
               <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="cat .cite" accent={t.yellow} />
               <div style={{
                 background: t.paper2, border: `1px solid ${t.rule}`,
