@@ -70,6 +70,34 @@ The full mapping (which colour means which topic) is in
 intentional; don't switch to a different colour system without reading
 that section first.
 
+### Update the CV PDF
+
+The CV file lives at `public/uploads/Shubhangi-Sharma-Resume-<date>.pdf`.
+The path is declared **once** as `CV_PDF` in
+[`src/data/work.ts`](./src/data/work.ts) (line ~19) and imported wherever
+it's used (work toolbox, home toolbox, footer "↗ open pdf" link, etc.).
+
+**Easiest update — same filename:**
+
+1. Drop the new PDF into `public/uploads/` with the existing filename
+   (overwriting the old one).
+2. Commit + push. Vercel rebuilds; every "↗ open pdf" link now serves
+   the new file. No code edits needed.
+
+**Update with a date-stamped filename (recommended for version trail):**
+
+1. Drop the new PDF in `public/uploads/Shubhangi-Sharma-Resume-<YYYYMMDD>.pdf`.
+2. Edit one line in [`src/data/work.ts`](./src/data/work.ts):
+   ```ts
+   export const CV_PDF = "/uploads/Shubhangi-Sharma-Resume-<YYYYMMDD>.pdf";
+   ```
+3. Optionally delete the old PDF from `public/uploads/` to avoid stale
+   files in the deploy.
+
+Don't forget: **never** add a second `CV_PDF` declaration anywhere. If
+you're tempted to hardcode the path in a new file, `import { CV_PDF }
+from "./work"` instead — keeps the single source of truth intact.
+
 ### Update the CV trajectory
 
 Edit `WORK_EVENTS` in [`src/data/work.ts`](./src/data/work.ts). Each

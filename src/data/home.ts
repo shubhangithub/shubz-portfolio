@@ -11,6 +11,10 @@
 // lives in `src/data/<page>.ts`.
 
 import type { NBAccentKey } from "./palette";
+// CV path is declared once in work.ts and re-used everywhere. Updating the
+// PDF filename? Edit CV_PDF in src/data/work.ts — every chip on every page
+// re-resolves automatically. (See EDITING.md → "Update the CV PDF".)
+import { CV_PDF } from "./work";
 
 // ---------------------------------------------------------------------------
 // Inline-coloured prose. A line/paragraph is a list of `Span`s.
@@ -114,8 +118,6 @@ export const HOME_BUILDS: HomeBuild[] = [
 export type ChipLink = { label: string; href: string };
 export type ToolItem = { name: string; links: ChipLink[] };
 export type ToolGroup = { group: string; primary: NBAccentKey; items: ToolItem[] };
-
-const CV_PDF = "/uploads/Shubhangi-Sharma-Resume-20260211.pdf";
 
 export const HOME_TOOLBOX: ToolGroup[] = [
   { group: "AI safety", primary: "blue", items: [
