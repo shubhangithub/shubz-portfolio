@@ -48,16 +48,16 @@ export type Condition = { k: string; v: string; sub: string; family: NBAccentKey
 
 // /now · "Right now" — five concurrent threads
 export const FOCUSES: Focus[] = [
-  // Orion search (LLM eng / tool schemas / few-shot) → AI/ML
-  { kind: "Building",  family: "purple", what: "Orion's search system. Rewriting tool schemas, system prompts with decision trees, fewshot disambiguation. Three weeks of rewrites; the results finally stopped feeling stochastic." },
+  // fashion-web (trend prediction + LMSR market) → fintech / ochre
+  { kind: "Building",  family: "ochre",  what: "fashion-web. Composite trend signal across five live sources, an LMSR prediction market on top, Gemini for outfit-against-runway matching. Calibrating the house model." },
   // BlueDot AGI Strategy → AI safety
   { kind: "Studying",  family: "blue",   what: "BlueDot's AGI Strategy cohort, May into June. The strategic frame around the technical work I already do." },
   // AI safety reading list → AI safety
   { kind: "Reading",   family: "blue",   what: "AI safety: Betley on weird generalisation and inductive backdoors, Bengio's Scientist AI, Anthropic's Persona Selection Model, Nanda on pragmatic interpretability." },
   // This site / typography → Infrastructure
   { kind: "Refining",  family: "yellow", what: "This site, slowly. The fun is in the typography." },
-  // ZX-calculus essay → Physics
-  { kind: "Writing",   family: "prompt", what: "A second ZX-calculus essay." },
+  // BlueDot AGI Strategy cohort findings → AI safety
+  { kind: "Writing",   family: "blue",   what: "Findings from the BlueDot AGI Strategy cohort. There are a lot." },
 ];
 
 // /now · "Field journal" — newest first
