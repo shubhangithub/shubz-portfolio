@@ -65,13 +65,15 @@ export const JOURNAL: JournalEntry[] = [
   // BlueDot cohort → AI safety
   { date: "2026-05", family: "blue",   note: "Wrapping up BlueDot's AGI Strategy cohort. The material moved more pieces around in my head than I expected." },
   // Orion search rewrite → AI/ML (LLM eng)
-  { date: "2026-05", family: "purple", note: "Rewriting Orion's search system — tool schemas, decision-tree prompts, fewshot disambiguation. Three weeks in. The results finally stopped feeling stochastic." },
+  { date: "2026-05", family: "purple", note: "Rewriting Orion's search system — tool schemas, decision-tree prompts, fewshot disambiguation. Three weeks in." },
   // fashion-web redesign → Markets (the product is markets)
   { date: "2026-04", family: "ochre",  note: "Used Claude to redesign fashion-web. Broke more than I expected. Still putting it back together." },
+  // AI safety interest spike → BlueDot application
+  { date: "2026-04", family: "blue",   note: "Interest in AI safety has been spiking — applied to BlueDot's AGI Strategy cohort starting next month." },
   // MInstP election → Physics
   { date: "2026-02", family: "prompt", note: "Elected MInstP. The certificate is small and unreasonably satisfying." },
   // Taylor rec second pass → Markets (recommendations)
-  { date: "2025-12", family: "ochre",  note: "Built a second pass at the Taylor Swift recommender — six engines, Python and TypeScript. Learning a lot about how recommendation systems actually work when you try to make them good." },
+  { date: "2025-12", family: "ochre",  note: "Second pass at the Taylor Swift recommender — ported from the R/Shiny original to Python (FastAPI) and TypeScript, six engines running in parallel. Learning a lot about how recommendation systems actually work when you try to make them good." },
 ];
 
 // /now · "Conditions" tile
