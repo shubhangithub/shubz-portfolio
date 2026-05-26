@@ -17,10 +17,10 @@ export const WRITING_HERO: Span[] = [
 ];
 
 export const WRITING_LEDE =
-  "Long-form thinking on the projects I actually built. Each essay carries its own colour — pulled from the subject it argues with. Some pieces are finished; some are still arguing with themselves.";
+  "Thinking on the projects I actually built. Some pieces are finished; some are still arguing with themselves.";
 
 export const WRITING_MARGINALIA = {
-  lines: ["every essay has", "a hand-coded", "diagram. no D3."],
+  lines: ["with lots of", "interactive diagrams,", "obviously."],
   accent: "yellow" as NBAccentKey,
 };
 
