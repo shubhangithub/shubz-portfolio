@@ -25,11 +25,6 @@ export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggle
     { label: "LinkedIn", handle: "linkedin.com/in/shubhangi-s-sharma", note: "Conventional channel; checked weekly-ish.", href: "https://www.linkedin.com/in/shubhangi-s-sharma/" },
   ];
 
-  const policy = [
-    ["Will read",          "AI safety, geospatial ML, quantum computation, computational biology, recommendation systems, fashion forecasting, or anything at the intersection of maths and something unexpected"],
-    ["Based",              "London — happy on calls in any reasonable timezone"],
-  ];
-
   return (
     <div style={{ background: p.paper, color: p.ink, minHeight: "100vh", fontFamily: "var(--f-body)" }}>
       <div aria-hidden="true" className="v4-bg-grid" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 1, backgroundImage: `linear-gradient(to right, ${p.line} 1px, transparent 1px)`, backgroundSize: "calc(100%/12) 100%", opacity: 0.28 }} />
@@ -41,7 +36,7 @@ export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggle
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", alignItems: "start" }}>
           <div className="v4-rail-hide" style={{ gridColumn: "1 / span 2" }}>
             <IndexRail palette={p} currentIdx={0}
-              items={["Header", "Channels", "Preferences", "Compose"]}
+              items={["Header", "Channels", "Compose"]}
               telemetry={[telemetryRow, ["page", "contact"], ["channels", String(channels.length).padStart(2, "0")], ["based", "london"]]}
               scrollPct={scrollPct} />
           </div>
@@ -104,33 +99,11 @@ export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggle
         </div>
       </section>
 
-      {/* policy */}
-      <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
-        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginBottom: "1.2rem" }}>
-          <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
-            <span className="mono" style={{ fontSize: 12, color: "#28CA41", marginRight: 12 }}>03</span>
-            Preferences
-          </h2>
-        </div>
-        <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
-          <div style={{ gridColumn: "3 / span 9" }}>
-            <div style={{ borderTop: `1px solid ${p.line}` }}>
-              {policy.map(([k, v], i) => (
-                <div key={i} className="v4-stack-row" style={{ display: "grid", gridTemplateColumns: "200px 1fr", gap: "1.4rem", padding: "1rem 0", borderBottom: `1px solid ${p.line}`, alignItems: "baseline" }}>
-                  <span className="caps mono" style={{ color: p.muted, fontSize: 11, letterSpacing: "0.1em" }}>{k}</span>
-                  <span style={{ fontFamily: "var(--f-body)", fontSize: "1rem", color: p.ink }}>{v}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* compose box */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "3rem 1.6rem 0", position: "relative", zIndex: 2 }}>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem" }}>
           <h2 className="display" style={{ gridColumn: "3 / span 5", fontSize: "1.6rem", margin: 0, fontWeight: 380 }}>
-            <span className="mono" style={{ fontSize: 12, color: "#28CA41", marginRight: 12 }}>04</span>
+            <span className="mono" style={{ fontSize: 12, color: "#28CA41", marginRight: 12 }}>03</span>
             Compose
           </h2>
         </div>

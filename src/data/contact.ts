@@ -47,19 +47,7 @@ export const CONTACT_CHANNELS: Channel[] = [
 ];
 
 // ---------------------------------------------------------------------------
-// §03 PREFERENCES — Will read / Won't read / Reply time / Based
-// ---------------------------------------------------------------------------
-export type Preference = { k: string; v: string; c: NBAccentKey };
-
-export const CONTACT_PREFERENCES: Preference[] = [
-  { k: "Will read",  v: "AI safety, geospatial ML, quantum computation, computational biology, recommendation systems, fashion forecasting, or anything at the intersection of maths and something unexpected.", c: "orange" },
-  { k: "Won't read", v: "Generic outreach. LLM-tone emails (telltale words: 'leverage', 'tapestry', 'delve').",                                                                                                  c: "orange" },
-  { k: "Reply time", v: "≤ 72 hours for substantive emails. Faster if it makes me laugh.",                                                                                                                       c: "yellow" },
-  { k: "Based",      v: "London — happy on calls in any reasonable timezone.",                                                                                                                                   c: "teal"   },
-];
-
-// ---------------------------------------------------------------------------
-// §04 COMPOSE — form copy
+// §03 COMPOSE — form copy
 // ---------------------------------------------------------------------------
 export const CONTACT_COMPOSE = {
   toLabel: "To:",

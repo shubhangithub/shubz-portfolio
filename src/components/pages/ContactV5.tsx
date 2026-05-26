@@ -14,7 +14,7 @@ import {
 import {
   CONTACT_HERO_LINES, CONTACT_LEDE, CONTACT_MARGINALIA,
   CONTACT_LAST_UPDATED_LABEL, CONTACT_LAST_UPDATED_DATE,
-  CONTACT_CHANNELS, CONTACT_PREFERENCES, CONTACT_COMPOSE,
+  CONTACT_CHANNELS, CONTACT_COMPOSE,
   CONTACT_PROTOCOL, CONTACT_CALENDAR, CONTACT_OPEN_TO,
 } from "../../data/contact";
 import type { Span } from "../../data/home";
@@ -64,10 +64,8 @@ export function ContactV5({
     padding: "2px 0",
   };
 
-  // CONTACT_CHANNELS, CONTACT_PREFERENCES live in src/data/contact.ts. Both
-  // are typed and topically coloured — see DECISIONS-v5.md §14 for rules.
+  // CONTACT_CHANNELS lives in src/data/contact.ts — see DECISIONS-v5.md §14.
   const channels = CONTACT_CHANNELS;
-  const preferences = CONTACT_PREFERENCES;
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -156,26 +154,8 @@ export function ContactV5({
             ))}
           </div>
 
-          {/* §03 Preferences */}
-          {/* §03 Preferences → Outreach (orange). */}
-          <NBPromptHead t={t} n="§03" command="cat ./preferences.md" title="Preferences" accent={t.orange} level={isMobile ? 22 : 28} />
-          <div style={{ marginBottom: 56, borderTop: `1px solid ${t.muted}55` }}>
-            {preferences.map((p, i) => (
-              <div key={i} style={{
-                display: "grid", gridTemplateColumns: isMobile ? "1fr" : "180px 1fr",
-                gap: isMobile ? 4 : 22, alignItems: "baseline",
-                padding: "14px 0",
-                borderBottom: `1px dashed ${t.muted}33`,
-              }}>
-                <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t[p.c], textTransform: "uppercase", letterSpacing: "0.08em" }}>{p.k}</span>
-                <span style={{ fontFamily: "var(--f-body)", fontSize: 15, color: t.ink, lineHeight: 1.55 }}>{p.v}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* §04 Compose */}
-          {/* §04 Compose → Outreach (orange). */}
-          <NBPromptHead t={t} n="§04" command="mail compose --to hello@" comment="opens your mail client" title="Compose" accent={t.orange} level={isMobile ? 22 : 28} />
+          {/* §03 Compose → Outreach (orange). */}
+          <NBPromptHead t={t} n="§03" command="mail compose --to hello@" comment="opens your mail client" title="Compose" accent={t.orange} level={isMobile ? 22 : 28} />
           <form onSubmit={onSubmit} style={{
             border: `2px solid ${t.ink}`, padding: isMobile ? "14px 16px" : "18px 22px",
             background: t.paper2, marginBottom: 56,
