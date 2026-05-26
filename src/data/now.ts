@@ -46,7 +46,8 @@ export type Focus = { kind: string; what: string; family: NBAccentKey };
 export type JournalEntry = { date: string; note: string; family: NBAccentKey };
 export type Condition = { k: string; v: string; sub: string; family: NBAccentKey };
 
-// /now · "Right now" — five concurrent threads
+// /now · "Right now" — five concurrent threads.
+// CAP: 5 entries (same reason as JOURNAL — anything more clutters the layout).
 export const FOCUSES: Focus[] = [
   // fashion-web (trend prediction + LMSR market) → fintech / ochre
   { kind: "Building",  family: "ochre",  what: "fashion-web. Composite trend signal across five live sources, an LMSR prediction market on top, Gemini for outfit-against-runway matching. Calibrating the house model." },
@@ -60,16 +61,19 @@ export const FOCUSES: Focus[] = [
   { kind: "Writing",   family: "blue",   what: "Findings from the BlueDot AGI Strategy cohort. There are a lot." },
 ];
 
-// /now · "Field journal" — newest first
+// /now · "Field journal" — newest first.
+// CAP: 5 entries. The home `cat .now` mini-term and the /now journal list both
+// render from this array; >5 overflows the layout. When adding a new entry,
+// delete the oldest one in the same edit to maintain the cap.
 export const JOURNAL: JournalEntry[] = [
-  // BlueDot cohort → AI safety
-  { date: "2026-05", family: "blue",   note: "Wrapping up BlueDot's AGI Strategy cohort. The material moved more pieces around in my head than I expected." },
+  // BlueDot cohort + AI safety interest spike → AI safety (the cohort is wrapping
+  // up; folding the "AI safety has become genuinely interesting" beat in here so
+  // the journal stays at 5 entries — see feedback-now-journal-cap memory).
+  { date: "2026-05", family: "blue",   note: "Wrapping up BlueDot's AGI Strategy cohort. AI safety is becoming genuinely interesting to me — the material moved more pieces around in my head than I expected." },
   // Orion search rewrite → AI/ML (LLM eng)
   { date: "2026-05", family: "purple", note: "Rewriting Orion's search system — tool schemas, decision-tree prompts, fewshot disambiguation. Three weeks in." },
   // fashion-web redesign → Markets (the product is markets)
   { date: "2026-04", family: "ochre",  note: "Used Claude to redesign fashion-web. Broke more than I expected. Still putting it back together." },
-  // AI safety interest spike → BlueDot application
-  { date: "2026-04", family: "blue",   note: "Interest in AI safety has been spiking — applied to BlueDot's AGI Strategy cohort starting next month." },
   // MInstP election → Physics
   { date: "2026-02", family: "prompt", note: "Elected MInstP. The certificate is small and unreasonably satisfying." },
   // Taylor rec second pass → Markets (recommendations)
