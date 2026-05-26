@@ -108,9 +108,9 @@ export function NBTabStrip({
   const mm = String(now.getUTCMinutes()).padStart(2, "0");
   const tabs: [string, NBPageKey][] = [
     ["~/home", "home"],
+    ["~/now", "now"],
     ["~/writing", "writing"],
     ["~/work", "work"],
-    ["~/now", "now"],
     ["~/contact", "contact"],
   ];
   const isMobile = useIsMobile();
