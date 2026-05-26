@@ -33,30 +33,45 @@ const HOME_BUILDS = [
   { name: "platypus-learn",      c: "blue",   blurb: "AI learning platform — PDFs and YouTube → courses.",   year: "2025 —", url: "https://platypus-learn.vercel.app" },
 ];
 
+// Skills sourced from final_CV.pdf (Feb 2024 snapshot) plus the Orion stack
+// affirmed in the site's existing prose. Six categories per user request:
+// Languages / Tools / Libraries / ML-Data / Physics / Other. Home version is
+// curated — top picks per category; the full set lives on the Work page.
 const HOME_TOOLBOX = [
   { group: "Languages", items: [
     { name: "Python",     c: "orange",  used: "jaya · threshold · six-engines" },
-    { name: "Rust",       c: "teal",    used: "orion" },
     { name: "TypeScript", c: "blue",    used: "this site · fashion-web" },
-    { name: "R",          c: "red",     used: "constraint-clustering" },
+    { name: "R",          c: "red",     used: "taylor rec (original) · tutoring" },
+    { name: "C++",        c: "cyan",    used: "iot weather bot" },
   ] },
-  { group: "Methods", items: [
-    { name: "Geospatial ML",           c: "teal",    used: "orion" },
-    { name: "JAYA-style optimisation", c: "orange",  used: "jaya, improved" },
-    { name: "LMSR prediction markets", c: "ochre",   used: "pricing the scarf" },
-    { name: "Constrained clustering",  c: "red",     used: "cells that can't exist" },
-    { name: "ZX-rewriting",            c: "prompt",  used: "two colours and a Hadamard" },
+  { group: "Tools", items: [
+    { name: "Astro · React islands", c: "blue",   used: "this site" },
+    { name: "AWS · EC2 · S3",        c: "orange", used: "jobsforher backend" },
+    { name: "Tableau",               c: "ochre",  used: "kolhapur cultural mapping" },
+    { name: "Git · CI/CD",           c: "teal",   used: "everywhere" },
   ] },
-  { group: "Studios", items: [
-    { name: "Astro · React islands",  c: "blue",   used: "this site" },
-    { name: "PyTorch · scikit-learn", c: "red",    used: "all ML work" },
-    { name: "D3 · hand-rolled SVG",   c: "purple", used: "all essay diagrams" },
+  { group: "Libraries", items: [
+    { name: "NumPy · SciPy · Pandas",   c: "orange",  used: "all ML, plotting, GNSS" },
+    { name: "PyTorch · scikit-learn",   c: "red",     used: "modelling generally" },
+    { name: "SpaCy · NLTK · Gensim",    c: "purple",  used: "merger NLP, sentiment" },
+    { name: "ggplot · shiny · dplyr",   c: "red",     used: "taylor rec (original)" },
   ] },
-  { group: "Off-keyboard", items: [
-    { name: "Thames rowing",      c: "teal",    used: "sundays, 6am" },
-    { name: "Piano",              c: "purple",  used: "chopin, debussy" },
-    { name: "STEM-ed outreach",   c: "prompt",  used: "FLAME alumni network" },
-    { name: "Fashion enthusiast", c: "ochre",   used: "data + cloth" },
+  { group: "ML / Data", items: [
+    { name: "Feature selection (JAYA)",    c: "orange",  used: "jaya, improved" },
+    { name: "Recommendation systems",      c: "purple",  used: "six engines · natter matching" },
+    { name: "Sentiment + theme extraction", c: "purple",  used: "flipkart–walmart merger" },
+    { name: "Regression / classification", c: "blue",    used: "GNSS · platform moderation" },
+  ] },
+  { group: "Physics", items: [
+    { name: "Quantum Information",       c: "prompt",  used: "oxford · two colours and a Hadamard" },
+    { name: "GNSS atmospheric modelling", c: "cyan",    used: "honours thesis · water vapour" },
+    { name: "Lotka–Volterra dynamics",    c: "teal",    used: "predator and prey" },
+  ] },
+  { group: "Other areas", items: [
+    { name: "Computational Game Theory",  c: "purple",  used: "oxford module" },
+    { name: "Geometric Deep Learning",    c: "blue",    used: "oxford module" },
+    { name: "Cryptography",               c: "red",     used: "cipher program" },
+    { name: "UI/UX",                      c: "magenta", used: "kurukshetra fest · CMS work" },
   ] },
 ];
 

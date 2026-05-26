@@ -47,28 +47,73 @@ const WORK_BUILDS = [
   { name: "this site",                            c: "blue",    scope: "open",                 year: "2026",   essay: null,                      url: "https://github.com/Shubzthub/personal-site",                        blurb: "Started as a single-file HTML + CSS + inline React app; migrated to Astro during the astro-migration branch. Essays, animated diagrams, and an unreasonable amount of time spent on typography." },
 ];
 
+// Six-category toolbox per CV. Languages / Tools / Libraries / ML-Data /
+// Physics / Other areas. Items lifted from final_CV.pdf where present;
+// Orion-era stack (Rust, Golang, geospatial) added because it's affirmed
+// in the existing trajectory + builds prose.
+//
+// "links" = where this skill earned its place. Slugs (second element) point
+// at essays so the chip's colour follows that essay's accent.
 const WORK_TOOLBOX = [
   { group: "Languages", items: [
-    { name: "Python",     c: "orange",  links: [["jaya, improved", "jaya"], ["positive by how much", "threshold-gate"], ["six engines", "six-engines"]] },
-    { name: "Rust",       c: "teal",    links: [["orion (founding)", null]] },
-    { name: "TypeScript", c: "blue",    links: [["this site", null], ["six engines", "six-engines"]] },
-    { name: "R",          c: "red",     links: [["cells that can't exist", "constraint-clustering"]] },
-    { name: "Golang",     c: "teal",    links: [["orion (founding)", null]] },
-  ] },
-  { group: "Methods", items: [
-    { name: "Geospatial ML",           c: "teal",    links: [["orion (founding)", null]] },
-    { name: "JAYA-style optimisation", c: "orange",  links: [["jaya, improved", "jaya"]] },
-    { name: "LMSR markets",            c: "ochre",   links: [["pricing the next scarf", "fashion-trends"]] },
-    { name: "Constrained clustering",  c: "red",     links: [["cells that can't exist", "constraint-clustering"]] },
-    { name: "ZX-rewriting",            c: "prompt",  links: [["two colours and a Hadamard", "zx-calculus"]] },
-    { name: "Ensemble recommendation", c: "purple",  links: [["six engines for one songbook", "six-engines"]] },
-    { name: "Lotka–Volterra",          c: "teal",    links: [["predator and prey", "may-2026"]] },
+    { name: "Python",       c: "orange",  links: [["jaya, improved", "jaya"], ["positive by how much", "threshold-gate"], ["six engines", "six-engines"], ["honours thesis · GNSS", null]] },
+    { name: "TypeScript",   c: "blue",    links: [["this site", null], ["six engines", "six-engines"]] },
+    { name: "R",            c: "red",     links: [["taylor rec (original R/Shiny)", null], ["peer tutoring · FLAME", null]] },
+    { name: "Rust",         c: "teal",    links: [["orion (founding)", null]] },
+    { name: "Golang",       c: "teal",    links: [["orion (founding)", null]] },
+    { name: "C++",          c: "cyan",    links: [["IoT weather bot · ThingSpeak", null]] },
+    { name: "SQL · PostgreSQL", c: "purple", links: [["jobsforher backend", null]] },
   ] },
   { group: "Tools", items: [
-    { name: "PyTorch · scikit-learn",  c: "red",     links: [["ML work, generally", null]] },
     { name: "Astro · React islands",   c: "blue",    links: [["this site", null]] },
+    { name: "AWS · EC2 · S3 · CloudWatch", c: "orange", links: [["jobsforher · deploy + monitor", null]] },
+    { name: "Tableau",                 c: "ochre",   links: [["kolhapur cultural mapping", null]] },
+    { name: "Flask",                   c: "prompt",  links: [["jobsforher web app", null]] },
+    { name: "Google APIs · Sheets",    c: "blue",    links: [["student council awards automation", null]] },
+    { name: "Git · CI/CD",             c: "teal",    links: [["all engineering work", null]] },
+    { name: "Web scraping",            c: "purple",  links: [["merger NLP", null], ["natter data collection", null]] },
     { name: "D3 · hand-rolled SVG",    c: "purple",  links: [["all essay diagrams", null]] },
-    { name: "FastAPI",                 c: "prompt",  links: [["six engines", "six-engines"]] },
+    { name: "ThingSpeak · microcontrollers", c: "yellow", links: [["IoT weather bot", null]] },
+  ] },
+  { group: "Libraries", items: [
+    { name: "NumPy · SciPy · Pandas",  c: "orange",  links: [["jaya", "jaya"], ["honours thesis · GNSS", null], ["INSAT-3D cloud detection", null]] },
+    { name: "matplotlib",              c: "orange",  links: [["jaya", "jaya"], ["INSAT-3D cloud detection", null]] },
+    { name: "PyTorch · scikit-learn",  c: "red",     links: [["ML work, generally", null]] },
+    { name: "SpaCy · NLTK · Gensim · TextBlob", c: "purple", links: [["flipkart-walmart merger NLP", null]] },
+    { name: "PyHDF · NetCDF",          c: "cyan",    links: [["INSAT-3D cloud detection", null]] },
+    { name: "ggplot · dplyr · tidyr · shiny · purrr", c: "red", links: [["taylor rec (original R/Shiny)", null]] },
+    { name: "FastAPI",                 c: "prompt",  links: [["six engines · backend", "six-engines"]] },
+  ] },
+  { group: "ML / Data", items: [
+    { name: "Feature selection (JAYA-style)", c: "orange",  links: [["jaya, improved", "jaya"]] },
+    { name: "Genetic algorithms · crossover/mutation", c: "orange", links: [["jaya, improved", "jaya"]] },
+    { name: "Constrained clustering",  c: "red",     links: [["cells that can't exist", "constraint-clustering"]] },
+    { name: "Automated thresholding",  c: "magenta", links: [["positive by how much", "threshold-gate"]] },
+    { name: "Recommendation systems",  c: "purple",  links: [["six engines for one songbook", "six-engines"], ["natter user matching", null]] },
+    { name: "Ensemble methods",        c: "purple",  links: [["six engines", "six-engines"]] },
+    { name: "Sentiment + theme extraction", c: "purple", links: [["flipkart-walmart merger", null]] },
+    { name: "Explainable AI (WOE)",    c: "magenta", links: [["protein sequence decoding", null]] },
+    { name: "Regression modelling",    c: "blue",    links: [["honours thesis · GNSS water vapour", null]] },
+    { name: "LMSR prediction markets", c: "ochre",   links: [["pricing the next scarf", "fashion-trends"]] },
+    { name: "Geospatial ML · H3 indexing", c: "teal", links: [["orion (founding)", null]] },
+  ] },
+  { group: "Physics", items: [
+    { name: "Quantum Information",         c: "prompt",  links: [["oxford module", null], ["two colours and a Hadamard", "zx-calculus"]] },
+    { name: "ZX-rewriting",                c: "prompt",  links: [["two colours and a Hadamard", "zx-calculus"]] },
+    { name: "GNSS atmospheric modelling",  c: "cyan",    links: [["honours thesis · water vapour", null]] },
+    { name: "Satellite remote sensing",    c: "cyan",    links: [["INSAT-3D cloud detection", null]] },
+    { name: "Lotka–Volterra dynamics",     c: "teal",    links: [["predator and prey", "may-2026"]] },
+  ] },
+  { group: "Other areas", items: [
+    { name: "Computational Game Theory",            c: "purple",  links: [["oxford module", null]] },
+    { name: "Geometric Deep Learning",              c: "blue",    links: [["oxford module", null]] },
+    { name: "Graph Theory",                         c: "purple",  links: [["oxford module", null]] },
+    { name: "Algorithmic Collective Decision Making", c: "magenta", links: [["oxford module", null]] },
+    { name: "Computational Complexity",             c: "ochre",   links: [["oxford module", null]] },
+    { name: "UI / UX design",                       c: "magenta", links: [["kurukshetra fest pages", null], ["PrintedCraft CMS", null]] },
+    { name: "Cryptography",                         c: "red",     links: [["cipher program (5-layer)", null]] },
+    { name: "IoT",                                  c: "yellow",  links: [["IoT weather bot", null]] },
+    { name: "Bioinformatics",                       c: "red",     links: [["jaya · proteins", "jaya"], ["MFoCS thesis · biomarkers", "threshold-gate"]] },
   ] },
 ];
 

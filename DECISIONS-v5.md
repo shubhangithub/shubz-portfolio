@@ -46,9 +46,15 @@ Why this matters:
   tracker — unchanged.
 
 **Net-new content I authored** (called out so you can swap with your own copy):
-- Home toolbox chip-grid items (Languages / Methods / Studios / Off-keyboard
-  in `HomeV5.tsx`). The design handoff specified the shape; I picked the
-  individual rows from the V5 prototype's data.
+- Home + Work toolbox skills (Languages / Tools / Libraries / ML-Data /
+  Physics / Other areas). Six-category restructure per user request,
+  populated from `final_CV.pdf` (Feb 2024) plus Orion-era stack
+  (Rust/Golang/geospatial ML) carried forward from existing site prose.
+  Home version is curated (~3 per group); Work version is comprehensive
+  with essay-provenance links where applicable. Replaces the V5
+  prototype's original 4-group home toolbox + 3-group work toolbox.
+  The interests row ("Off-keyboard") was dropped — those things are
+  mentioned in the bio paragraph instead.
 - Home builds card (`HomeV5.tsx`, `HOME_BUILDS` array) — three current
   deployed projects with one-liner blurbs.
 - Writing index "working notes" rows (`WritingIndexV5.tsx`,
