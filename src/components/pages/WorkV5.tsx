@@ -261,7 +261,8 @@ export function WorkV5({
                         border: `1px solid ${ic}44`,
                         borderLeft: `3px solid ${ic}`,
                         borderRadius: 2,
-                        minWidth: 200,
+                        minWidth: isMobile ? 0 : 200,
+                        maxWidth: "100%",
                       }}>
                         <span style={{ fontFamily: "var(--f-body)", fontSize: 15, color: t.ink, lineHeight: 1.2 }}>{it.name}</span>
                         <span style={{ display: "flex", flexDirection: "column", gap: 1 }}>

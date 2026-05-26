@@ -120,10 +120,11 @@ export function ArticleV5({
             fontFamily: "var(--f-display)",
             fontVariationSettings: '"opsz" 144, "SOFT" 50',
             fontWeight: 400,
-            fontSize: isMobile ? "clamp(2.4rem, 10vw, 3.6rem)" : "clamp(2.8rem, 7vw, 5.6rem)",
+            fontSize: isMobile ? "clamp(2.2rem, 9vw, 3.2rem)" : "clamp(2.8rem, 7vw, 5.6rem)",
             lineHeight: 1.0,
             letterSpacing: "-0.02em",
-            margin: 0, color: t.ink, maxWidth: "14ch",
+            margin: 0, color: t.ink,
+            maxWidth: isMobile ? "100%" : "14ch",
           }}>
             {post.title}.
           </h1>

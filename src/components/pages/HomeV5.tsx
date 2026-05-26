@@ -270,7 +270,9 @@ export function HomeV5({
           <NBPrompt t={t} cwd="~/home" cmd="cat .now" comment="live · autoplay" accent={t.prompt} />
           <NBMiniTerm t={t} accent={t.blue} />
 
-          {/* Figure */}
+          {/* Figure — Lotka size adapts so it never overflows narrow phones
+              (canvas dims are imperatively set so we compute w/h up-front
+              rather than relying on CSS scaling). */}
           <div style={{ marginTop: 28 }}>
             <NBPrompt t={t} cwd="~/figures" cmd="./figures/may.sh" accent={t.teal} />
             <div style={{
@@ -278,11 +280,12 @@ export function HomeV5({
               padding: 16,
               background: t.bgCard,
               position: "relative",
+              overflow: "hidden",
             }}>
               <NBThumbtack color={t.teal} ink={t.ink} />
               <span style={{ fontFamily: "var(--f-display)", fontStyle: "italic", fontSize: 16, color: t.ink }}>fig. 01 — predator/prey</span>
               <div style={{ marginTop: 10 }}>
-                <NotebookLotka w={290} h={210} ink={t.ink} accent={t.teal} paper={t.paper} muted={t.muted} />
+                <NotebookLotka w={isMobile ? 240 : 290} h={isMobile ? 174 : 210} ink={t.ink} accent={t.teal} paper={t.paper} muted={t.muted} />
               </div>
               <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, display: "flex", justifyContent: "space-between", marginTop: 8 }}>
                 <span>lotka–volterra · may '26</span>

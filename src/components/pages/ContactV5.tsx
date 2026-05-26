@@ -176,11 +176,11 @@ export function ContactV5({
             </div>
 
             <div style={{ display: "grid", gap: 10 }}>
-              <div style={{ display: "grid", gridTemplateColumns: "100px 1fr", gap: 14, alignItems: "center", borderBottom: `1px dashed ${t.muted}33`, paddingBottom: 8 }}>
+              <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "100px 1fr", gap: isMobile ? 4 : 14, alignItems: isMobile ? "stretch" : "center", borderBottom: `1px dashed ${t.muted}33`, paddingBottom: 8 }}>
                 <span style={{ fontSize: 11, color: t.muted, letterSpacing: "0.08em", textTransform: "uppercase" }}>From</span>
                 <input value={from} onChange={(e) => setFrom(e.target.value)} placeholder="your name & email" style={inputBase} />
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "100px 1fr", gap: 14, alignItems: "center", borderBottom: `1px dashed ${t.muted}33`, paddingBottom: 8 }}>
+              <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "100px 1fr", gap: isMobile ? 4 : 14, alignItems: isMobile ? "stretch" : "center", borderBottom: `1px dashed ${t.muted}33`, paddingBottom: 8 }}>
                 <span style={{ fontSize: 11, color: t.muted, letterSpacing: "0.08em", textTransform: "uppercase" }}>Subject</span>
                 <input value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="what this is about" style={inputBase} />
               </div>
