@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AppShell from "../components/pages/AppShell.tsx";
+---
+
+<BaseLayout
+  title="Writing"
+  description="Long-form essays, working notes, and earlier publications — physics, machine learning, computational biology, recommendation systems, and the small obsessions in between."
+  canonicalPath="/writing/"
+  ogType="website"
+>
+  <AppShell page="writing" client:load />
+</BaseLayout>

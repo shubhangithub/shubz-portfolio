@@ -1,0 +1,22 @@
+---
+// Figure container for essay diagrams. Wraps the diagram (passed as slot)
+// in a bordered card with caption underneath. Matches the look of the
+// legacy <Figure> component but no React state — pure Astro.
+export interface Props {
+  caption: string;
+}
+const { caption } = Astro.props;
+---
+
+<figure class="v4-figure" style="margin: 2.4rem -3rem;">
+  <div
+    style="background: rgba(0,0,0,0.025); padding: 1.4rem; border: 1px solid var(--line, #D5D6DC);"
+  >
+    <slot />
+  </div>
+  <figcaption
+    style="margin-left: 1.4rem; margin-top: 0.5rem; font-family: var(--f-ui); font-size: 0.85rem; color: var(--muted, #6E7488); line-height: 1.5;"
+  >
+    {caption}
+  </figcaption>
+</figure>

@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AppShell from "../components/pages/AppShell.tsx";
+
+// JSON-LD: a @graph with Person (Shubhangi) + WebSite. Lets Google connect
+// the site to a real entity for Knowledge Graph + sameAs verification.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://shubzsharma.com/#person",
+      name: "Shubhangi Sharma",
+      url: "https://shubzsharma.com",
+      jobTitle: "Founding Engineer",
+      worksFor: { "@type": "Organization", name: "Orion" },
+      alumniOf: [
+        { "@type": "CollegeOrUniversity", name: "University of Oxford" },
+        { "@type": "CollegeOrUniversity", name: "FLAME University" },
+      ],
+      image: "https://shubzsharma.com/contact-portrait.jpg",
+      sameAs: [
+        "https://www.linkedin.com/in/shubhangi-s-sharma/",
+        "https://github.com/shubhangithub",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://shubzsharma.com/#website",
+      url: "https://shubzsharma.com",
+      name: "Shubz Sharma",
+      inLanguage: "en-GB",
+      author: { "@id": "https://shubzsharma.com/#person" },
+      publisher: { "@id": "https://shubzsharma.com/#person" },
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Shubz Sharma"
+  description="Founding engineer at Orion. Read maths and CS at Oxford. Writes about geospatial ML, biology, optimisation, and the small obsessions in between."
+  canonicalPath="/"
+  ogType="website"
+  jsonLd={jsonLd}
+>
+  <AppShell page="home" client:load />
+</BaseLayout>

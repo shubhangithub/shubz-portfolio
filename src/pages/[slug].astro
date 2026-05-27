@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AppShell from "../components/pages/AppShell.tsx";
+import { POSTS } from "../data/posts";
+
+export async function getStaticPaths() {
+  return POSTS.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+const jsonLd: Record<string, unknown> = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: post.title,
+  description: post.dek,
+  inLanguage: "en-GB",
+  author: { "@type": "Person", name: "Shubhangi Sharma", url: "https://shubzsharma.com" },
+  publisher: { "@type": "Person", name: "Shubhangi Sharma" },
+  url: `https://shubzsharma.com/${post.slug}/`,
+  mainEntityOfPage: `https://shubzsharma.com/${post.slug}/`,
+  image: `https://shubzsharma.com/og/${post.slug}.svg`,
+};
+
+if (post.publishedAt) {
+  jsonLd.datePublished = post.publishedAt;
+  jsonLd.dateModified = post.updatedAt ?? post.publishedAt;
+}
+---
+
+<BaseLayout
+  title={post.title}
+  description={post.dek}
+  canonicalPath={`/${post.slug}/`}
+  ogType="article"
+  ogImage={`/og/${post.slug}.svg`}
+  publishedTime={post.publishedAt}
+  jsonLd={jsonLd}
+>
+  <AppShell page="essay" slug={post.slug} client:load />
+</BaseLayout>

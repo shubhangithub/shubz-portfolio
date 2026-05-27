@@ -1,0 +1,34 @@
+{
+  "name": "personal-site",
+  "type": "module",
+  "private": true,
+  "description": "shubzsharma.com — personal site (Astro + React islands).",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "typecheck": "astro check",
+    "export:md": "node scripts/export-markdown.js",
+    "export:figures": "node scripts/capture-figures.js",
+    "export:all": "node scripts/export-markdown.js && node scripts/capture-figures.js"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.0.0",
+    "@astrojs/react": "^4.0.0",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.2.0",
+    "astro": "^5.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-github-calendar": "^5.0.6"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "puppeteer": "^23.0.0",
+    "typescript": "^5.6.0"
+  }
+}
