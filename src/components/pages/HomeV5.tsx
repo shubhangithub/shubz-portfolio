@@ -131,6 +131,20 @@ export function HomeV5({
         gap: isMobile ? 36 : 56,
       }}>
         <main id="main" tabIndex={-1}>
+          {/* MOBILE-ONLY portrait. Sits above the hero on phones so visitors
+              get the face-first identity anchor; on desktop the rail version
+              (further down in <aside>) is used instead. */}
+          {isMobile && (
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 28, position: "relative" }}>
+              <div style={{ position: "relative" }}>
+                <NBThumb t={t} accent={t.orange} label="shubz" alt="Portrait of Shubhangi Sharma" w={150} h={150} tilt={2} src="/contact-portrait.jpg" />
+                <div style={{ position: "absolute", top: -6, right: 14 }}>
+                  <NBThumbtack color={t.orange} ink={t.ink} size={14} />
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* TITLE PAGE — hero H1 + bio + marginalia. All copy lives in
               src/data/home.ts (HERO_LINE_A, HERO_LINE_B, BIO, HOME_MARGINALIA). */}
           <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 32, position: "relative" }}>
@@ -446,18 +460,20 @@ export function HomeV5({
 
         </main>
 
-        {/* RIGHT RAIL — portrait polaroid + cat .now + Lotka figure + contact slip. */}
+        {/* RIGHT RAIL — cat .now + Lotka figure + contact slip. (Portrait
+            polaroid lives above the hero on mobile — see the isMobile block
+            in <main>; on desktop it sits at the top of this rail.) */}
         <aside>
-          {/* Small portrait polaroid — identity anchor at the top of the rail.
-              Reuses the same JPG as /contact (public/contact-portrait.jpg). */}
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: 24, position: "relative" }}>
-            <div style={{ position: "relative" }}>
-              <NBThumb t={t} accent={t.orange} label="shubz" alt="Portrait of Shubhangi Sharma" w={130} h={130} tilt={2} src="/contact-portrait.jpg" />
-              <div style={{ position: "absolute", top: -6, right: 14 }}>
-                <NBThumbtack color={t.orange} ink={t.ink} size={14} />
+          {!isMobile && (
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 24, position: "relative" }}>
+              <div style={{ position: "relative" }}>
+                <NBThumb t={t} accent={t.orange} label="shubz" alt="Portrait of Shubhangi Sharma" w={130} h={130} tilt={2} src="/contact-portrait.jpg" />
+                <div style={{ position: "absolute", top: -6, right: 14 }}>
+                  <NBThumbtack color={t.orange} ink={t.ink} size={14} />
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           <NBPrompt t={t} cwd="~/home" cmd="cat .now" comment="live · autoplay" accent={t.orange} />
           <NBMiniTerm t={t} accent={t.orange} />
