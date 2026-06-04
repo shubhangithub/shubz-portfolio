@@ -85,7 +85,7 @@ export function ContactV5({
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
     >
-      <NBLastUpdated t={t} label={CONTACT_LAST_UPDATED_LABEL} date={CONTACT_LAST_UPDATED_DATE} accent={t.orange} />
+      <NBLastUpdated t={t} label={CONTACT_LAST_UPDATED_LABEL} date={CONTACT_LAST_UPDATED_DATE} accent={t.orange} cwd="~/contact" cmd="mail -h" comment="how to reach me" />
 
       <div style={{
         padding: PAGE_PAD,
@@ -96,8 +96,6 @@ export function ContactV5({
         <main id="main" tabIndex={-1}>
           {/* Title */}
           <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 32, position: "relative" }}>
-            {/* Contact page title prompt → Outreach (orange). */}
-            <NBPrompt t={t} cwd="~/contact" cmd="mail -h" comment="how to reach me" accent={t.orange} />
             <h1 style={{
               fontFamily: "var(--f-display)",
               fontVariationSettings: '"opsz" 144, "SOFT" 50',

@@ -122,7 +122,7 @@ export function HomeV5({
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
     >
-      <NBLastUpdated t={t} label={HOME_LAST_UPDATED_LABEL} date={HOME_LAST_UPDATED_DATE} accent={t.yellow} />
+      <NBLastUpdated t={t} label={HOME_LAST_UPDATED_LABEL} date={HOME_LAST_UPDATED_DATE} accent={t.yellow} cwd="~/home" cmd="cat ./about.md" comment="who, what, where" />
 
       <div style={{
         padding: PAGE_PAD,
@@ -148,7 +148,6 @@ export function HomeV5({
           {/* TITLE PAGE — hero H1 + bio + marginalia. All copy lives in
               src/data/home.ts (HERO_LINE_A, HERO_LINE_B, BIO, HOME_MARGINALIA). */}
           <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 32, position: "relative" }}>
-            <NBPrompt t={t} cwd="~/home" cmd="cat ./about.md" comment="who, what, where" accent={t.orange} />
             <h1 style={{
               fontFamily: "var(--f-display)",
               fontVariationSettings: '"opsz" 144, "SOFT" 50',

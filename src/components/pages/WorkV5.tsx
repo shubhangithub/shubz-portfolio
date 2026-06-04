@@ -77,7 +77,7 @@ export function WorkV5({
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
     >
-      <NBLastUpdated t={t} label={WORK_LAST_UPDATED_LABEL} date={WORK_LAST_UPDATED_DATE} accent={t.yellow} />
+      <NBLastUpdated t={t} label={WORK_LAST_UPDATED_LABEL} date={WORK_LAST_UPDATED_DATE} accent={t.yellow} cwd="~/work" cmd="cat ./cv.md" comment="annotated · chronological reverse" />
 
       <div style={{
         padding: PAGE_PAD,
@@ -88,8 +88,6 @@ export function WorkV5({
         <main id="main" tabIndex={-1}>
           {/* Title */}
           <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 32, position: "relative" }}>
-            {/* CV header = body-of-work meta → Infra & craft (yellow). */}
-            <NBPrompt t={t} cwd="~/work" cmd="cat ./cv.md" comment="annotated · chronological reverse" accent={t.yellow} />
             <h1 style={{
               fontFamily: "var(--f-display)",
               fontVariationSettings: '"opsz" 144, "SOFT" 50',

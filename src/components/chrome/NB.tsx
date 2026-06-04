@@ -166,13 +166,17 @@ export function NBLastUpdated({
   label = "NOTEBOOK",
   date = "26 may 2026",
   accent,
+  cwd,
+  cmd,
+  comment,
 }: {
   t: any;
   label?: string;
   date?: string;
-  /** V5 canonical: pass the page's primary topic colour (see DECISIONS-v5.md §14).
-   *  Defaults to yellow (Infrastructure & craft) — stamps are meta-site info. */
   accent?: string;
+  cwd?: string;
+  cmd?: string;
+  comment?: string;
 }) {
   const isMobile = useIsMobile();
   const stampColour = accent || t.yellow;
@@ -183,7 +187,16 @@ export function NBLastUpdated({
       fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted,
       letterSpacing: "0.04em", gap: 12, flexWrap: "wrap",
     }}>
-      <span style={{ color: t.prompt }}>●</span>
+      <span style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
+        <span style={{ color: t.prompt }}>●</span>
+        {cmd && <>
+          <span style={{ color: t.prompt }}>shubz@orion</span>
+          {cwd && <span style={{ color: t.muted }}>{cwd}</span>}
+          <span style={{ color: accent || t.blue }}>%</span>
+          <span style={{ color: t.ink }}>{cmd}</span>
+          {comment && <span style={{ color: t.muted }}># {comment}</span>}
+        </>}
+      </span>
       <span style={{
         padding: "4px 10px", border: `1.5px dashed ${t.muted}`, fontSize: 11,
         transform: "rotate(-1.2deg)", color: stampColour,
