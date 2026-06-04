@@ -471,28 +471,28 @@ export function HomeV5({
             </div>
           )}
 
-          <NBPrompt t={t} cwd="~/home" cmd="cat .now" accent={t.orange} />
-          <NBMiniTerm t={t} accent={t.orange} limit={2} />
+          <NBPrompt t={t} cwd="~/figures" cmd="./figures/jun.sh" accent={t.red} />
+          <div style={{
+            border: `2px solid ${t.ink}`,
+            padding: 16,
+            background: t.bgCard,
+            position: "relative",
+            overflow: "hidden",
+          }}>
+            <NBThumbtack color={t.red} ink={t.ink} />
+            <span style={{ fontFamily: "var(--f-display)", fontStyle: "italic", fontSize: 16, color: t.ink }}>{HOME_FIG_LABEL}</span>
+            <div style={{ marginTop: 10 }}>
+              <NotebookRD w={isMobile ? 240 : 290} h={isMobile ? 174 : 210} ink={t.ink} accent={t.red} paper={t.paper} muted={t.muted} />
+            </div>
+            <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, display: "flex", justifyContent: "space-between", marginTop: 8 }}>
+              <span>{HOME_FIG_CAPTION}</span>
+              <a href="/turing-morphogenesis/" onClick={(e) => { e.preventDefault(); onNavigate("essay", "turing-morphogenesis"); }} style={{ color: t.red, textDecoration: "none" }}>{HOME_FIG_LINK_TEXT}</a>
+            </div>
+          </div>
 
           <div style={{ marginTop: 28 }}>
-            <NBPrompt t={t} cwd="~/figures" cmd="./figures/jun.sh" accent={t.red} />
-            <div style={{
-              border: `2px solid ${t.ink}`,
-              padding: 16,
-              background: t.bgCard,
-              position: "relative",
-              overflow: "hidden",
-            }}>
-              <NBThumbtack color={t.red} ink={t.ink} />
-              <span style={{ fontFamily: "var(--f-display)", fontStyle: "italic", fontSize: 16, color: t.ink }}>{HOME_FIG_LABEL}</span>
-              <div style={{ marginTop: 10 }}>
-                <NotebookRD w={isMobile ? 240 : 290} h={isMobile ? 174 : 210} ink={t.ink} accent={t.red} paper={t.paper} muted={t.muted} />
-              </div>
-              <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, display: "flex", justifyContent: "space-between", marginTop: 8 }}>
-                <span>{HOME_FIG_CAPTION}</span>
-                <a href="/turing-morphogenesis/" onClick={(e) => { e.preventDefault(); onNavigate("essay", "turing-morphogenesis"); }} style={{ color: t.red, textDecoration: "none" }}>{HOME_FIG_LINK_TEXT}</a>
-              </div>
-            </div>
+            <NBPrompt t={t} cwd="~/home" cmd="cat .now" accent={t.orange} />
+            <NBMiniTerm t={t} accent={t.orange} limit={2} />
           </div>
 
           {/* Contact slip — orange (communication/outreach). */}
