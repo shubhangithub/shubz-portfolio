@@ -207,7 +207,7 @@ export function ContactV5({
           </div>
 
           {/* Protocol pre block → Outreach (orange). */}
-          <NBPrompt t={t} cwd="~/contact" cmd="cat .protocol" comment="how I read mail" accent={t.orange} />
+          <NBPrompt t={t} cwd="~/contact" cmd="cat .protocol" accent={t.orange} />
           {/* Protocol pre — data from CONTACT_PROTOCOL. JSON syntax
               highlighting is an explicit exception (DECISIONS-v5.md §14). */}
           <pre style={{
@@ -227,7 +227,7 @@ export function ContactV5({
           {/* Open-to block — moved here from /work. It's a communication
               preference (who I'd love to hear from), not a CV item. */}
           <div style={{ marginTop: 28 }}>
-            <NBPrompt t={t} cwd="~/contact" cmd="cat ./open-to.md" comment="collab" accent={t.orange} />
+            <NBPrompt t={t} cwd="~/contact" cmd="cat ./open-to.md" accent={t.orange} />
             <div style={{
               background: t.paper2, border: `1px solid ${t.rule}`,
               padding: "14px 16px", borderRadius: 3,
