@@ -49,7 +49,7 @@ export const WORK_MARGINALIA = {
 };
 
 export const WORK_LAST_UPDATED_LABEL = "WORK · CV WITH MARGINALIA";
-export const WORK_LAST_UPDATED_DATE = "26 may 2026";
+export const WORK_LAST_UPDATED_DATE = "4 jun 2026";
 
 // ---------------------------------------------------------------------------
 // §02 TRAJECTORY — career timeline, most-recent-first
@@ -308,7 +308,7 @@ export const WORK_SPEAKING: SpeakingEntry[] = [
 export const WORK_CV_STAT = {
   filename: "cv.pdf",
   span: "2019 — now",
-  updatedDisplay: "26/05/2026",
+  updatedDisplay: "04/06/2026",
   openText: "↗ open pdf",
   /** Sections shown on this /work page. Listed in the right-rail stat
    *  block so a visitor scanning the CV knows what's covered without

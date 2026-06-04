@@ -65,7 +65,7 @@ export function Figure({ children, caption, palette: p }) {
 
       {/* content area */}
       <div style={{
-        background: `color-mix(in oklch, ${p.paper} 88%, #000000)`,
+        background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})`,
         padding: "1.4rem",
         border: `1px solid color-mix(in oklch, ${p.line} 80%, #28CA41)`,
         borderTop: "none",

@@ -161,7 +161,7 @@ export const POSTS: Post[] = [
     slug: "turing-morphogenesis",
     title: "Turing's last equation · June '26",
     kicker: "Note · Mathematical biology",
-    dek: "How diffusion — usually a smoothing force — can write a pattern from nothing.",
+    dek: "How diffusion, usually a smoothing force, can write a pattern from nothing.",
     minutes: 8,
     illustration: "wave",
     cardBg: "#EAE8F0",

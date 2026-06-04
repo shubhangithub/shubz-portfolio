@@ -27,7 +27,7 @@ export const CONTACT_MARGINALIA = {
 };
 
 export const CONTACT_LAST_UPDATED_LABEL = "CONTACT · CHANNELS + COMPOSE";
-export const CONTACT_LAST_UPDATED_DATE = "26 may 2026";
+export const CONTACT_LAST_UPDATED_DATE = "4 jun 2026";
 
 // ---------------------------------------------------------------------------
 // §02 CHANNELS

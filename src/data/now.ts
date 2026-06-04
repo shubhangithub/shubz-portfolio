@@ -38,7 +38,7 @@ export const NOW_MARGINALIA = {
 };
 
 export const NOW_LAST_UPDATED_LABEL = "NOW · WEEKLY-ISH SNAPSHOT";
-export const NOW_LAST_UPDATED_DATE = "26 may 2026";
+export const NOW_LAST_UPDATED_DATE = "4 jun 2026";
 
 export const NOW_CADENCE_LABEL = "weekly-ish";
 
