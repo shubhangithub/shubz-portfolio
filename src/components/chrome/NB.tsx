@@ -166,13 +166,17 @@ export function NBLastUpdated({
   label = "NOTEBOOK",
   date = "26 may 2026",
   accent,
+  cwd,
+  cmd,
+  comment,
 }: {
   t: any;
   label?: string;
   date?: string;
-  /** V5 canonical: pass the page's primary topic colour (see DECISIONS-v5.md §14).
-   *  Defaults to yellow (Infrastructure & craft) — stamps are meta-site info. */
   accent?: string;
+  cwd?: string;
+  cmd?: string;
+  comment?: string;
 }) {
   const isMobile = useIsMobile();
   const stampColour = accent || t.yellow;
@@ -183,7 +187,16 @@ export function NBLastUpdated({
       fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted,
       letterSpacing: "0.04em", gap: 12, flexWrap: "wrap",
     }}>
-      <span><span style={{ color: t.prompt, marginRight: 8 }}>●</span>SHUBZ SHARMA · {label}</span>
+      <span style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
+        <span style={{ color: t.prompt }}>●</span>
+        {cmd && <>
+          <span style={{ color: t.prompt }}>shubz@orion</span>
+          {cwd && <span style={{ color: t.muted }}>{cwd}</span>}
+          <span style={{ color: accent || t.blue }}>%</span>
+          <span style={{ color: t.ink }}>{cmd}</span>
+          {comment && <span style={{ color: t.muted }}># {comment}</span>}
+        </>}
+      </span>
       <span style={{
         padding: "4px 10px", border: `1.5px dashed ${t.muted}`, fontSize: 11,
         transform: "rotate(-1.2deg)", color: stampColour,
@@ -414,6 +427,7 @@ export function NBMiniTerm({
   t,
   accent,
   lines = null,
+  limit,
   autoplaySec = 5,
   cwd = "~/home",
   cmd = "cat .now",
@@ -421,6 +435,7 @@ export function NBMiniTerm({
   t: any;
   accent: string;
   lines?: MiniLine[] | null;
+  limit?: number;
   autoplaySec?: number;
   cwd?: string;
   cmd?: string;
@@ -428,16 +443,16 @@ export function NBMiniTerm({
   // Build from JOURNAL if no explicit lines provided. Cycle accent colours
   // so each entry gets a stable colour in the streaming readout.
   const allLines: MiniLine[] = React.useMemo(() => {
-    if (lines) return lines;
     const palette = ["prompt", "teal", "ochre", "magenta", "purple", "red"];
-    return JOURNAL.map((j: any, i: number) => {
+    const src = lines ?? JOURNAL.map((j: any, i: number) => {
       // YYYY-MM → "mon yy"
       const months = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
       const [yr, mo] = (j.date || "").split("-");
       const d = mo && yr ? `${months[Number(mo) - 1]} ${yr.slice(-2)}` : (j.date || "—");
       return { d, c: t[palette[i % palette.length]] || t.ink, txt: j.note };
     });
-  }, [lines, t]);
+    return limit ? src.slice(0, limit) : src;
+  }, [lines, limit, t]);
 
   const [shown, setShown] = React.useState(1);
   const [playing, setPlaying] = React.useState(true);
