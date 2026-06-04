@@ -53,14 +53,14 @@ export default function AppShell({
   page: PageKey;
   slug?: string | null;
 }) {
-  // Dark-mode state. Pre-paint script in BaseLayout already sets
-  // document.documentElement.dataset.theme = "dark" if needed; we read it
-  // back here so SSR vs hydration agree once JS runs.
-  const [dark, setDark] = useState(false);
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-    setDark(document.documentElement.dataset.theme === "dark");
-  }, []);
+  // Dark-mode state. Pre-paint script in BaseLayout sets dataset.theme = "dark"
+  // synchronously before React loads. Read it in the lazy initializer so the
+  // FIRST render already uses the correct palette — avoids the 600ms body
+  // background transition from cream → navy that was visible in Safari.
+  const [dark, setDark] = useState<boolean>(() => {
+    if (typeof document === "undefined") return false; // SSR fallback
+    return document.documentElement.dataset.theme === "dark";
+  });
   const toggleTheme = useCallback(() => {
     setDark((d) => {
       const next = !d;
