@@ -33,6 +33,20 @@ export function essayMeta(slug) {
       ],
       sidenotes: 5,
     },
+    "turing-morphogenesis": {
+      tags: "mathematical biology, reaction-diffusion, morphogenesis",
+      toc: ["Header", "Lede", "What the figure shows", "The condition", "Does it actually happen", "For Alan Turing"],
+      sources: [
+        ['[1] Turing, A.M. (1952). ', '"The Chemical Basis of Morphogenesis." Phil. Trans. R. Soc. Lond. B 237(641):37–72.'],
+        ['[2] Castets, V., Dulos, E., Boissonade, J. & De Kepper, P. (1990). ', '"Experimental evidence of a sustained standing Turing-type nonequilibrium chemical pattern." Phys. Rev. Lett. 64(24):2953–2956.'],
+        ['[3] Kondo, S. & Asai, R. (1995). ', '"A reaction-diffusion wave on the skin of the marine angelfish Pomacanthus." Nature 376:765–768.'],
+        ['[4] Nakamasu, A. et al. (2009). ', '"Interactions between zebrafish pigment cells responsible for the generation of Turing patterns." PNAS 106(21):8429–8434.'],
+        ['[5] Sick, S. et al. (2006). ', '"WNT and DKK determine hair follicle spacing through a reaction-diffusion mechanism." Science 314(5804):1447–1450.'],
+        ['[6] Gierer, A. & Meinhardt, H. (1972). ', '"A theory of biological pattern formation." Kybernetik 12:30–39.'],
+        ['[7] Gray, P. & Scott, S.K. (1983–84). ', 'Chem. Eng. Sci. 38(1):29–43 and 39(6):1087–1097.'],
+      ],
+      sidenotes: 7,
+    },
     "may-2026": {
       tags: "mathematical ecology, ODE, predator–prey",
       toc: ["Header", "Lede", "What the sliders teach", "For Robert May"],

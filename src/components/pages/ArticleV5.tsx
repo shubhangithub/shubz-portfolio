@@ -19,7 +19,7 @@ import { nbTheme } from "../../data/palette";
 import { useIsMobile } from "../../lib/hooks";
 import {
   BluedotEssay, ConstraintClusterEssay, DraftEssay, FashionEssay, JayaEssay,
-  MayEssay, SixEnginesEssay, ThresholdEssay, ZXEssay, essayMeta,
+  MayEssay, SixEnginesEssay, ThresholdEssay, TuringEssay, ZXEssay, essayMeta,
 } from "../legacy";
 import {
   NBPageShell, NBLastUpdated, NBPrompt, NBThumb, NBThumbtack,
@@ -35,6 +35,7 @@ function essayBodyFor(slug: string) {
     case "six-engines":           return SixEnginesEssay;
     case "fashion-trends":        return FashionEssay;
     case "may-2026":              return MayEssay;
+    case "turing-morphogenesis":  return TuringEssay;
     case "bluedot-unit1":         return BluedotEssay;
     case "zx-calculus":           return ZXEssay;
     default:                      return DraftEssay;

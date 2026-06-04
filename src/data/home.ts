@@ -180,16 +180,16 @@ export const HOME_CONTACT_ROWS: ContactRow[] = [
 // ---------------------------------------------------------------------------
 // MISC strings shown around the home page (small, but here for easy edit)
 // ---------------------------------------------------------------------------
-export const HOME_FIG_LABEL = "fig. 01 — predator/prey";
-export const HOME_FIG_CAPTION = "lotka–volterra · may '26";
-export const HOME_FIG_LINK_TEXT = "see the math →";
+export const HOME_FIG_LABEL = "fig. 01 — morphogen field";
+export const HOME_FIG_CAPTION = "gray–scott · june '26";
+export const HOME_FIG_LINK_TEXT = "see the equations →";
 
 export const HOME_PINNED_LABEL = "§03  PINNED · FEATURED WRITING";
 export const HOME_PINNED_COMMENT = "3 open on the desk";
 export const HOME_VIEW_ALL_TEXT = (count: number) => `all ${count} essays →`;
 
 export const HOME_LAST_UPDATED_LABEL = "NOTEBOOK";
-export const HOME_LAST_UPDATED_DATE = "26 may 2026";
+export const HOME_LAST_UPDATED_DATE = "23 jun 2026";
 
 export const HOME_CONTACT_HEADER = "contact —";
 export const HOME_ANNOTATED_CV_LINK = "annotated cv →";

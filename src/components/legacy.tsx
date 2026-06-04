@@ -36,10 +36,11 @@ import { ConstraintClusterEssay } from './essays/ConstraintClusterEssay';
 import { SixEnginesEssay } from './essays/SixEnginesEssay';
 import { FashionEssay } from './essays/FashionEssay';
 import { MayEssay } from './essays/MayEssay';
+import { TuringEssay } from './essays/TuringEssay';
 import { BluedotEssay } from './essays/BluedotEssay';
 import { ZXEssay } from './essays/ZXEssay';
 import { DraftEssay } from './essays/DraftEssay';
-export { JayaEssay, ThresholdEssay, ConstraintClusterEssay, SixEnginesEssay, FashionEssay, MayEssay, BluedotEssay, ZXEssay, DraftEssay };
+export { JayaEssay, ThresholdEssay, ConstraintClusterEssay, SixEnginesEssay, FashionEssay, MayEssay, TuringEssay, BluedotEssay, ZXEssay, DraftEssay };
 
 // Diagrams were extracted into src/components/diagrams/<Name>.tsx.
 // Imported here so cross-references inside legacy.tsx still resolve, and
