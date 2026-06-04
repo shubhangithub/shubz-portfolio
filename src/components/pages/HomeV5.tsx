@@ -292,6 +292,11 @@ export function HomeV5({
                 fontSize={isMobile ? 10 : 11}
                 hideColorLegend
                 style={{ color: t.muted, fontFamily: "var(--f-mono)" }}
+                transformData={(data) => {
+                  const cutoff = new Date();
+                  cutoff.setMonth(cutoff.getMonth() - 6);
+                  return data.filter(d => new Date(d.date) >= cutoff);
+                }}
               />
             </div>
           </div>
