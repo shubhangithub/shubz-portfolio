@@ -25,7 +25,6 @@ import {
   HERO_LINE_A, HERO_LINE_B, BIO, HOME_MARGINALIA,
   HOME_BUILDS, HOME_TOOLBOX, HOME_CONTACT_ROWS,
   HOME_FIG_LABEL, HOME_FIG_CAPTION, HOME_FIG_LINK_TEXT,
-  HOME_PINNED_LABEL, HOME_PINNED_COMMENT, HOME_VIEW_ALL_TEXT,
   HOME_LAST_UPDATED_LABEL, HOME_LAST_UPDATED_DATE,
   HOME_CONTACT_HEADER, HOME_ANNOTATED_CV_LINK,
   HOME_TOOLBOX_SEE_ALL, TOOLBOX_TEASER, TOOLBOX_TEASER_PATH,
@@ -102,14 +101,6 @@ export function HomeV5({
     }
   }, [t.paper]);
 
-  // Pin first 3 essays from POSTS. Each gets its theme-resolved accent
-  // + a shortened kicker for the row metadata line.
-  const pinned = POSTS.slice(0, 3).map((post, i) => {
-    const accentKey = post.nbAccent || "blue";
-    const c = t[accentKey];
-    const kicker = (post.kicker || "").replace(/^(Essay|Note)\s*·\s*/i, "").toLowerCase();
-    return { ...post, c, kicker, pin: String(i + 1).padStart(2, "0") };
-  });
 
   const PAGE_PAD = isMobile ? "16px 20px 0" : "20px 64px 0";
 
@@ -299,43 +290,6 @@ export function HomeV5({
               />
             </div>
           </div>
-
-          {/* §03 PINNED WRITING — first 3 from POSTS. */}
-          <NBPrompt t={t} cmd="ls ./writing/pinned/" comment={HOME_PINNED_COMMENT} accent={t.yellow} />
-          <div className="caps" style={{ fontFamily: "var(--f-ui)", color: t.muted, fontSize: 11, marginBottom: 14, letterSpacing: "0.16em", display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
-            <h2 style={{ margin: 0, fontFamily: "inherit", fontSize: "inherit", letterSpacing: "inherit", color: "inherit", fontWeight: "inherit", textTransform: "inherit" }}>
-              <span style={{ color: t.prompt }}>§03</span>&nbsp;&nbsp;{HOME_PINNED_LABEL.replace(/^§(02|03)\s*/, "")}
-            </h2>
-            <a href="/writing/" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} style={{ color: t.blue, fontFamily: "var(--f-mono)", textDecoration: "none" }}>{HOME_VIEW_ALL_TEXT(POSTS.length)}</a>
-          </div>
-          <ol style={{ listStyle: "none", padding: 0, margin: "0 0 44px" }}>
-            {pinned.map((e, i, arr) => (
-              <li key={e.slug} style={{
-                display: "grid",
-                gridTemplateColumns: isMobile ? "auto 1fr auto" : "auto 1fr auto auto",
-                gap: isMobile ? 14 : 22,
-                alignItems: "center",
-                padding: "22px 0",
-                borderBottom: i === arr.length - 1 ? "none" : `1px dashed ${t.muted}66`,
-                transform: i % 2 ? "translateX(0)" : "translateX(2px)",
-              }}>
-                <NBThumbtack color={e.c} ink={t.ink} size={18} />
-                <a href={`/${e.slug}/`} onClick={(ev) => { ev.preventDefault(); onNavigate("essay", e.slug); }} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
-                  <span style={{ fontFamily: "var(--f-display)", fontSize: isMobile ? 24 : 32, color: e.c, fontVariationSettings: '"opsz" 144, "SOFT" 50', lineHeight: 1.1, display: "block" }}>{e.title}</span>
-                  <span style={{ display: "block", fontFamily: "var(--f-body)", fontStyle: "italic", color: t.softInk, fontSize: 15, marginTop: 6, maxWidth: "44ch", lineHeight: 1.5 }}>
-                    {e.dek}
-                  </span>
-                  <span style={{ display: "block", fontFamily: "var(--f-mono)", color: t.muted, fontSize: 11, marginTop: 8 }}>
-                    no.{e.pin} · {e.kicker} · {e.minutes}m
-                  </span>
-                </a>
-                {!isMobile && (
-                  <NBThumb t={t} accent={e.c} label={e.kicker.split(/[\s&]+/)[0]} alt={`Thumbnail for ${e.title}`} tilt={i % 2 === 0 ? -2 : 2.2} w={130} h={96} src={thumbUrlFor(e.slug)} />
-                )}
-                <a href={`/${e.slug}/`} onClick={(ev) => { ev.preventDefault(); onNavigate("essay", e.slug); }} style={{ fontFamily: "var(--f-mono)", color: e.c, fontSize: 12, textDecoration: "none", whiteSpace: "nowrap" }}>↗ read</a>
-              </li>
-            ))}
-          </ol>
 
           {/* §04 BUILDS — HOME_BUILDS list. */}
           <NBPrompt t={t} cmd="cat ./builds.md" comment="selected" accent={t.orange} />
