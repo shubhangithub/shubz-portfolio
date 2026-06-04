@@ -154,7 +154,7 @@ export function BluedotEssay({ palette: p }) {
       <p>And the 'we' is small. The bottleneck isn't ideas — this unit is full of good ones. It's the organisations that make safety commitments sticky, that get governance in place before the capability arrives, that hold the plural competition Toner describes together without letting it slide into the instability RAND warns against. The safety labs, policy institutes, international bodies, and cohort programmes being built now — BlueDot's among them — are the first serious attempt to close that gap. They're early. That's the point.</p>
 
       {/* ── CREDITS ── */}
-      <div style={{ marginTop: "3rem", padding: "1.2rem 1.4rem", border: `1px solid ${p.line}`, background: `color-mix(in oklch, ${p.paper} 88%, ${p.ink})`, borderRadius: 3 }}>
+      <div style={{ marginTop: "3rem", padding: "1.2rem 1.4rem", border: `1px solid ${p.line}`, background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})`, borderRadius: 3 }}>
         <div className="caps mono" style={{ fontSize: 10, color: p.muted, letterSpacing: "0.1em", marginBottom: "0.8rem" }}>Acknowledgements &amp; readings</div>
         <p style={{ fontSize: "0.88rem", lineHeight: 1.65, color: p.muted, margin: "0 0 0.7rem" }}>
           This essay was written as part of <strong style={{ color: p.ink }}>BlueDot Impact's AGI Strategy cohort</strong> (2026). The synthesis is my own; any errors in characterising the readings are mine. I am grateful to the cohort facilitators and fellow participants whose discussions sharpened several of the arguments here.

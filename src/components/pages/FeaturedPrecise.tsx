@@ -22,7 +22,7 @@ export function FeaturedPrecise({ post, palette: p, onNavigate }) {
           <span>last revised · 2026.04</span>
         </div>
       </div>
-      <div style={{ gridColumn: "10 / span 3", border: `1px solid ${p.line}`, padding: "0.8rem", aspectRatio: "1 / 1", display: "grid", placeItems: "center", background: `color-mix(in oklch, ${p.paper} 85%, ${p.ink})` }}>
+      <div style={{ gridColumn: "10 / span 3", border: `1px solid ${p.line}`, padding: "0.8rem", aspectRatio: "1 / 1", display: "grid", placeItems: "center", background: `color-mix(in srgb, ${p.paper} 85%, ${p.ink})` }}>
         <FourierMotif shape={post.illustration === "skate" ? "skate" : (post.illustration === "protocol" ? "wave" : "hex")} size={180} density={hover ? 30 : 18} strokeColor={p.accent} trailColor={`color-mix(in oklch, ${p.accent} 50%, transparent)`} epicycleColor={`color-mix(in oklch, ${p.ink} 8%, transparent)`} />
       </div>
     </a>

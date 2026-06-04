@@ -37,7 +37,7 @@ export function ZXEssay({ palette: p }) {
 
       <p>There are two generators. The <strong>Z-spider</strong> (drawn green) with <span className="mono">n</span> input wires, <span className="mono">m</span> output wires, and a phase <span className="mono">α</span> represents the linear map:</p>
 
-      <p style={{ textAlign: "center", margin: "1.4rem 0", fontFamily: "var(--f-mono)", fontSize: "0.9rem", color: p.ink, padding: "0.8rem 1rem", border: `1px dashed ${p.line}`, background: `color-mix(in oklch, ${p.paper} 80%, ${p.ink})` }}>
+      <p style={{ textAlign: "center", margin: "1.4rem 0", fontFamily: "var(--f-mono)", fontSize: "0.9rem", color: p.ink, padding: "0.8rem 1rem", border: `1px dashed ${p.line}`, background: `color-mix(in srgb, ${p.paper} 80%, ${p.ink})` }}>
         |0⟩<sup>⊗m</sup>⟨0|<sup>⊗n</sup> + e<sup>iα</sup>|1⟩<sup>⊗m</sup>⟨1|<sup>⊗n</sup>
       </p>
 
