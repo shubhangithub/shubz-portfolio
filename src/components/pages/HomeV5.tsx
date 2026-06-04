@@ -481,7 +481,7 @@ export function HomeV5({
           )}
 
           <NBPrompt t={t} cwd="~/home" cmd="cat .now" comment="live · autoplay" accent={t.orange} />
-          <NBMiniTerm t={t} accent={t.orange} />
+          <NBMiniTerm t={t} accent={t.orange} limit={2} />
 
           <div style={{ marginTop: 28 }}>
             <NBPrompt t={t} cwd="~/figures" cmd="./figures/jun.sh" accent={t.red} />

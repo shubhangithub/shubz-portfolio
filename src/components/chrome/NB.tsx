@@ -414,6 +414,7 @@ export function NBMiniTerm({
   t,
   accent,
   lines = null,
+  limit,
   autoplaySec = 5,
   cwd = "~/home",
   cmd = "cat .now",
@@ -421,6 +422,7 @@ export function NBMiniTerm({
   t: any;
   accent: string;
   lines?: MiniLine[] | null;
+  limit?: number;
   autoplaySec?: number;
   cwd?: string;
   cmd?: string;
@@ -428,16 +430,16 @@ export function NBMiniTerm({
   // Build from JOURNAL if no explicit lines provided. Cycle accent colours
   // so each entry gets a stable colour in the streaming readout.
   const allLines: MiniLine[] = React.useMemo(() => {
-    if (lines) return lines;
     const palette = ["prompt", "teal", "ochre", "magenta", "purple", "red"];
-    return JOURNAL.map((j: any, i: number) => {
+    const src = lines ?? JOURNAL.map((j: any, i: number) => {
       // YYYY-MM → "mon yy"
       const months = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
       const [yr, mo] = (j.date || "").split("-");
       const d = mo && yr ? `${months[Number(mo) - 1]} ${yr.slice(-2)}` : (j.date || "—");
       return { d, c: t[palette[i % palette.length]] || t.ink, txt: j.note };
     });
-  }, [lines, t]);
+    return limit ? src.slice(0, limit) : src;
+  }, [lines, limit, t]);
 
   const [shown, setShown] = React.useState(1);
   const [playing, setPlaying] = React.useState(true);
