@@ -183,7 +183,7 @@ export function NBLastUpdated({
       fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted,
       letterSpacing: "0.04em", gap: 12, flexWrap: "wrap",
     }}>
-      <span><span style={{ color: t.prompt, marginRight: 8 }}>●</span>SHUBZ SHARMA · {label}</span>
+      <span style={{ color: t.prompt }}>●</span>
       <span style={{
         padding: "4px 10px", border: `1.5px dashed ${t.muted}`, fontSize: 11,
         transform: "rotate(-1.2deg)", color: stampColour,
