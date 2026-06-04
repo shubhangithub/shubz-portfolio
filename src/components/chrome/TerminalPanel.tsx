@@ -36,7 +36,7 @@ export function TerminalPanel({ label, rows, palette: p }) {
       </div>
       {/* content */}
       <div style={{
-        background: `color-mix(in oklch, ${p.paper} 88%, #000000)`,
+        background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})`,
         border: `1px solid color-mix(in oklch, ${p.line} 70%, #28CA41)`,
         borderTop: "none",
         borderRadius: "0 0 4px 4px",

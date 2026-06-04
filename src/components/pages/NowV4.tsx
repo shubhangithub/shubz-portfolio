@@ -136,7 +136,7 @@ export function NowV4({ palette: p, onNavigate, setCursorColor, dark, toggleThem
                     {/* content */}
                     <div style={{
                       padding: "0.6rem 0.7rem",
-                      background: `color-mix(in oklch, ${p.paper} 88%, #000000)`,
+                      background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})`,
                       border: `1px solid color-mix(in oklch, ${p.line} 70%, #28CA41)`,
                       borderTop: "none",
                     }}>

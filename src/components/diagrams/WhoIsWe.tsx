@@ -94,7 +94,7 @@ export function WhoIsWe({ palette: p }) {
           color: p.ink,
           padding: "0.6rem 0.7rem",
           border: `1px solid ${p.line}`,
-          background: `color-mix(in oklch, ${p.paper} 88%, ${p.ink})`,
+          background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})`,
           borderRadius: 3,
           minHeight: 90,
         }}>

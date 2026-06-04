@@ -109,7 +109,7 @@ export function ContactV4({ palette: p, onNavigate, setCursorColor, dark, toggle
         </div>
         <div className="v4-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "1.6rem", marginTop: "1rem" }}>
           <div style={{ gridColumn: "3 / span 9" }}>
-            <form onSubmit={handleSubmit} style={{ border: `1px solid ${p.line}`, padding: "1.4rem", background: `color-mix(in oklch, ${p.paper} 85%, ${p.ink})`, fontFamily: "var(--f-ui)" }}>
+            <form onSubmit={handleSubmit} style={{ border: `1px solid ${p.line}`, padding: "1.4rem", background: `color-mix(in srgb, ${p.paper} 85%, ${p.ink})`, fontFamily: "var(--f-ui)" }}>
               <div className="mono caps" style={{ color: p.muted, fontSize: 11, letterSpacing: "0.12em", marginBottom: 12, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: "1rem" }}>
                 <span>To: hello@shubzsharma.com</span>
                 <span></span>

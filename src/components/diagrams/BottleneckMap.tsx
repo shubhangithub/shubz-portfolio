@@ -119,7 +119,7 @@ export function BottleneckMap({ palette: p }) {
         color: hov ? p.ink : p.muted,
         padding: "0.6rem 0.7rem",
         border: `1px solid ${p.line}`,
-        background: `color-mix(in oklch, ${p.paper} 88%, ${p.ink})`,
+        background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})`,
         borderRadius: 3,
         transition: "color 180ms",
       }}>

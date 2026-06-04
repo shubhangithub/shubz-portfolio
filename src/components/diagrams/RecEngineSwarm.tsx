@@ -51,7 +51,7 @@ export function RecEngineSwarm({ palette: p }) {
   return (
     <div className="v4-diagram-pair" style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1rem", alignItems: "start" }}>
       <div style={{ position: "relative" }}>
-        <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 300, background: `color-mix(in oklch, ${p.paper} 88%, ${p.ink})`, border: `1px solid ${p.line}` }}>
+        <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 300, background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})`, border: `1px solid ${p.line}` }}>
           {engines.map(e => {
             if (!enabled[e.id]) return null;
             const ex = cx + Math.cos(e.angle * Math.PI / 180) * radius;
@@ -85,7 +85,7 @@ export function RecEngineSwarm({ palette: p }) {
             </g>
           ))}
         </svg>
-        <div className="mono" style={{ position: "absolute", left: 8, bottom: 8, fontSize: 10, color: hover === null ? p.muted : p.ink, padding: "2px 6px", background: `color-mix(in oklch, ${p.paper} 92%, ${p.ink})`, border: `1px solid ${p.line}`, minWidth: 180 }}>
+        <div className="mono" style={{ position: "absolute", left: 8, bottom: 8, fontSize: 10, color: hover === null ? p.muted : p.ink, padding: "2px 6px", background: `color-mix(in srgb, ${p.paper} 92%, ${p.ink})`, border: `1px solid ${p.line}`, minWidth: 180 }}>
           {hover === null ? "hover a song · click an engine to toggle" : `♪ ${songs[hover].title} · ${votes[hover]}/${engines.filter(e => enabled[e.id]).length} surfaced`}
         </div>
       </div>
