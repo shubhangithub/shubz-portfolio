@@ -18,7 +18,8 @@ import { POSTS, findPost, thumbUrlFor } from "../../data/posts";
 import { nbTheme } from "../../data/palette";
 import { useIsMobile } from "../../lib/hooks";
 import {
-  BluedotEssay, ConstraintClusterEssay, DraftEssay, FashionEssay, JayaEssay,
+  BluedotEssay, BluedotAssumptionsEssay, BluedotVocabularyEssay, BluedotCivilizationEssay, BluedotKillchainEssay,
+  ConstraintClusterEssay, DraftEssay, FashionEssay, JayaEssay,
   MayEssay, SixEnginesEssay, ThresholdEssay, TuringEssay, ZXEssay, essayMeta,
 } from "../legacy";
 import {
@@ -37,6 +38,10 @@ function essayBodyFor(slug: string) {
     case "may-2026":              return MayEssay;
     case "turing-morphogenesis":  return TuringEssay;
     case "bluedot-unit1":         return BluedotEssay;
+    case "bluedot-assumptions":   return BluedotAssumptionsEssay;
+    case "bluedot-vocabulary":    return BluedotVocabularyEssay;
+    case "bluedot-civilization":  return BluedotCivilizationEssay;
+    case "bluedot-killchain":     return BluedotKillchainEssay;
     case "zx-calculus":           return ZXEssay;
     default:                      return DraftEssay;
   }
