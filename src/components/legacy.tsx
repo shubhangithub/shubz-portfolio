@@ -40,7 +40,11 @@ import { TuringEssay } from './essays/TuringEssay';
 import { BluedotEssay } from './essays/BluedotEssay';
 import { ZXEssay } from './essays/ZXEssay';
 import { DraftEssay } from './essays/DraftEssay';
-export { JayaEssay, ThresholdEssay, ConstraintClusterEssay, SixEnginesEssay, FashionEssay, MayEssay, TuringEssay, BluedotEssay, ZXEssay, DraftEssay };
+import { BluedotAssumptionsEssay } from './essays/BluedotAssumptionsEssay';
+import { BluedotVocabularyEssay } from './essays/BluedotVocabularyEssay';
+import { BluedotCivilizationEssay } from './essays/BluedotCivilizationEssay';
+import { BluedotKillchainEssay } from './essays/BluedotKillchainEssay';
+export { JayaEssay, ThresholdEssay, ConstraintClusterEssay, SixEnginesEssay, FashionEssay, MayEssay, TuringEssay, BluedotEssay, ZXEssay, DraftEssay, BluedotAssumptionsEssay, BluedotVocabularyEssay, BluedotCivilizationEssay, BluedotKillchainEssay };
 
 // Diagrams were extracted into src/components/diagrams/<Name>.tsx.
 // Imported here so cross-references inside legacy.tsx still resolve, and
@@ -65,7 +69,15 @@ import { ZXRewrite } from './diagrams/ZXRewrite';
 import { JaggedFrontier } from './diagrams/JaggedFrontier';
 import { ReadingCluster } from './diagrams/ReadingCluster';
 import { WhoIsWe } from './diagrams/WhoIsWe';
-export { BottleneckMap, ConstraintEffect, SpiderFusion, ZXRewrite, CtlaDistribution, EnsembleConsensus, FeatureSelectionViz, FourierMotif, GateSensitivity, GradientDescentViz, JaggedFrontier, JayaSwarm, LMSRPriceCurve, MethodRanking, ReadingCluster, RecEngineSwarm, ThresholdMethods, TrendSignalFlow, ViolationNetwork, WhoIsWe };
+import { AssumptionGrid } from './diagrams/AssumptionGrid';
+import { TimelineAnchors } from './diagrams/TimelineAnchors';
+import { VocabFan } from './diagrams/VocabFan';
+import { SemanticDrift } from './diagrams/SemanticDrift';
+import { IdeologyUnitGrid } from './diagrams/IdeologyUnitGrid';
+import { DefencePillars } from './diagrams/DefencePillars';
+import { KillChainPhases } from './diagrams/KillChainPhases';
+import { PhaseUnitWiring } from './diagrams/PhaseUnitWiring';
+export { BottleneckMap, ConstraintEffect, SpiderFusion, ZXRewrite, CtlaDistribution, EnsembleConsensus, FeatureSelectionViz, FourierMotif, GateSensitivity, GradientDescentViz, JaggedFrontier, JayaSwarm, LMSRPriceCurve, MethodRanking, ReadingCluster, RecEngineSwarm, ThresholdMethods, TrendSignalFlow, ViolationNetwork, WhoIsWe, AssumptionGrid, TimelineAnchors, VocabFan, SemanticDrift, IdeologyUnitGrid, DefencePillars, KillChainPhases, PhaseUnitWiring };
 
 import { SeasonalSpecimen, StaticSpecimen, LotkaVolterra, SPECIMEN_VARIANTS, INTERACTIVE_VARIANTS } from './diagrams/Seasonal';
 export { SeasonalSpecimen, StaticSpecimen, LotkaVolterra, SPECIMEN_VARIANTS, INTERACTIVE_VARIANTS };

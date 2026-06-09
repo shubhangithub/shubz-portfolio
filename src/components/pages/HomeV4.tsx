@@ -98,7 +98,7 @@ export function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette 
             <h1 className="display" style={{ fontSize: "clamp(1.9rem, 7vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em" }}>
               <LetterReveal stagger={22}>Read </LetterReveal>
               <span style={{ fontStyle: "italic", color: p.accent }}><LetterReveal stagger={22} delay={140}>maths and CS</LetterReveal></span>
-              <LetterReveal stagger={22} delay={400}> at Oxford. Currently building geospatial ML at Orion, easily </LetterReveal>
+              <LetterReveal stagger={22} delay={400}> at Oxford. Currently building geospatial ML at Orion, researching AI Safety funded by Bluedot, and easily</LetterReveal>
               <span style={{ fontStyle: "italic", color: p.accent }}><LetterReveal stagger={22} delay={1900}>distracted</LetterReveal></span>
               <LetterReveal stagger={22} delay={2160}> by other problems.</LetterReveal>
             </h1>
@@ -108,14 +108,14 @@ export function HomeV4({ onNavigate, setCursorColor, dark, toggleTheme, palette 
             <h1 className="display" style={{ fontSize: "clamp(1.9rem, 7vw, 4.6rem)", margin: 0, fontWeight: 360, lineHeight: 0.98, letterSpacing: "-0.02em", textWrap: "balance" }}>
               <LetterReveal stagger={22}>Read </LetterReveal>
               <span style={{ fontStyle: "italic", color: p.accent }}><LetterReveal stagger={22} delay={140}>maths and CS</LetterReveal></span>
-              <LetterReveal stagger={22} delay={400}> at Oxford. Currently building geospatial ML at Orion, easily </LetterReveal>
+              <LetterReveal stagger={22} delay={400}> at Oxford. Currently building geospatial ML at Orion, researching AI Safety funded by Bluedot, and easily</LetterReveal>
               <span style={{ fontStyle: "italic", color: p.accent }}><LetterReveal stagger={22} delay={1900}>distracted</LetterReveal></span>
               <LetterReveal stagger={22} delay={2160}> by other problems.</LetterReveal>
             </h1>
 
             {/* NEW-LEDE — pulled into the standard 54ch slot directly under the h1 */}
             <p className="prose" style={{ fontSize: "1.06rem", lineHeight: 1.7, marginTop: "1.4rem", maxWidth: "54ch", color: p.ink }}>
-              I'm a founding engineer at <em>Orion</em>, where I build geospatial ML that pays attention to <em>where</em> things happen, and how confidently. Before that I read maths (dabbled in some physics) at Oxford and computer science at FLAME. I am also, in inconvenient order: a Thames rower on Sundays, active in STEM ed outreach, a hobby pianist, a fashion enthusiast, and very into interactive diagrams.
+              I'm a founding engineer at <em>Orion</em>, where I build geospatial ML. Outside of that, I'm an <em>AI Safety researcher</em>, thanks to funding from <em>Bluedot</em>. Before that I read maths (dabbled in some physics) at Oxford and computer science at FLAME, and have held research + software roles across education and startups. I am also very into interactive diagrams.
             </p>
 
             {/* fig.01 — compact square (phase loop only). Full interactive figure lives in the May essay. */}
