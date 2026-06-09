@@ -100,35 +100,6 @@ export function BluedotCivilizationEssay({ palette: p }) {
 
       <PullQuote color={p.accent}>Model, lab and state can only tell you what to stop. Civilisation is the only unit big enough to tell you what to build.</PullQuote>
 
-      {/* ── CREDITS ── */}
-      <div style={{ marginTop: "3rem", padding: "1.2rem 1.4rem", border: `1px solid ${p.line}`, background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})`, borderRadius: 3 }}>
-        <div className="caps mono" style={{ fontSize: 10, color: p.muted, letterSpacing: "0.1em", marginBottom: "0.8rem" }}>Acknowledgements &amp; readings</div>
-        <p style={{ fontSize: "0.88rem", lineHeight: 1.65, color: p.muted, margin: "0 0 0.7rem" }}>
-          This essay was written as part of <strong style={{ color: p.ink }}>BlueDot Impact's AGI Strategy cohort</strong> (2026). The synthesis is my own; any errors in characterising the readings are mine.
-        </p>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.3rem 1.2rem" }}>
-          {[
-            ["Chollet",         "On the Measure of Intelligence (2019) · Impossibility of intelligence explosion (2017)"],
-            ["Buterin",         "d/acc one year later (Jan 2025)"],
-            ["Krook",           "Solarpunk: A Vision for a Sustainable Future (2023)"],
-            ["BlueDot",         "Long list of interventions — withstand layer"],
-            ["Narayanan & Kapoor", "AI as Normal Technology (Apr 2025)"],
-            ["Toner",           "CSET 2024"],
-            ["Davidson et al.", "AI-Enabled Coups (Apr 2025)"],
-            ["IFP",             "Preparing for Launch (2024)"],
-            ["DeepMind",        "AlphaProteo (Sep 2024) · AlphaFold 3 (Nature May 2024) · AlphaEvolve (May 2025)"],
-            ["Clark & Chalmers","The Extended Mind (1998)"],
-            ["Hutchins",        "Cognition in the Wild (1995)"],
-            ["Hayek",           "The Use of Knowledge in Society (1945)"],
-          ].map(([auth, title], i) => (
-            <div key={i} style={{ fontSize: "0.8rem", lineHeight: 1.5, color: p.muted }}>
-              <span style={{ color: p.accent, fontFamily: "var(--f-mono)", fontSize: "0.75rem", marginRight: 6 }}>{auth}</span>
-              {title}
-            </div>
-          ))}
-        </div>
-      </div>
-
       <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written during BlueDot's AGI Strategy cohort, somewhere between the model and the civilisation it is embedded in.</p>
     </>
   );

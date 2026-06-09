@@ -153,32 +153,6 @@ export function BluedotEssay({ palette: p }) {
 
       <p>And the 'we' is small. The bottleneck isn't ideas — this unit is full of good ones. It's the organisations that make safety commitments sticky, that get governance in place before the capability arrives, that hold the plural competition Toner describes together without letting it slide into the instability RAND warns against. The safety labs, policy institutes, international bodies, and cohort programmes being built now — BlueDot's among them — are the first serious attempt to close that gap.</p>
 
-      {/* ── CREDITS ── */}
-      <div style={{ marginTop: "3rem", padding: "1.2rem 1.4rem", border: `1px solid ${p.line}`, background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})`, borderRadius: 3 }}>
-        <div className="caps mono" style={{ fontSize: 10, color: p.muted, letterSpacing: "0.1em", marginBottom: "0.8rem" }}>Acknowledgements &amp; readings</div>
-        <p style={{ fontSize: "0.88rem", lineHeight: 1.65, color: p.muted, margin: "0 0 0.7rem" }}>
-          This essay was written as part of <strong style={{ color: p.ink }}>BlueDot Impact's AGI Strategy cohort</strong> (2026). The synthesis is my own; any errors in characterising the readings are mine. I am grateful to the cohort facilitators and fellow participants whose discussions sharpened several of the arguments here.
-        </p>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.3rem 1.2rem" }}>
-          {[
-            ["RAND",    "Rehman, Mueller & Mazarr — 'Seeking Stability in the Competition for AI Advantage'"],
-            ["Vox",     "Sigal Samuel — 'It's Practically Impossible to Run a Big AI Company Ethically'"],
-            ["Toner",   "Helen Toner — 'In Search of a Dynamist Vision for Safe Superhuman AI'"],
-            ["IFP",     "Fist, Burga & Hwang — 'Preparing for Launch'"],
-            ["Bregman", "Rutger Bregman — Utopia for Realists, Ch. 1"],
-            ["Amodei",  "Dario Amodei — 'Machines of Loving Grace' (2024)"],
-            ["Altman",  "Sam Altman — 'The Gentle Singularity' (2025)"],
-            ["Altman",  "Sam Altman — 'The Intelligence Age' (2024)"],
-            ["Krook",   "Joshua Krook — 'Solarpunk: A Vision for a Sustainable Future'"],
-          ].map(([auth, title], i) => (
-            <div key={i} style={{ fontSize: "0.8rem", lineHeight: 1.5, color: p.muted }}>
-              <span style={{ color: p.accent, fontFamily: "var(--f-mono)", fontSize: "0.75rem", marginRight: 6 }}>{auth}</span>
-              {title}
-            </div>
-          ))}
-        </div>
-      </div>
-
       <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written during the first week of BlueDot's AGI Strategy cohort, in London.</p>
     </>
   );

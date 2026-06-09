@@ -86,40 +86,6 @@ export function BluedotKillchainEssay({ palette: p }) {
 
       <p>The point of walking the chain backwards is that a concrete failure story turns the course from a reading list into an instrument. Each phase asks a specific question, and each unit answers a different subset of them — and the places where <em>no</em> unit answers are where the work is. </p>
 
-      {/* ── CREDITS ── */}
-      <div style={{ marginTop: "3rem", padding: "1.2rem 1.4rem", border: `1px solid ${p.line}`, background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})`, borderRadius: 3 }}>
-        <div className="caps mono" style={{ fontSize: 10, color: p.muted, letterSpacing: "0.1em", marginBottom: "0.8rem" }}>Sources &amp; credits</div>
-        <p style={{ fontSize: "0.88rem", lineHeight: 1.65, color: p.muted, margin: "0 0 0.7rem" }}>
-          This essay was written as part of <strong style={{ color: p.ink }}>BlueDot Impact's AGI Strategy cohort</strong> (2026). The synthesis is my own; any errors in characterising the readings are mine.
-        </p>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.3rem 1.2rem" }}>
-          {[
-            ["Apollo",       "In-context scheming (Dec 2024)"],
-            ["Anthropic",    "Alignment-faking (Dec 2024)"],
-            ["Greenblatt et al.", "AI Control — arXiv 2312.06942 (2023)"],
-            ["Bhatt et al.", "Ctrl-Z (2025)"],
-            ["UK AISI",      "ControlArena"],
-            ["DeepMind",     "AlphaEvolve (May 2025)"],
-            ["METR",         "Developer RCT — arXiv 2507.09089 (Jul 2025)"],
-            ["RAND",         "Nevo et al. — Securing AI Model Weights (2024)"],
-            ["Amodei",       "Machines of Loving Grace (Oct 2024)"],
-            ["Toner",        "CSET 2024"],
-            ["Erdil/Epoch",  "Returns per H100 (2025)"],
-            ["Chollet",      "ARC-AGI-3 (Mar 2026)"],
-            ["Ngo",          "Reframing AGI Threat Models (Oct 2024); AGI Safety Career Advice (2023)"],
-            ["Davidson et al.", "AI-Enabled Coups (Apr 2025)"],
-            ["Anthropic",    "Scaling Monosemanticity (May 2024); Urgency of Interpretability (Apr 2025)"],
-            ["Nanda",        "Become a person who Actually Does Things"],
-            ["FLI",          "Catastrophic AI Scenarios (Feb 2024)"],
-          ].map(([auth, title], i) => (
-            <div key={i} style={{ fontSize: "0.8rem", lineHeight: 1.5, color: p.muted }}>
-              <span style={{ color: p.accent, fontFamily: "var(--f-mono)", fontSize: "0.75rem", marginRight: 6 }}>{auth}</span>
-              {title}
-            </div>
-          ))}
-        </div>
-      </div>
-
       <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written in the final week of BlueDot's AGI Strategy cohort, with Phase 4 still open.</p>
     </>
   );

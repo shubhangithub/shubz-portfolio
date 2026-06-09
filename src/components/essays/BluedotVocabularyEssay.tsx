@@ -101,34 +101,6 @@ export function BluedotVocabularyEssay({ palette: p }) {
 
       <p>The reason this matters beyond pedantry is that policy is written in these words. A treaty that says "ensure AI safety" inherits all four meanings at once and will be litigated into whichever one the litigant prefers. The most useful thing a strategist can do with this course is not to pick the right definition — there isn't one — but to refuse to let a single word smuggle a whole worldview past the reader unexamined. Specify whose dictionary you're in, and the argument finally becomes about the world instead of about the word.</p>
 
-      {/* ── CREDITS ── */}
-      <div style={{ marginTop: "3rem", padding: "1.2rem 1.4rem", border: `1px solid ${p.line}`, background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})`, borderRadius: 3 }}>
-        <div className="caps mono" style={{ fontSize: 10, color: p.muted, letterSpacing: "0.1em", marginBottom: "0.8rem" }}>Readings cited</div>
-        <p style={{ fontSize: "0.88rem", lineHeight: 1.65, color: p.muted, margin: "0 0 0.7rem" }}>
-          This essay was written as part of <strong style={{ color: p.ink }}>BlueDot Impact's AGI Strategy cohort</strong> (2026). The synthesis is my own; any errors in characterising the readings are mine.
-        </p>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.3rem 1.2rem" }}>
-          {[
-            ["Jones / BlueDot",    "What is AI alignment?"],
-            ["Aschenbrenner",      "Situational Awareness IV (Jun 2024)"],
-            ["AI Treaty letter",   "aitreaty.org"],
-            ["Buterin",            "d/acc one year later (Jan 2025)"],
-            ["Sarah / BlueDot",    "Introduction to AI Control (Apr 2025)"],
-            ["Davidson et al.",    "AI-Enabled Coups (Apr 2025)"],
-            ["RAND",               "Nevo et al. 2024"],
-            ["Samuel / Vox",       "2024"],
-            ["Chollet",            "On the Measure of Intelligence (2019)"],
-            ["ARC Prize",          "ARC-AGI-3 (2026)"],
-            ["CAISI rebrand",      "US Commerce, Jun 2025"],
-          ].map(([auth, title], i) => (
-            <div key={i} style={{ fontSize: "0.8rem", lineHeight: 1.5, color: p.muted }}>
-              <span style={{ color: p.accent, fontFamily: "var(--f-mono)", fontSize: "0.75rem", marginRight: 6 }}>{auth}</span>
-              {title}
-            </div>
-          ))}
-        </div>
-      </div>
-
       <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written during the second week of BlueDot's AGI Strategy cohort, in London.</p>
     </>
   );

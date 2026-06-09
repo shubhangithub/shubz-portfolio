@@ -106,35 +106,6 @@ export function BluedotAssumptionsEssay({ palette: p }) {
 
       <p>The six assumptions are not errors. They are the scaffolding that lets the readings say anything specific at all. The contribution of reading them as a set is that you can see which load-bearing walls are shared, and therefore which single failure would bring down the most rooms at once. If I had to bet on the wall most likely to crack, it is not timelines and it is not compute. It is the sixth one — that we have built a magnificent set of brakes and forgotten to ask where we are trying to go.</p>
 
-      {/* ── CREDITS ── */}
-      <div style={{ marginTop: "3rem", padding: "1.2rem 1.4rem", border: `1px solid ${p.line}`, background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})`, borderRadius: 3 }}>
-        <div className="caps mono" style={{ fontSize: 10, color: p.muted, letterSpacing: "0.1em", marginBottom: "0.8rem" }}>Acknowledgements &amp; readings</div>
-        <p style={{ fontSize: "0.88rem", lineHeight: 1.65, color: p.muted, margin: "0 0 0.7rem" }}>
-          This essay was written as part of <strong style={{ color: p.ink }}>BlueDot Impact's AGI Strategy cohort</strong> (May 2026). The synthesis is my own; any errors in characterising the readings are mine.
-        </p>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.3rem 1.2rem" }}>
-          {[
-            ["Chollet",       "François Chollet — 'On the Measure of Intelligence' (2019); ARC dataset (2017); Patel interview (Jun 2025)"],
-            ["Aschenbrenner", "Leopold Aschenbrenner — 'Situational Awareness' (Jun 2024)"],
-            ["Amodei",        "Dario Amodei — 'Machines of Loving Grace' (Oct 2024)"],
-            ["Erdil / Epoch", "Ege Erdil — 'A Case for Multi-Decade AI Timelines' (2025)"],
-            ["Narayanan",     "Arvind Narayanan & Sayash Kapoor — 'AI as Normal Technology' (Apr 2025)"],
-            ["AI 2027",       "Kokotajlo et al. — 'AI 2027' scenario"],
-            ["RAND",          "Nevo et al. — 'Securing AI Model Weights' (2024)"],
-            ["Sarah / BlueDot","Sarah — 'Introduction to AI Control' (Apr 2025)"],
-            ["Davidson",      "Tom Davidson, Lukas Finnveden & Rose Hadshar / Forethought — 'AI-Enabled Coups' (Apr 2025)"],
-            ["Buterin",       "Vitalik Buterin — d/acc (Jan 2025)"],
-            ["METR",          "METR — Time Horizon 1.1 (Jan 2026)"],
-            ["ARC Prize",     "ARC Prize Foundation — ARC-AGI-2 evaluation (Feb 2026)"],
-          ].map(([auth, title], i) => (
-            <div key={i} style={{ fontSize: "0.8rem", lineHeight: 1.5, color: p.muted }}>
-              <span style={{ color: p.accent, fontFamily: "var(--f-mono)", fontSize: "0.75rem", marginRight: 6 }}>{auth}</span>
-              {title}
-            </div>
-          ))}
-        </div>
-      </div>
-
       <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written as part of BlueDot Impact's AGI Strategy cohort (May 2026), in London.</p>
     </>
   );
