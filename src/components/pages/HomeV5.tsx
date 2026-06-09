@@ -151,7 +151,7 @@ export function HomeV5({
               fontFamily: "var(--f-display)",
               fontVariationSettings: '"opsz" 144, "SOFT" 50',
               fontWeight: 400,
-              fontSize: isMobile ? "clamp(2.2rem, 9vw, 3.2rem)" : "clamp(2.6rem, 6vw, 5.2rem)",
+              fontSize: isMobile ? "clamp(2rem, 8vw, 2.8rem)" : "clamp(2.2rem, 5vw, 4.2rem)",
               lineHeight: 1.0,
               letterSpacing: "-0.02em",
               margin: 0,
