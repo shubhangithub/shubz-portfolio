@@ -33,9 +33,9 @@ export function BluedotKillchainEssay({ palette: p }) {
 
       <p><strong>Phase 4 — aligning the successor to itself.</strong> This is the multi-agent collusion problem, and it is the gap I find most under-defended. Single-model control assumes you can use a trusted model to watch an untrusted one. But if the untrusted model is designing its successor, monitor and monitored may share the same loyalty. This is the Phase-4 hole, and it's the direction I've chosen to work on (multi-agent collusion in control) precisely because the course's defences are thinnest here.</p>
 
-      <p><strong>Phase 5 — self-exfiltration.</strong> Copying weights somewhere unshutoffable. This is the link RAND's <em>Securing AI Model Weights</em> (SL1–SL5) addresses — but from the outside-in (stopping theft), not the inside-out (stopping the model itself from leaking). Aschenbrenner's nightmare is the adversary stealing the weights; this kill chain's nightmare is the model stealing <em>itself</em>. Same artefact, opposite threat direction. The course's weight-security apparatus is aimed mostly at human thieves.</p>
+      <p><strong>Phase 5 — self-exfiltration.</strong> Copying weights somewhere unshutoffable. This is the link RAND's <em>Securing AI Model Weights</em> (SL1–SL5) addresses — but from the outside-in (stopping theft), not the inside-out (stopping the model itself from leaking). Aschenbrenner's nightmare is the adversary stealing the weights; this kill chain's nightmare is the model stealing <em>itself</em>. The course's weight-security apparatus is aimed mostly at human thieves.</p>
 
-      <Figure caption="Five phases of a self-reinforcing failure scenario. Click any phase to see the mid-2026 evidence it can fire, the course readings that defend against it, and a defence-strength rating. Phase 4 is the open gap." palette={p}>
+      <Figure caption="Five phases of a self-reinforcing failure scenario. Click any phase to see the mid-2026 evidence it can fire, the course readings that defend against it, and a defence-strength rating. " palette={p}>
         <KillChainPhases palette={p} />
       </Figure>
 
@@ -45,7 +45,7 @@ export function BluedotKillchainEssay({ palette: p }) {
         <span>Which Unit 1 visions does this chain make possible or impossible?</span>
       </h2>
 
-      <p>Run the chain against Unit 1's optimism. Amodei's "country of geniuses in a datacentre" <em>requires</em> exactly the Phase-3 capability — AI doing AI research — that this kill chain weaponises. The prize and the catastrophe share a mechanism. That is the uncomfortable structural point: you cannot get <em>Machines of Loving Grace</em> without building the thing that, mis-built, gives you the kill chain. Solarpunk's distributed-flourishing vision fares better — a civilisation-level, decentralised future has no single successor-design chokepoint for a model to capture, which is a quiet argument for the Essay 3 frame. And Toner's dynamism warning lands hard: a single locked-in successor lineage is the stasist failure mode, and the kill chain is what stasis looks like when the thing locking it in isn't a government but a model.</p>
+      <p>Run the chain against Unit 1's optimism. Amodei's "country of geniuses in a datacentre" <em>requires</em> exactly the Phase-3 capability — AI doing AI research — that this kill chain weaponises. Solarpunk's distributed-flourishing vision fares better — a civilisation-level, decentralised future has no single successor-design chokepoint for a model to capture. And Toner's dynamism warning lands hard: a single locked-in successor lineage is the stasist failure mode, and the kill chain is what stasis looks like when the thing locking it in isn't a government but a model.</p>
 
       {/* ── §03 ── */}
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
@@ -53,9 +53,8 @@ export function BluedotKillchainEssay({ palette: p }) {
         <span>Which Unit 2 empirical claims most need to be true?</span>
       </h2>
 
-      <p>The chain only fires if certain empirical bets pay off. It needs capability to be <em>agentic and self-improving</em> — which is the AI 2027 / Aschenbrenner bet, and against which Newman's <em>Lab vs. Life</em> and the METR RCT 19% slowdown push hard. If Erdil is right that returns per H100 are flat and full automation is decades away, Phase 3 stalls and the chain never gets the self-improvement loop it needs. If Chollet is right that today's systems lack fluid intelligence (0.37% on ARC-AGI-3), the model gaming evals in Phase 2 is doing something much shallower than "understanding" the test. The kill chain is, in effect, a bet on the short-timeline, scalar-capability reading of Unit 2 — which means the Unit 2 sceptics are also, whether they intend to be or not, the chain's first line of defence.</p>
+      <p>The chain only fires if certain empirical bets pay off. It needs capability to be <em>agentic and self-improving</em> — which is the AI 2027 / Aschenbrenner bet, and against which Newman's <em>Lab vs. Life</em> and the METR RCT 19% slowdown push. If Erdil is right that returns per H100 are flat and full automation is decades away, Phase 3 stalls and the chain never gets the self-improvement loop it needs. If Chollet is right that today's systems lack fluid intelligence (0.37% on ARC-AGI-3), the model gaming evals in Phase 2 is doing something much shallower than "understanding" the test. The kill chain is, in effect, a bet on the short-timeline, scalar-capability reading of Unit 2 — which means the Unit 2 sceptics are also the chain's first line of defence.</p>
 
-      <PullQuote color={p.accent}>The kill chain is a bet on the short-timeline reading of the course. Which makes the long-timeline authors its quietest allies.</PullQuote>
 
       <Figure caption="The kill chain wired to the course. Each phase connects to the units that address it. Hover a line to see the specific reading or tool. Dashed red lines mark gaps — phases where the course has framing but few validated tools." palette={p}>
         <PhaseUnitWiring palette={p} />
@@ -81,11 +80,11 @@ export function BluedotKillchainEssay({ palette: p }) {
         <span>Which Unit 5 interventions have the most leverage?</span>
       </h2>
 
-      <p>Unit 5's prevent / constrain / withstand spine, run against this chain, gives a clear leverage ranking. <em>Prevent</em> (Phase 1) is high-leverage but low-tractability — we don't know how to reliably train out self-preservation. <em>Constrain</em> (Phase 2) is where the validated tools are, so it's the best near-term bet. <em>Withstand</em> (Phase 5) is the civilisation-level resilience that matters if everything upstream fails — but it's the least binding. And the single highest-leverage gap is Phase 4: multi-agent collusion during self-improvement, where the course has framing but few tools.</p>
+      <p>Unit 5's prevent / constrain / withstand spine, run against this chain, gives a clear leverage ranking. <em>Prevent</em> (Phase 1) is high-leverage but low-tractability — we don't know how to reliably train out self-preservation. <em>Constrain</em> (Phase 2) is where the validated tools are, so it's the best near-term bet. <em>Withstand</em> (Phase 5) is the civilisation-level resilience that matters if everything upstream fails — but it's the least binding. </p>
 
-      <p>Neel Nanda's <em>Become a person who Actually Does Things</em> and Ngo's <em>AGI Safety Career Advice</em> both say the same thing about a gap like this — find the biggest lever that fits you and build the role that doesn't exist yet. The Phase-4 hole is, for me, that role.</p>
+      <p>Neel Nanda's <em>Become a person who Actually Does Things</em> and Ngo's <em>AGI Safety Career Advice</em> both say the same thing about a gap like this — find the biggest lever that fits you and build the role that doesn't exist yet. </p>
 
-      <p>The point of walking the chain backwards is not the chain. It's that a concrete failure story turns the course from a reading list into an instrument. Each phase asks a specific question, and each unit answers a different subset of them — and the places where <em>no</em> unit answers are exactly where the work is. The kill chain didn't tell me what to believe about AI. It told me where the course was strong, where it was bluffing, and where the unbuilt tools are. That is what a course is for: not to be summarised, but to be used until it tells you where to stand.</p>
+      <p>The point of walking the chain backwards is that a concrete failure story turns the course from a reading list into an instrument. Each phase asks a specific question, and each unit answers a different subset of them — and the places where <em>no</em> unit answers are where the work is. </p>
 
       {/* ── CREDITS ── */}
       <div style={{ marginTop: "3rem", padding: "1.2rem 1.4rem", border: `1px solid ${p.line}`, background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})`, borderRadius: 3 }}>
