@@ -86,6 +86,7 @@ export const POSTS: Post[] = [
   },
   {
     slug: "bluedot-vocabulary",
+    draft: true,
     title: "The same word, five meanings",
     kicker: "Essay · AI Strategy & Policy",
     dek: "How most AI debates dissolve once you say whose dictionary you're using.",
