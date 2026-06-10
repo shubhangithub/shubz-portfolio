@@ -41,7 +41,7 @@ export function SixEnginesEssay({ palette: p }) {
         <span>The dataset that made it tractable</span>
       </h2>
 
-      <p>The engines run on Taylor's full discography — every era, including Vault tracks — with editorial bridges to neighbouring artists.<span className="sidenote-number" style={{ color: p.accent }}>3</span> The bridges are metadata, not embeddings: the six engines compute similarity within Taylor's catalogue, and the editorial layer maps outward to artists who share lyrical or sonic DNA. Without that layer, every recommendation would be intra-catalogue — suggesting an album shuffle dressed up as intelligence.
+      <p>The engines run on Taylor's full discography — every era, including Vault tracks — with editorial bridges to neighbouring artists.<span className="sidenote-number" style={{ color: p.accent }}>3</span> The bridges are metadata, not embeddings: the six engines compute similarity within Taylor's catalogue, and the editorial layer maps outward to artists who share lyrical or sonic DNA. 
         <span className="sidenote">
           <strong style={{ color: p.accent }}>3.</strong> Editorial bridges to Kacey Musgraves, Maggie Rogers, Olivia Rodrigo, Gracie Abrams, Lana Del Rey, HAIM, Phoebe Bridgers, Carly Rae Jepsen, Paramore, and others. The mapping is hand-curated — each bridge has a reason.
         </span>
@@ -67,7 +67,7 @@ export function SixEnginesEssay({ palette: p }) {
         <span>What the demo actually feels like</span>
       </h2>
 
-      <p>Type a song. Six engines return their picks in parallel. The UI shows you the ensemble's top 10, but lets you toggle "show me what each engine thought" so you can see the disagreements. The disagreements are usually the interesting part: the lyrics engine wants you to listen to <em>The Manuscript</em>; the audio VAE thinks you'd rather have <em>You're On Your Own, Kid</em>; the graph engine sends you somewhere unexpected. They're all defensible, in their own register.</p>
+      <p>Type a song. Six engines return their picks in parallel. The UI shows you the ensemble's top 10, but lets you toggle "show me what each engine thought" so you can see the disagreements. The disagreements are fun! The lyrics engine wants you to listen to <em>The Manuscript</em>; the audio VAE thinks you'd rather have <em>You're On Your Own, Kid</em>; the graph engine sends you somewhere else.</p>
 
       <p>The site is at <a href="https://shubz-taylor-recommendation-engine.vercel.app" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>shubz-taylor-recommendation-engine.vercel.app</a>. Bring your own opinions about the Lover demos.</p>
 
