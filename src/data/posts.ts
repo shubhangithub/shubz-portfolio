@@ -71,7 +71,7 @@ export const POSTS: Post[] = [
   },
   {
     slug: "bluedot-assumptions",
-    title: "What every reading takes for granted",
+    title: "Underlying Assumptions on the AGI Strategy Course",
     kicker: "Essay · AI Strategy & Policy",
     dek: "Six assumptions the AGI Strategy readings share, that almost none of them defends.",
     minutes: 18,
@@ -265,7 +265,7 @@ export function findPost(slug: string): Post | undefined {
  */
 export const ESSAY_THUMB_SLUGS: ReadonlySet<string> = new Set([
   "bluedot-unit1",
-  "bluedot-bending-curve",
+  "bluedot-killchain",
   "may-2026",
   "six-engines",
   "turing-morphogenesis",

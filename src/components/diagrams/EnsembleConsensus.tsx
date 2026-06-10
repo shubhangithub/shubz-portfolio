@@ -13,19 +13,15 @@ export function EnsembleConsensus({ palette: p }) {
   const [weights, setWeights] = React.useState({ lyrics: 0.30, vae: 0.20, graph: 0.20, ncf: 0.15, ssl: 0.15 });
   const [hover, setHover] = React.useState(null);
 
-  // synthetic song scores per engine (deterministic)
-  const songs = React.useMemo(() => {
-    let s = 77;
-    const r = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
-    return [
-      { title: "All Too Well (10 Min)", scores: { lyrics: 0.92, vae: 0.55, graph: 0.78, ncf: 0.60, ssl: 0.45 } },
-      { title: "August",               scores: { lyrics: 0.65, vae: 0.88, graph: 0.50, ncf: 0.72, ssl: 0.80 } },
-      { title: "Anti-Hero",            scores: { lyrics: 0.40, vae: 0.70, graph: 0.85, ncf: 0.90, ssl: 0.55 } },
-      { title: "Cardigan",             scores: { lyrics: 0.85, vae: 0.75, graph: 0.42, ncf: 0.35, ssl: 0.68 } },
-      { title: "Cruel Summer",         scores: { lyrics: 0.50, vae: 0.82, graph: 0.65, ncf: 0.78, ssl: 0.90 } },
-      { title: "Mirrorball",           scores: { lyrics: 0.78, vae: 0.60, graph: 0.30, ncf: 0.42, ssl: 0.72 } },
-    ];
-  }, []);
+  // real scores from /api/compare, seed: "All Too Well" — fetched 2026-06-10
+  const songs = React.useMemo(() => [
+    { title: "Falling",                   scores: { lyrics: 0.00, vae: 0.71, graph: 0.00, ncf: 0.00, ssl: 0.00 } },
+    { title: "Style",                     scores: { lyrics: 0.00, vae: 0.00, graph: 0.00, ncf: 0.71, ssl: 0.00 } },
+    { title: "'tis the damn season",      scores: { lyrics: 0.70, vae: 0.00, graph: 0.00, ncf: 0.00, ssl: 0.00 } },
+    { title: "Misery Business",           scores: { lyrics: 0.00, vae: 0.69, graph: 0.00, ncf: 0.00, ssl: 0.00 } },
+    { title: '33 "GOD"',                  scores: { lyrics: 0.66, vae: 0.00, graph: 0.00, ncf: 0.00, ssl: 0.00 } },
+    { title: "I Almost Do (TV)",          scores: { lyrics: 0.00, vae: 0.00, graph: 0.61, ncf: 0.00, ssl: 0.00 } },
+  ], []);
 
   // compute ensemble score for each song
   const ranked = songs.map(song => {
