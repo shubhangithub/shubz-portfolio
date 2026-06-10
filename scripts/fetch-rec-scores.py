@@ -89,7 +89,7 @@ def main():
     parser.add_argument("--n",    type=int, default=10,   help="results per engine to fetch")
     args = parser.parse_args()
 
-    print(f"→ querying {args.api}/api/compare for seed: "{args.song}"", file=sys.stderr)
+    print(f'-> querying {args.api}/api/compare for seed: "{args.song}"', file=sys.stderr)
 
     try:
         data = fetch_compare(args.api, args.song, args.n)
