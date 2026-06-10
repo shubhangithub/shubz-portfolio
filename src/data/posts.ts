@@ -104,7 +104,7 @@ export const POSTS: Post[] = [
     slug: "bluedot-civilization",
     title: "The civilisation frame",
     kicker: "Essay · AI Strategy & Policy",
-    dek: "Four readings, four ideologies, one quietly shared unit of analysis.",
+    dek: "Four readings, four ideologies, one shared unit of analysis.",
     minutes: 16,
     illustration: "wave",
     cardBg: "#E6E8F2",
