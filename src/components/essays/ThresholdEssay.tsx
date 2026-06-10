@@ -6,7 +6,7 @@ export function ThresholdEssay({ palette: p }) {
   return (
     <>
       <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
-        The slide came up at week six of the MFoCS.<span className="sidenote-number" style={{ color: p.accent }}>1</span> A scatter plot of single cells from a tumour sample, axes labelled CD4 and CD8. The clinician giving the talk circled a region with a laser pointer and called those cells "positive," like that settled the matter. What I wanted to ask — and didn't, because you learn quickly at Oxford that the second-year student is not the one who gets to question the consultant — was: <em>where, exactly, did you draw that line?</em>
+        The slide came up at week six of the MFoCS.<span className="sidenote-number" style={{ color: p.accent }}>1</span> A scatter plot of single cells from a tumour sample, axes labelled CD4 and CD8. The clinician giving the talk circled a region with a laser pointer and called those cells "positive," and a good question is <em>where, exactly, was that line drawn?</em>
         <span className="sidenote">
           <strong style={{ color: p.accent }}>1.</strong> MFoCS thesis, Oxford · Lady Margaret Hall, 2024 — "Analysing and Advancing Automated Immune Biomarker Detection." Multiplex immunofluorescence data on tumour-associated immune populations.
         </span>
