@@ -267,6 +267,7 @@ export const ESSAY_THUMB_SLUGS: ReadonlySet<string> = new Set([
   "bluedot-unit1",
   "bluedot-bending-curve",
   "predator-prey",
+  "turing-morphogenesis",
   "zx-calculus",
   "jaya",
   "fashion-trends",
