@@ -147,6 +147,7 @@ export const POSTS: Post[] = [
   },
   {
     slug: "jaya",
+    draft: true,
     title: "JAYA, improved",
     kicker: "Essay · Optimisation & Bioinformatics",
     dek: "Improving a parameter-free optimiser with a fitness trade-off and elitism.",
