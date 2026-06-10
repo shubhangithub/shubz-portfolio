@@ -266,7 +266,7 @@ export function findPost(slug: string): Post | undefined {
 export const ESSAY_THUMB_SLUGS: ReadonlySet<string> = new Set([
   "bluedot-unit1",
   "bluedot-bending-curve",
-  "predator-prey",
+  "may-2026",
   "turing-morphogenesis",
   "zx-calculus",
   "jaya",

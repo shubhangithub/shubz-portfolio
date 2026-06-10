@@ -211,6 +211,8 @@ figcaption {
 }
 
 ::selection { background: #B85C3C; color: #F4ECDD; }
+/* Match the pre-paint script: keep body dark before React hydrates. */
+html[data-theme="dark"] body { background: #0E131D; color: #F2F1EC; }
 body { transition: background 600ms cubic-bezier(0.25, 0.1, 0.25, 1); }
 
 /* Touch & accessibility — global (any viewport) */
