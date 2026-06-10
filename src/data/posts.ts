@@ -114,7 +114,7 @@ export const POSTS: Post[] = [
   },
   {
     slug: "bluedot-killchain",
-    title: "Tracing a kill chain through the course",
+    title: "Tracing a Kill Chain Through the AGI Strategy Course",
     kicker: "Essay · AI Strategy & Policy",
     dek: "One concrete failure story walked backwards through all five units.",
     minutes: 20,
@@ -261,7 +261,7 @@ export function findPost(slug: string): Post | undefined {
  */
 export const ESSAY_THUMB_SLUGS: ReadonlySet<string> = new Set([
   "bluedot-unit1",
-  "bluedot-bending-curve",
+  "bluedot-killchain",
   "zx-calculus",
   "jaya",
   "fashion-trends",
