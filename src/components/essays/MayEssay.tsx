@@ -12,7 +12,7 @@ export function MayEssay({ palette: p }) {
         </span>
       </p>
 
-      <p>Volterra wrote two equations. They describe a system in which prey grow exponentially when left alone, predators die exponentially when they can't eat, and every encounter between the two has a chance of converting a prey into a predator. That's all. No territory, no seasons, no disease — just growth, death, and the rate at which one becomes the other.</p>
+      <p>Volterra wrote two equations. They describe a system in which prey grow exponentially when left alone, predators die exponentially when they can't eat, and every encounter between the two has a chance of converting a prey into a predator. </p>
 
       <p style={{ textAlign: "center", margin: "1.4rem 0", fontFamily: "var(--f-mono)", fontSize: "0.95rem", color: p.ink, padding: "0.8rem", border: `1px dashed ${p.line}`, background: `color-mix(in srgb, ${p.paper} 80%, ${p.ink})` }}>
         dx/dt = αx − βxy &nbsp;&nbsp;&nbsp; dy/dt = δxy − γy
@@ -47,9 +47,9 @@ export function MayEssay({ palette: p }) {
         </span>
       </p>
 
-      <p>The catch — and there is always a catch with models this clean — is that those closed orbits are structurally unstable. Any perturbation breaks the exact closure. Add a hard winter, a disease, a fishing boat with a schedule, and the orbit drifts. The ninety years of lynx and snowshoe hare pelts from the Hudson Bay Company (1845–1935) show cycles of eight to eleven years, but they're not closed loops.<span className="sidenote-number" style={{ color: p.accent }}>3</span> They spiral. They shift. The model is a starting point, not a destination.
+      <p>The catch is that those closed orbits are structurally unstable. Any perturbation breaks the exact closure. Add a hard winter, a disease, a fishing boat with a schedule, and the orbit drifts. The ninety years of lynx and snowshoe hare pelts from the Hudson Bay Company (1845–1935) show cycles of eight to eleven years, but they're not closed loops.<span className="sidenote-number" style={{ color: p.accent }}>3</span> They spiral.
         <span className="sidenote">
-          <strong style={{ color: p.accent }}>3.</strong> The lynx-hare data has a further wrinkle: lynx peaks sometimes <em>lead</em> hare peaks, which the Lotka–Volterra model cannot produce. Real ecology is messier than two equations — vegetation cycles, parasites, and starvation thresholds all play roles the model ignores.
+          <strong style={{ color: p.accent }}>3.</strong> The lynx-hare data has a further wrinkle: lynx peaks sometimes <em>lead</em> hare peaks, which the Lotka–Volterra model cannot produce. Real ecology is messier with vegetation cycles, parasites, and starvation thresholds all playing roles the model ignores.
         </span>
       </p>
 
@@ -60,7 +60,7 @@ export function MayEssay({ palette: p }) {
         <span>For Robert May</span>
       </h2>
 
-      <p>Robert May took models like this one and asked a different question: not "do the orbits close?" but "what happens when they don't?" His 1976 paper in <em>Nature</em> — "Simple mathematical models with very complicated dynamics" — showed that even the one-dimensional logistic map, the simplest possible population model, can produce chaos.<span className="sidenote-number" style={{ color: p.accent }}>4</span> Period-doubling cascades. Apparent randomness from a deterministic rule. The paper changed how ecologists, physicists, and mathematicians think about complexity. It is one of the most cited papers in the history of science.
+      <p>Robert May took models like this one and asked a different question: not "do the orbits close?" but "what happens when they don't?" His 1976 paper in <em>Nature</em> — "Simple mathematical models with very complicated dynamics" — showed that even the one-dimensional logistic map, the simplest possible population model, can produce chaos.<span className="sidenote-number" style={{ color: p.accent }}>4</span> Period-doubling cascades. Apparent randomness from a deterministic rule. The paper changed how ecologists, physicists, and mathematicians think about complexity, making it one of the most cited papers in the history of science.
         <span className="sidenote">
           <strong style={{ color: p.accent }}>4.</strong> The logistic map: x<sub>n+1</sub> = rx<sub>n</sub>(1 − x<sub>n</sub>). For r &lt; 3 it converges to a fixed point. For r ≈ 3.57 it goes chaotic. The route from order to chaos follows a universal constant — Feigenbaum's δ ≈ 4.669 — that appears in systems far removed from ecology.
         </span>
@@ -68,9 +68,9 @@ export function MayEssay({ palette: p }) {
 
       <p>May was an Australian physicist who became arguably the most important theoretical ecologist of the twentieth century. Chief Scientific Adviser to the UK government. President of the Royal Society. Baron May of Oxford. He died on 28 April 2020, aged eighty-four.</p>
 
-      <p>The figure on this page runs every May. May 22 is the International Day for Biological Diversity — the Convention on Biological Diversity text was finalised in Nairobi on that date in 1992, then opened for signature at the Rio Earth Summit a fortnight later. The loop keeps running. The populations keep chasing each other. And somewhere in the model, between the prey that rise and the predators that follow, there is still something worth watching: the moment just before the crash, when the numbers say <em>this cannot last</em> and the system says <em>watch me</em>.</p>
+      <p>May 22 is the International Day for Biological Diversity — the Convention on Biological Diversity text was finalised in Nairobi on that date in 1992, then opened for signature at the Rio Earth Summit a fortnight later.</p>
 
-      <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written the week the loop came back around, in a flat that overlooks no wilderness at all.</p>
+      <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written in May, in a flat that overlooks no wilderness at all.</p>
     </>
   );
 }
