@@ -164,6 +164,7 @@ export const POSTS: Post[] = [
   },
   {
     slug: "fashion-trends",
+    draft: true,
     title: "Pricing the next scarf",
     kicker: "Essay · Forecasting & Markets",
     dek: "Five-source forecasting and an LMSR prediction market on fashion micro-trends.",
