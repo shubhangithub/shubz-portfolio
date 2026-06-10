@@ -13,17 +13,13 @@ export function SixEnginesEssay({ palette: p }) {
         </span>
       </p>
 
-      <p>The constraint, then, was: build something whose <em>recommendations themselves</em> would be the test. If I rolled it out to friends and they said "yeah, that one too," good. If they said "why this," bad. The architecture had to earn that, not the other way around. What follows is version 2. I don't expect it to be the last.</p>
-
       {/* ── §01 ── */}
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§01</span>
         <span>Where it started: an undergrad free-reign brief</span>
       </h2>
 
-      <p>This was my favourite undergraduate project. The brief was unusually generous: build anything you like, provided it is written in R. That constraint — which felt like a restriction at the time — turned out to be the thing that made the project stick. R's Shiny framework forced me to think about the UI as part of the recommendation logic: if you couldn't explain why the model surfaced a song, the interface couldn't hide it.</p>
-
-      <p>The original was a single collaborative filtering engine wrapped in a Shiny app. Slow (two or three seconds per query), single-user, and opinionated in ways I didn't fully understand yet. But friends actually used it, which was the only test that mattered. Three years later I rebuilt it from scratch — not because the original was broken, but because I kept thinking about what a second engine would add, and then a third.</p>
+      <p>This was my favourite undergraduate project. The brief was unusually generous and pretty much to build anything you like, provided it is written in R. The original was a single collaborative filtering engine wrapped in a Shiny app. Slow (two or three seconds per query), single-user, and opinionated in ways I didn't fully understand yet. But my friends and I had fun with it, and three years later I rebuilt it from scratch. You can find both repos on my Github and below.</p>
 
       <Figure caption="Click either panel to open the repository. Left: the original R/Shiny project. Right: the TypeScript + FastAPI rebuild. Same problem, three years of thought in between." palette={p}>
         <RepoEvolution palette={p} />
@@ -86,7 +82,7 @@ export function SixEnginesEssay({ palette: p }) {
 
       <p>Type a song. Six engines return their picks in parallel. The UI shows you the ensemble's top 10, but lets you toggle "show me what each engine thought" so you can see the disagreements. The disagreements are fun! The lyrics engine wants you to listen to <em>The Manuscript</em>; the audio VAE thinks you'd rather have <em>You're On Your Own, Kid</em>; the graph engine sends you somewhere else.</p>
 
-      <p>The site is at <a href="https://shubz-taylor-recommendation-engine.vercel.app" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>shubz-taylor-recommendation-engine.vercel.app</a>. This is where I've got to so far. I'm still thinking about what a seventh engine would do — and whether the editorial bridges should be learned rather than hand-curated. Bring your own opinions about the Lover demos.</p>
+      <p>The site is at <a href="https://shubz-taylor-recommendation-engine.vercel.app" target="_blank" rel="noreferrer" className="link-underline" style={{ color: p.accent }}>shubz-taylor-recommendation-engine.vercel.app</a>. This is where I've got to so far. I'm still thinking about what a seventh engine would do — and how I can get the editorial bridges to be learned rather than hand-curated. Bring your own opinions about the Lover demos.</p>
 
       <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written on the train back from a Tortoise live show.</p>
     </>
