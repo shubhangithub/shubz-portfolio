@@ -210,7 +210,7 @@ export function TuringEssay({ palette: p }) {
   return (
     <>
       <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
-        In 1951, Alan Turing wrote to the zoologist J.Z. Young that he was working on a mathematical theory of embryonic development.<span className="sidenote-number" style={{ color: p.accent }}>1</span> Not the mathematics of neurons or machines (he had done those) but the mathematics of how a fertilised egg, which is roughly spherically symmetric, becomes an organism that is not. Head at one end, tail at the other, limbs in the right places. Something breaks the symmetry. Turing wanted to know where the instruction comes from.
+        In 1951, Alan Turing wrote to the zoologist J.Z. Young that he was working on a mathematical theory of embryonic development.<span className="sidenote-number" style={{ color: p.accent }}>1</span> Not the mathematics of neurons or machines (he had done those) but the mathematics of how a fertilised egg, which is roughly spherically symmetric, becomes an organism that is not. Turing wanted to know where that instruction comes from.
         <span className="sidenote">
           <strong style={{ color: p.accent }}>1.</strong> Letter to J.Z. Young, 8 February 1951. The morphogenesis paper was submitted to the Royal Society the same year and published on 14 August 1952: "The Chemical Basis of Morphogenesis," Phil. Trans. R. Soc. Lond. B 237(641):37–72. It was his last major mathematical publication.
         </span>
@@ -259,9 +259,9 @@ export function TuringEssay({ palette: p }) {
         <span>The condition</span>
       </h2>
 
-      <p>Turing's result is sometimes stated as a guideline: the inhibitor should diffuse faster than the activator. It is not a guideline. In a two-species system with diagonal diffusion, it is a mathematical requirement.</p>
+      <p>Turing's result is sometimes stated as a guideline: the inhibitor should diffuse faster than the activator. In a two-species system with diagonal diffusion, it is a mathematical requirement.</p>
 
-      <p>The analysis runs as follows: linearise around the homogeneous steady state, then examine what happens to a small spatial perturbation of wave-number k. This produces a dispersion relation (a function h(k²)) and Turing instability requires h(k²) to be negative for some k. Working through the algebra, this forces a condition on the diffusion ratio d = D<sub>v</sub>/D<sub>u</sub>: d must exceed a critical value d<sub>c</sub> that depends on the reaction kinetics. That critical ratio is strictly greater than 1. So D<sub>v</sub> &gt; D<sub>u</sub> is necessary, not a rule of thumb.<span className="sidenote-number" style={{ color: p.accent }}>4</span>
+      <p>The analysis runs as follows: linearise around the homogeneous steady state, then examine what happens to a small spatial perturbation of wave-number k. This produces a dispersion relation (a function h(k²)) and Turing instability requires h(k²) to be negative for some k. This forces a condition on the diffusion ratio d = D<sub>v</sub>/D<sub>u</sub>: d must exceed a critical value d<sub>c</sub> that depends on the reaction kinetics. That critical ratio is strictly greater than 1. So D<sub>v</sub> &gt; D<sub>u</sub> is necessary, not a rule of thumb.<span className="sidenote-number" style={{ color: p.accent }}>4</span>
         <span className="sidenote">
           <strong style={{ color: p.accent }}>4.</strong> In full: four conditions on the Jacobian J of the reaction kinetics must hold simultaneously: (C1) tr(J) &lt; 0 and (C2) det(J) &gt; 0 ensure the steady state is stable without diffusion; (C3) D<sub>v</sub>·f<sub>u</sub> + D<sub>u</sub>·g<sub>v</sub> &gt; 0 and (C4) (D<sub>v</sub>·f<sub>u</sub> + D<sub>u</sub>·g<sub>v</sub>)² &gt; 4·D<sub>u</sub>·D<sub>v</sub>·det(J) together ensure instability at some spatial wavelength. Condition C3 with the activator–inhibitor sign pattern requires D<sub>v</sub>/D<sub>u</sub> &gt; |g<sub>v</sub>|/f<sub>u</sub> &gt; 1 strictly. Cross-diffusion (where each species moves in response to the other's gradient) can relax this requirement, but that is a different class of system.
         </span>
@@ -273,12 +273,12 @@ export function TuringEssay({ palette: p }) {
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>
         <span className="mono" style={{ fontSize: 12, color: "#28CA41", letterSpacing: "0.1em" }}>§03</span>
-        <span>Does it actually happen</span>
+        <span>Does it actually happen?</span>
       </h2>
 
       <p>Turing predicted the mechanism but had no experimental system to test it. The first laboratory confirmation came 38 years after the paper was published.</p>
 
-      <p>In 1990, Castets, Dulos, Boissonade, and De Kepper demonstrated stationary Turing-type patterns in the chlorite–iodide–malonic acid (CIMA) reaction in a gel.<span className="sidenote-number" style={{ color: p.accent }}>5</span> Not a biological system: a chemical one. The critical ingredient was starch in the gel, which bound to iodide and slowed the activator's effective diffusion rate, creating the diffusion ratio the instability requires. The first Turing pattern in a real experiment was essentially an engineered diffusion asymmetry.
+      <p>In 1990, Castets, Dulos, Boissonade, and De Kepper demonstrated stationary Turing-type patterns in the chlorite–iodide–malonic acid (CIMA) reaction in a gel.<span className="sidenote-number" style={{ color: p.accent }}>5</span> Not a biological system: a chemical one. The critical ingredient was starch in the gel, which bound to iodide and slowed the activator's effective diffusion rate, creating the diffusion ratio the instability requires.
         <span className="sidenote">
           <strong style={{ color: p.accent }}>5.</strong> Castets, V., Dulos, E., Boissonade, J. & De Kepper, P. (1990). "Experimental evidence of a sustained standing Turing-type nonequilibrium chemical pattern." <em>Phys. Rev. Lett.</em> 64(24):2953–2956.
         </span>
@@ -304,10 +304,6 @@ export function TuringEssay({ palette: p }) {
       <p>Alan Turing was born on 23 June 1912 at a nursing home on Warrington Crescent in Maida Vale, London. The morphogenesis paper was submitted to the Royal Society in November 1951 and published the following August, the same year he was convicted of gross indecency and sentenced to chemical castration. He died on 7 June 1954 at his home in Wilmslow, Cheshire. He was 41. Cyanide poisoning was confirmed at the post-mortem. A half-eaten apple was found beside the body; it was never tested.</p>
 
       <p>The morphogenesis paper was largely ignored for two decades. It belongs to a category of work that is only obvious in retrospect: Turing had the mechanism right, but the experimental tools to identify morphogen pairs in any specific organism did not yet exist, and the broader mathematical biology community was small. Castets' chemical confirmation arrived 38 years after the paper was submitted. The cellular mechanism in zebrafish came 57 years after it. Both are recent enough that researchers who read the 1952 paper as undergraduates lived to see it confirmed in living tissue.</p>
-
-      <p>The pattern the figure runs on is one Turing described from a system of equations on a typewriter in a rented house, before anyone had a way to check whether it was real.</p>
-
-      <p>This figure runs every June.</p>
 
       <p style={{ marginTop: "2.4rem", color: p.muted, fontStyle: "italic", paddingTop: "1.4rem", borderTop: `1px solid ${p.line}` }}>— written on his birthday, in London, where he was born.</p>
     </>
