@@ -57,7 +57,7 @@ export function WritingIndexV5({
   }, [t.paper]);
 
   // Decorate posts with theme-resolved accent + shortened kicker for chips.
-  const essays = POSTS.map((p, i) => {
+  const essays = POSTS.filter((p) => !p.draft).map((p, i) => {
     const accentKey = p.nbAccent || "blue";
     const c = t[accentKey];
     const kicker = (p.kicker || "").replace(/^(Essay|Note)\s*·\s*/i, "").toLowerCase();

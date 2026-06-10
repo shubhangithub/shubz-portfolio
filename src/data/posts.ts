@@ -50,6 +50,8 @@ export type Post = {
   /** Slugs of related essays to surface in the "Related" block on the
    *  article page. Max 3. Pick by family adjacency + topical overlap. */
   related?: string[];
+  /** Hide from writing index and home; accessible via direct URL. */
+  draft?: boolean;
 };
 
 export const POSTS: Post[] = [
@@ -129,6 +131,7 @@ export const POSTS: Post[] = [
   },
   {
     slug: "zx-calculus",
+    draft: true,
     title: "Two colours and a Hadamard",
     kicker: "Essay · Quantum Computation",
     dek: "ZX-calculus as a way of picturing — and actually proving things about — quantum circuits.",

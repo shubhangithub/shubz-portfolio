@@ -103,7 +103,7 @@ export function HomeV5({
   }, [t.paper]);
 
 
-  const pinned = POSTS.slice(0, 3).map((post, i) => {
+  const pinned = POSTS.filter((p) => !p.draft).slice(0, 3).map((post, i) => {
     const accentKey = post.nbAccent || "blue";
     const c = t[accentKey];
     const kicker = (post.kicker || "").replace(/^(Essay|Note)\s*·\s*/i, "").toLowerCase();
@@ -302,7 +302,7 @@ export function HomeV5({
           {/* §03 PINNED WRITING — first 3 from POSTS. */}
           <NBPrompt t={t} cmd="ls ./writing/pinned/" comment={HOME_PINNED_COMMENT} accent={t.yellow} />
           <div style={{ textAlign: "right", marginBottom: 14 }}>
-            <a href="/writing/" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} style={{ color: t.blue, fontFamily: "var(--f-mono)", fontSize: 11, textDecoration: "none" }}>{HOME_VIEW_ALL_TEXT(POSTS.length)}</a>
+            <a href="/writing/" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} style={{ color: t.blue, fontFamily: "var(--f-mono)", fontSize: 11, textDecoration: "none" }}>{HOME_VIEW_ALL_TEXT(POSTS.filter((p) => !p.draft).length)}</a>
           </div>
           <ol style={{ listStyle: "none", padding: 0, margin: "0 0 44px" }}>
             {pinned.map((e, i, arr) => (

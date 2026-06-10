@@ -58,7 +58,7 @@ export const FOCUSES: Focus[] = [
   // This site / typography → Infrastructure
   { kind: "Refining",  family: "yellow", what: "This site, slowly. The fun is in the typography." },
   // BlueDot AGI Strategy cohort findings → AI safety
-  { kind: "Writing",   family: "blue",   what: "Findings from the BlueDot AGI Strategy cohort. There are a lot." },
+  { kind: "Writing",   family: "blue",   what: "Findings from the BlueDot AGI Strategy cohort. Also refining an essay on ZX-calculus — it needs more work before it's out." },
 ];
 
 // /now · "Field journal" — newest first.
