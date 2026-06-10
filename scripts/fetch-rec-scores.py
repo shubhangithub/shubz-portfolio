@@ -28,11 +28,11 @@ import urllib.error
 BASE_URL = os.environ.get("TAYLOR_API_URL", "http://localhost:8000")
 
 ENGINE_MAP = {
-    "transformer_lyrics":   "lyrics",
-    "vae_latent":           "vae",
-    "graph_node2vec":       "graph",
-    "neural_collaborative": "ncf",
-    "contrastive_ssl":      "ssl",
+    "lyrics_transformer": "lyrics",
+    "vae_latent":         "vae",
+    "graph_node2vec":     "graph",
+    "ncf":                "ncf",
+    "contrastive":        "ssl",
 }
 
 def fetch_compare(api_url: str, song_name: str, n: int) -> dict:
@@ -47,7 +47,7 @@ def fetch_compare(api_url: str, song_name: str, n: int) -> dict:
         headers={"Content-Type": "application/json"},
         method="POST",
     )
-    with urllib.request.urlopen(req, timeout=15) as resp:
+    with urllib.request.urlopen(req, timeout=60) as resp:
         return json.loads(resp.read())
 
 def build_songs_array(data: dict, top_n: int) -> list[dict]:
