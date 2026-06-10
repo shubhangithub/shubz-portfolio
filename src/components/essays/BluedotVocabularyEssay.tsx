@@ -8,12 +8,12 @@ export function BluedotVocabularyEssay({ palette: p }) {
   return (
     <>
       {/* ── LEDE ── */}
-      <p className="drop-cap" style={{ fontSize: "1.18rem", lineHeight: 1.72, margin: "0 0 1.2rem" }}>
-        There is a particular kind of argument that feels substantive and turns out to be linguistic. Two people agree on every fact and still disagree, because the word doing the heavy lifting means something different in each of their mouths. The AGI Strategy course is full of these — not because anyone is careless, but because the field assembled its vocabulary faster than its consensus.<span className="sidenote-number" style={{ color: p.accent }}>1</span> This essay tracks seven words through the readings and shows that each one is quietly polysemous. The claim at the end is small and, I think, useful: most "AI debates" resolve the moment you specify whose vocabulary you are speaking.
-        <span className="sidenote">
-          <strong style={{ color: p.accent }}>1.</strong> Adam Jones's BlueDot piece <em>What is AI alignment?</em> opens by noting there is "no strict consensus" before cataloguing a spread of working definitions — a rare instance of a course reading naming its own vocabulary problem explicitly. Most of the other readings simply proceed inside their chosen dictionary without flagging it.
-        </span>
-      </p>
+<p>
+  Some disagreements feel substantive but are really about language. The AGI field has a lot of these — not because anyone is careless, but because the field built its vocabulary faster than its consensus.<span className="sidenote-number" style={{ color: p.accent }}>1</span> This essay tracks seven words through the readings and shows that each carries more than one meaning. 
+  <span className="sidenote">
+    <strong style={{ color: p.accent }}>1.</strong> Adam Jones's BlueDot piece <em>What is AI alignment?</em> opens by noting there is "no strict consensus" before cataloguing a spread of working definitions. Most of the others simply proceed inside their chosen dictionary without flagging it.
+  </span>
+</p>
 
       <Figure caption="Click any contested word to see how each course author defines it. The fan-out reveals that most AI debates are arguments about which dictionary is open." palette={p}>
         <VocabFan palette={p} />
