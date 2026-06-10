@@ -30,9 +30,7 @@ export function SixEnginesEssay({ palette: p }) {
         <li><strong>Ensemble.</strong> Weighted blend of the five, with a consensus boost for songs surfaced by ≥2 engines.</li>
       </ol>
 
-      <p style={{ fontSize: "0.85rem", color: p.muted, marginTop: "-0.5rem", lineHeight: 1.55 }}>
-        <strong style={{ color: p.accent }}>2.</strong> Spotify's track-level audio features — acousticness, danceability, energy, instrumentalness, liveness, loudness, speechiness, tempo, valence, and a handful more — feed into the VAE and get compressed to 16 latent dimensions. Anything that survives that bottleneck is doing real work.
-      </p>
+     
 
       <Figure caption="A query song q routes to six engines; each surfaces ~3 candidates. Songs touched by multiple engines (filled) get a consensus boost in the final ranking." palette={p}>
         <RecEngineSwarm palette={p} />
