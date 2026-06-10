@@ -77,7 +77,8 @@ import { IdeologyUnitGrid } from './diagrams/IdeologyUnitGrid';
 import { DefencePillars } from './diagrams/DefencePillars';
 import { KillChainPhases } from './diagrams/KillChainPhases';
 import { PhaseUnitWiring } from './diagrams/PhaseUnitWiring';
-export { BottleneckMap, ConstraintEffect, SpiderFusion, ZXRewrite, CtlaDistribution, EnsembleConsensus, FeatureSelectionViz, FourierMotif, GateSensitivity, GradientDescentViz, JaggedFrontier, JayaSwarm, LMSRPriceCurve, MethodRanking, ReadingCluster, RecEngineSwarm, ThresholdMethods, TrendSignalFlow, ViolationNetwork, WhoIsWe, AssumptionGrid, TimelineAnchors, VocabFan, SemanticDrift, IdeologyUnitGrid, DefencePillars, KillChainPhases, PhaseUnitWiring };
+import { RepoEvolution } from './diagrams/RepoEvolution';
+export { BottleneckMap, ConstraintEffect, SpiderFusion, ZXRewrite, CtlaDistribution, EnsembleConsensus, FeatureSelectionViz, FourierMotif, GateSensitivity, GradientDescentViz, JaggedFrontier, JayaSwarm, LMSRPriceCurve, MethodRanking, ReadingCluster, RecEngineSwarm, RepoEvolution, ThresholdMethods, TrendSignalFlow, ViolationNetwork, WhoIsWe, AssumptionGrid, TimelineAnchors, VocabFan, SemanticDrift, IdeologyUnitGrid, DefencePillars, KillChainPhases, PhaseUnitWiring };
 
 import { SeasonalSpecimen, StaticSpecimen, LotkaVolterra, SPECIMEN_VARIANTS, INTERACTIVE_VARIANTS } from './diagrams/Seasonal';
 export { SeasonalSpecimen, StaticSpecimen, LotkaVolterra, SPECIMEN_VARIANTS, INTERACTIVE_VARIANTS };
