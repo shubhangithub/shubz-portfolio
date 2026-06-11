@@ -49,7 +49,7 @@ export const WORK_MARGINALIA = {
 };
 
 export const WORK_LAST_UPDATED_LABEL = "WORK · CV WITH MARGINALIA";
-export const WORK_LAST_UPDATED_DATE = "4 jun 2026";
+export const WORK_LAST_UPDATED_DATE = "11 jun 2026";
 
 // ---------------------------------------------------------------------------
 // §02 TRAJECTORY — career timeline, most-recent-first
@@ -63,6 +63,7 @@ export type WorkEvent = {
 
 export const WORK_EVENTS: WorkEvent[] = [
   { year: "May 2026 —",              what: "BlueDot AGI Research cohort",                                                  where: "BlueDot Impact",    note: "Pre-reading + weekly seminars on AGI strategy, alignment, and the policy landscape around frontier AI." },
+  { year: "Apr 2026 —",             what: "AI Researcher · Independent (part-time)",                                       where: "Funded by BDI Grants · Remote", note: "Researching AI safety, alignment, and multi-agent systems — independently, funded by Bluedot Impact's grants programme. Runs alongside Orion full-time. Research skills: AI safety, alignment, multi-agent systems." },
   { year: "Feb 2026",                what: "Elected MInstP · Institute of Physics",                                       where: "London",            note: "Member of the UK's professional body for physics." },
   { year: "2025 —",                  what: "Mentor · Stemmettes, InnovateHer, I'm a… Programme",                          where: "STEM-ed outreach",  note: "Three orgs running workshops, panels, and one-on-ones for girls, non-binary kids, and under-represented young people moving toward engineering, maths, and CS. DBS-checked." },
   { year: "Apr 2024 —",              what: "Founding Engineer · Orion",                                                   where: "London",            note: "Building geospatial intelligence infrastructure from scratch — data pipelines for high-volume multi-source streams, ML anomaly detection over H3 spatial indexing, backend services in Python and Golang. Joined as Data Engineer (Apr 2024 → Nov 2024), then Data & ML Engineer (Nov 2024 → Aug 2025), then Founding Engineer." },
@@ -308,7 +309,7 @@ export const WORK_SPEAKING: SpeakingEntry[] = [
 export const WORK_CV_STAT = {
   filename: "cv.pdf",
   span: "2019 — now",
-  updatedDisplay: "04/06/2026",
+  updatedDisplay: "11/06/2026",
   openText: "↗ open pdf",
   /** Sections shown on this /work page. Listed in the right-rail stat
    *  block so a visitor scanning the CV knows what's covered without

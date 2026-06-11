@@ -38,7 +38,7 @@ export const NOW_MARGINALIA = {
 };
 
 export const NOW_LAST_UPDATED_LABEL = "NOW · WEEKLY-ISH SNAPSHOT";
-export const NOW_LAST_UPDATED_DATE = "4 jun 2026";
+export const NOW_LAST_UPDATED_DATE = "11 jun 2026";
 
 export const NOW_CADENCE_LABEL = "weekly-ish";
 
@@ -51,8 +51,8 @@ export type Condition = { k: string; v: string; sub: string; family: NBAccentKey
 export const FOCUSES: Focus[] = [
   // fashion-web (trend prediction + LMSR market) → fintech / ochre
   { kind: "Building",  family: "ochre",  what: "fashion-web. Composite trend signal across five live sources, an LMSR prediction market on top, Gemini for outfit-against-runway matching. Calibrating the house model." },
-  // BlueDot AGI Strategy → AI safety
-  { kind: "Studying",  family: "blue",   what: "BlueDot's AGI Strategy cohort, May into June. The strategic frame around the technical work I already do." },
+  // BDI-funded AI safety research → AI safety
+  { kind: "Researching", family: "blue", what: "AI safety, alignment, and multi-agent systems — independently, funded by Bluedot Impact's BDI grants. The cohort turned into something more sustained." },
   // AI safety reading list → AI safety
   { kind: "Reading",   family: "blue",   what: "AI safety: Betley on weird generalisation and inductive backdoors, Bengio's Scientist AI, Anthropic's Persona Selection Model, Nanda on pragmatic interpretability." },
   // This site / typography → Infrastructure
@@ -66,24 +66,22 @@ export const FOCUSES: Focus[] = [
 // render from this array; >5 overflows the layout. When adding a new entry,
 // delete the oldest one in the same edit to maintain the cap.
 export const JOURNAL: JournalEntry[] = [
-  // BlueDot cohort + AI safety interest spike → AI safety (the cohort is wrapping
-  // up; folding the "AI safety has become genuinely interesting" beat in here so
-  // the journal stays at 5 entries — see feedback-now-journal-cap memory).
-  { date: "2026-05", family: "blue",   note: "Wrapping up BlueDot's AGI Strategy cohort. AI safety is becoming genuinely interesting to me — the material moved more pieces around in my head than I expected." },
+  // BDI grant → AI safety (funded research continues past the cohort)
+  { date: "2026-06", family: "blue",   note: "Got BDI grant funding from Bluedot Impact to continue the AI safety and alignment research beyond the cohort. Didn't expect it to turn into something this sustained." },
+  // BlueDot cohort close → AI safety
+  { date: "2026-05", family: "blue",   note: "Finished BlueDot's AGI Strategy cohort. AI safety has become genuinely interesting — the material moved more pieces around than I expected." },
   // Orion search rewrite → AI/ML (LLM eng)
   { date: "2026-05", family: "purple", note: "Rewriting Orion's search system — tool schemas, decision-tree prompts, fewshot disambiguation. Three weeks in." },
   // fashion-web redesign → Markets (the product is markets)
   { date: "2026-04", family: "ochre",  note: "Used Claude to redesign fashion-web. Broke more than I expected. Still putting it back together." },
   // MInstP election → Physics
   { date: "2026-02", family: "prompt", note: "Elected MInstP. The certificate is small and unreasonably satisfying." },
-  // Taylor rec second pass → Markets (recommendations)
-  { date: "2025-12", family: "ochre",  note: "Second pass at the Taylor Swift recommender — ported from the R/Shiny original to Python (FastAPI) and TypeScript, six engines running in parallel. Learning a lot about how recommendation systems actually work when you try to make them good." },
 ];
 
 // /now · "Conditions" tile
 export const CONDITIONS: Condition[] = [
   // Study-mode → AI safety (BlueDot study)
-  { k: "Mood",    family: "blue",   v: "study-mode",        sub: "rare and protected" },
+  { k: "Mood",    family: "blue",   v: "research-mode",     sub: "funded, ongoing" },
   // Music → Outreach (personal/community)
   { k: "Music",   family: "orange", v: "tame impala",       sub: "currents, specifically" },
   // Reading AI safety papers → AI safety

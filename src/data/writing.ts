@@ -25,5 +25,5 @@ export const WRITING_MARGINALIA = {
 };
 
 export const WRITING_LAST_UPDATED_LABEL = "WRITING · THE GARDEN";
-export const WRITING_LAST_UPDATED_DATE = "4 jun 2026";
+export const WRITING_LAST_UPDATED_DATE = "11 jun 2026";
 
