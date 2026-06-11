@@ -52,13 +52,13 @@ export const FOCUSES: Focus[] = [
   // fashion-web (trend prediction + LMSR market) → fintech / ochre
   { kind: "Building",  family: "ochre",  what: "fashion-web. Composite trend signal across five live sources, an LMSR prediction market on top, Gemini for outfit-against-runway matching. Calibrating the house model." },
   // BDI-funded AI safety research + Technical AI Safety course → AI safety
-  { kind: "Studying",  family: "blue",   what: "BlueDot's Technical AI Safety course — mechanistic interpretability, RLHF, evaluations, AI control. Started right after the AGI Strategy cohort closed." },
+  { kind: "Studying",  family: "blue",   what: "BlueDot's Technical AI Safety course — mechanistic interpretability, RLHF, evaluations, AI control. Started right after the AGI Strategy cohort." },
   // AI safety reading list → AI safety
-  { kind: "Reading",   family: "blue",   what: "AI safety: Betley on weird generalisation and inductive backdoors, Bengio's Scientist AI, Anthropic's Persona Selection Model, Nanda on pragmatic interpretability." },
+  { kind: "Reading",   family: "blue",   what: "AI safety: on weird generalisation and inductive backdoors, Scientist AI, Persona Selection Model, pragmatic interpretability." },
   // This site / typography → Infrastructure
-  { kind: "Refining",  family: "yellow", what: "This site, slowly. The fun is in the typography." },
+  { kind: "Refining",  family: "yellow", what: "This site, v slowly." },
   // BlueDot AGI Strategy cohort findings → AI safety
-  { kind: "Writing",   family: "blue",   what: "Findings from the BlueDot AGI Strategy cohort. Also refining an essay on ZX-calculus — it needs more work before it's out." },
+  { kind: "Writing",   family: "blue",   what: "Findings from the BlueDot AGI Strategy cohort. Also refining an essay on ZX-calculus." },
 ];
 
 // /now · "Field journal" — newest first.
@@ -67,15 +67,15 @@ export const FOCUSES: Focus[] = [
 // delete the oldest one in the same edit to maintain the cap.
 export const JOURNAL: JournalEntry[] = [
   // BDI grant + new course → AI safety
-  { date: "2026-06", family: "blue",   note: "AGI Strategy cohort closed; BDI grant came through; starting BlueDot's Technical AI Safety course now. Mechanistic interpretability, RLHF, evaluations. One thing led to another." },
+  { date: "2026-06", family: "blue",   note: "BDI grant came through, and starting BlueDot's Technical AI Safety course now." },
   // BlueDot cohort close → AI safety
-  { date: "2026-05", family: "blue",   note: "Wrapped BlueDot's AGI Strategy cohort. AI safety became genuinely interesting — the material moved more pieces around than I expected." },
+  { date: "2026-05", family: "blue",   note: "Wrapped BlueDot's AGI Strategy cohort, has been an excellent primer on AI safety" },
   // Orion search rewrite → AI/ML (LLM eng)
   { date: "2026-05", family: "purple", note: "Rewriting Orion's search system — tool schemas, decision-tree prompts, fewshot disambiguation. Three weeks in." },
   // fashion-web redesign → Markets (the product is markets)
   { date: "2026-04", family: "ochre",  note: "Used Claude to redesign fashion-web. Broke more than I expected. Still putting it back together." },
   // MInstP election → Physics
-  { date: "2026-02", family: "prompt", note: "Elected MInstP. The certificate is small and unreasonably satisfying." },
+  { date: "2026-02", family: "prompt", note: "Elected MInstP. The certificate is unreasonably satisfying." },
 ];
 
 // /now · "Conditions" tile
