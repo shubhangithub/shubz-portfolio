@@ -51,8 +51,8 @@ export type Condition = { k: string; v: string; sub: string; family: NBAccentKey
 export const FOCUSES: Focus[] = [
   // fashion-web (trend prediction + LMSR market) → fintech / ochre
   { kind: "Building",  family: "ochre",  what: "fashion-web. Composite trend signal across five live sources, an LMSR prediction market on top, Gemini for outfit-against-runway matching. Calibrating the house model." },
-  // BDI-funded AI safety research → AI safety
-  { kind: "Researching", family: "blue", what: "AI safety, alignment, and multi-agent systems — independently, funded by Bluedot Impact's BDI grants. The cohort turned into something more sustained." },
+  // BDI-funded AI safety research + Technical AI Safety course → AI safety
+  { kind: "Studying",  family: "blue",   what: "BlueDot's Technical AI Safety course — mechanistic interpretability, RLHF, evaluations, AI control. Started right after the AGI Strategy cohort closed." },
   // AI safety reading list → AI safety
   { kind: "Reading",   family: "blue",   what: "AI safety: Betley on weird generalisation and inductive backdoors, Bengio's Scientist AI, Anthropic's Persona Selection Model, Nanda on pragmatic interpretability." },
   // This site / typography → Infrastructure
@@ -66,10 +66,10 @@ export const FOCUSES: Focus[] = [
 // render from this array; >5 overflows the layout. When adding a new entry,
 // delete the oldest one in the same edit to maintain the cap.
 export const JOURNAL: JournalEntry[] = [
-  // BDI grant → AI safety (funded research continues past the cohort)
-  { date: "2026-06", family: "blue",   note: "Got BDI grant funding from Bluedot Impact to continue the AI safety and alignment research beyond the cohort. Didn't expect it to turn into something this sustained." },
+  // BDI grant + new course → AI safety
+  { date: "2026-06", family: "blue",   note: "AGI Strategy cohort closed; BDI grant came through; starting BlueDot's Technical AI Safety course now. Mechanistic interpretability, RLHF, evaluations. One thing led to another." },
   // BlueDot cohort close → AI safety
-  { date: "2026-05", family: "blue",   note: "Finished BlueDot's AGI Strategy cohort. AI safety has become genuinely interesting — the material moved more pieces around than I expected." },
+  { date: "2026-05", family: "blue",   note: "Wrapped BlueDot's AGI Strategy cohort. AI safety became genuinely interesting — the material moved more pieces around than I expected." },
   // Orion search rewrite → AI/ML (LLM eng)
   { date: "2026-05", family: "purple", note: "Rewriting Orion's search system — tool schemas, decision-tree prompts, fewshot disambiguation. Three weeks in." },
   // fashion-web redesign → Markets (the product is markets)
