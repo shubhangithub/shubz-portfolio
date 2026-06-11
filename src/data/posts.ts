@@ -180,6 +180,7 @@ export const POSTS: Post[] = [
   },
   {
     slug: "threshold-gate",
+    draft: true,
     title: "Positive by how much",
     kicker: "Essay · Computational biology",
     dek: "Four automated methods replicating a pathologist's threshold on immune cell data.",
@@ -195,6 +196,7 @@ export const POSTS: Post[] = [
   },
   {
     slug: "constraint-clustering",
+    draft: true,
     title: "Cells that can't exist",
     kicker: "Essay · Computational biology",
     dek: "A standard clustering algorithm, plus nine immunology constraints.",

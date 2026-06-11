@@ -27,10 +27,3 @@ export const WRITING_MARGINALIA = {
 export const WRITING_LAST_UPDATED_LABEL = "WRITING · THE GARDEN";
 export const WRITING_LAST_UPDATED_DATE = "4 jun 2026";
 
-// ---------------------------------------------------------------------------
-// DRAFTS — filenames shown in the right-rail "ls -la *.draft.mdx" block
-// ---------------------------------------------------------------------------
-export const WRITING_DRAFTS = [
-  "zx-calculus-ii.draft.mdx",
-  "geospatial-vs-temporal.draft.mdx",
-];

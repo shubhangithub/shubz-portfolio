@@ -21,7 +21,6 @@ import {
 import {
   WRITING_HERO, WRITING_LEDE, WRITING_MARGINALIA,
   WRITING_LAST_UPDATED_LABEL, WRITING_LAST_UPDATED_DATE,
-  WRITING_DRAFTS,
 } from "../../data/writing";
 import type { Span } from "../../data/home";
 
@@ -55,6 +54,8 @@ export function WritingIndexV5({
       document.body.style.background = t.paper;
     }
   }, [t.paper]);
+
+  const drafts = POSTS.filter((p) => p.draft);
 
   // Decorate posts with theme-resolved accent + shortened kicker for chips.
   const essays = POSTS.filter((p) => !p.draft).map((p, i) => {
@@ -234,6 +235,68 @@ export function WritingIndexV5({
             ))}
           </ol>
 
+          {/* Working notes */}
+          {drafts.length > 0 && (
+            <div style={{ marginBottom: 44 }}>
+              <NBPromptHead t={t} n="§04" command="ls ./drafts/" comment={`${drafts.length} in progress`} title="Working notes" accent={t.muted} level={22} />
+              <div style={{
+                border: `1px solid ${t.rule}`,
+                borderRadius: 3,
+                overflow: "hidden",
+              }}>
+                <div style={{
+                  background: `color-mix(in oklch, ${t.ink} 6%, transparent)`,
+                  borderBottom: `1px solid ${t.rule}`,
+                  padding: "7px 14px",
+                  display: "flex", alignItems: "center", gap: 7,
+                }}>
+                  <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#FF5F57", display: "inline-block", flexShrink: 0 }} />
+                  <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#FFBD2E", display: "inline-block", flexShrink: 0 }} />
+                  <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#28CA41", display: "inline-block", flexShrink: 0 }} />
+                  <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, marginLeft: 4 }}>
+                    ~/writing/drafts — pieces still arguing with themselves
+                  </span>
+                </div>
+                {drafts.map((d, i) => {
+                  const c = t[d.nbAccent || "blue"] as string;
+                  return (
+                    <div key={d.slug} style={{
+                      padding: isMobile ? "12px 14px" : "14px 18px",
+                      borderBottom: i < drafts.length - 1 ? `1px dashed ${t.muted}33` : "none",
+                      display: "grid",
+                      gridTemplateColumns: "22px 1fr",
+                      gap: "0 10px",
+                    }}>
+                      <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, paddingTop: 3 }}>
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <div>
+                        <span style={{
+                          fontFamily: "var(--f-display)",
+                          fontVariationSettings: '"opsz" 144, "SOFT" 50',
+                          fontSize: isMobile ? 16 : 18,
+                          color: c, display: "block", lineHeight: 1.1,
+                        }}>
+                          {d.title}
+                        </span>
+                        <span style={{
+                          fontFamily: "var(--f-body)", fontStyle: "italic",
+                          color: t.muted, fontSize: 13,
+                          marginTop: 4, display: "block", lineHeight: 1.5,
+                        }}>
+                          {d.dek}
+                        </span>
+                        <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: `${t.muted}99`, marginTop: 5, display: "block" }}>
+                          {(d.kicker || "").replace(/^(Essay|Note)\s*·\s*/i, "").toLowerCase()} · not yet published
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
         </main>
 
         {/* Right rail */}
@@ -270,10 +333,10 @@ export function WritingIndexV5({
             color: t.softInk, borderRadius: 3, margin: 0,
             whiteSpace: "pre-wrap",
           }}>
-            <span style={{ color: t.muted }}>{WRITING_DRAFTS.length} drafts</span>{"\n"}
-            {WRITING_DRAFTS.map((d, i) => (
-              <span key={i}>
-                <span style={{ color: t.prompt }}>-rw-</span> {d}{"\n"}
+            <span style={{ color: t.muted }}>{drafts.length} drafts</span>{"\n"}
+            {drafts.map((d) => (
+              <span key={d.slug}>
+                <span style={{ color: t.prompt }}>-rw-</span> {d.slug}.draft.mdx{"\n"}
               </span>
             ))}
           </pre>
