@@ -38,7 +38,7 @@ export const NOW_MARGINALIA = {
 };
 
 export const NOW_LAST_UPDATED_LABEL = "NOW · WEEKLY-ISH SNAPSHOT";
-export const NOW_LAST_UPDATED_DATE = "11 jun 2026";
+export const NOW_LAST_UPDATED_DATE = "28 jun 2026";
 
 export const NOW_CADENCE_LABEL = "weekly-ish";
 
@@ -49,16 +49,16 @@ export type Condition = { k: string; v: string; sub: string; family: NBAccentKey
 // /now · "Right now" — five concurrent threads.
 // CAP: 5 entries (same reason as JOURNAL — anything more clutters the layout).
 export const FOCUSES: Focus[] = [
-  // fashion-web (trend prediction + LMSR market) → fintech / ochre
-  { kind: "Building",  family: "ochre",  what: "fashion-web. Composite trend signal across five live sources, an LMSR prediction market on top, Gemini for outfit-against-runway matching. Calibrating the house model." },
-  // BDI-funded AI safety research + Technical AI Safety course → AI safety
-  { kind: "Studying",  family: "blue",   what: "BlueDot's Technical AI Safety course — mechanistic interpretability, RLHF, evaluations, AI control. Started right after the AGI Strategy cohort." },
-  // AI safety reading list → AI safety
-  { kind: "Reading",   family: "blue",   what: "AI safety: on weird generalisation and inductive backdoors, Scientist AI, Persona Selection Model, pragmatic interpretability." },
-  // This site / typography → Infrastructure
-  { kind: "Refining",  family: "yellow", what: "This site, v slowly." },
-  // BlueDot AGI Strategy cohort findings → AI safety
-  { kind: "Writing",   family: "blue",   what: "Findings from the BlueDot AGI Strategy cohort. Also refining an essay on ZX-calculus." },
+  // BlueDot Technical AI Safety → AI safety
+  { kind: "Studying",  family: "blue",   what: "BlueDot's Technical AI Safety course — mechanistic interpretability, RLHF, evaluations, AI control. Alongside the BDI-funded research." },
+  // Agentic AI reading → AI/ML
+  { kind: "Reading",   family: "purple", what: "Agentic systems — tool use, memory architectures, multi-agent coordination. The gap between demos and things that actually work reliably." },
+  // Google cybersecurity cert → infra
+  { kind: "Learning",  family: "yellow", what: "Google's cybersecurity certificate. Wanted a more formal grounding in what I've been picking up from the safety side." },
+  // Procreate / drawing → outreach (personal, creative)
+  { kind: "Drawing",   family: "orange", what: "Procreate course on Skillshare. Trying to get better at making things by hand. No particular goal, just enjoy it." },
+  // fashion-web → fintech
+  { kind: "Building",  family: "ochre",  what: "fashion-web, slowly. Calibrating the house model between other things." },
 ];
 
 // /now · "Field journal" — newest first.
@@ -66,26 +66,26 @@ export const FOCUSES: Focus[] = [
 // render from this array; >5 overflows the layout. When adding a new entry,
 // delete the oldest one in the same edit to maintain the cap.
 export const JOURNAL: JournalEntry[] = [
-  // BDI grant + new course → AI safety
-  { date: "2026-06", family: "blue",   note: "BDI grant came through, and starting BlueDot's Technical AI Safety course now." },
+  // Branching out post-grant → mixed
+  { date: "2026-06", family: "orange", note: "Since the grant: started Google's cybersecurity certificate, a Procreate drawing course on Skillshare, reading a lot about agentic systems. Professionally quieter than usual, which is fine." },
+  // BDI grant + Technical AI Safety course → AI safety
+  { date: "2026-06", family: "blue",   note: "BDI grant came through. Starting BlueDot's Technical AI Safety course — mechanistic interpretability, RLHF, evaluations, AI control." },
   // BlueDot cohort close → AI safety
-  { date: "2026-05", family: "blue",   note: "Wrapped BlueDot's AGI Strategy cohort, has been an excellent primer on AI safety" },
+  { date: "2026-05", family: "blue",   note: "Wrapped BlueDot's AGI Strategy cohort. Good primer on the strategic frame around the technical work." },
   // Orion search rewrite → AI/ML (LLM eng)
-  { date: "2026-05", family: "purple", note: "Rewriting Orion's search system — tool schemas, decision-tree prompts, fewshot disambiguation. Three weeks in." },
-  // fashion-web redesign → Markets (the product is markets)
+  { date: "2026-05", family: "purple", note: "Rewriting Orion's search system — tool schemas, decision-tree prompts, fewshot disambiguation." },
+  // fashion-web redesign → Markets
   { date: "2026-04", family: "ochre",  note: "Used Claude to redesign fashion-web. Broke more than I expected. Still putting it back together." },
-  // MInstP election → Physics
-  { date: "2026-02", family: "prompt", note: "Elected MInstP. The certificate is unreasonably satisfying." },
 ];
 
 // /now · "Conditions" tile
 export const CONDITIONS: Condition[] = [
-  // Study-mode → AI safety (BlueDot study)
-  { k: "Mood",    family: "blue",   v: "research-mode",     sub: "funded, ongoing" },
-  // Music → Outreach (personal/community)
+  // Drawing / creative mode → outreach (personal)
+  { k: "Mood",    family: "orange", v: "drawing things",    sub: "on procreate" },
+  // Music → outreach (personal)
   { k: "Music",   family: "orange", v: "tame impala",       sub: "currents, specifically" },
-  // Reading AI safety papers → AI safety
-  { k: "Reading", family: "blue",   v: "ai safety papers",  sub: "allegedly also a novel" },
-  // Drink → Outreach (personal)
+  // Reading agentic AI → AI/ML
+  { k: "Reading", family: "purple", v: "agentic AI papers", sub: "and a novel, finally" },
+  // Drink → outreach (personal)
   { k: "Drink",   family: "orange", v: "strawberry matcha", sub: "from blank street" },
 ];
