@@ -67,7 +67,7 @@ export const FOCUSES: Focus[] = [
 // delete the oldest one in the same edit to maintain the cap.
 export const JOURNAL: JournalEntry[] = [
   // InnovateHer outreach milestone + summer talks → outreach
-  { date: "2026-07", family: "orange", note: "InnovateHer outreach passed 200+ students spoken to across UK schools — careers in tech, and the roles we don't have names for yet. Recent talks at the University of Liverpool Maths School, and back at FLAME on choice theory and grad school." },
+  { date: "2026-07", family: "orange", note: "InnovateHer outreach passed 200+ students spoken to across UK schools — careers in tech, and the roles we don't have names for yet. Recent talks at the University of Liverpool Maths School, and DACA London." },
   // Branching out post-grant → mixed
   { date: "2026-06", family: "orange", note: "Since the grant: started Google's cybersecurity certificate, a Procreate drawing course on Skillshare, reading a lot about agentic systems. Professionally quieter than usual, which is fine." },
   // BDI grant + Technical AI Safety course → AI safety

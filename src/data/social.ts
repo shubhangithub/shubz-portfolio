@@ -43,32 +43,6 @@ export const SOCIAL_POSTS: SocialPost[] = [
     url: "https://www.linkedin.com/in/shubhangi-s-sharma/recent-activity/all/",
     family: "orange", // orange = Outreach (STEM-ed)
   },
-  {
-    date: "Jun 2026",
-    platform: "linkedin",
-    text:
-      "Caught the Barbican screening of Intelligence Rising — a wargaming documentary on the incentives behind AI development — with its creators Shahar Avin and Marc Warner, and others working in AI safety.",
-    url: "https://www.linkedin.com/in/shubhangi-s-sharma/recent-activity/all/",
-    family: "blue", // blue = AI safety (governance)
-  },
-  {
-    date: "Jun 2026",
-    platform: "linkedin",
-    text:
-      "Grateful to BlueDot Impact for funding my continued research on AI alignment, control, and multi-agent systems — following their AGI Strategy course.",
-    url: "https://www.linkedin.com/in/shubhangi-s-sharma/recent-activity/all/",
-    family: "blue", // blue = AI safety
-  },
-  {
-    date: "Feb 2026",
-    platform: "linkedin",
-    text:
-      "Elected a Member of the Institute of Physics, the learned society for physics in the UK and Ireland. My QM modules in MFoCS deepened my love for physics — grateful for the recognition and the chance to be part of a long-standing scientific institution.",
-    url: "https://www.linkedin.com/in/shubhangi-s-sharma/",
-    family: "prompt", // green = Physics (canonical topical match for this post)
-    image: "/social/minstp.jpg",
-    imageAlt: "MInstP certificate from the Institute of Physics",
-  },
 ];
 
 /** Default colour per platform when an entry omits `family`. */
