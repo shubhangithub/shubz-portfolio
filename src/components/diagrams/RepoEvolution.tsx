@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
+import { withAlpha } from '../../data/palette';
 
 const OLD_URL = "https://github.com/shubhangithub/shubz-taylor-rec-engine-R";
 const NEW_URL = "https://github.com/shubhangithub/updated-shubz-taylor-rec-engine";
@@ -42,7 +43,7 @@ function Panel({ label, path, rows, url, accent, p, active, onEnter, onLeave }) 
         borderRadius: 6,
         overflow: "hidden",
         transition: "border-color 200ms, box-shadow 200ms",
-        boxShadow: active ? `0 0 0 1px ${accent}22` : "none",
+        boxShadow: active ? `0 0 0 1px ${withAlpha(accent, "22")}` : "none",
         cursor: "pointer",
       }}>
         {/* traffic lights + path */}
@@ -52,7 +53,7 @@ function Panel({ label, path, rows, url, accent, p, active, onEnter, onLeave }) 
           display: "flex",
           alignItems: "center",
           gap: 8,
-          borderBottom: `1px solid ${p.line}33`,
+          borderBottom: `1px solid ${withAlpha(p.line, "33")}`,
         }}>
           <div style={{ display: "flex", gap: 5 }}>
             {["#FF5F57","#FFBD2E","#28CA41"].map((c, i) => (
@@ -82,7 +83,7 @@ function Panel({ label, path, rows, url, accent, p, active, onEnter, onLeave }) 
               justifyContent: "space-between",
               gap: 12,
               padding: "4px 0",
-              borderBottom: `1px solid ${p.line}44`,
+              borderBottom: `1px solid ${withAlpha(p.line, "44")}`,
               fontFamily: "var(--f-mono)",
               fontSize: 12,
             }}>
@@ -146,14 +147,14 @@ export function RepoEvolution({ palette: p }) {
           width: 1,
           flex: 1,
           maxHeight: 40,
-          background: `linear-gradient(to bottom, ${p.line}00, ${p.line}, ${p.line}00)`,
+          background: `linear-gradient(to bottom, ${withAlpha(p.line, "00")}, ${p.line}, ${withAlpha(p.line, "00")})`,
         }} />
         <div style={{ color: p.muted, fontSize: 16 }}>↓</div>
         <div style={{
           width: 1,
           flex: 1,
           maxHeight: 40,
-          background: `linear-gradient(to bottom, ${p.line}00, ${p.line}, ${p.line}00)`,
+          background: `linear-gradient(to bottom, ${withAlpha(p.line, "00")}, ${p.line}, ${withAlpha(p.line, "00")})`,
         }} />
         <div style={{
           fontFamily: "var(--f-mono)",

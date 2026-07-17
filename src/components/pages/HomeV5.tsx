@@ -13,7 +13,7 @@
  */
 import React from "react";
 import { POSTS, thumbUrlFor } from "../../data/posts";
-import { nbTheme } from "../../data/palette";
+import { nbTheme, nbLiteral, withAlpha } from "../../data/palette";
 import { useIsMobile } from "../../lib/hooks";
 import {
   NBPageShell, NBLastUpdated, NBPrompt, NBThumbtack, NBThumb, NBMarginalia,
@@ -94,6 +94,9 @@ export function HomeV5({
 }) {
   const mode: "light" | "dark" = dark ? "dark" : "light";
   const t = nbTheme(mode);
+  // Literal hexes for consumers that can't resolve var(--nb-*) references:
+  // the NotebookRD canvas (parseHex) and the GitHub calendar theme arrays.
+  const lit = nbLiteral(mode);
   const isMobile = useIsMobile();
 
   React.useEffect(() => {
@@ -218,7 +221,7 @@ export function HomeV5({
                           gridTemplateColumns: p.image ? "auto 1fr auto" : "auto 1fr",
                           gap: 12,
                           padding: "8px 0",
-                          borderBottom: i === SOCIAL_POSTS.length - 1 ? "none" : `1px dashed ${t.muted}33`,
+                          borderBottom: i === SOCIAL_POSTS.length - 1 ? "none" : `1px dashed ${withAlpha(t.muted, "33")}`,
                           textDecoration: "none",
                           color: "inherit",
                           alignItems: "start",
@@ -282,8 +285,11 @@ export function HomeV5({
                 username={GITHUB_USERNAME}
                 colorScheme={mode}
                 theme={{
-                  light: [t.rule, `${t.yellow}33`, `${t.yellow}66`, `${t.yellow}cc`, t.yellow],
-                  dark:  [t.rule, `${t.yellow}33`, `${t.yellow}66`, `${t.yellow}cc`, t.yellow],
+                  // Literal 8-digit hexes (not var()/color-mix) — the calendar
+                  // library consumes these directly. Each array uses its own
+                  // theme's palette so both colorSchemes are correct.
+                  light: [nbLiteral("light").rule, `${nbLiteral("light").yellow}33`, `${nbLiteral("light").yellow}66`, `${nbLiteral("light").yellow}cc`, nbLiteral("light").yellow],
+                  dark:  [nbLiteral("dark").rule, `${nbLiteral("dark").yellow}33`, `${nbLiteral("dark").yellow}66`, `${nbLiteral("dark").yellow}cc`, nbLiteral("dark").yellow],
                 }}
                 blockSize={isMobile ? 9 : 11}
                 blockMargin={isMobile ? 2 : 3}
@@ -312,7 +318,7 @@ export function HomeV5({
                 gap: isMobile ? 14 : 22,
                 alignItems: "center",
                 padding: "22px 0",
-                borderBottom: i === arr.length - 1 ? "none" : `1px dashed ${t.muted}66`,
+                borderBottom: i === arr.length - 1 ? "none" : `1px dashed ${withAlpha(t.muted, "66")}`,
                 transform: i % 2 ? "translateX(0)" : "translateX(2px)",
               }}>
                 <NBThumbtack color={e.c} ink={t.ink} size={18} />
@@ -345,7 +351,7 @@ export function HomeV5({
                 gridTemplateColumns: isMobile ? "1fr auto" : "240px 1fr auto",
                 gap: 18,
                 padding: "10px 0",
-                borderBottom: i === arr.length - 1 ? "none" : `1px dashed ${t.muted}66`,
+                borderBottom: i === arr.length - 1 ? "none" : `1px dashed ${withAlpha(t.muted, "66")}`,
                 textDecoration: "none",
                 alignItems: "baseline",
               }}>
@@ -385,7 +391,7 @@ export function HomeV5({
                 gap: isMobile ? "8px" : "12px 24px",
                 paddingBottom: 18,
                 marginBottom: 18,
-                borderBottom: gi === arr.length - 1 ? "none" : `1px dashed ${t.muted}55`,
+                borderBottom: gi === arr.length - 1 ? "none" : `1px dashed ${withAlpha(t.muted, "55")}`,
                 alignItems: "start",
               }}>
                 <div style={{
@@ -440,7 +446,7 @@ export function HomeV5({
             })}
             <div style={{
               marginTop: 6, paddingTop: 14,
-              borderTop: `1px dashed ${t.muted}55`,
+              borderTop: `1px dashed ${withAlpha(t.muted, "55")}`,
               display: "flex", justifyContent: "space-between", alignItems: "baseline",
               fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, gap: 12, flexWrap: "wrap",
             }}>
@@ -448,7 +454,7 @@ export function HomeV5({
               <a href="/work/#toolbox" style={{
                 color: t.purple,
                 textDecoration: "none",
-                borderBottom: `1px solid ${t.purple}66`,
+                borderBottom: `1px solid ${withAlpha(t.purple, "66")}`,
                 paddingBottom: 1,
               }}>{HOME_TOOLBOX_SEE_ALL}</a>
             </div>
@@ -482,7 +488,7 @@ export function HomeV5({
             <NBThumbtack color={t.red} ink={t.ink} />
             <span style={{ fontFamily: "var(--f-display)", fontStyle: "italic", fontSize: 16, color: t.ink }}>{HOME_FIG_LABEL}</span>
             <div style={{ marginTop: 10 }}>
-              <NotebookRD w={isMobile ? 240 : 290} h={isMobile ? 174 : 210} ink={t.ink} accent={t.red} paper={t.paper} muted={t.muted} />
+              <NotebookRD w={isMobile ? 240 : 290} h={isMobile ? 174 : 210} ink={lit.ink} accent={lit.red} paper={lit.paper} muted={lit.muted} />
             </div>
             <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, display: "flex", justifyContent: "space-between", marginTop: 8 }}>
               <span>{HOME_FIG_CAPTION}</span>

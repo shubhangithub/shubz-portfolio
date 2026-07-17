@@ -36,6 +36,30 @@ export type SocialPost = {
 
 export const SOCIAL_POSTS: SocialPost[] = [
   {
+    date: "Jul 2026",
+    platform: "linkedin",
+    text:
+      "Through InnovateHer, I've now spoken to 200+ students across UK schools about careers in tech — and the roles we don't have names for yet. Named an InnovateHer Ambassador for the year.",
+    url: "https://www.linkedin.com/in/shubhangi-s-sharma/recent-activity/all/",
+    family: "orange", // orange = Outreach (STEM-ed)
+  },
+  {
+    date: "Jun 2026",
+    platform: "linkedin",
+    text:
+      "Caught the Barbican screening of Intelligence Rising — a wargaming documentary on the incentives behind AI development — with its creators Shahar Avin and Marc Warner, and others working in AI safety.",
+    url: "https://www.linkedin.com/in/shubhangi-s-sharma/recent-activity/all/",
+    family: "blue", // blue = AI safety (governance)
+  },
+  {
+    date: "Jun 2026",
+    platform: "linkedin",
+    text:
+      "Grateful to BlueDot Impact for funding my continued research on AI alignment, control, and multi-agent systems — following their AGI Strategy course.",
+    url: "https://www.linkedin.com/in/shubhangi-s-sharma/recent-activity/all/",
+    family: "blue", // blue = AI safety
+  },
+  {
     date: "Feb 2026",
     platform: "linkedin",
     text:

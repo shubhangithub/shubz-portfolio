@@ -6,7 +6,7 @@
  * picks it up automatically. PGP block omitted by design (no real key).
  */
 import React from "react";
-import { nbTheme } from "../../data/palette";
+import { nbTheme, withAlpha } from "../../data/palette";
 import { useIsMobile } from "../../lib/hooks";
 import {
   NBPageShell, NBLastUpdated, NBPrompt, NBPromptHead, NBMarginalia,
@@ -130,14 +130,14 @@ export function ContactV5({
           {/* §02 Channels */}
           {/* §02 Channels → Outreach (orange). */}
           <NBPromptHead t={t} n="§02" command="ls ./channels/" comment={`${channels.length} ways in`} title="Channels" accent={t.orange} level={isMobile ? 22 : 28} />
-          <div style={{ marginBottom: 56, borderTop: `1px solid ${t.muted}55` }}>
+          <div style={{ marginBottom: 56, borderTop: `1px solid ${withAlpha(t.muted, "55")}` }}>
             {channels.map((c, i) => (
               <a key={i} href={c.href} target={c.href.startsWith("mailto:") ? undefined : "_blank"} rel="noreferrer" style={{
                 display: "grid",
                 gridTemplateColumns: isMobile ? "auto 1fr auto" : "100px 1fr 1fr 40px",
                 gap: isMobile ? 12 : 22, alignItems: "baseline",
                 padding: "16px 0",
-                borderBottom: `1px dashed ${t.muted}33`,
+                borderBottom: `1px dashed ${withAlpha(t.muted, "33")}`,
                 color: t.ink, textDecoration: "none",
               }}>
                 <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t[c.c], textTransform: "uppercase", letterSpacing: "0.08em" }}>● {c.label}</span>
@@ -163,7 +163,7 @@ export function ContactV5({
             <div style={{
               display: "grid", gridTemplateColumns: "auto 1fr auto",
               gap: 14, fontSize: 11, color: t.muted, marginBottom: 16,
-              paddingBottom: 10, borderBottom: `1px dashed ${t.muted}33`,
+              paddingBottom: 10, borderBottom: `1px dashed ${withAlpha(t.muted, "33")}`,
             }}>
               <span>{CONTACT_COMPOSE.toLabel} <span style={{ color: t.prompt }}>{CONTACT_COMPOSE.toAddress}</span></span>
               <span></span>
@@ -171,11 +171,11 @@ export function ContactV5({
             </div>
 
             <div style={{ display: "grid", gap: 10 }}>
-              <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "100px 1fr", gap: isMobile ? 4 : 14, alignItems: isMobile ? "stretch" : "center", borderBottom: `1px dashed ${t.muted}33`, paddingBottom: 8 }}>
+              <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "100px 1fr", gap: isMobile ? 4 : 14, alignItems: isMobile ? "stretch" : "center", borderBottom: `1px dashed ${withAlpha(t.muted, "33")}`, paddingBottom: 8 }}>
                 <span style={{ fontSize: 11, color: t.muted, letterSpacing: "0.08em", textTransform: "uppercase" }}>From</span>
                 <input value={from} onChange={(e) => setFrom(e.target.value)} placeholder={CONTACT_COMPOSE.fromPlaceholder} style={inputBase} />
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "100px 1fr", gap: isMobile ? 4 : 14, alignItems: isMobile ? "stretch" : "center", borderBottom: `1px dashed ${t.muted}33`, paddingBottom: 8 }}>
+              <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "100px 1fr", gap: isMobile ? 4 : 14, alignItems: isMobile ? "stretch" : "center", borderBottom: `1px dashed ${withAlpha(t.muted, "33")}`, paddingBottom: 8 }}>
                 <span style={{ fontSize: 11, color: t.muted, letterSpacing: "0.08em", textTransform: "uppercase" }}>Subject</span>
                 <input value={subject} onChange={(e) => setSubject(e.target.value)} placeholder={CONTACT_COMPOSE.subjectPlaceholder} style={inputBase} />
               </div>

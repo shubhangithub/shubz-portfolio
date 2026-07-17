@@ -15,12 +15,12 @@
  */
 import React from "react";
 import { POSTS, findPost, thumbUrlFor } from "../../data/posts";
-import { nbTheme } from "../../data/palette";
+import { nbTheme, withAlpha } from "../../data/palette";
 import { useIsMobile } from "../../lib/hooks";
 import {
   BluedotEssay, BluedotAssumptionsEssay, BluedotVocabularyEssay, BluedotCivilizationEssay, BluedotKillchainEssay,
   ConstraintClusterEssay, DraftEssay, FashionEssay, JayaEssay,
-  MayEssay, SixEnginesEssay, ThresholdEssay, TuringEssay, ZXEssay, essayMeta,
+  MayEssay, SixEnginesEssay, ThresholdEssay, TuringEssay, ZXEssay, FisherWaveEssay, essayMeta,
 } from "../legacy";
 import {
   NBPageShell, NBLastUpdated, NBPrompt, NBThumb, NBThumbtack,
@@ -36,6 +36,7 @@ function essayBodyFor(slug: string) {
     case "six-engines":           return SixEnginesEssay;
     case "fashion-trends":        return FashionEssay;
     case "may-2026":              return MayEssay;
+    case "fisher-wave":           return FisherWaveEssay;
     case "turing-morphogenesis":  return TuringEssay;
     case "bluedot-unit1":         return BluedotEssay;
     case "bluedot-assumptions":   return BluedotAssumptionsEssay;
@@ -45,6 +46,23 @@ function essayBodyFor(slug: string) {
     case "zx-calculus":           return ZXEssay;
     default:                      return DraftEssay;
   }
+}
+
+const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+// "2026-07-17" → "17 jul 2026"; "2026-07" → "jul 2026". Drives the essay's
+// "last updated" stamp from the post's own date instead of a hard-coded one.
+function fmtLong(iso?: string) {
+  if (!iso) return "";
+  const [y, m, d] = iso.split("-");
+  const mon = MONTHS[parseInt(m, 10) - 1] || "";
+  return d ? `${parseInt(d, 10)} ${mon} ${y}` : `${mon} ${y}`;
+}
+// "2026-07-17" → "jul '26" for the compact meta-JSON block.
+function fmtShort(iso?: string) {
+  if (!iso) return "";
+  const [y, m] = iso.split("-");
+  const mon = MONTHS[parseInt(m, 10) - 1] || "";
+  return `${mon} '${y.slice(2)}`;
 }
 
 // The public footer no longer carries an "edit this page" link; see
@@ -78,12 +96,17 @@ export function ArticleV5({
 
   // Adapter palette — essay TSX components expect this V4 shape. Keys map
   // cleanly: paper/ink stay, line→rule, muted→muted, accent→per-essay colour.
+  // The colour values are var(--nb-*) references — fine for CSS and SVG, but
+  // canvas drawing can't resolve them, so `mode` + `accentKey` ride along and
+  // canvas consumers (TuringEssay) look up literals via nbLiteral(mode).
   const essayPalette = {
     paper: t.paper,
     ink: t.ink,
     muted: t.muted,
     line: t.rule,
     accent,
+    mode,
+    accentKey,
   };
 
   const Body = essayBodyFor(post.slug);
@@ -109,7 +132,7 @@ export function ArticleV5({
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
     >
-      <NBLastUpdated t={t} label={`ESSAY · ${kicker.toUpperCase()} · NO.${pin}`} date="26 may 2026" accent={accent} />
+      <NBLastUpdated t={t} label={`ESSAY · ${kicker.toUpperCase()} · NO.${pin}`} date={fmtLong(post.updatedAt || post.publishedAt)} accent={accent} />
 
       {/* HERO — outer container caps at 1380px so the body grid below
           doesn't sprawl on ultra-wide displays. Centred. The hero itself
@@ -199,7 +222,7 @@ export function ArticleV5({
   `}<span style={{ color: t.blue }}>"family"</span>{`:    `}<span style={{ color: t.ochre }}>{`"${post.family || "—"}"`}</span>{`,
   `}<span style={{ color: t.blue }}>"reading"</span>{`:   `}<span style={{ color: t.ochre }}>{`"${post.minutes} min"`}</span>{`,
   `}<span style={{ color: t.blue }}>"sidenotes"</span>{`: `}<span style={{ color: t.ochre }}>{`"${meta.sidenotes || 0}"`}</span>{`,
-  `}<span style={{ color: t.blue }}>"updated"</span>{`:   `}<span style={{ color: t.ochre }}>"may '26"</span>{`
+  `}<span style={{ color: t.blue }}>"updated"</span>{`:   `}<span style={{ color: t.ochre }}>{`"${fmtShort(post.updatedAt || post.publishedAt)}"`}</span>{`
 }`}</pre>
             </div>
           </aside>
@@ -225,7 +248,7 @@ export function ArticleV5({
               .filter((p: any) => p && p.slug !== post.slug);
             if (relatedPosts.length === 0) return null;
             return (
-              <section style={{ marginTop: 48, paddingTop: 26, borderTop: `1px solid ${t.muted}55` }}>
+              <section style={{ marginTop: 48, paddingTop: 26, borderTop: `1px solid ${withAlpha(t.muted, "55")}` }}>
                 <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="ls ../related/" comment={`${relatedPosts.length} essays`} accent={t.yellow} />
                 <h2 className="sr-only">Related essays</h2>
                 <div style={{
@@ -241,7 +264,7 @@ export function ArticleV5({
                         href={`/${rp.slug}/`}
                         onClick={(e) => { e.preventDefault(); onNavigate("essay", rp.slug); }}
                         style={{
-                          padding: 14, border: `1px solid ${t.muted}55`, background: t.paper2,
+                          padding: 14, border: `1px solid ${withAlpha(t.muted, "55")}`, background: t.paper2,
                           textDecoration: "none", color: "inherit",
                           display: "flex", flexDirection: "column", gap: 8,
                         }}>
@@ -272,11 +295,11 @@ export function ArticleV5({
           {(prev || next) && (
             <div style={{
               display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 18,
-              marginTop: 48, paddingTop: 26, borderTop: `1px solid ${t.muted}55`,
+              marginTop: 48, paddingTop: 26, borderTop: `1px solid ${withAlpha(t.muted, "55")}`,
             }}>
               {prev ? (
                 <a href={`/${prev.slug}/`} onClick={(e) => { e.preventDefault(); onNavigate("essay", prev.slug); }} style={{
-                  padding: 16, border: `1px solid ${t.muted}55`,
+                  padding: 16, border: `1px solid ${withAlpha(t.muted, "55")}`,
                   background: t.paper2, textDecoration: "none", color: "inherit",
                 }}>
                   <div style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, letterSpacing: "0.08em", marginBottom: 4 }}>← PREVIOUS</div>
@@ -285,7 +308,7 @@ export function ArticleV5({
               ) : <span />}
               {next ? (
                 <a href={`/${next.slug}/`} onClick={(e) => { e.preventDefault(); onNavigate("essay", next.slug); }} style={{
-                  padding: 16, border: `1px solid ${t.muted}55`,
+                  padding: 16, border: `1px solid ${withAlpha(t.muted, "55")}`,
                   background: t.paper2, textAlign: "right" as any, textDecoration: "none", color: "inherit",
                 }}>
                   <div style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, letterSpacing: "0.08em", marginBottom: 4 }}>NEXT →</div>

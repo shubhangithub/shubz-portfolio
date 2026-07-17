@@ -187,7 +187,7 @@ export const HOME_PINNED_COMMENT = "3 open on the desk";
 export const HOME_VIEW_ALL_TEXT = (count: number) => `all ${count} essays →`;
 
 export const HOME_LAST_UPDATED_LABEL = "NOTEBOOK";
-export const HOME_LAST_UPDATED_DATE = "23 jun 2026";
+export const HOME_LAST_UPDATED_DATE = "17 jul 2026";
 
 export const HOME_CONTACT_HEADER = "contact —";
 export const HOME_ANNOTATED_CV_LINK = "annotated cv →";

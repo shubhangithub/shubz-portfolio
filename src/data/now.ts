@@ -38,7 +38,7 @@ export const NOW_MARGINALIA = {
 };
 
 export const NOW_LAST_UPDATED_LABEL = "NOW · WEEKLY-ISH SNAPSHOT";
-export const NOW_LAST_UPDATED_DATE = "28 jun 2026";
+export const NOW_LAST_UPDATED_DATE = "17 jul 2026";
 
 export const NOW_CADENCE_LABEL = "weekly-ish";
 
@@ -66,6 +66,8 @@ export const FOCUSES: Focus[] = [
 // render from this array; >5 overflows the layout. When adding a new entry,
 // delete the oldest one in the same edit to maintain the cap.
 export const JOURNAL: JournalEntry[] = [
+  // InnovateHer outreach milestone + summer talks → outreach
+  { date: "2026-07", family: "orange", note: "InnovateHer outreach passed 200+ students spoken to across UK schools — careers in tech, and the roles we don't have names for yet. Recent talks at the University of Liverpool Maths School, and back at FLAME on choice theory and grad school." },
   // Branching out post-grant → mixed
   { date: "2026-06", family: "orange", note: "Since the grant: started Google's cybersecurity certificate, a Procreate drawing course on Skillshare, reading a lot about agentic systems. Professionally quieter than usual, which is fine." },
   // BDI grant + Technical AI Safety course → AI safety
@@ -74,8 +76,23 @@ export const JOURNAL: JournalEntry[] = [
   { date: "2026-05", family: "blue",   note: "Wrapped BlueDot's AGI Strategy cohort. Good primer on the strategic frame around the technical work." },
   // Orion search rewrite → AI/ML (LLM eng)
   { date: "2026-05", family: "purple", note: "Rewriting Orion's search system — tool schemas, decision-tree prompts, fewshot disambiguation." },
-  // fashion-web redesign → Markets
+];
+
+// /now · "Field journal archive" — older entries, diary only (not home mini-term).
+// Append to JOURNAL in the DiaryJournal component. Newest first.
+export const JOURNAL_ARCHIVE: JournalEntry[] = [
+  // fashion-web redesign → Markets (rolled out of the live JOURNAL, kept here)
   { date: "2026-04", family: "ochre",  note: "Used Claude to redesign fashion-web. Broke more than I expected. Still putting it back together." },
+  // MInstP + Taylor rec second pass → late 2025
+  { date: "2025-12", family: "ochre",  note: "Second pass at the Taylor Swift recommender — ported from the R/Shiny original to Python and TypeScript, six engines in parallel. Learning a lot about how recommendation systems actually work when you try to make them good." },
+  // IEEE Best Paper → August 2025
+  { date: "2025-08", family: "prompt", note: "Best Paper at IEEE ICCUBEA-2025. 1,240 submissions, 220 accepted. The Flipkart–Walmart NLP paper I co-authored with Prof. Chakraborty two years ago — surprised it landed the way it did." },
+  // Orion promotion to Data & ML Engineer → late 2024
+  { date: "2024-11", family: "teal",   note: "Moved from Data Engineer to Data & ML Engineer at Orion. Starting to own the ML side properly — anomaly detection over the H3 spatial indexing layer, confidence-weighted signal fusion." },
+  // Oxford thesis submission → summer 2024
+  { date: "2024-09", family: "red",    note: "Submitted the MFoCS thesis. Two problems in automated biomarker detection on multiplex immunofluorescence data from actual tumour samples. Glad it's done. Genuinely don't know how pathologists look at this stuff every day." },
+  // Joined Orion → April 2024
+  { date: "2024-04", family: "teal",   note: "Joined Orion as one of the first two hires. Building geospatial intelligence infrastructure from nothing. The problem space is genuinely interesting — high-volume multi-source data with hard latency constraints." },
 ];
 
 // /now · "Conditions" tile

@@ -3,22 +3,20 @@
 /**
  * NowV5 — Port of design_handoff/now-page.jsx.
  *
- * Field journal: focuses (5 concurrent threads) → journal (newest first) →
- * conditions (mood/music/reading/drink cards). Right rail: cat .now
- * mini-terminal full habitat + telemetry JSON + thread counts.
+ * §02 Right now → cat .threads → §03 Field journal (diary flip) → §04 Conditions
+ * Right rail: cat .now mini-terminal + thread counts.
  *
- * Data: FOCUSES, JOURNAL, CONDITIONS all from src/data/now.ts. No new
- * content invented here — pure styling layer.
+ * Data: FOCUSES, JOURNAL, CONDITIONS all from src/data/now.ts.
  */
 import React from "react";
 import {
-  FOCUSES, JOURNAL, CONDITIONS,
+  FOCUSES, JOURNAL, JOURNAL_ARCHIVE, CONDITIONS,
   NOW_HERO_LINES, NOW_LEDE_PREFIX, NOW_LEDE_LINK_TEXT, NOW_LEDE_LINK_URL, NOW_LEDE_SUFFIX,
   NOW_MARGINALIA, NOW_LAST_UPDATED_LABEL, NOW_LAST_UPDATED_DATE,
   NOW_CADENCE_LABEL,
   type Span,
 } from "../../data/now";
-import { nbTheme } from "../../data/palette";
+import { nbTheme, withAlpha } from "../../data/palette";
 import { useIsMobile } from "../../lib/hooks";
 import {
   NBPageShell, NBLastUpdated, NBPrompt, NBPromptHead, NBMarginalia, NBMiniTerm,
@@ -26,7 +24,6 @@ import {
 
 type NavFn = (page: string, slug?: string | null) => void;
 
-// "2026-05" → "may 26"
 const MONTHS = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
 function shortDate(d: string): string {
   const [yr, mo] = (d || "").split("-");
@@ -34,12 +31,203 @@ function shortDate(d: string): string {
   return `${MONTHS[Number(mo) - 1]} ${yr.slice(-2)}`;
 }
 
-// Inline span renderer (mirrors the helper in HomeV5).
 function renderSpans(spans: Span[], t: any) {
   return spans.map((s, i) => {
     if (typeof s === "string") return s;
     return <em key={i} style={{ fontStyle: "italic", color: s.c ? t[s.c] : undefined }}>{s.em}</em>;
   });
+}
+
+// Diary flip component — inline since it's /now-specific.
+function DiaryJournal({ entries, t, isMobile }: { entries: any[], t: any, isMobile: boolean }) {
+  const [open, setOpen] = React.useState(false);
+  const [idx, setIdx] = React.useState(0);
+  const [displayIdx, setDisplayIdx] = React.useState(0);
+  const [dir, setDir] = React.useState<"fwd" | "back">("fwd");
+  const [phase, setPhase] = React.useState<"idle" | "exiting" | "entering">("idle");
+
+  const current = entries[displayIdx];
+
+  function go(next: number, d: "fwd" | "back") {
+    if (phase !== "idle") return;
+    setDir(d);
+    setPhase("exiting");
+    setTimeout(() => {
+      setDisplayIdx(next);
+      setIdx(next);
+      setPhase("entering");
+      setTimeout(() => setPhase("idle"), 260);
+    }, 180);
+  }
+
+  let pageAnim = "none";
+  if (phase === "exiting") pageAnim = dir === "fwd" ? "nbFlipOut 180ms cubic-bezier(0.4,0,1,1) both" : "nbFlipOutBack 180ms cubic-bezier(0.4,0,1,1) both";
+  if (phase === "entering") pageAnim = dir === "fwd" ? "nbFlipIn 260ms cubic-bezier(0,0,0.2,1) both" : "nbFlipInBack 260ms cubic-bezier(0,0,0.2,1) both";
+
+  if (!open) {
+    return (
+      <div
+        onClick={() => setOpen(true)}
+        style={{
+          border: `1px solid ${t.rule}`,
+          borderRadius: 3,
+          cursor: "pointer",
+          background: t.paper2,
+          overflow: "hidden",
+          transition: "border-color 200ms",
+        }}
+        onMouseEnter={e => { e.currentTarget.style.borderColor = withAlpha(t.orange, "99"); }}
+        onMouseLeave={e => { e.currentTarget.style.borderColor = t.rule; }}
+      >
+        {/* Cover header */}
+        <div style={{
+          background: `color-mix(in oklch, ${t.ink} 8%, transparent)`,
+          borderBottom: `1px solid ${t.rule}`,
+          padding: "7px 14px",
+          display: "flex", alignItems: "center", gap: 7,
+        }}>
+          <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#FF5F57", display: "inline-block", flexShrink: 0 }} />
+          <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#FFBD2E", display: "inline-block", flexShrink: 0 }} />
+          <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#28CA41", display: "inline-block", flexShrink: 0 }} />
+          <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, marginLeft: 4 }}>~/now/journal.md</span>
+        </div>
+        {/* Cover body */}
+        <div style={{ padding: "20px 22px 22px", display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
+          <div>
+            <div style={{ fontFamily: "var(--f-display)", fontStyle: "italic", fontVariationSettings: '"opsz" 144, "SOFT" 50', fontSize: 26, color: t.ink, lineHeight: 1 }}>
+              field journal
+            </div>
+            <div style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, marginTop: 8, letterSpacing: "0.05em" }}>
+              {entries.length} entries · 2024 — now
+            </div>
+          </div>
+          <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.orange, flexShrink: 0 }}>
+            open →
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <style>{`
+        @keyframes nbFlipOut     { from { transform: perspective(1100px) rotateY(0deg)   translateZ(0);   opacity: 1; } to { transform: perspective(1100px) rotateY(-72deg) translateZ(8px); opacity: 0; } }
+        @keyframes nbFlipIn      { from { transform: perspective(1100px) rotateY(72deg)  translateZ(8px); opacity: 0; } to { transform: perspective(1100px) rotateY(0deg)   translateZ(0);   opacity: 1; } }
+        @keyframes nbFlipOutBack { from { transform: perspective(1100px) rotateY(0deg)   translateZ(0);   opacity: 1; } to { transform: perspective(1100px) rotateY(72deg)  translateZ(8px); opacity: 0; } }
+        @keyframes nbFlipInBack  { from { transform: perspective(1100px) rotateY(-72deg) translateZ(8px); opacity: 0; } to { transform: perspective(1100px) rotateY(0deg)   translateZ(0);   opacity: 1; } }
+      `}</style>
+      <div style={{
+        border: `1px solid ${t.rule}`,
+        borderRadius: 3,
+        overflow: "hidden",
+        background: t.paper2,
+      }}>
+        {/* Header */}
+        <div style={{
+          background: `color-mix(in oklch, ${t.ink} 8%, transparent)`,
+          borderBottom: `1px solid ${t.rule}`,
+          padding: "7px 14px",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+            <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#FF5F57", display: "inline-block", flexShrink: 0 }} />
+            <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#FFBD2E", display: "inline-block", flexShrink: 0 }} />
+            <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#28CA41", display: "inline-block", flexShrink: 0 }} />
+            <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, marginLeft: 4 }}>~/now/journal.md</span>
+          </div>
+          <button
+            onClick={() => { setOpen(false); setIdx(0); setDisplayIdx(0); setPhase("idle"); }}
+            style={{ all: "unset", cursor: "pointer", fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted }}
+          >
+            × close
+          </button>
+        </div>
+
+        {/* Page — animation applied here, content swaps mid-flip */}
+        <div style={{
+          animation: pageAnim,
+          transformOrigin: "center center",
+          willChange: "transform, opacity",
+          padding: isMobile ? "22px 18px 26px" : "28px 26px 30px",
+          minHeight: 170,
+          position: "relative",
+          backgroundImage: `repeating-linear-gradient(transparent, transparent 27px, ${withAlpha(t.muted, "1a")} 28px)`,
+          backgroundSize: "100% 28px",
+          backgroundPosition: "0 32px",
+        }}>
+          {/* Date */}
+          <div style={{
+            fontFamily: "var(--f-mono)", fontSize: 11,
+            color: t[current.family] || t.ink,
+            letterSpacing: "0.08em",
+            marginBottom: 18,
+            display: "flex", alignItems: "center", gap: 7,
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: t[current.family] || t.ink, display: "inline-block", flexShrink: 0 }} />
+            {shortDate(current.date)}
+          </div>
+          {/* Entry text — italic like handwriting */}
+          <p style={{
+            fontFamily: "var(--f-body)",
+            fontStyle: "italic",
+            fontSize: isMobile ? 15 : 16,
+            color: t.ink,
+            lineHeight: 1.75,
+            margin: 0,
+            maxWidth: "50ch",
+          }}>
+            {current.note}
+          </p>
+          {/* Folded page corner */}
+          <div style={{
+            position: "absolute", bottom: 0, right: 0,
+            width: 0, height: 0,
+            borderStyle: "solid",
+            borderWidth: "0 0 22px 22px",
+            borderColor: `transparent transparent ${t.paper} transparent`,
+            filter: `drop-shadow(-2px -2px 3px ${withAlpha(t.ink, "22")})`,
+          }} />
+        </div>
+
+        {/* Navigation */}
+        <div style={{
+          borderTop: `1px solid ${t.rule}`,
+          padding: "10px 18px",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          background: `color-mix(in oklch, ${t.ink} 4%, transparent)`,
+        }}>
+          <button
+            onClick={() => idx > 0 && go(idx - 1, "back")}
+            style={{
+              all: "unset",
+              cursor: idx === 0 || phase !== "idle" ? "default" : "pointer",
+              fontFamily: "var(--f-mono)", fontSize: 11,
+              color: idx === 0 ? `${withAlpha(t.muted, "44")}` : t.muted,
+              transition: "color 150ms",
+            }}
+          >
+            ← newer
+          </button>
+          <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted }}>
+            {idx + 1} / {entries.length}
+          </span>
+          <button
+            onClick={() => idx < entries.length - 1 && go(idx + 1, "fwd")}
+            style={{
+              all: "unset",
+              cursor: idx === entries.length - 1 || phase !== "idle" ? "default" : "pointer",
+              fontFamily: "var(--f-mono)", fontSize: 11,
+              color: idx === entries.length - 1 ? `${withAlpha(t.muted, "44")}` : t.muted,
+              transition: "color 150ms",
+            }}
+          >
+            older →
+          </button>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export function NowV5({
@@ -61,13 +249,6 @@ export function NowV5({
     }
   }, [t.paper]);
 
-  // V5 canonical: each FOCUS / CONDITION carries its own `family` (an
-  // NBAccentKey) in src/data/now.ts. We resolve `family` → palette colour
-  // here, so the data file is the single source of truth for which topic
-  // each entry belongs to. Re-tag entries in now.ts to recolour them.
-
-  // Build mini-term lines from JOURNAL. Each entry's date colour comes
-  // from its `family` field in src/data/now.ts (the canonical topic).
   const miniLines = JOURNAL.map((j) => ({
     d: shortDate(j.date),
     c: t[j.family] || t.ink,
@@ -111,7 +292,7 @@ export function NowV5({
               ))}
             </h1>
             <p style={{ fontSize: isMobile ? 16 : 18, lineHeight: 1.6, color: t.softInk, maxWidth: "56ch", marginTop: 26 }}>
-              {NOW_LEDE_PREFIX}<a href={NOW_LEDE_LINK_URL} target="_blank" rel="noreferrer" style={{ color: t.blue, borderBottom: `1px solid ${t.blue}66`, textDecoration: "none" }}>{NOW_LEDE_LINK_TEXT}</a>{NOW_LEDE_SUFFIX}
+              {NOW_LEDE_PREFIX}<a href={NOW_LEDE_LINK_URL} target="_blank" rel="noreferrer" style={{ color: t.blue, borderBottom: `1px solid ${withAlpha(t.blue, "66")}`, textDecoration: "none" }}>{NOW_LEDE_LINK_TEXT}</a>{NOW_LEDE_SUFFIX}
             </p>
             {!isMobile && (
               <NBMarginalia t={t} top={130} tilt={2.5} accent={t[NOW_MARGINALIA.accent]}>
@@ -126,16 +307,15 @@ export function NowV5({
           </div>
 
           {/* §02 Right now */}
-          {/* §02 Right now — section accent = orange (Outreach, current state). */}
           <NBPromptHead t={t} n="§02" command="jobs" comment={`${FOCUSES.length} concurrent threads`} title="Right now" accent={t.orange} level={isMobile ? 22 : 28} />
-          <div style={{ marginBottom: 56, borderTop: `1px solid ${t.muted}55` }}>
+          <div style={{ marginBottom: 44, borderTop: `1px solid ${withAlpha(t.muted, "55")}` }}>
             {FOCUSES.map((f, i) => (
               <div key={i} style={{
                 display: "grid",
                 gridTemplateColumns: isMobile ? "1fr" : "120px 1fr 70px",
                 gap: isMobile ? 4 : 18, alignItems: "baseline",
                 padding: "16px 0",
-                borderBottom: `1px dashed ${t.muted}33`,
+                borderBottom: `1px dashed ${withAlpha(t.muted, "33")}`,
               }}>
                 <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t[f.family] || t.ink, textTransform: "uppercase", letterSpacing: "0.08em" }}>
                   ● {f.kind}
@@ -150,15 +330,27 @@ export function NowV5({
             ))}
           </div>
 
-          {/* §03 Field journal removed — the right-rail cat .now mini-term
-              streams the same JOURNAL entries (from src/data/now.ts), so
-              having it twice on /now was redundant. Mini-term still here. */}
+          {/* cat .threads — thread counts before the diary */}
+          <NBPrompt t={t} cwd="~/now" cmd="cat .threads" comment="counts" accent={t.yellow} />
+          <div style={{
+            background: t.paper2, border: `1px solid ${t.rule}`,
+            padding: "12px 16px", borderRadius: 3, marginBottom: 28,
+            fontFamily: "var(--f-mono)", fontSize: 11.5, lineHeight: 1.8,
+            color: t.softInk,
+          }}>
+            <div><span style={{ color: t.muted }}>focuses</span> <span style={{ color: t.ink }}>{FOCUSES.length}</span></div>
+            <div><span style={{ color: t.muted }}>journal</span> <span style={{ color: t.ink }}>{JOURNAL.length} entries</span></div>
+            <div><span style={{ color: t.muted }}>cadence</span> <span style={{ color: t.ink }}>{NOW_CADENCE_LABEL}</span></div>
+          </div>
 
-          {/* §03 Conditions — section accent = orange (Outreach, personal/
-              community state). Each condition card pulls its colour from
-              its `family` field in src/data/now.ts. (Renumbered from §04
-              after Field journal section was removed.) */}
-          <NBPromptHead t={t} n="§03" command="uptime; weather; mood" title="Conditions" accent={t.orange} level={isMobile ? 22 : 28} />
+          {/* §03 Field journal — diary flip */}
+          <NBPromptHead t={t} n="§03" command="cat journal.md" comment="newest first" title="Field journal" accent={t.orange} level={isMobile ? 22 : 28} />
+          <div style={{ marginBottom: 44 }}>
+            <DiaryJournal entries={[...JOURNAL, ...JOURNAL_ARCHIVE]} t={t} isMobile={isMobile} />
+          </div>
+
+          {/* §04 Conditions */}
+          <NBPromptHead t={t} n="§04" command="uptime; weather; mood" title="Conditions" accent={t.orange} level={isMobile ? 22 : 28} />
           <div style={{
             display: "grid",
             gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
@@ -167,20 +359,20 @@ export function NowV5({
             {CONDITIONS.map((c, i) => {
               const cc = t[c.family] || t.ink;
               return (
-              <div key={i} style={{ borderRadius: 3, overflow: "hidden", border: `1px solid ${t.rule}`, background: t.paper2 }}>
-                <div style={{
-                  display: "flex", alignItems: "center", gap: 6,
-                  padding: "6px 10px", borderBottom: `1px dashed ${t.muted}33`,
-                  fontFamily: "var(--f-mono)", fontSize: 10, color: cc, letterSpacing: "0.1em",
-                }}>
-                  <span style={{ width: 7, height: 7, borderRadius: 999, background: cc }} />
-                  {c.k.toUpperCase()}
+                <div key={i} style={{ borderRadius: 3, overflow: "hidden", border: `1px solid ${t.rule}`, background: t.paper2 }}>
+                  <div style={{
+                    display: "flex", alignItems: "center", gap: 6,
+                    padding: "6px 10px", borderBottom: `1px dashed ${withAlpha(t.muted, "33")}`,
+                    fontFamily: "var(--f-mono)", fontSize: 10, color: cc, letterSpacing: "0.1em",
+                  }}>
+                    <span style={{ width: 7, height: 7, borderRadius: 999, background: cc }} />
+                    {c.k.toUpperCase()}
+                  </div>
+                  <div style={{ padding: "10px 12px 12px" }}>
+                    <div style={{ fontFamily: "var(--f-display)", fontStyle: "italic", fontSize: 22, color: t.ink, lineHeight: 1.2 }}>{c.v}</div>
+                    <div style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, marginTop: 6 }}>{c.sub}</div>
+                  </div>
                 </div>
-                <div style={{ padding: "10px 12px 12px" }}>
-                  <div style={{ fontFamily: "var(--f-display)", fontStyle: "italic", fontSize: 22, color: t.ink, lineHeight: 1.2 }}>{c.v}</div>
-                  <div style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, marginTop: 6 }}>{c.sub}</div>
-                </div>
-              </div>
               );
             })}
           </div>
@@ -188,12 +380,10 @@ export function NowV5({
 
         {/* Right rail */}
         <aside>
-          {/* Right-rail mini-term — both prompts use orange (current state). */}
           <NBPrompt t={t} cwd="~/now" cmd="cat .now" comment="autoplay" accent={t.orange} />
           <NBMiniTerm t={t} accent={t.orange} lines={miniLines} cwd="~/now" />
 
           <div style={{ marginTop: 28 }}>
-            {/* .threads is meta-summary (counts) → Infra & craft (yellow). */}
             <NBPrompt t={t} cwd="~/now" cmd="cat .threads" comment="counts" accent={t.yellow} />
             <div style={{
               background: t.paper2, border: `1px solid ${t.rule}`,

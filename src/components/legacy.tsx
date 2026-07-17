@@ -44,7 +44,8 @@ import { BluedotAssumptionsEssay } from './essays/BluedotAssumptionsEssay';
 import { BluedotVocabularyEssay } from './essays/BluedotVocabularyEssay';
 import { BluedotCivilizationEssay } from './essays/BluedotCivilizationEssay';
 import { BluedotKillchainEssay } from './essays/BluedotKillchainEssay';
-export { JayaEssay, ThresholdEssay, ConstraintClusterEssay, SixEnginesEssay, FashionEssay, MayEssay, TuringEssay, BluedotEssay, ZXEssay, DraftEssay, BluedotAssumptionsEssay, BluedotVocabularyEssay, BluedotCivilizationEssay, BluedotKillchainEssay };
+import { FisherWaveEssay } from './essays/FisherWaveEssay';
+export { JayaEssay, ThresholdEssay, ConstraintClusterEssay, SixEnginesEssay, FashionEssay, MayEssay, TuringEssay, BluedotEssay, ZXEssay, DraftEssay, BluedotAssumptionsEssay, BluedotVocabularyEssay, BluedotCivilizationEssay, BluedotKillchainEssay, FisherWaveEssay };
 
 // Diagrams were extracted into src/components/diagrams/<Name>.tsx.
 // Imported here so cross-references inside legacy.tsx still resolve, and

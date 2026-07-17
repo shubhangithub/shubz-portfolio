@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React from 'react';
 import { Figure, PullQuote } from '../legacy';
+import { nbLiteral, withAlpha } from '../../data/palette';
 
 // ---------------------------------------------------------------------------
 // Gray-Scott reaction-diffusion simulation — essay interactive figure.
@@ -72,8 +73,12 @@ function TuringRDFigure({ palette: p }) {
     if (!ctx) return;
     ctx.scale(dpr, dpr);
 
-    const [pr, pg, pb] = parseHex(p.paper);
-    const [ar, ag, ab] = parseHex(p.accent);
+    // Canvas needs literal hexes. V5 passes var(--nb-*) references plus
+    // `mode`/`accentKey` handles — resolve through nbLiteral. V4 passed
+    // literal hexes directly (no `mode` key), so fall back to those as-is.
+    const lit = p.mode ? nbLiteral(p.mode) : null;
+    const [pr, pg, pb] = parseHex(lit ? lit.paper : p.paper);
+    const [ar, ag, ab] = parseHex(lit ? (lit[p.accentKey] || lit.red) : p.accent);
 
     stateRef.current = makeGrid();
 
@@ -124,7 +129,7 @@ function TuringRDFigure({ palette: p }) {
     }
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [p.paper, p.accent, p.ink, p.muted]);
+  }, [p.mode, p.accentKey, p.paper, p.accent, p.ink, p.muted]);
 
   function applyPreset(preset) {
     setActivePreset(preset.name);
@@ -153,7 +158,7 @@ function TuringRDFigure({ palette: p }) {
       {/* controls */}
       <div style={{
         marginTop: 12, padding: "0.9rem 1rem",
-        border: `1px solid ${p.muted}60`,
+        border: `1px solid ${withAlpha(p.muted, "60")}`,
         background: `color-mix(in srgb, ${p.paper} 85%, ${p.ink})`,
         display: "grid", gap: "0.8rem",
       }}>
@@ -166,7 +171,7 @@ function TuringRDFigure({ palette: p }) {
               padding: "3px 10px",
               border: `1px solid ${activePreset === preset.name ? p.accent : p.line}`,
               color: activePreset === preset.name ? p.accent : p.muted,
-              background: activePreset === preset.name ? `${p.accent}22` : "transparent",
+              background: activePreset === preset.name ? `${withAlpha(p.accent, "22")}` : "transparent",
               letterSpacing: "0.06em", transition: "all 160ms",
             }}>
               {preset.name}
@@ -232,7 +237,7 @@ export function TuringEssay({ palette: p }) {
 
       {/* interactive figure */}
       <div style={{ margin: "2rem 0" }}>
-        <div style={{ padding: "0.8rem", border: `1px solid ${p.muted}60`, background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})` }}>
+        <div style={{ padding: "0.8rem", border: `1px solid ${withAlpha(p.muted, "60")}`, background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})` }}>
           <TuringRDFigure palette={p} />
         </div>
         <div className="mono" style={{ marginTop: 8, fontSize: 10, color: p.muted, display: "flex", justifyContent: "space-between" }}>

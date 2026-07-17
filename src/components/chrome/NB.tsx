@@ -12,7 +12,7 @@
  *   the previous site without touching any data, content, or essay bodies.
  */
 import React from "react";
-import { NB_LIGHT, NB_DARK, nbTheme } from "../../data/palette";
+import { NB_LIGHT, NB_DARK, nbTheme, withAlpha } from "../../data/palette";
 import { JOURNAL } from "../../data/now";
 import { useIsMobile } from "../../lib/hooks";
 
@@ -336,8 +336,8 @@ export function NBThumb({
         width: w, height: h,
         background: src
           ? "transparent"
-          : `repeating-linear-gradient(135deg, ${accent}26 0px, ${accent}26 2px, transparent 2px, transparent 7px), ${accent}10`,
-        border: `1px solid ${accent}55`,
+          : `repeating-linear-gradient(135deg, ${withAlpha(accent, "26")} 0px, ${withAlpha(accent, "26")} 2px, transparent 2px, transparent 7px), ${withAlpha(accent, "10")}`,
+        border: `1px solid ${withAlpha(accent, "55")}`,
         position: "relative",
         overflow: "hidden",
       }}>
@@ -478,7 +478,7 @@ export function NBMiniTerm({
         <button
           onClick={() => setPlaying((p) => !p)}
           style={{
-            background: "transparent", border: `1px solid ${t.muted}55`,
+            background: "transparent", border: `1px solid ${withAlpha(t.muted, "55")}`,
             color: playing ? t.prompt : t.ochre, fontFamily: "var(--f-mono)",
             fontSize: 10, padding: "2px 7px", borderRadius: 2, cursor: "pointer",
             letterSpacing: "0.04em",
@@ -530,12 +530,12 @@ export function NBDiagramPlaceholder({
     <div style={{ marginBottom: 8, width: w as any, height: h as any, position: "relative", overflow: "hidden" }}>
       <div style={{
         position: "absolute", inset: 0,
-        background: `repeating-linear-gradient(135deg, ${accent}1f 0px, ${accent}1f 1px, transparent 1px, transparent 8px), ${accent}08`,
-        border: `1px solid ${accent}55`,
+        background: `repeating-linear-gradient(135deg, ${withAlpha(accent, "1f")} 0px, ${withAlpha(accent, "1f")} 1px, transparent 1px, transparent 8px), ${withAlpha(accent, "08")}`,
+        border: `1px solid ${withAlpha(accent, "55")}`,
       }}>
         <div style={{
           position: "absolute", inset: 0,
-          background: `linear-gradient(110deg, transparent 30%, ${accent}22 50%, transparent 70%)`,
+          background: `linear-gradient(110deg, transparent 30%, ${withAlpha(accent, "22")} 50%, transparent 70%)`,
           backgroundSize: "200% 100%",
           animation: "nb-shimmer 5.4s linear infinite",
         }} />

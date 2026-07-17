@@ -12,7 +12,7 @@
  */
 import React from "react";
 import { POSTS, thumbUrlFor } from "../../data/posts";
-import { nbTheme } from "../../data/palette";
+import { nbTheme, withAlpha } from "../../data/palette";
 import { useIsMobile } from "../../lib/hooks";
 import {
   NBPageShell, NBLastUpdated, NBPrompt, NBPromptHead, NBThumbtack, NBThumb,
@@ -133,7 +133,7 @@ export function WritingIndexV5({
                       padding: "5px 12px",
                       border: `1px solid ${isActive ? t.prompt : t.muted}66`,
                       color: isActive ? t.prompt : t.muted,
-                      background: isActive ? `${t.prompt}10` : "transparent",
+                      background: isActive ? `${withAlpha(t.prompt, "10")}` : "transparent",
                       fontFamily: "var(--f-mono)", fontSize: 11,
                       letterSpacing: "0.04em", borderRadius: 2,
                     }}
@@ -215,7 +215,7 @@ export function WritingIndexV5({
                 gap: isMobile ? 14 : 22,
                 alignItems: "center",
                 padding: "20px 0",
-                borderBottom: i === arr.length - 1 ? "none" : `1px dashed ${t.muted}66`,
+                borderBottom: i === arr.length - 1 ? "none" : `1px dashed ${withAlpha(t.muted, "66")}`,
               }}>
                 <NBThumbtack color={e.c} ink={t.ink} size={16} />
                 <a href={`/${e.slug}/`} onClick={(ev) => { ev.preventDefault(); onNavigate("essay", e.slug); }} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
@@ -262,7 +262,7 @@ export function WritingIndexV5({
                   return (
                     <div key={d.slug} style={{
                       padding: isMobile ? "12px 14px" : "14px 18px",
-                      borderBottom: i < drafts.length - 1 ? `1px dashed ${t.muted}33` : "none",
+                      borderBottom: i < drafts.length - 1 ? `1px dashed ${withAlpha(t.muted, "33")}` : "none",
                       display: "grid",
                       gridTemplateColumns: "22px 1fr",
                       gap: "0 10px",
@@ -286,7 +286,7 @@ export function WritingIndexV5({
                         }}>
                           {d.dek}
                         </span>
-                        <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: `${t.muted}99`, marginTop: 5, display: "block" }}>
+                        <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: `${withAlpha(t.muted, "99")}`, marginTop: 5, display: "block" }}>
                           {(d.kicker || "").replace(/^(Essay|Note)\s*·\s*/i, "").toLowerCase()} · not yet published
                         </span>
                       </div>
@@ -315,7 +315,7 @@ export function WritingIndexV5({
               return (
                 <div key={tag} onClick={() => setActive(tag)} style={{
                   display: "flex", justifyContent: "space-between",
-                  padding: "5px 0", borderBottom: `1px dashed ${t.muted}33`,
+                  padding: "5px 0", borderBottom: `1px dashed ${withAlpha(t.muted, "33")}`,
                   color: isActive ? ess!.c : t.softInk, cursor: "pointer",
                 }}>
                   <span><span style={{ color: ess!.c, marginRight: 6 }}>■</span>{tag}</span>

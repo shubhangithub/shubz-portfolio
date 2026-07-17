@@ -88,6 +88,50 @@ export const NB_DARK: NBTheme = {
   yellow: "#FFD37E", cyan: "#8FD9E0", orange: "#F0A176",
 };
 
-export function nbTheme(mode: "light" | "dark"): NBTheme {
+// ---------------------------------------------------------------------------
+// CSS-variable-backed theme. Same keys as NB_LIGHT/NB_DARK, but every value
+// is a var(--nb-*) reference. BaseLayout.astro emits the matching
+// :root { --nb-* } / :root[data-theme="dark"] { --nb-* } blocks (generated
+// from NB_LIGHT/NB_DARK above, so this file stays the single source of
+// truth). Because the pre-paint script sets data-theme before first paint,
+// SSR HTML styled with these vars is theme-correct at paint zero — no
+// light→dark flash while React hydrates.
+//
+// Two consumers must NOT use these vars and take nbLiteral() instead:
+//   1. Canvas drawing (ctx.fillStyle / parseHex can't resolve var()).
+//   2. Anything that string-appends a hex alpha — use withAlpha() below.
+// ---------------------------------------------------------------------------
+export const NB_VARS: NBTheme = {
+  paper: "var(--nb-paper)", paper2: "var(--nb-paper2)", rule: "var(--nb-rule)", chrome: "var(--nb-chrome)",
+  ink: "var(--nb-ink)", softInk: "var(--nb-softInk)", muted: "var(--nb-muted)",
+  bgCard: "var(--nb-bgCard)",
+  prompt: "var(--nb-prompt)", red: "var(--nb-red)", blue: "var(--nb-blue)", ochre: "var(--nb-ochre)",
+  magenta: "var(--nb-magenta)", teal: "var(--nb-teal)", purple: "var(--nb-purple)",
+  yellow: "var(--nb-yellow)", cyan: "var(--nb-cyan)", orange: "var(--nb-orange)",
+};
+
+/**
+ * Theme accessor used by all V5 pages. Returns the CSS-variable-backed
+ * palette regardless of mode — the browser resolves the actual colours
+ * from data-theme at paint time. The `mode` param is kept for API
+ * compatibility (and for call sites that also need nbLiteral(mode)).
+ */
+export function nbTheme(_mode: "light" | "dark"): NBTheme {
+  return NB_VARS;
+}
+
+/** Literal hex palette — for canvas drawing and libraries that can't
+ *  resolve var() references. Everything else should use nbTheme(). */
+export function nbLiteral(mode: "light" | "dark"): NBTheme {
   return mode === "dark" ? NB_DARK : NB_LIGHT;
+}
+
+/**
+ * Alpha-composite a theme colour. Replaces the `${t.ink}22` hex-append
+ * idiom, which silently breaks on var() references. `hexAlpha` is the
+ * same two-digit hex byte the old idiom used ("00"–"ff").
+ */
+export function withAlpha(color: string, hexAlpha: string): string {
+  const pct = Math.round((parseInt(hexAlpha, 16) / 255) * 1000) / 10;
+  return `color-mix(in srgb, ${color} ${pct}%, transparent)`;
 }

@@ -47,6 +47,18 @@ export function essayMeta(slug) {
       ],
       sidenotes: 7,
     },
+    "fisher-wave": {
+      tags: "mathematical biology, reaction-diffusion, travelling waves",
+      toc: ["Header", "Lede", "What the figure shows", "For R. A. Fisher"],
+      sources: [
+        ['[1] Fisher, R. A. (1937). ', '"The wave of advance of advantageous genes." Annals of Eugenics 7:355–369.'],
+        ['[2] Kolmogorov, A., Petrovsky, I. & Piskunov, N. (1937). ', '"A study of the diffusion equation with growth in the quantity of matter, and its application to a biological problem." Bull. Moscow State Univ. A 1:1–25.'],
+        ['[3] Skellam, J. G. (1951). ', '"Random dispersal in theoretical populations." Biometrika 38:196–218.'],
+        ['[4] Ammerman, A. J. & Cavalli-Sforza, L. L. (1971). ', '"Measuring the rate of spread of early farming in Europe." Man 6(4):674–688.'],
+        ['[5] Murray, J. D. (2002). ', 'Mathematical Biology I: An Introduction. 3rd ed., Springer. §13.'],
+      ],
+      sidenotes: 5,
+    },
     "may-2026": {
       tags: "mathematical ecology, ODE, predator–prey",
       toc: ["Header", "Lede", "What the sliders teach", "For Robert May"],

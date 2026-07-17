@@ -22,12 +22,12 @@ export const CONTACT_LEDE: Span[] = [
 ];
 
 export const CONTACT_MARGINALIA = {
-  lines: ["best on email,", "read once daily —", "morning, usually."],
+  lines: ["best on email,", "read once daily."],
   accent: "orange" as NBAccentKey,
 };
 
 export const CONTACT_LAST_UPDATED_LABEL = "CONTACT · CHANNELS + COMPOSE";
-export const CONTACT_LAST_UPDATED_DATE = "4 jun 2026";
+export const CONTACT_LAST_UPDATED_DATE = "17 jul 2026";
 
 // ---------------------------------------------------------------------------
 // §02 CHANNELS
@@ -41,7 +41,7 @@ export type Channel = {
 };
 
 export const CONTACT_CHANNELS: Channel[] = [
-  { label: "Email",    handle: "hello@shubzsharma.com",          note: "Best — read once a day in the morning.",   c: "orange", href: "mailto:hello@shubzsharma.com" },
+  { label: "Email",    handle: "hello@shubzsharma.com",          note: "Best — read once a day.",                  c: "orange", href: "mailto:hello@shubzsharma.com" },
   { label: "LinkedIn", handle: "linkedin.com/in/shubhangi-s-sharma", note: "Conventional channel; checked weekly-ish.", c: "orange", href: "https://www.linkedin.com/in/shubhangi-s-sharma/" },
   { label: "GitHub",   handle: "github.com/shubhangithub",           note: "For code or issues on the open repos.",     c: "yellow", href: "https://github.com/shubhangithub" },
 ];

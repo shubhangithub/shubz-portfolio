@@ -211,8 +211,13 @@ figcaption {
 }
 
 ::selection { background: #B85C3C; color: #F4ECDD; }
-/* Match the pre-paint script: keep body dark before React hydrates. */
-html[data-theme="dark"] body { background: #0E131D; color: #F2F1EC; }
+/* Match the pre-paint script: --page-bg is set on <html> before <body>
+   paints, so body inherits the right colour on first paint — no flash. */
+html { background: var(--page-bg, #F3EEDB); }
+body { background: var(--page-bg, #F3EEDB); }
+/* Keep the transition only for user-toggled theme changes (React inline-style
+   updates). Does not fire on initial paint since body starts at the right
+   colour already. */
 body { transition: background 600ms cubic-bezier(0.25, 0.1, 0.25, 1); }
 
 /* Touch & accessibility — global (any viewport) */

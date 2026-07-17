@@ -3,6 +3,7 @@
 // description, canonical, OG/Twitter cards, JSON-LD, fonts. Also includes
 // global CSS + the dark-mode initialiser so theme switching doesn't flash.
 import "../styles/global.css";
+import { NB_LIGHT, NB_DARK } from "../data/palette";
 
 export interface Props {
   /** Page title — shown in the browser tab + as og:title. Don't append site name; we do that here. */
@@ -33,6 +34,18 @@ const {
 
 const SITE = "Shubz Sharma";
 const SITE_URL = "https://shubzsharma.com";
+
+// --nb-* custom properties, generated from the NB palettes so palette.ts
+// stays the single source of truth. NB_VARS in palette.ts references these;
+// the pre-paint script below sets data-theme before first paint, so every
+// var(--nb-*) inline style resolves to the right theme at paint zero.
+const nbVarBlock = (theme: Record<string, string>) =>
+  Object.entries(theme)
+    .map(([k, v]) => `--nb-${k}:${v};`)
+    .join("");
+const nbThemeCss =
+  `:root{${nbVarBlock(NB_LIGHT)}}` +
+  `:root[data-theme="dark"]{${nbVarBlock(NB_DARK)}}`;
 const fullTitle = title === SITE ? title : `${title} — ${SITE}`;
 const canonicalUrl = canonicalPath
   ? new URL(canonicalPath, SITE_URL).href
@@ -89,15 +102,28 @@ const ogImageUrl = new URL(ogImage, SITE_URL).href;
       <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     )}
 
+    {/* Theme tokens — light values on :root, dark overrides under
+        [data-theme="dark"]. Generated from palette.ts (see frontmatter). */}
+    <style is:inline set:html={nbThemeCss} />
+
     {/* Inline pre-paint script so dark mode doesn't flash */}
     <script is:inline>
       (function () {
         try {
           // Default to dark; only switch to light if the user explicitly chose it.
           var saved = localStorage.getItem("theme");
-          if (saved !== "light") document.documentElement.dataset.theme = "dark";
+          var dark = saved !== "light";
+          if (dark) document.documentElement.dataset.theme = "dark";
+          // Set --page-bg on <html> before <body> paints so background is
+          // correct on the first paint — prevents the cream→dark transition
+          // flash on every page navigation.
+          document.documentElement.style.setProperty(
+            "--page-bg",
+            dark ? "#0E131D" : "#F3EEDB"
+          );
         } catch (e) {
           document.documentElement.dataset.theme = "dark";
+          document.documentElement.style.setProperty("--page-bg", "#0E131D");
         }
       })();
     </script>
