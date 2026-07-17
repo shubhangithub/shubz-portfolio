@@ -16,7 +16,7 @@ import type { Span } from "./home";
 // ---------------------------------------------------------------------------
 // Shared constants — referenced by toolbox links
 // ---------------------------------------------------------------------------
-export const CV_PDF = "/uploads/Shubhangi-Sharma-Resume-20260211.pdf";
+export const CV_PDF = "/uploads/Shubhangi-Sharma-Resume-20260717.pdf";
 export const PERSONAL_SITE_REPO = "https://github.com/shubhangithub/personal-site";
 
 // ---------------------------------------------------------------------------
@@ -310,7 +310,7 @@ export const WORK_SPEAKING: SpeakingEntry[] = [
 export const WORK_CV_STAT = {
   filename: "cv.pdf",
   span: "2019 — now",
-  updatedDisplay: "11/06/2026",
+  updatedDisplay: "17/07/2026",
   openText: "↗ open pdf",
   /** Sections shown on this /work page. Listed in the right-rail stat
    *  block so a visitor scanning the CV knows what's covered without
