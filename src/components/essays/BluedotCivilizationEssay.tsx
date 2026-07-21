@@ -1,6 +1,6 @@
 // @ts-nocheck
-import React from 'react';
-import { Figure, PullQuote } from '../legacy';
+import { Figure } from '../essay/FigureReact';
+import { PullQuote } from '../essay/PullQuoteReact';
 import { IdeologyUnitGrid } from '../diagrams/IdeologyUnitGrid';
 import { DefencePillars } from '../diagrams/DefencePillars';
 

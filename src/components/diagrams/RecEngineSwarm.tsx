@@ -1,6 +1,5 @@
 // @ts-nocheck
-import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-// (no legacy imports needed)
+import React from 'react';
 
 export function RecEngineSwarm({ palette: p }) {
   const W = 480, H = 320;

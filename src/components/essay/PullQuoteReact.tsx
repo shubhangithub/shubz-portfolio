@@ -1,6 +1,4 @@
 // @ts-nocheck
-import React from 'react';
-
 export function PullQuote({ children, color }) {
   return (
     <blockquote style={{

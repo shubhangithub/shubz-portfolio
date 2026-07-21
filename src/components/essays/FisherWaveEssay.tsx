@@ -1,6 +1,5 @@
 // @ts-nocheck
-import React from 'react';
-import { PullQuote } from '../legacy';
+import { PullQuote } from '../essay/PullQuoteReact';
 import { FisherFront } from '../diagrams/FisherFront';
 import { WaveSpeedLaw } from '../diagrams/WaveSpeedLaw';
 

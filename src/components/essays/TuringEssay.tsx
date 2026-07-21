@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React from 'react';
-import { Figure, PullQuote } from '../legacy';
+import { Figure } from '../essay/FigureReact';
+import { PullQuote } from '../essay/PullQuoteReact';
 import { nbLiteral, withAlpha } from '../../data/palette';
 
 // ---------------------------------------------------------------------------
@@ -74,7 +75,7 @@ function TuringRDFigure({ palette: p }) {
     ctx.scale(dpr, dpr);
 
     // Canvas needs literal hexes. V5 passes var(--nb-*) references plus
-    // `mode`/`accentKey` handles — resolve through nbLiteral. V4 passed
+    // `mode`/`accentKey` handles — resolve through nbLiteral. Earlier themes passed
     // literal hexes directly (no `mode` key), so fall back to those as-is.
     const lit = p.mode ? nbLiteral(p.mode) : null;
     const [pr, pg, pb] = parseHex(lit ? lit.paper : p.paper);

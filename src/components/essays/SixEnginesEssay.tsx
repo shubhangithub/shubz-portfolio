@@ -1,6 +1,9 @@
 // @ts-nocheck
-import React from 'react';
-import { EnsembleConsensus, Figure, PullQuote, RecEngineSwarm, RepoEvolution } from '../legacy';
+import { EnsembleConsensus } from '../diagrams/EnsembleConsensus';
+import { RecEngineSwarm } from '../diagrams/RecEngineSwarm';
+import { RepoEvolution } from '../diagrams/RepoEvolution';
+import { Figure } from '../essay/FigureReact';
+import { PullQuote } from '../essay/PullQuoteReact';
 
 export function SixEnginesEssay({ palette: p }) {
   return (

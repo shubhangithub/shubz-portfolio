@@ -5,11 +5,7 @@
  *
  * Single bundle (matches the design-handoff `nb-shared.jsx` layout) so the
  * V5 pages can `import { NBPageShell, NBPrompt, ... } from "../chrome/NB"`
- * with one statement. V4 chrome in this same directory is untouched.
- *
- * Spec: design_handoff_v5_field_notebook/AGENTS-v5.md
- * Reversibility: deleting this file + flipping AppShell back to V4 restores
- *   the previous site without touching any data, content, or essay bodies.
+ * with one statement.
  */
 import React from "react";
 import { NB_LIGHT, NB_DARK, nbTheme, withAlpha } from "../../data/palette";

@@ -1,6 +1,8 @@
 // @ts-nocheck
-import React from 'react';
-import { Figure, PullQuote, SpiderFusion, ZXRewrite } from '../legacy';
+import { SpiderFusion } from '../diagrams/SpiderFusion';
+import { ZXRewrite } from '../diagrams/ZXRewrite';
+import { Figure } from '../essay/FigureReact';
+import { PullQuote } from '../essay/PullQuoteReact';
 
 export function ZXEssay({ palette: p }) {
   return (

@@ -1,6 +1,6 @@
 // @ts-nocheck
-import React from 'react';
-import { Figure, PullQuote } from '../legacy';
+import { Figure } from '../essay/FigureReact';
+import { PullQuote } from '../essay/PullQuoteReact';
 import { KillChainPhases } from '../diagrams/KillChainPhases';
 import { PhaseUnitWiring } from '../diagrams/PhaseUnitWiring';
 

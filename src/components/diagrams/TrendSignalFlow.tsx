@@ -1,6 +1,5 @@
 // @ts-nocheck
-import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-// (no legacy imports needed)
+import React from 'react';
 
 export function TrendSignalFlow({ palette: p }) {
   const [t, setT] = React.useState(0);

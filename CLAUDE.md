@@ -56,9 +56,8 @@ clean).
   place-stamped closing line.
 - British English. No LLM-default phrasings ("leverage," "robust," "delve,"
   "tapestry," etc.).
-- Site is Astro + React islands (post-`astro-migration`). New work goes in
-  `src/components/pages/*V5.tsx`; V4 stays in place behind a `USE_V5` flag
-  in `AppShell.tsx` for one-line revert.
+- Site is Astro + React islands. Page work goes in
+  `src/components/pages/*V5.tsx`; essays live in `src/components/essays/`.
 - Adding an essay touches: diagram components, `<Slug>Essay`, `essayMeta()`,
   `POSTS` (with `family` + `nbAccent`), `ArticleV5` dispatcher. All five.
 - New skill / project / role goes in the relevant `WORK_TOOLBOX` group in

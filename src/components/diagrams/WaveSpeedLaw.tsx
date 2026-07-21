@@ -4,8 +4,6 @@
 // started from localised (compactly-supported) data settles onto the
 // slowest admissible one: c* = 2√(rD). The curve is that minimum; the
 // shaded wedge above it is the continuum of faster waves nothing selects.
-import React from "react";
-
 export function WaveSpeedLaw({ palette: p }) {
   const W = 460, H = 250;
   const left = 40, right = W - 16, top = 18, bottom = 196;

@@ -1,6 +1,8 @@
 // @ts-nocheck
-import React from 'react';
-import { Figure, LMSRPriceCurve, PullQuote, TrendSignalFlow } from '../legacy';
+import { LMSRPriceCurve } from '../diagrams/LMSRPriceCurve';
+import { TrendSignalFlow } from '../diagrams/TrendSignalFlow';
+import { Figure } from '../essay/FigureReact';
+import { PullQuote } from '../essay/PullQuoteReact';
 
 export function FashionEssay({ palette: p }) {
   return (

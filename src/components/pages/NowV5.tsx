@@ -1,7 +1,7 @@
 // @ts-nocheck
 /* eslint-disable */
 /**
- * NowV5 — Port of design_handoff/now-page.jsx.
+ * NowV5 — notebook-style current-focus page.
  *
  * §02 Right now → cat .threads → §03 Field journal (diary flip) → §04 Conditions
  * Right rail: cat .now mini-terminal + thread counts.

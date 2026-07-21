@@ -5,25 +5,32 @@
  * chrome. Essay BODIES (BluedotEssay, JayaEssay, ZXEssay, …) are unchanged
  * — V5 only restyles the surrounding hero, meta, and rail.
  *
- * Palette adapter: essay components consume V4's flat `{ accent, ink, paper,
- * line, muted }` shape. V5 synthesises that from the NB theme + the per-essay
- * accent key (Post.nbAccent → NB_LIGHT/DARK[key]). This means zero changes
- * to essay TSX files — content is preserved 100%.
- *
- * Reversibility: this file imports from `../legacy`. Removing the V5 dispatch
- * in AppShell restores the original V4 article rendering.
+ * Essay components consume a compact `{ accent, ink, paper, line, muted }`
+ * palette. This wrapper derives it from the notebook theme and the post's
+ * accent key.
  */
 import React from "react";
-import { POSTS, findPost, thumbUrlFor } from "../../data/posts";
+import { POSTS, findPost } from "../../data/posts";
 import { nbTheme, withAlpha } from "../../data/palette";
+import { essayMeta } from "../../lib/essay-meta";
 import { useIsMobile } from "../../lib/hooks";
+import { BluedotAssumptionsEssay } from "../essays/BluedotAssumptionsEssay";
+import { BluedotCivilizationEssay } from "../essays/BluedotCivilizationEssay";
+import { BluedotEssay } from "../essays/BluedotEssay";
+import { BluedotKillchainEssay } from "../essays/BluedotKillchainEssay";
+import { BluedotVocabularyEssay } from "../essays/BluedotVocabularyEssay";
+import { ConstraintClusterEssay } from "../essays/ConstraintClusterEssay";
+import { DraftEssay } from "../essays/DraftEssay";
+import { FashionEssay } from "../essays/FashionEssay";
+import { FisherWaveEssay } from "../essays/FisherWaveEssay";
+import { JayaEssay } from "../essays/JayaEssay";
+import { MayEssay } from "../essays/MayEssay";
+import { SixEnginesEssay } from "../essays/SixEnginesEssay";
+import { ThresholdEssay } from "../essays/ThresholdEssay";
+import { TuringEssay } from "../essays/TuringEssay";
+import { ZXEssay } from "../essays/ZXEssay";
 import {
-  BluedotEssay, BluedotAssumptionsEssay, BluedotVocabularyEssay, BluedotCivilizationEssay, BluedotKillchainEssay,
-  ConstraintClusterEssay, DraftEssay, FashionEssay, JayaEssay,
-  MayEssay, SixEnginesEssay, ThresholdEssay, TuringEssay, ZXEssay, FisherWaveEssay, essayMeta,
-} from "../legacy";
-import {
-  NBPageShell, NBLastUpdated, NBPrompt, NBThumb, NBThumbtack,
+  NBPageShell, NBLastUpdated, NBPrompt, NBThumbtack,
 } from "../chrome/NB";
 
 type NavFn = (page: string, slug?: string | null) => void;
@@ -94,8 +101,8 @@ export function ArticleV5({
   const accentKey = post.nbAccent || "blue";
   const accent = t[accentKey];
 
-  // Adapter palette — essay TSX components expect this V4 shape. Keys map
-  // cleanly: paper/ink stay, line→rule, muted→muted, accent→per-essay colour.
+  // Adapter palette — essay TSX components use `line` where the notebook
+  // theme calls the same token `rule`.
   // The colour values are var(--nb-*) references — fine for CSS and SVG, but
   // canvas drawing can't resolve them, so `mode` + `accentKey` ride along and
   // canvas consumers (TuringEssay) look up literals via nbLiteral(mode).
@@ -110,7 +117,7 @@ export function ArticleV5({
   };
 
   const Body = essayBodyFor(post.slug);
-  const meta = (typeof essayMeta === "function") ? essayMeta(post.slug) : { tags: "", toc: [], sources: [], sidenotes: 0 };
+  const meta = essayMeta(post.slug);
 
   // Prev / next essays for the bottom navigator.
   const idx = POSTS.findIndex((p) => p.slug === post.slug);
@@ -239,7 +246,7 @@ export function ArticleV5({
           margin: "0 auto",
           width: "100%",
         }}>
-          <Body palette={essayPalette} />
+          <Body palette={essayPalette} post={post} onNavigate={onNavigate} />
 
           {/* Related — driven by `post.related` slug list in posts.ts. Hidden if empty. */}
           {post.related && post.related.length > 0 && (() => {

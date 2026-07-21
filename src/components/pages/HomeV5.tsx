@@ -5,11 +5,9 @@
  *
  * All text, lists, and per-essay accents live in `src/data/home.ts`.
  * The component reads from that file and lays everything out; editing
- * copy means editing that data file (or clicking the "edit this page →"
- * link in the page footer). No JSX changes required for content updates.
+ * copy means editing that data file. No JSX changes are required.
  *
- * V5 colour system: see DECISIONS-v5.md §14. Reversibility: this file is
- * additive — AppShell has a USE_V5 flag to fall back to HomeV4.
+ * V5 colour system: see DECISIONS-v5.md §14.
  */
 import React from "react";
 import { POSTS, thumbUrlFor } from "../../data/posts";

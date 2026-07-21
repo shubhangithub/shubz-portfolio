@@ -49,12 +49,10 @@ AI-safety blue everywhere it appears.
 2. Create the essay body component at
    `src/components/essays/<Name>Essay.tsx`. Use one of the existing
    essays (e.g. `JayaEssay.tsx`) as a template.
-3. Register the component in `src/components/legacy.tsx` (existing
-   pattern; copy the line for an existing essay).
-4. Add the slug to the dispatch in
+3. Add the component import and slug to the dispatch in
    [`src/components/pages/ArticleV5.tsx`](./src/components/pages/ArticleV5.tsx)
    (`essayBodyFor` function).
-5. Optional: add a thumbnail to `public/thumbs/<slug>.jpg` and append
+4. Optional: add a thumbnail to `public/thumbs/<slug>.jpg` and append
    the slug to `ESSAY_THUMB_SLUGS` in `posts.ts`.
 
 ### Change a colour / pen
@@ -193,37 +191,18 @@ src/
     essays/            ← per-essay TSX bodies (where prose lives)
     chrome/NB.tsx      ← V5 chrome primitives (mac chrome, tabs, prompts, mini-term, etc.)
     diagrams/          ← React/SVG/canvas diagrams used by essays
-    interactive/       ← cursor, ruler, letter-reveal — shared interactives
-    legacy.tsx         ← re-export hub bridging V4 + V5
   lib/
-    hooks.ts           ← shared React hooks (useIsMobile, telemetry, etc.)
+    hooks.ts           ← shared React hooks
     essay-meta.ts      ← TOC + sources per essay (right-rail data)
   pages/               ← Astro routes; each mounts <AppShell page="…">
     [slug].astro       ← essay route, static-generated per POSTS slug
     og/[slug].svg.ts   ← OG card SVG, per-essay
-  styles/global.css    ← global CSS (V4 + V5 styles, graph-paper bg, keyframes)
+  styles/global.css    ← global CSS, graph-paper background, keyframes
 public/
   thumbs/<slug>.jpg    ← polaroid thumbnails
   uploads/             ← resume PDF, other downloads
   favicon.{png,svg}    ← favicons
 ```
-
----
-
-## Reversibility
-
-V5 is gated behind a single constant. To roll back the entire site to
-the V4 look (legacy single-cobalt palette, no field-notebook chrome):
-
-```ts
-// src/components/pages/AppShell.tsx
-const USE_V5 = true;   →   const USE_V5 = false;
-```
-
-Commit + push, Vercel rebuilds, site reverts. V5 files stay in the tree
-but unused.
-
----
 
 ## When in doubt
 

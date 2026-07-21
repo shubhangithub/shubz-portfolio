@@ -1,6 +1,8 @@
 // @ts-nocheck
-import React from 'react';
-import { FeatureSelectionViz, Figure, JayaSwarm, PullQuote } from '../legacy';
+import { FeatureSelectionViz } from '../diagrams/FeatureSelectionViz';
+import { JayaSwarm } from '../diagrams/JayaSwarm';
+import { Figure } from '../essay/FigureReact';
+import { PullQuote } from '../essay/PullQuoteReact';
 
 export function JayaEssay({ palette: p }) {
   return (

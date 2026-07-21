@@ -1,6 +1,5 @@
 // writing.ts — editable copy for /writing. The WritingIndexV5 component
-// reads from this file. Edit copy here; click "edit this page →" in the
-// site footer to open this file in GitHub's web editor.
+// reads from this file. Edit copy here; the page updates automatically.
 
 import type { NBAccentKey } from "./palette";
 import type { Span } from "./home";
@@ -26,4 +25,3 @@ export const WRITING_MARGINALIA = {
 
 export const WRITING_LAST_UPDATED_LABEL = "WRITING · THE GARDEN";
 export const WRITING_LAST_UPDATED_DATE = "17 jul 2026";
-

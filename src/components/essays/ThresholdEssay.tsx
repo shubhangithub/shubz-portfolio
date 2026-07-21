@@ -1,6 +1,9 @@
 // @ts-nocheck
-import React from 'react';
-import { CtlaDistribution, Figure, GateSensitivity, PullQuote, ThresholdMethods } from '../legacy';
+import { CtlaDistribution } from '../diagrams/CtlaDistribution';
+import { GateSensitivity } from '../diagrams/GateSensitivity';
+import { ThresholdMethods } from '../diagrams/ThresholdMethods';
+import { Figure } from '../essay/FigureReact';
+import { PullQuote } from '../essay/PullQuoteReact';
 
 export function ThresholdEssay({ palette: p }) {
   return (

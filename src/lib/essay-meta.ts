@@ -207,7 +207,3 @@ export function essayMeta(slug) {
   };
   return meta[slug] || meta["jaya"];
 }
-
-export function inputStyle(p) {
-  return { all: "unset", flex: 1, padding: "4px 0", fontFamily: "var(--f-body)", fontSize: "1rem", color: p.ink, width: "100%", outline: "none" };
-}

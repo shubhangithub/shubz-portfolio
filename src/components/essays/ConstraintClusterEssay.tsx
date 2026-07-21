@@ -1,6 +1,9 @@
 // @ts-nocheck
-import React from 'react';
-import { ConstraintEffect, Figure, MethodRanking, PullQuote, ViolationNetwork } from '../legacy';
+import { ConstraintEffect } from '../diagrams/ConstraintEffect';
+import { MethodRanking } from '../diagrams/MethodRanking';
+import { ViolationNetwork } from '../diagrams/ViolationNetwork';
+import { Figure } from '../essay/FigureReact';
+import { PullQuote } from '../essay/PullQuoteReact';
 
 export function ConstraintClusterEssay({ palette: p }) {
   return (

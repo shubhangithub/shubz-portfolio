@@ -2,7 +2,6 @@
 // /now page or the home-page ticker drift. Used by:
 //   - src/components/pages/NowV5.tsx   (focuses, journal, conditions, hero)
 //   - src/components/pages/HomeV5.tsx  (journal ticker → mini-term)
-//   - V4 pages (legacy) still read FOCUSES / JOURNAL / CONDITIONS.
 //
 // V5 colour rule: each entry carries a `family` pointing at one of the 10
 // canonical NB palette keys (see palette.ts + DECISIONS-v5.md §14). The

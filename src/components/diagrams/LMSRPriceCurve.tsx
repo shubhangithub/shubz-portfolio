@@ -1,6 +1,5 @@
 // @ts-nocheck
-import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-// (no legacy imports needed)
+import React from 'react';
 
 export function LMSRPriceCurve({ palette: p }) {
   const W = 460, H = 240;

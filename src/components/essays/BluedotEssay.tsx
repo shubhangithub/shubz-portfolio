@@ -1,6 +1,10 @@
 // @ts-nocheck
-import React from 'react';
-import { BottleneckMap, Figure, JaggedFrontier, PullQuote, ReadingCluster, WhoIsWe } from '../legacy';
+import { BottleneckMap } from '../diagrams/BottleneckMap';
+import { JaggedFrontier } from '../diagrams/JaggedFrontier';
+import { ReadingCluster } from '../diagrams/ReadingCluster';
+import { WhoIsWe } from '../diagrams/WhoIsWe';
+import { Figure } from '../essay/FigureReact';
+import { PullQuote } from '../essay/PullQuoteReact';
 
 export function BluedotEssay({ palette: p }) {
   return (

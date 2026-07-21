@@ -1,6 +1,11 @@
 // @ts-nocheck
-import React from 'react';
-import { LotkaVolterra, PullQuote, SEASONAL_THEMES } from '../legacy';
+import { LotkaVolterra } from '../diagrams/Seasonal';
+import { PullQuote } from '../essay/PullQuoteReact';
+
+const MAY_THEME = {
+  caption: "Lotka–Volterra · α=1, δ=0.4",
+  why: "May 22 is International Day for Biological Diversity. Predator and prey, locked in one closed loop — for Robert May.",
+};
 
 export function MayEssay({ palette: p }) {
   return (
@@ -29,7 +34,7 @@ export function MayEssay({ palette: p }) {
           ink={p.ink}
           muted={p.muted}
           line={p.line}
-          theme={SEASONAL_THEMES[4]}
+          theme={MAY_THEME}
           monthName="May"
         />
       </div>

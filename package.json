@@ -15,12 +15,10 @@
     "export:all": "node scripts/capture-figures.js && node scripts/export-markdown.js"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.0.0",
     "@astrojs/react": "^4.0.0",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.2.0",
     "@astrojs/vercel": "^9.0.5",
-    "@vercel/analytics": "^2.0.1",
     "astro": "^5.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

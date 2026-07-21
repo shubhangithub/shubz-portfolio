@@ -1,6 +1,5 @@
 // @ts-nocheck
-import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-// (no legacy imports needed)
+import React from 'react';
 
 export function GateSensitivity({ palette: p }) {
   const [thresh, setThresh] = React.useState(0.44); // normalised 0..1

@@ -46,8 +46,7 @@ the page picks the change up automatically.
   `DECISIONS-v5.md` for the colour system.
 - **[`DECISIONS-v5.md`](./DECISIONS-v5.md)** — canonical reference for
   the V5 design system. The 10 topic categories + colour mapping +
-  per-page accent rules + reversibility notes. Read §14 before
-  introducing any new colour or topic.
+  per-page accent rules. Read §14 before introducing any new colour or topic.
 
 ---
 
@@ -97,10 +96,9 @@ a single React island (`<AppShell page="…">`) defined in
 React components (`HomeV5`, `WritingIndexV5`, `WorkV5`, `NowV5`,
 `ContactV5`, `ArticleV5`). Those components are pure renderers — they
 import content from `src/data/<page>.ts` and chrome primitives from
-`src/components/chrome/NB.tsx`. V4 pages still exist in
-`src/components/pages/*V4.tsx`, gated behind a single `USE_V5` flag in
-AppShell. Flip it to `false` and the site reverts to the pre-V5 design
-without touching any other file.
+`src/components/chrome/NB.tsx`. ArticleV5 dispatches essay slugs to the
+matching component in `src/components/essays/`; essays import their figures
+and primitives directly.
 
 ---
 

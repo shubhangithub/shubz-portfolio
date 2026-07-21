@@ -1,12 +1,8 @@
-// Essay metadata. Mirrors the frontmatter of each MDX file in
-// src/content/essays/ — kept here as a typed module for layouts that need
-// to enumerate posts (the home page, the writing index, the article rail).
+// Essay metadata shared by the home page, writing index and article rail.
 //
-// V5 fields (`family`, `nbAccent`) are optional and additive — V4 keeps
-// using `accent` (cobalt site-wide); V5 reads `nbAccent` to pull a
-// per-essay colour from NB_LIGHT/NB_DARK in palette.ts. If `nbAccent`
-// is missing, V5 falls back to "blue". See AGENTS-v5.md (in
-// design_handoff_v5_field_notebook/) for the topic-family rules.
+// `nbAccent` selects a per-essay colour from the notebook palette. If it is
+// missing, page components fall back to blue. See DECISIONS-v5.md §14 for
+// the topic-family rules.
 
 import type { NBAccentKey } from "./palette";
 

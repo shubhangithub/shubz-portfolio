@@ -1,7 +1,6 @@
 // home.ts — all editable copy for the homepage. The HomeV5 component is a
 // pure renderer: it imports these constants and lays them out. Edit this
-// file (via GitHub's "edit this page →" link in the site footer or
-// locally) to change what shows up at `/`. No JSX changes needed for copy.
+// file to change what shows up at `/`. No JSX changes are needed for copy.
 //
 // Anything tied to the canonical 10-category colour system uses keys from
 // NBAccentKey (see src/data/palette.ts + DECISIONS-v5.md §14).

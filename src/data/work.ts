@@ -1,6 +1,6 @@
 // work.ts — editable copy for /work. The WorkV5 component imports
 // everything here and lays it out; edit the constants to change the
-// content. Open this file via "edit this page →" in the page footer.
+// content. See EDITING.md for the data map.
 //
 // Sections in render order (V5 — see WorkV5.tsx):
 //   1. Hero, lede, marginalia (top of page)
@@ -76,7 +76,7 @@ export const WORK_BASED = {
 };
 
 // ---------------------------------------------------------------------------
-// V5 overhaul — new types + data arrays (old V4 exports above unchanged)
+// Work-page types + data arrays
 // ---------------------------------------------------------------------------
 
 export type WorkEventV5 = {

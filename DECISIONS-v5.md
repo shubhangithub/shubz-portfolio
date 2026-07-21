@@ -7,9 +7,14 @@ diff — it explains intent, not just code.
 
 Branch: `v5-field-notebook` (off `origin/main` at commit `e117f3d`).
 
+> **Current architecture:** V5 is now the sole implementation. The V4 files
+> and `USE_V5` rollback flag described in the original rollout notes were
+> removed after sign-off. Sections 1–13 remain a historical record of the
+> port; §14 is the canonical colour system.
+
 ---
 
-## 1. Reversibility — the most important decision
+## 1. Reversibility during the rollout (historical)
 
 **Single-line revert.** `src/components/pages/AppShell.tsx` has a `USE_V5`
 constant at the top. Flip to `false` → the entire site falls back to V4.
@@ -236,19 +241,11 @@ once V5 is signed off, and add Astro-aware guidance.
 
 ---
 
-## 13. How to revert
+## 13. Rollback status
 
-```bash
-# Full revert (one line)
-# In src/components/pages/AppShell.tsx, change:
-const USE_V5 = true;   →   const USE_V5 = false;
-```
-
-Commit + push → site reverts to V4. V5 files stay in the tree but unused.
-If you want them gone too: `git rm src/components/chrome/NB.tsx
-src/components/diagrams/NotebookLotka.tsx src/components/pages/*V5.tsx
-DECISIONS-v5.md` and revert the additive edits to `palette.ts`, `posts.ts`,
-`global.css`.
+The one-line V4 switch was retired after V5 became the sole implementation.
+Rollback now means restoring an earlier revision through version control; there
+is no runtime or source flag to flip.
 
 ---
 
@@ -422,7 +419,6 @@ the top of both `HomeV5.tsx` and `WorkV5.tsx` for easy update.
 ## 15. How to verify locally
 
 ```bash
-cd /Users/shubzpersonal2/.superset/worktrees/personal-site/v5-field-notebook
 npm install
 npm run dev
 # → http://localhost:4321/
@@ -432,6 +428,4 @@ Open `/`, `/writing/`, `/work/`, `/now/`, `/contact/`, and any essay slug
 (e.g. `/jaya/`). Click the `light · 100×42` chip in the mac chrome to
 toggle dark mode. Click any tab to navigate.
 
-If something looks wrong: flip `USE_V5 = false` in `AppShell.tsx` to
-confirm V4 still works (sanity check that nothing was inadvertently
-broken).
+Run `npm run typecheck` and `npm run build` before shipping structural changes.

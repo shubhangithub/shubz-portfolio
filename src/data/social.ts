@@ -3,9 +3,7 @@
 // profiles, so this is the simplest reliable option: a list you edit by
 // hand when you post somewhere.
 //
-// Cadence: weekly-ish. Same edit-on-GitHub pattern as the rest of /data
-// (click "edit this page →" in the home footer to open this file in
-// GitHub's web editor).
+// Cadence: weekly-ish. See EDITING.md for the update recipe.
 //
 // Each entry shows up as a small chip on the home page's "latest" row.
 // To remove an entry, delete its object. To reorder, reorder the array

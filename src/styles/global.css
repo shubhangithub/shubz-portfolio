@@ -297,7 +297,6 @@ body { transition: background 600ms cubic-bezier(0.25, 0.1, 0.25, 1); }
    - .nb-graph-paper: 24×24 grid background driven by --nb-grid CSS var
      (set inline on the page wrapper so it tracks the active theme).
    - @keyframes nb-blink, nb-shimmer: used by NBBlinker, NBDiagramPlaceholder.
-   V4 selectors above are untouched.
    ============================================================================ */
 .nb-graph-paper {
   background-image:

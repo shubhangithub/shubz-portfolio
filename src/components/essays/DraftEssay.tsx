@@ -1,6 +1,4 @@
 // @ts-nocheck
-import React from 'react';
-// (no diagram imports needed)
 
 export function DraftEssay({ post, palette: p, onNavigate }) {
   return (

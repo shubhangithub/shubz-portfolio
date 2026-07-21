@@ -16,10 +16,9 @@ Copilot, and Claude Code agents all pick up `AGENTS.md` automatically.
 
 > **Architecture note.** §6 below references `index.html` and a single-file
 > architecture — that was the V4 state before the `astro-migration` branch.
-> Main is now Astro + React islands; the V5 redesign lives in
-> `src/components/pages/*V5.tsx`, gated by `USE_V5` in `AppShell.tsx` for a
-> one-line revert. Voice + diagram rules below still apply universally; the
-> file-shape rules in §6 are V4 history.
+> Main is now Astro + React islands, and the live page components are in
+> `src/components/pages/*V5.tsx`. Voice + diagram rules below still apply
+> universally; the file-shape rules in §6 are V4 history.
 
 ---
 

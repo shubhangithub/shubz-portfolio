@@ -1,7 +1,7 @@
 // @ts-nocheck
 /* eslint-disable */
 /**
- * WritingIndexV5 — Port of design_handoff/writing-page.jsx.
+ * WritingIndexV5 — notebook-style writing index.
  *
  * Filter chips by tag → featured pick (top essay) → all-essays list with
  * tilted polaroid thumbs → working-notes terminal table. Right rail: topics
