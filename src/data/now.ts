@@ -48,12 +48,10 @@ export type Condition = { k: string; v: string; sub: string; family: NBAccentKey
 // /now · "Right now" — five concurrent threads.
 // CAP: 5 entries (same reason as JOURNAL — anything more clutters the layout).
 export const FOCUSES: Focus[] = [
-  // BlueDot Technical AI Safety → AI safety
-  { kind: "Studying",  family: "blue",   what: "BlueDot's Technical AI Safety course — mechanistic interpretability, RLHF, evaluations, AI control. Alongside the BDI-funded research." },
+  // BlueDot Technical AI Safety + cybersecurity + physics → AI safety
+  { kind: "Studying",  family: "blue",   what: "BlueDot's Technical AI Safety course — mechanistic interpretability, RLHF, evaluations, AI control — alongside the BDI-funded research, Google's Cybersecurity Certificate, and a physics course." },
   // Agentic AI reading → AI/ML
   { kind: "Reading",   family: "purple", what: "Agentic systems — tool use, memory architectures, multi-agent coordination. The gap between demos and things that actually work reliably. Also Homer's Odyssey, in Emily Wilson's translation." },
-  // Google cybersecurity cert → infra
-  { kind: "Learning",  family: "yellow", what: "Google's cybersecurity certificate. Wanted a more formal grounding in what I've been picking up from the safety side." },
   // Procreate / drawing → outreach (personal, creative)
   { kind: "Drawing",   family: "orange", what: "Procreate course on Skillshare. Trying to get better at making things by hand. No particular goal, just enjoy it." },
   // fashion-web → fintech
