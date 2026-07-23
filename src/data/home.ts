@@ -170,6 +170,7 @@ export type ContactRow = { label: string; handle?: string; href: string };
 export const HOME_CONTACT_ROWS: ContactRow[] = [
   { label: "github",   handle: "shubhangithub",          href: "https://github.com/shubhangithub" },
   { label: "linkedin", handle: "shubhangi-s-sharma",     href: "https://www.linkedin.com/in/shubhangi-s-sharma/" },
+  { label: "fable",    handle: "shubz-sharma",           href: "https://fable.co/fabler/shubz-sharma-375148102003" },
   { label: "email",    handle: "hello@shubzsharma.com", href: "mailto:hello@shubzsharma.com" },
   { label: "/contact", href: "/contact/" },
 ];

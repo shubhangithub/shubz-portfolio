@@ -44,6 +44,7 @@ export const CONTACT_CHANNELS: Channel[] = [
   { label: "Email",    handle: "hello@shubzsharma.com",          note: "Best — read once a day.",                  c: "orange", href: "mailto:hello@shubzsharma.com" },
   { label: "LinkedIn", handle: "linkedin.com/in/shubhangi-s-sharma", note: "Conventional channel; checked weekly-ish.", c: "orange", href: "https://www.linkedin.com/in/shubhangi-s-sharma/" },
   { label: "GitHub",   handle: "github.com/shubhangithub",           note: "For code or issues on the open repos.",     c: "yellow", href: "https://github.com/shubhangithub" },
+  { label: "Fable",    handle: "fable.co/fabler/shubz-sharma",       note: "Reading lists, book clubs, and what I'm reading.", c: "orange", href: "https://fable.co/fabler/shubz-sharma-375148102003" },
 ];
 
 // ---------------------------------------------------------------------------
