@@ -10,6 +10,7 @@
 import React from "react";
 import { NB_LIGHT, NB_DARK, nbTheme, withAlpha } from "../../data/palette";
 import { JOURNAL } from "../../data/now";
+import { SITE_SHELL_USER } from "../../data/site";
 import { useIsMobile } from "../../lib/hooks";
 
 export type NBPageKey = "home" | "writing" | "work" | "now" | "contact" | "essay";
@@ -186,7 +187,7 @@ export function NBLastUpdated({
       <span style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
         <span style={{ color: t.prompt }}>●</span>
         {cmd && <>
-          <span style={{ color: t.prompt }}>shubz@orion</span>
+          <span style={{ color: t.prompt }}>{SITE_SHELL_USER}</span>
           {cwd && <span style={{ color: t.muted }}>{cwd}</span>}
           <span style={{ color: accent || t.blue }}>%</span>
           <span style={{ color: t.ink }}>{cmd}</span>
@@ -204,7 +205,7 @@ export function NBLastUpdated({
 }
 
 // =============================================================================
-// PROMPT — shubz@orion ~/cwd % cmd  # comment
+// PROMPT — current shell identity + ~/cwd % cmd # comment
 // =============================================================================
 export function NBPrompt({
   t,
@@ -221,7 +222,7 @@ export function NBPrompt({
 }) {
   return (
     <div style={{ display: "flex", alignItems: "baseline", gap: 8, color: t.softInk, fontFamily: "var(--f-mono)", fontSize: 13, marginBottom: 10, flexWrap: "wrap" }}>
-      <span style={{ color: t.prompt }}>shubz@orion</span>
+      <span style={{ color: t.prompt }}>{SITE_SHELL_USER}</span>
       <span style={{ color: t.muted }}>{cwd}</span>
       <span style={{ color: accent || t.blue }}>%</span>
       <span style={{ color: t.ink }}>{cmd}</span>

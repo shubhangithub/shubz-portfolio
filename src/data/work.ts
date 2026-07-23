@@ -49,7 +49,7 @@ export const WORK_MARGINALIA = {
 };
 
 export const WORK_LAST_UPDATED_LABEL = "WORK · CV WITH MARGINALIA";
-export const WORK_LAST_UPDATED_DATE = "17 jul 2026";
+export const WORK_LAST_UPDATED_DATE = "23 jul 2026";
 
 
 // ---------------------------------------------------------------------------
@@ -155,10 +155,11 @@ export type FullGroup = {
 };
 
 export const WORK_EVENTS_V5: WorkEventV5[] = [
+  { year: "2026 —",             what: "Founding Engineer · Torus",                  where: "YC S26",                         track: "engineering", cat: "teal",    big: true,  lenses: ["ml", "eng"],       note: "Agentic engineering for physical infrastructure." },
   { year: "Jun 2026 —",         what: "Technical AI Safety · BlueDot",              where: "BlueDot Impact",                track: "study",       cat: "blue",    big: false, lenses: ["ml"],              note: "Cohort course — mechanistic interpretability, RLHF, evaluations, AI control, scalable oversight." },
   { year: "Jun 2026",           what: "Certified · Hugging Face AI Agents course",  where: "two certificates",              track: "study",       cat: "purple",  big: false, lenses: ["ml"],              note: "Completed the Hugging Face Agents course — building, evaluating and deploying LLM agents. Two certificates earned." },
   { year: "2026 —",             what: "Google Cybersecurity Certificate",            where: "in progress",                   track: "study",       cat: "yellow",  big: false, lenses: ["eng"],             note: "A more formal grounding in security, alongside the safety work." },
-  { year: "Apr 2026 —",         what: "AI Researcher · Independent",                where: "Funded by BDI Grants · Remote", track: "research",    cat: "blue",    big: true,  lenses: ["research", "ml"],  note: "AI safety, alignment, and multi-agent systems — independently, funded by BlueDot's grants programme, alongside Orion." },
+  { year: "Apr 2026 —",         what: "AI Researcher · Independent",                where: "Funded by BDI Grants · Remote", track: "research",    cat: "blue",    big: true,  lenses: ["research", "ml"],  note: "AI safety, alignment, and multi-agent systems — independently, funded by BlueDot's grants programme, alongside Torus." },
   { year: "Apr — Jun 2026",     what: "AGI Strategy cohort · BlueDot",              where: "BlueDot Impact",                track: "study",       cat: "blue",    big: false, lenses: ["ml"],              note: "Pre-reading and weekly seminars on AGI strategy, alignment, and frontier-AI policy. Completed June 2026." },
   { year: "Feb 2026",           what: "Elected MInstP · Institute of Physics",      where: "London",                        track: "study",       cat: "prompt",  big: false, lenses: ["ml", "community"], note: "Member of the UK's professional body for physics." },
   { year: "Aug 2025",           what: "Best Paper · IEEE ICCUBEA-2025",             where: "co-author",                     track: "study",       cat: "purple",  big: false, lenses: ["ml"],              note: "Flipkart–Walmart merger NLP. 1,240 submissions, 220 accepted, one Best Paper. With Prof. Chakraborty." },
@@ -167,7 +168,7 @@ export const WORK_EVENTS_V5: WorkEventV5[] = [
   { year: "2025 —",             what: "Science Communicator · I'm a Scientist",     where: "public engagement",             track: "outreach",    cat: "orange",  big: false, lenses: ["community"],       note: "Answering school students' science questions live — CS and maths." },
   { year: "2025 —",             what: "Member · MLOps Community London",            where: "London",                        track: "engineering", cat: "yellow",  big: false, lenses: ["community", "eng"], note: "Local chapter of the global MLOps community — talks and meetups on running ML in production." },
   { year: "2025 —",             what: "OSS maintainer · Taylor Swift rec engine, revamped", where: "open source · self-directed", track: "engineering", cat: "ochre",   big: true,  lenses: ["eng", "ml"],       note: "Rebuilt the original R/Shiny rec engine in Python + TypeScript. Six independent ML engines running in parallel — Sentence-BERT on lyrics, a VAE compressing Spotify audio features to 16 dimensions, Node2Vec graph embeddings, neural collaborative filtering, contrastive self-supervised learning, and a knowledge graph over 561 nodes. 801 songs, editorial bridges to 53 related artists. Recommendations in under 200ms. Live on Vercel." },
-  { year: "Apr 2024 —",         what: "Founding Engineer · Orion",                  where: "London",                        track: "engineering", cat: "teal",    big: true,  lenses: ["ml", "data"],      note: "Building geospatial intelligence infrastructure from scratch — data pipelines for high-volume multi-source streams, ML anomaly detection over the H3 spatial indexing layer, confidence-weighted signal fusion, backend services in Python and Golang. One of the first two hires; joined as Data Engineer, became Data & ML Engineer in Nov 2024, then Founding Engineer. Currently rewriting the LLM-driven search system end-to-end — tool schemas, decision-tree system prompts, few-shot disambiguation, output evaluation." },
+  { year: "Apr 2024 — 2026",    what: "Founding Engineer · Orion",                  where: "London",                        track: "engineering", cat: "teal",    big: true,  lenses: ["ml", "data"],      note: "Built geospatial intelligence infrastructure from scratch — data pipelines for high-volume multi-source streams, ML anomaly detection over the H3 spatial indexing layer, confidence-weighted signal fusion, and backend services in Python and Golang. One of the first two hires; joined as Data Engineer, became Data & ML Engineer in Nov 2024, then Founding Engineer. Rewrote the LLM-driven search system end-to-end — tool schemas, decision-tree system prompts, few-shot disambiguation, and output evaluation." },
   { year: "Oct 2023 —",         what: "Ambassador · Oxford Mathematical Institute", where: "Oxford · LMH",                  track: "outreach",    cat: "orange",  big: false, lenses: ["community"],       note: "Q&A panels and applicant support at the Mathematical Institute and Lady Margaret Hall." },
   { year: "Sep 2023 — Jul 2024", what: "MFoCS · Oxford · Lady Margaret Hall",      where: "Maths + CS",                    track: "study",       cat: "magenta", big: true,  lenses: ["ml", "community"], note: "Thesis: automated immune-biomarker detection on multiplex IF tumour data. Modules: Geometric Deep Learning, Game Theory, Quantum Information, Category Theory." },
   { year: "Sep 2023 · 1 mo",    what: "Machine Learning Researcher · FLAME",        where: "Pune · contract",               track: "research",    cat: "purple",  big: false, lenses: ["ml", "research"],  note: "Generative and reconstructive applications of Variational Autoencoders (VAEs) and associated algorithms." },
@@ -190,7 +191,8 @@ export const WORK_GANTT_LANES: GanttLane[] = [
   { key: "engineering", label: "eng", color: "teal", bars: [
     { left: 41,   w: 4,   top: 3, h: 10, cat: "yellow",  label: "JobsForHer · backend intern (2022)",             lenses: ["eng"],        match: ["JobsForHer"] },
     { left: 56,   w: 4,   top: 3, h: 10, cat: "purple",  label: "Natter · ML engineering intern (2023)",          lenses: ["ml", "eng"],  match: ["Natter"] },
-    { left: 68,   w: 32,  top: 1, h: 14, cat: "teal",    label: "Orion · founding engineer (2024 — now)",         lenses: ["ml", "eng"],  big: true, name: "Orion →", match: ["Founding Engineer"] },
+    { left: 68,   w: 28,  top: 1, h: 14, cat: "teal",    label: "Orion · founding engineer (2024–26)",             lenses: ["ml", "eng"],  big: true, name: "Orion", match: ["Founding Engineer · Orion"] },
+    { left: 96,   w: 4,   top: 1, h: 14, cat: "teal",    label: "Torus · founding engineer · YC S26 (2026—)",      lenses: ["ml", "eng"],  big: true, name: "Torus →", match: ["Founding Engineer · Torus"] },
     { left: 84,   w: 16,  top: 12, h: 4, cat: "ochre",  label: "OSS · rec engine revamped, 6 ML engines (2025—)", lenses: ["eng", "ml"],  match: ["rec engine, revamped"] },
   ]},
   { key: "research", label: "research", color: "blue", bars: [
@@ -220,9 +222,9 @@ export const WORK_GANTT_LANES: GanttLane[] = [
 export const WORK_FEATURED_V5: WorkFeaturedV5[] = [
   {
     name: "Orion intelligence platform",
-    cat: "teal", scope: "founding-eng", deploy: "in production",
+    cat: "teal", scope: "founding-eng · 2024–26", deploy: "in production",
     url: null, essay: null, private: true,
-    blurb: "Geospatial intelligence over H3 spatial indexing — data infrastructure for high-volume multi-source streams, ML anomaly detection and confidence-weighted signal fusion, backend services in Python and Golang. Joined as one of two founding engineers (first hires after the founders); building the data stack from scratch and currently rewriting the LLM-driven search system end-to-end — tool schemas, decision-tree system prompts, few-shot disambiguation, output evaluation.",
+    blurb: "Geospatial intelligence over H3 spatial indexing — data infrastructure for high-volume multi-source streams, ML anomaly detection and confidence-weighted signal fusion, and backend services in Python and Golang. Joined as one of the first two hires, built the data stack from scratch, and rewrote the LLM-driven search system end-to-end — tool schemas, decision-tree system prompts, few-shot disambiguation, and output evaluation.",
     metrics: ["H3 spatial index", "Python · Go", "multi-source fusion", "LLM search rewrite"],
     lenses: ["ml", "data"],
   },

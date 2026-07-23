@@ -27,7 +27,7 @@ export const CONTACT_MARGINALIA = {
 };
 
 export const CONTACT_LAST_UPDATED_LABEL = "CONTACT · CHANNELS + COMPOSE";
-export const CONTACT_LAST_UPDATED_DATE = "17 jul 2026";
+export const CONTACT_LAST_UPDATED_DATE = "23 jul 2026";
 
 // ---------------------------------------------------------------------------
 // §02 CHANNELS
@@ -45,6 +45,7 @@ export const CONTACT_CHANNELS: Channel[] = [
   { label: "LinkedIn", handle: "linkedin.com/in/shubhangi-s-sharma", note: "Conventional channel; checked weekly-ish.", c: "orange", href: "https://www.linkedin.com/in/shubhangi-s-sharma/" },
   { label: "GitHub",   handle: "github.com/shubhangithub",           note: "For code or issues on the open repos.",     c: "yellow", href: "https://github.com/shubhangithub" },
   { label: "Fable",    handle: "fable.co/fabler/shubz-sharma",       note: "Reading lists, book clubs, and what I'm reading.", c: "orange", href: "https://fable.co/fabler/shubz-sharma-375148102003" },
+  { label: "Strava",   handle: "strava.com/athletes/155447309",      note: "Rowing, riding, and training logs.",        c: "orange", href: "https://www.strava.com/athletes/155447309" },
 ];
 
 // ---------------------------------------------------------------------------

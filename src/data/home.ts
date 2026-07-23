@@ -24,7 +24,8 @@ import { CV_PDF } from "./work";
 export type Span =
   | string
   | { em: string; c?: NBAccentKey }
-  | { tag: string; c?: NBAccentKey };
+  | { tag: string; c?: NBAccentKey }
+  | { link: string; href: string; c?: NBAccentKey };
 
 // ---------------------------------------------------------------------------
 // HERO — multi-coloured H1, two visual lines
@@ -40,17 +41,15 @@ export const HERO_LINE_A: Span[] = [
 ];
 
 export const HERO_LINE_B: Span[] = [
-  "Currently building ",
-  { em: "geospatial ML", c: "teal" },
-  " at ",
-  { em: "Orion", c: "teal" },
+  "Currently working on ",
+  { em: "agentic engineering", c: "purple" },
+  " for physical infrastructure at ",
+  { em: "Torus (YC S26)", c: "teal" },
   ", researching ",
-  { em: "AI Safety", c: "blue" },
-  " funded by ",
+  { em: "AI safety", c: "blue" },
+  " with funding from ",
   { em: "BlueDot", c: "blue" },
-  ", and easily ",
-  { em: "distracted", c: "magenta" },
-  " by other problems.",
+  ", and more.",
 ];
 
 // ---------------------------------------------------------------------------
@@ -58,16 +57,14 @@ export const HERO_LINE_B: Span[] = [
 // ---------------------------------------------------------------------------
 export const BIO: Span[] = [
   "I'm a founding engineer at ",
-  { em: "Orion", c: "teal" },
-  ", where I build geospatial ML. Outside of that, I'm an ",
-  { em: "AI Safety researcher", c: "blue" },
-  ", thanks to funding from ",
-  { em: "BlueDot", c: "blue" },
-  ". Before that I read maths (dabbled in some physics) at ",
+  { em: "Torus", c: "teal" },
+  ". Outside of that, I research AI safety, do STEM outreach, contribute to open source (including work with the UK Government on AI), write essays, and build side projects. I'm also an avid reader and usually learning something new (see ",
+  { link: "/now", href: "/now/", c: "orange" },
+  "). I read maths (and dabbled in physics) at ",
   { em: "Oxford", c: "ochre" },
   " and computer science at ",
   { em: "FLAME", c: "ochre" },
-  ", and have held research + software roles across education and startups. I am also very into ",
+  ", and have held research and software roles across education and startups. I'm also very into rowing, horse riding, and ",
   { tag: "interactive diagrams", c: "magenta" },
   ".",
 ];
@@ -170,7 +167,6 @@ export type ContactRow = { label: string; handle?: string; href: string };
 export const HOME_CONTACT_ROWS: ContactRow[] = [
   { label: "github",   handle: "shubhangithub",          href: "https://github.com/shubhangithub" },
   { label: "linkedin", handle: "shubhangi-s-sharma",     href: "https://www.linkedin.com/in/shubhangi-s-sharma/" },
-  { label: "fable",    handle: "shubz-sharma",           href: "https://fable.co/fabler/shubz-sharma-375148102003" },
   { label: "email",    handle: "hello@shubzsharma.com", href: "mailto:hello@shubzsharma.com" },
   { label: "/contact", href: "/contact/" },
 ];

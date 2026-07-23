@@ -8,6 +8,7 @@
 import React from "react";
 import { POSTS } from "../../data/posts";
 import { nbTheme, withAlpha } from "../../data/palette";
+import { SITE_SHELL_USER } from "../../data/site";
 import { useIsMobile } from "../../lib/hooks";
 import { NBPageShell, NBLastUpdated, NBPrompt } from "../chrome/NB";
 import {
@@ -145,7 +146,7 @@ export function WorkV5({ dark, toggleTheme, onNavigate }: {
 
   const promptLine = (cmd: string, comment: string) => (
     <div style={{ display: "flex", alignItems: "baseline", gap: 8, fontFamily: "var(--f-mono)", fontSize: 13, flexWrap: "wrap" as const, marginBottom: 16 }}>
-      <span style={{ color: t.prompt }}>shubz@orion</span>
+      <span style={{ color: t.prompt }}>{SITE_SHELL_USER}</span>
       <span style={{ color: t.muted }}>~/work</span>
       <span style={{ color: t.yellow }}>%</span>
       <span style={{ color: t.ink }}>{cmd}</span>

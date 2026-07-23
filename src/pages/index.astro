@@ -1,6 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AppShell from "../components/pages/AppShell.tsx";
+import {
+  SITE_DESCRIPTION,
+  SITE_HOME_TITLE,
+  SITE_NAME,
+  SITE_URL,
+} from "../data/site";
 
 // JSON-LD: a @graph with Person (Shubhangi) + WebSite. Lets Google connect
 // the site to a real entity for Knowledge Graph + sameAs verification.
@@ -9,37 +15,39 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Person",
-      "@id": "https://shubzsharma.com/#person",
+      "@id": `${SITE_URL}/#person`,
       name: "Shubhangi Sharma",
-      url: "https://shubzsharma.com",
+      url: SITE_URL,
       jobTitle: "Founding Engineer",
-      worksFor: { "@type": "Organization", name: "Orion" },
+      worksFor: { "@type": "Organization", name: "Torus" },
       alumniOf: [
         { "@type": "CollegeOrUniversity", name: "University of Oxford" },
         { "@type": "CollegeOrUniversity", name: "FLAME University" },
       ],
-      image: "https://shubzsharma.com/contact-portrait.jpg",
+      image: `${SITE_URL}/contact-portrait.jpg`,
       sameAs: [
         "https://www.linkedin.com/in/shubhangi-s-sharma/",
         "https://github.com/shubhangithub",
+        "https://fable.co/fabler/shubz-sharma-375148102003",
+        "https://www.strava.com/athletes/155447309",
       ],
     },
     {
       "@type": "WebSite",
-      "@id": "https://shubzsharma.com/#website",
-      url: "https://shubzsharma.com",
-      name: "Shubz Sharma",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: SITE_NAME,
       inLanguage: "en-GB",
-      author: { "@id": "https://shubzsharma.com/#person" },
-      publisher: { "@id": "https://shubzsharma.com/#person" },
+      author: { "@id": `${SITE_URL}/#person` },
+      publisher: { "@id": `${SITE_URL}/#person` },
     },
   ],
 };
 ---
 
 <BaseLayout
-  title="Shubz Sharma"
-  description="Founding engineer at Orion. Read maths and CS at Oxford. Writes about geospatial ML, biology, optimisation, and the small obsessions in between."
+  title={SITE_HOME_TITLE}
+  description={SITE_DESCRIPTION}
   canonicalPath="/"
   ogType="website"
   jsonLd={jsonLd}

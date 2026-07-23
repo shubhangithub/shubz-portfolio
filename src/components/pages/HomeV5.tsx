@@ -62,8 +62,8 @@ function PlatformIcon({ platform, color, size = 12 }: { platform: string; color:
 }
 
 // Inline span renderer. Plain strings render as-is; `em` spans become
-// italic display-serif coloured fragments; `tag` spans are non-italic
-// coloured fragments (used for keyword tags in the bio paragraph).
+// italic display-serif coloured fragments; `link` spans are anchors; `tag`
+// spans are non-italic coloured fragments used for bio keywords.
 function renderSpans(spans: Span[], t: any) {
   return spans.map((s, i) => {
     if (typeof s === "string") return s;
@@ -73,6 +73,19 @@ function renderSpans(spans: Span[], t: any) {
           key={i}
           style={{ fontStyle: "italic", color: s.c ? t[s.c] : undefined }}
         >{s.em}</em>
+      );
+    }
+    if ("link" in s) {
+      return (
+        <a
+          key={i}
+          href={s.href}
+          style={{
+            color: s.c ? t[s.c] : t.blue,
+            textDecoration: "none",
+            borderBottom: `1px solid ${withAlpha(s.c ? t[s.c] : t.blue, "66")}`,
+          }}
+        >{s.link}</a>
       );
     }
     return (
