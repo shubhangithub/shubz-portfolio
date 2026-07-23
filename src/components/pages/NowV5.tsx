@@ -31,6 +31,32 @@ function shortDate(d: string): string {
   return `${MONTHS[Number(mo) - 1]} ${yr.slice(-2)}`;
 }
 
+function linkedFocusCopy(f, t) {
+  if (!f.linkText || !f.linkUrl) return f.what;
+  const linkAt = f.what.indexOf(f.linkText);
+  if (linkAt < 0) return f.what;
+
+  return (
+    <>
+      {f.what.slice(0, linkAt)}
+      <a
+        href={f.linkUrl}
+        target="_blank"
+        rel="noreferrer"
+        title="View Shubz Sharma on Fable"
+        style={{
+          color: t[f.family] || t.ink,
+          borderBottom: `1px solid ${withAlpha(t[f.family] || t.ink, "66")}`,
+          textDecoration: "none",
+        }}
+      >
+        {f.linkText}
+      </a>
+      {f.what.slice(linkAt + f.linkText.length)}
+    </>
+  );
+}
+
 function renderSpans(spans: Span[], t: any) {
   return spans.map((s, i) => {
     if (typeof s === "string") return s;
@@ -320,7 +346,7 @@ export function NowV5({
                 <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t[f.family] || t.ink, textTransform: "uppercase", letterSpacing: "0.08em" }}>
                   ● {f.kind}
                 </span>
-                <span style={{ fontFamily: "var(--f-body)", fontSize: 16, color: t.ink, lineHeight: 1.55 }}>{f.what}</span>
+                <span style={{ fontFamily: "var(--f-body)", fontSize: 16, color: t.ink, lineHeight: 1.55 }}>{linkedFocusCopy(f, t)}</span>
                 {!isMobile && (
                   <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, textAlign: "right" }}>
                     {String(i + 1).padStart(2, "0")}/{String(FOCUSES.length).padStart(2, "0")}

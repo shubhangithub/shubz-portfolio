@@ -41,7 +41,13 @@ export const NOW_LAST_UPDATED_DATE = "23 jul 2026";
 
 export const NOW_CADENCE_LABEL = "weekly-ish";
 
-export type Focus = { kind: string; what: string; family: NBAccentKey };
+export type Focus = {
+  kind: string;
+  what: string;
+  family: NBAccentKey;
+  linkText?: string;
+  linkUrl?: string;
+};
 export type JournalEntry = { date: string; note: string; family: NBAccentKey };
 export type Condition = { k: string; v: string; sub: string; family: NBAccentKey };
 
@@ -51,7 +57,13 @@ export const FOCUSES: Focus[] = [
   // BlueDot Technical AI Safety + cybersecurity + physics → AI safety
   { kind: "Studying",  family: "blue",   what: "BlueDot's Technical AI Safety course — mechanistic interpretability, RLHF, evaluations, AI control — alongside the BDI-funded research, Google's Cybersecurity Certificate, and a physics course." },
   // Agentic AI reading → AI/ML
-  { kind: "Reading",   family: "purple", what: "Agentic systems — tool use, memory architectures, multi-agent coordination. The gap between demos and things that actually work reliably. Also Homer's Odyssey, in Emily Wilson's translation." },
+  {
+    kind: "Reading",
+    family: "purple",
+    what: "Agentic systems — tool use, memory architectures, multi-agent coordination. The gap between demos and things that actually work reliably. Also Homer's Odyssey, in Emily Wilson's translation.",
+    linkText: "Homer's Odyssey",
+    linkUrl: "https://fable.co/fabler/shubz-sharma-375148102003",
+  },
   // Procreate / drawing → outreach (personal, creative)
   { kind: "Drawing",   family: "orange", what: "Procreate course on Skillshare. Trying to get better at making things by hand. No particular goal, just enjoy it." },
   // fashion-web → fintech
