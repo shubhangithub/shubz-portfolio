@@ -18,12 +18,12 @@ import {
   NBMiniTerm,
 } from "../chrome/NB";
 import { GitHubCalendar } from "react-github-calendar";
-import { NotebookRD } from "../diagrams/NotebookRD";
+import { NotebookFisher } from "../diagrams/NotebookFisher";
 import {
   HERO_LINE_A, HERO_LINE_B, BIO, HOME_MARGINALIA,
   HOME_BUILDS, HOME_TOOLBOX, HOME_CONTACT_ROWS,
   HOME_FIG_LABEL, HOME_FIG_CAPTION, HOME_FIG_LINK_TEXT,
-  HOME_PINNED_COMMENT, HOME_VIEW_ALL_TEXT,
+  HOME_PINNED_SLUGS, HOME_PINNED_COMMENT, HOME_VIEW_ALL_TEXT,
   HOME_LAST_UPDATED_LABEL, HOME_LAST_UPDATED_DATE,
   HOME_CONTACT_HEADER, HOME_ANNOTATED_CV_LINK,
   HOME_TOOLBOX_SEE_ALL, TOOLBOX_TEASER, TOOLBOX_TEASER_PATH,
@@ -104,12 +104,15 @@ export function HomeV5({
   }, [t.paper]);
 
 
-  const pinned = POSTS.filter((p) => !p.draft).slice(0, 3).map((post, i) => {
-    const accentKey = post.nbAccent || "blue";
-    const c = t[accentKey];
-    const kicker = (post.kicker || "").replace(/^(Essay|Note)\s*·\s*/i, "").toLowerCase();
-    return { ...post, c, kicker, pin: String(i + 1).padStart(2, "0") };
-  });
+  const pinned = HOME_PINNED_SLUGS
+    .map((slug) => POSTS.find((post) => post.slug === slug))
+    .filter(Boolean)
+    .map((post, i) => {
+      const accentKey = post.nbAccent || "blue";
+      const c = t[accentKey];
+      const kicker = (post.kicker || "").replace(/^(Essay|Note)\s*·\s*/i, "").toLowerCase();
+      return { ...post, c, kicker, pin: String(i + 1).padStart(2, "0") };
+    });
 
   const PAGE_PAD = isMobile ? "16px 20px 0" : "20px 64px 0";
 
@@ -303,7 +306,7 @@ export function HomeV5({
             </div>
           </div>
 
-          {/* §03 PINNED WRITING — first 3 from POSTS. */}
+          {/* §03 PINNED WRITING — explicit slugs from home data. */}
           <NBPrompt t={t} cmd="ls ./writing/pinned/" comment={HOME_PINNED_COMMENT} accent={t.yellow} />
           <div style={{ textAlign: "right", marginBottom: 14 }}>
             <a href="/writing/" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} style={{ color: t.blue, fontFamily: "var(--f-mono)", fontSize: 11, textDecoration: "none" }}>{HOME_VIEW_ALL_TEXT(POSTS.filter((p) => !p.draft).length)}</a>
@@ -460,7 +463,7 @@ export function HomeV5({
 
         </main>
 
-        {/* RIGHT RAIL — cat .now + Lotka figure + contact slip. (Portrait
+        {/* RIGHT RAIL — cat .now + monthly figure + contact slip. (Portrait
             polaroid lives above the hero on mobile — see the isMobile block
             in <main>; on desktop it sits at the top of this rail.) */}
         <aside>
@@ -475,7 +478,7 @@ export function HomeV5({
             </div>
           )}
 
-          <NBPrompt t={t} cwd="~/figures" cmd="./figures/jun.sh" accent={t.red} />
+          <NBPrompt t={t} cwd="~/figures" cmd="./figures/jul.sh" accent={t.red} />
           <div style={{
             border: `2px solid ${t.ink}`,
             padding: 16,
@@ -486,11 +489,11 @@ export function HomeV5({
             <NBThumbtack color={t.red} ink={t.ink} />
             <span style={{ fontFamily: "var(--f-display)", fontStyle: "italic", fontSize: 16, color: t.ink }}>{HOME_FIG_LABEL}</span>
             <div style={{ marginTop: 10 }}>
-              <NotebookRD w={isMobile ? 240 : 290} h={isMobile ? 174 : 210} ink={lit.ink} accent={lit.red} paper={lit.paper} muted={lit.muted} />
+              <NotebookFisher w={isMobile ? 240 : 290} h={isMobile ? 174 : 210} ink={lit.ink} accent={lit.red} paper={lit.paper} muted={lit.muted} />
             </div>
             <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, display: "flex", justifyContent: "space-between", marginTop: 8 }}>
               <span>{HOME_FIG_CAPTION}</span>
-              <a href="/turing-morphogenesis/" onClick={(e) => { e.preventDefault(); onNavigate("essay", "turing-morphogenesis"); }} style={{ color: t.red, textDecoration: "none" }}>{HOME_FIG_LINK_TEXT}</a>
+              <a href="/fisher-wave/" onClick={(e) => { e.preventDefault(); onNavigate("essay", "fisher-wave"); }} style={{ color: t.red, textDecoration: "none" }}>{HOME_FIG_LINK_TEXT}</a>
             </div>
           </div>
 

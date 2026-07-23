@@ -10,7 +10,7 @@
  */
 import React from "react";
 import {
-  FOCUSES, JOURNAL, JOURNAL_ARCHIVE, CONDITIONS,
+  FOCUSES, JOURNAL, JOURNAL_ENTRIES, CONDITIONS,
   NOW_HERO_LINES, NOW_LEDE_PREFIX, NOW_LEDE_LINK_TEXT, NOW_LEDE_LINK_URL, NOW_LEDE_SUFFIX,
   NOW_MARGINALIA, NOW_LAST_UPDATED_LABEL, NOW_LAST_UPDATED_DATE,
   NOW_CADENCE_LABEL,
@@ -43,7 +43,7 @@ function linkedFocusCopy(f, t) {
         href={f.linkUrl}
         target="_blank"
         rel="noreferrer"
-        title="View Shubz Sharma on Fable"
+        title={f.linkTitle || `Visit ${f.linkText}`}
         style={{
           color: t[f.family] || t.ink,
           borderBottom: `1px solid ${withAlpha(t[f.family] || t.ink, "66")}`,
@@ -356,7 +356,13 @@ export function NowV5({
             ))}
           </div>
 
-          {/* cat .threads — thread counts before the diary */}
+          {/* §03 Field journal — diary flip */}
+          <NBPromptHead t={t} n="§03" command="cat journal.md" comment="newest first" title="Field journal" accent={t.orange} level={isMobile ? 22 : 28} />
+          <div style={{ marginBottom: 44 }}>
+            <DiaryJournal entries={JOURNAL_ENTRIES} t={t} isMobile={isMobile} />
+          </div>
+
+          {/* cat .threads — counts derived from the canonical collections */}
           <NBPrompt t={t} cwd="~/now" cmd="cat .threads" comment="counts" accent={t.yellow} />
           <div style={{
             background: t.paper2, border: `1px solid ${t.rule}`,
@@ -365,14 +371,8 @@ export function NowV5({
             color: t.softInk,
           }}>
             <div><span style={{ color: t.muted }}>focuses</span> <span style={{ color: t.ink }}>{FOCUSES.length}</span></div>
-            <div><span style={{ color: t.muted }}>journal</span> <span style={{ color: t.ink }}>{JOURNAL.length} entries</span></div>
+            <div><span style={{ color: t.muted }}>journal</span> <span style={{ color: t.ink }}>{JOURNAL_ENTRIES.length} entries</span></div>
             <div><span style={{ color: t.muted }}>cadence</span> <span style={{ color: t.ink }}>{NOW_CADENCE_LABEL}</span></div>
-          </div>
-
-          {/* §03 Field journal — diary flip */}
-          <NBPromptHead t={t} n="§03" command="cat journal.md" comment="newest first" title="Field journal" accent={t.orange} level={isMobile ? 22 : 28} />
-          <div style={{ marginBottom: 44 }}>
-            <DiaryJournal entries={[...JOURNAL, ...JOURNAL_ARCHIVE]} t={t} isMobile={isMobile} />
           </div>
 
           {/* §04 Conditions */}
@@ -418,7 +418,7 @@ export function NowV5({
               color: t.softInk,
             }}>
               <div><span style={{ color: t.muted }}>focuses</span> <span style={{ color: t.ink }}>{FOCUSES.length}</span></div>
-              <div><span style={{ color: t.muted }}>journal</span> <span style={{ color: t.ink }}>{JOURNAL.length} entries</span></div>
+              <div><span style={{ color: t.muted }}>journal</span> <span style={{ color: t.ink }}>{JOURNAL_ENTRIES.length} entries</span></div>
               <div><span style={{ color: t.muted }}>cadence</span> <span style={{ color: t.ink }}>{NOW_CADENCE_LABEL}</span></div>
             </div>
           </div>

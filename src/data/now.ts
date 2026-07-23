@@ -47,6 +47,7 @@ export type Focus = {
   family: NBAccentKey;
   linkText?: string;
   linkUrl?: string;
+  linkTitle?: string;
 };
 export type JournalEntry = { date: string; note: string; family: NBAccentKey };
 export type Condition = { k: string; v: string; sub: string; family: NBAccentKey };
@@ -54,8 +55,8 @@ export type Condition = { k: string; v: string; sub: string; family: NBAccentKey
 // /now · "Right now" — five concurrent threads.
 // CAP: 5 entries (same reason as JOURNAL — anything more clutters the layout).
 export const FOCUSES: Focus[] = [
-  // BlueDot Technical AI Safety + cybersecurity + physics → AI safety
-  { kind: "Studying",  family: "blue",   what: "BlueDot's Technical AI Safety course — mechanistic interpretability, RLHF, evaluations, AI control — alongside the BDI-funded research, Google's Cybersecurity Certificate, and a physics course." },
+  // BlueDot Technical AI Safety → AI safety
+  { kind: "Studying",  family: "blue",   what: "BlueDot's Technical AI Safety course — mechanistic interpretability, RLHF, evaluations, AI control. Alongside the BDI-funded research." },
   // Agentic AI reading → AI/ML
   {
     kind: "Reading",
@@ -63,11 +64,21 @@ export const FOCUSES: Focus[] = [
     what: "Agentic systems — tool use, memory architectures, multi-agent coordination. The gap between demos and things that actually work reliably. Also Homer's Odyssey, in Emily Wilson's translation.",
     linkText: "Homer's Odyssey",
     linkUrl: "https://fable.co/fabler/shubz-sharma-375148102003",
+    linkTitle: "View Shubz Sharma on Fable",
   },
+  // Google cybersecurity certificate + physics → infra / foundations
+  { kind: "Learning", family: "yellow", what: "Working through Google's Cybersecurity Certificate and a physics course." },
   // Procreate / drawing → outreach (personal, creative)
   { kind: "Drawing",   family: "orange", what: "Procreate course on Skillshare. Trying to get better at making things by hand. No particular goal, just enjoy it." },
-  // fashion-web → fintech
-  { kind: "Building",  family: "ochre",  what: "fashion-web, slowly. Calibrating the house model between other things." },
+  // Structured science communication → outreach
+  {
+    kind: "Learning",
+    family: "orange",
+    what: "Learning science communication through a structured programme with I'm a Scientist, one of the organisations I volunteer with.",
+    linkText: "I'm a Scientist",
+    linkUrl: "https://imascientist.org",
+    linkTitle: "Visit I'm a Scientist",
+  },
 ];
 
 // /now · "Field journal" — newest first.
@@ -103,6 +114,9 @@ export const JOURNAL_ARCHIVE: JournalEntry[] = [
   // Joined Orion → April 2024
   { date: "2024-04", family: "teal",   note: "Joined Orion as one of the first two hires. Building geospatial intelligence infrastructure from nothing. The problem space is genuinely interesting — high-volume multi-source data with hard latency constraints." },
 ];
+
+// One canonical journal collection for pagination and every displayed count.
+export const JOURNAL_ENTRIES: JournalEntry[] = [...JOURNAL, ...JOURNAL_ARCHIVE];
 
 // /now · "Conditions" tile
 export const CONDITIONS: Condition[] = [
