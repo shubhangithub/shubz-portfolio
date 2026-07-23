@@ -13,6 +13,27 @@ export function FisherWaveEssay({ palette: p }) {
         </span>
       </p>
 
+      <figure style={{ margin: "2rem 0 2.4rem" }}>
+        <img
+          src="/thumbs/fisher-wave.jpg"
+          alt="Coloured-pencil drawing of a muskrat sitting in grass"
+          width={1161}
+          height={727}
+          loading="eager"
+          decoding="async"
+          style={{
+            display: "block",
+            width: "100%",
+            height: "auto",
+            border: `1px solid ${p.line}`,
+            background: p.paper,
+          }}
+        />
+        <figcaption style={{ marginTop: "0.55rem", fontFamily: "var(--f-mono)", fontSize: "0.72rem", lineHeight: 1.5, color: p.muted }}>
+          Muskrat, 9 December 2016. Artwork by <cite style={{ color: p.ink, fontStyle: "normal" }}>Raghuveer Parthasarathy</cite>, University of Oregon.
+        </figcaption>
+      </figure>
+
       <p>A constant speed is suspicious. Nature almost never holds a steady rate — things accelerate, saturate, crash, or wobble. A straight line usually means something very simple is running the show underneath. R. A. Fisher wrote down what in 1937 — about three decades after the muskrats got loose and started proving it without him.</p>
 
       <p>Two ingredients, that's the whole model. Things wander at random — diffusion. And wherever they land they breed, fast at first, then easing off as the place fills up — the logistic term.</p>

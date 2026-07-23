@@ -37,7 +37,7 @@ export const NOW_MARGINALIA = {
 };
 
 export const NOW_LAST_UPDATED_LABEL = "NOW · WEEKLY-ISH SNAPSHOT";
-export const NOW_LAST_UPDATED_DATE = "17 jul 2026";
+export const NOW_LAST_UPDATED_DATE = "23 jul 2026";
 
 export const NOW_CADENCE_LABEL = "weekly-ish";
 
@@ -51,7 +51,7 @@ export const FOCUSES: Focus[] = [
   // BlueDot Technical AI Safety → AI safety
   { kind: "Studying",  family: "blue",   what: "BlueDot's Technical AI Safety course — mechanistic interpretability, RLHF, evaluations, AI control. Alongside the BDI-funded research." },
   // Agentic AI reading → AI/ML
-  { kind: "Reading",   family: "purple", what: "Agentic systems — tool use, memory architectures, multi-agent coordination. The gap between demos and things that actually work reliably." },
+  { kind: "Reading",   family: "purple", what: "Agentic systems — tool use, memory architectures, multi-agent coordination. The gap between demos and things that actually work reliably. Also Homer's Odyssey, in Emily Wilson's translation." },
   // Google cybersecurity cert → infra
   { kind: "Learning",  family: "yellow", what: "Google's cybersecurity certificate. Wanted a more formal grounding in what I've been picking up from the safety side." },
   // Procreate / drawing → outreach (personal, creative)
@@ -101,7 +101,7 @@ export const CONDITIONS: Condition[] = [
   // Music → outreach (personal)
   { k: "Music",   family: "orange", v: "tame impala",       sub: "currents, specifically" },
   // Reading agentic AI → AI/ML
-  { k: "Reading", family: "purple", v: "agentic AI papers", sub: "and a novel, finally" },
+  { k: "Reading", family: "purple", v: "agentic systems + The Odyssey", sub: "Emily Wilson's translation" },
   // Drink → outreach (personal)
   { k: "Drink",   family: "orange", v: "strawberry matcha", sub: "from blank street" },
 ];

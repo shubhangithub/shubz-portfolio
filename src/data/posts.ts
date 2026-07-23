@@ -285,6 +285,7 @@ export const ESSAY_THUMB_SLUGS: ReadonlySet<string> = new Set([
   "bluedot-killchain",
   "may-2026",
   "six-engines",
+  "fisher-wave",
   "turing-morphogenesis",
   "zx-calculus",
   "jaya",

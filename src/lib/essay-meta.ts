@@ -56,6 +56,7 @@ export function essayMeta(slug) {
         ['[3] Skellam, J. G. (1951). ', '"Random dispersal in theoretical populations." Biometrika 38:196–218.'],
         ['[4] Ammerman, A. J. & Cavalli-Sforza, L. L. (1971). ', '"Measuring the rate of spread of early farming in Europe." Man 6(4):674–688.'],
         ['[5] Murray, J. D. (2002). ', 'Mathematical Biology I: An Introduction. 3rd ed., Springer. §13.'],
+        ['[6] Parthasarathy, R. (2016). ', 'Muskrat, 9 December 2016. Artwork, University of Oregon.'],
       ],
       sidenotes: 5,
     },
