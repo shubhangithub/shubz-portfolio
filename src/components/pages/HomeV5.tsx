@@ -106,7 +106,7 @@ export function HomeV5({
   const mode: "light" | "dark" = dark ? "dark" : "light";
   const t = nbTheme(mode);
   // Literal hexes for consumers that can't resolve var(--nb-*) references:
-  // the NotebookRD canvas (parseHex) and the GitHub calendar theme arrays.
+  // the NotebookFisher canvas (parseHex) and the GitHub calendar theme arrays.
   const lit = nbLiteral(mode);
   const isMobile = useIsMobile();
 

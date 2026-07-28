@@ -6,7 +6,7 @@ import { nbLiteral, withAlpha } from '../../data/palette';
 
 // ---------------------------------------------------------------------------
 // Gray-Scott reaction-diffusion simulation — essay interactive figure.
-// Larger grid than the home-page NotebookRD; F and k are tuneable live.
+// Larger grid than the home-page NotebookFisher; F and k are tuneable live.
 // ---------------------------------------------------------------------------
 
 const GW = 130, GH = 90;
