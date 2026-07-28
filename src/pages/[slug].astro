@@ -22,7 +22,7 @@ const jsonLd: Record<string, unknown> = {
   publisher: { "@type": "Person", name: "Shubhangi Sharma" },
   url: `https://shubzsharma.com/${post.slug}/`,
   mainEntityOfPage: `https://shubzsharma.com/${post.slug}/`,
-  image: `https://shubzsharma.com/og/${post.slug}.svg`,
+  image: `https://shubzsharma.com/og/${post.slug}.png`,
 };
 
 if (post.publishedAt) {
@@ -36,9 +36,10 @@ if (post.publishedAt) {
   description={post.dek}
   canonicalPath={`/${post.slug}/`}
   ogType="article"
-  ogImage={`/og/${post.slug}.svg`}
+  ogImage={`/og/${post.slug}.png`}
   publishedTime={post.publishedAt}
   jsonLd={jsonLd}
+  noindex={post.draft}
 >
   <AppShell page="essay" slug={post.slug} client:load />
 </BaseLayout>

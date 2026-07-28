@@ -1,7 +1,9 @@
-// Homepage Open Graph card. Copy comes from data/site.ts so the visual card
-// and the page metadata cannot drift apart.
+// Homepage Open Graph card at /og/default.png. Copy comes from data/site.ts
+// so the visual card and the page metadata cannot drift apart. PNG (not SVG)
+// because social platforms don't render SVG og:images.
 
 import type { APIRoute } from "astro";
+import sharp from "sharp";
 import { NB_LIGHT } from "../../data/palette";
 import { SITE_NAME, SITE_OG_TAGLINE } from "../../data/site";
 
@@ -13,7 +15,7 @@ const esc = (value: string) =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;");
 
-export const GET: APIRoute = () => {
+export const GET: APIRoute = async () => {
   const t = NB_LIGHT;
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
@@ -26,9 +28,14 @@ export const GET: APIRoute = () => {
   <text x="80" y="610" font-family="JetBrains Mono, monospace" font-size="13" fill="${t.blue}" letter-spacing="2">v.2026.07</text>
 </svg>`;
 
-  return new Response(svg, {
+  const png = await sharp(Buffer.from(svg), { density: 144 })
+    .resize(1200, 630)
+    .png()
+    .toBuffer();
+
+  return new Response(new Uint8Array(png), {
     headers: {
-      "Content-Type": "image/svg+xml",
+      "Content-Type": "image/png",
       "Cache-Control": "public, max-age=3600",
     },
   });

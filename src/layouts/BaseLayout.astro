@@ -21,16 +21,19 @@ export interface Props {
   publishedTime?: string;
   /** Optional structured-data block injected into <head> as JSON-LD. */
   jsonLd?: Record<string, unknown>;
+  /** When true, emit <meta name="robots" content="noindex"> — used for draft essays. */
+  noindex?: boolean;
 }
 
 const {
   title,
   description,
   canonicalPath,
-  ogImage = "/og/default.svg",
+  ogImage = "/og/default.png",
   ogType = "website",
   publishedTime,
   jsonLd,
+  noindex = false,
 } = Astro.props;
 
 const SITE = SITE_NAME;
@@ -65,6 +68,7 @@ const ogImageUrl = new URL(ogImage, SITE_URL).href;
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     {/* SS monogram favicon — PNG for Safari (no SVG favicon support pre-v14),
         SVG for Chrome/Firefox/Edge. apple-touch-icon for iOS home screen. */}

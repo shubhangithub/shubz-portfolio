@@ -1,16 +1,14 @@
-// Per-essay Open Graph image. Renders an SVG card at /og/<slug>.svg with
-// the essay's kicker, title, and dek. Static-generated for every slug in
-// POSTS at build time.
+// Per-essay Open Graph image. Renders a card at /og/<slug>.png with the
+// essay's kicker, title, and dek. Static-generated for every slug in POSTS
+// at build time. PNG (not SVG) because Twitter / Facebook / LinkedIn /
+// Substack don't render SVG og:images — they need a raster format.
 //
 // V5: uses NB_LIGHT cream paper + each essay's per-essay accent (the same
-// pen colour shown in the essay hero). One source of truth for the brand
-// colour; flip POSTS[i].nbAccent and the OG card retunes on next build.
-//
-// Crawler caveat: LinkedIn / Twitter / Slack accept SVG og:images, but
-// some legacy scrapers prefer PNG. If that becomes a problem, swap this
-// for a satori + sharp build step that outputs PNG.
+// pen colour shown in the essay hero). Flip POSTS[i].nbAccent and the card
+// retunes on next build.
 
 import type { APIRoute } from "astro";
+import sharp from "sharp";
 import { POSTS } from "../../data/posts";
 import { NB_LIGHT } from "../../data/palette";
 
@@ -52,13 +50,11 @@ function wrap(text: string, perLine: number, maxLines = 3): string[] {
   return lines;
 }
 
-export const GET: APIRoute = ({ props }) => {
+export const GET: APIRoute = async ({ props }) => {
   const post = props.post as (typeof POSTS)[number];
   const titleLines = wrap(post.title, 22, 3);
   const dekLines = wrap(post.dek, 60, 2);
 
-  // V5 brand surface: cream paper + per-essay accent. Falls back to blue
-  // if no nbAccent is set (shouldn't happen — every POSTS entry has one).
   const t = NB_LIGHT;
   const accent = t[post.nbAccent || "blue"];
 
@@ -85,9 +81,15 @@ export const GET: APIRoute = ({ props }) => {
   <text x="1120" y="610" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="13" fill="${t.muted}" letter-spacing="2">${post.minutes} MIN READ</text>
 </svg>`;
 
-  return new Response(svg, {
+  // Rasterise at 2× then downscale for crisp text; social wants a raster og:image.
+  const png = await sharp(Buffer.from(svg), { density: 144 })
+    .resize(1200, 630)
+    .png()
+    .toBuffer();
+
+  return new Response(new Uint8Array(png), {
     headers: {
-      "Content-Type": "image/svg+xml",
+      "Content-Type": "image/png",
       "Cache-Control": "public, max-age=3600",
     },
   });
