@@ -6,9 +6,12 @@ import { PENS } from '../../data/notebook';
 import type { NBTheme } from '../../data/palette';
 import '../../styles/journal-reel.css';
 
-export function JournalReel({ t, selected, onChoose }: {
+export function JournalReel({ t, selected, onChoose, filter = null, onClearFilter }: {
   t: NBTheme; selected: number[];
   onChoose: (kind: 'entry' | 'year', value: string) => void;
+  /** A pen key from a Current-work object: matching entries are lit, the rest dimmed. */
+  filter?: string | null;
+  onClearFilter?: () => void;
 }) {
   const active = selected[0] ?? 0;
   const [enhanced, setEnhanced] = useState(false);
@@ -43,15 +46,31 @@ export function JournalReel({ t, selected, onChoose }: {
     {/* Desktop: every entry beside the open page, so the journal is a spread
         rather than a lone leaf; the page itself carries the date. */}
     <nav className="journal-index" aria-label="All journal entries">
-      <ol>
-        {JOURNAL_ENTRIES.map((e, i) => <li key={i}>
+      {filter && <div className="journal-index-filter" style={{'--item-accent':t[filter as keyof NBTheme]} as React.CSSProperties}>
+        <span>{PENS.find(p => p.key === filter)?.label} · {JOURNAL_ENTRIES.filter(e => e.family === filter).length} of {JOURNAL_ENTRIES.length}</span>
+        <button type="button" onClick={onClearFilter}>show all ×</button>
+      </div>}
+      {(() => {
+        const year = (e: typeof JOURNAL_ENTRIES[number]) => e.date.slice(0, 4);
+        const latest = year(JOURNAL_ENTRIES[0]);
+        const item = (e: typeof JOURNAL_ENTRIES[number], i: number) => <li key={i} data-dim={filter && e.family !== filter ? 'true' : undefined}>
           <button type="button" aria-current={active === i ? 'true' : undefined} onClick={() => onChoose('entry', String(i))} style={{'--item-accent':t[e.family]} as React.CSSProperties}>
             <span className="journal-index-date">{monthOf(e.date)}</span>
             <span className="journal-index-brief">{e.brief || e.note.split(/(?<=[.!?])\s/)[0]}</span>
             <small>{PENS.find(p => p.key === e.family)?.label}</small>
           </button>
-        </li>)}
-      </ol>
+        </li>;
+        const current = JOURNAL_ENTRIES.map((e, i) => [e, i] as const).filter(([e]) => year(e) === latest);
+        const earlier = JOURNAL_ENTRIES.map((e, i) => [e, i] as const).filter(([e]) => year(e) !== latest);
+        const activeIsEarlier = earlier.some(([, i]) => i === active);
+        return <>
+          <ol>{current.map(([e, i]) => item(e, i))}</ol>
+          {earlier.length > 0 && <details className="journal-index-earlier" open={activeIsEarlier || undefined}>
+            <summary>Earlier · {earlier.length} {earlier.length === 1 ? 'entry' : 'entries'} · {year(earlier[earlier.length - 1][0])}–{year(earlier[0][0])}</summary>
+            <ol>{earlier.map(([e, i]) => item(e, i))}</ol>
+          </details>}
+        </>;
+      })()}
     </nav>
     <div className="journal-open-page">
     <div className="journal-time-rail">

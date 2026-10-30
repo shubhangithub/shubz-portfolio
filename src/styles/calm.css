@@ -197,3 +197,25 @@ html[data-theme="dark"] .folio:not(.folio-home)[data-live-grid="true"] { backgro
 @media (max-width: 380px) {
   .folio .walk-year-labels > span:nth-child(2) { display: none; }
 }
+
+/* /now/: Current work and Journal talk to each other. A focus panel offers
+   "From the journal · n entries"; the index lights those entries and dims
+   the rest until "show all". Earlier years fold under the current one. */
+.folio .now-journal-link { display: inline-flex; align-items: center; min-height: 40px; margin-top: 14px; padding: 0 12px; background: transparent; border: 1px solid var(--nb-rule); color: var(--nb-softInk); font: 13px var(--f-ui); cursor: pointer; }
+.folio .now-journal-link:hover { border-color: var(--artifact-ink); color: var(--nb-ink); }
+.folio .journal-index-filter { display: flex; align-items: center; justify-content: space-between; gap: 10px; white-space: nowrap; margin: 0 0 8px; padding: 8px 12px; border: 1px solid color-mix(in srgb, var(--item-accent) 45%, var(--nb-rule)); background: color-mix(in srgb, var(--item-accent) 7%, transparent); font: 12px var(--f-ui); color: var(--nb-ink); }
+.folio .journal-index-filter button { background: none; border: 0; padding: 0; color: var(--nb-softInk); font: 11px var(--f-mono); cursor: pointer; }
+.folio .journal-index-filter button:hover { color: var(--nb-ink); }
+.folio .journal-index li[data-dim] { opacity: .38; }
+.folio .journal-index li[data-dim]:hover { opacity: .7; }
+.folio .journal-index-earlier { margin-top: 10px; border-top: 1px solid var(--nb-rule); }
+.folio .journal-index-earlier > summary { cursor: pointer; list-style: none; padding: 12px 14px; font: 11px var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--nb-muted); }
+.folio .journal-index-earlier > summary::before { content: "▸ "; }
+.folio .journal-index-earlier[open] > summary::before { content: "▾ "; }
+.folio .journal-index-earlier > summary::-webkit-details-marker { display: none; }
+.folio .journal-index-earlier > summary:hover { color: var(--nb-ink); }
+/* Current work takes the same section label as the journal. */
+.folio .now-artifact-heading.section-label { margin: 0; padding: 24px 30px 10px; border-bottom: 0; border-top: 0; }
+.folio .now-artifact-heading.section-label::before { left: 30px; top: 0; }
+.folio .now-artifact-heading.section-label h2 { font: 500 24px var(--f-ui); letter-spacing: -.035em; margin: 0; }
+@media (max-width: 760px) { .folio .now-artifact-heading.section-label { padding: 18px 16px 6px; } .folio .now-artifact-heading.section-label::before { left: 16px; } }

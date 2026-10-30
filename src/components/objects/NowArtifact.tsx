@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { FOCUSES, NOW_LAST_UPDATED_DATE } from '../../data/now';
+import { FOCUSES, JOURNAL_ENTRIES } from '../../data/now';
+import { PENS } from '../../data/notebook';
 import reading from '../../data/reading.generated.json';
 import { FOCUS_OBJECTS } from '../../data/fieldKit';
 import type { NBTheme } from '../../data/palette';
@@ -9,13 +10,13 @@ import { useWorkbenchSound } from '../chrome/WorkbenchSound';
 import '../../styles/now-artifact.css';
 
 const COPY = {
- title:'Current work.', intro:'Open an object or book.',
+ title:'Current work', intro:'Open an object or book.', journal:'From the journal',
  reading:'On the reading rack', back:'Back to the objects', source:'Open on Fable', snapshot:'Shelf snapshot',
 };
 const readingIndex = FOCUSES.findIndex(f=>f.kind==='Reading');
 const activities = FOCUSES.map((f,i)=>({f,i})).filter(({i})=>i!==readingIndex);
 const places = [[30,25],[70,25],[25,48],[75,48]];
-export function NowArtifact({t}:{t:NBTheme}) {
+export function NowArtifact({t,onJournal}:{t:NBTheme;onJournal?:(family:string)=>void}) {
  const [selection,setSelection]=useState('focus-0');
  const [reduced,setReduced]=useState(true),[visible,setVisible]=useState(false);
  const root=useRef<HTMLDivElement>(null),panel=useRef<HTMLDivElement>(null);
@@ -88,7 +89,7 @@ export function NowArtifact({t}:{t:NBTheme}) {
  const bookIndex=selection.startsWith('reading-book-')?Number(selection.slice(13)):-1;
  const accent=focusIndex>=0?t[FOCUSES[focusIndex].family]:t[FOCUSES[readingIndex].family];
  return <div className="now-artifact" ref={root} style={{'--artifact-ink':accent} as CSSProperties} data-moving={!reduced&&visible||undefined}>
-  <header className="now-artifact-heading"><div><span className="eyebrow">01 / {NOW_LAST_UPDATED_DATE}</span><h2 id="current-desk-title">{COPY.title}</h2></div></header>
+  <div className="section-label now-artifact-heading"><h2 id="current-desk-title"><span>i</span>{COPY.title}</h2></div>
   <div className="now-artifact-workspace">
    <div className="now-mobile-scene" role="group" aria-label="Current work and reading objects">
     <svg className="now-mobile-frame" viewBox="0 0 700 650" fill="none" aria-hidden="true">
@@ -101,12 +102,12 @@ export function NowArtifact({t}:{t:NBTheme}) {
     </svg>
     {activities.map(({f,i},slot)=><button key={f.kind} className="now-focus-object" data-now-object={`focus-${i}`} style={{'--object-ink':t[f.family],'--object-x':`${places[slot][0]}%`,'--object-y':`${places[slot][1]}%`,'--object-delay':`${-i*1.7}s`} as CSSProperties} aria-pressed={selection===`focus-${i}`} aria-controls={`focus-${i}`} onPointerEnter={event=>{if(event.pointerType==='mouse')preview(`focus-${i}`);}} onFocus={event=>{if(event.currentTarget.matches(':focus-visible'))preview(`focus-${i}`);}} onClick={()=>choose(`focus-${i}`)}><FieldObject kind={FOCUS_OBJECTS[f.kind]||'notebook'}/><span>{f.kind}</span></button>)}
     <div className="now-reading-rack" id="reading-shelf" tabIndex={-1} aria-label={COPY.reading}>
-     <button className="reading-rack-label" data-now-object={`focus-${readingIndex}`} aria-controls={`focus-${readingIndex}`} aria-pressed={focusIndex===readingIndex||bookIndex>=0} onClick={()=>choose(`focus-${readingIndex}`)}>Reading ↗</button>
+     <button className="reading-rack-label" data-now-object={`focus-${readingIndex}`} aria-controls={`focus-${readingIndex}`} aria-pressed={focusIndex===readingIndex||bookIndex>=0} onClick={()=>choose(`focus-${readingIndex}`)}>Reading</button>
      {reading.books.map((b,i)=><button key={b.title} data-now-object={`reading-book-${i}`} aria-controls={`reading-book-${i}`} aria-pressed={bookIndex===i} onPointerEnter={event=>{if(event.pointerType==='mouse')preview(`reading-book-${i}`);}} onFocus={event=>{if(event.currentTarget.matches(':focus-visible'))preview(`reading-book-${i}`);}} onClick={()=>choose(`reading-book-${i}`)}><span className="rack-book-binding" aria-hidden="true"/><span className="rack-book-title">{b.title}</span><small>{b.authors.join(', ')}</small></button>)}
     </div>
    </div>
    <div className="now-artifact-panel" ref={panel} tabIndex={-1} aria-label="Selected object's notes">
-    {FOCUSES.map((f,i)=><article id={`focus-${i}`} tabIndex={-1} key={f.kind} hidden={focusIndex!==i&&!(i===readingIndex&&bookIndex>=0)} className="now-focus-detail"><FieldObject kind={FOCUS_OBJECTS[f.kind]||'notebook'} className="now-detail-study"/><h3>{f.kind}</h3><p>{f.what}</p>{f.linkUrl&&<a href={f.linkUrl} title={f.linkTitle}>{f.linkText} ↗</a>}</article>)}
+    {FOCUSES.map((f,i)=><article id={`focus-${i}`} tabIndex={-1} key={f.kind} hidden={focusIndex!==i&&!(i===readingIndex&&bookIndex>=0)} className="now-focus-detail"><FieldObject kind={FOCUS_OBJECTS[f.kind]||'notebook'} className="now-detail-study"/><h3>{f.kind}</h3><p>{f.what}</p>{f.linkUrl&&<a href={f.linkUrl} title={f.linkTitle}>{f.linkText} ↗</a>}{(()=>{const n=JOURNAL_ENTRIES.filter(e=>e.family===f.family).length;const label=PENS.find(p=>p.key===f.family)?.label;return n>0&&onJournal?<button type="button" className="now-journal-link" onClick={()=>onJournal(f.family)}>{COPY.journal} · {n} {label} {n===1?'entry':'entries'} ↓</button>:null;})()}</article>)}
     {reading.books.map((b,i)=><article id={`reading-book-${i}`} tabIndex={-1} key={b.title} hidden={bookIndex!==i} className="now-book-detail"><FieldObject kind="books" className="now-detail-study"/><span className="now-book-number">{String(i+1).padStart(2,'0')}</span><h3>{b.title}</h3><p>{b.authors.join(', ')}</p><a href={b.url||reading.source}>{COPY.source} ↗</a><small>{COPY.snapshot} · {reading.fetchedAt.slice(0,10)}</small></article>)}
     <button className="now-return-objects" onClick={back}>↑ {COPY.back}</button>
    </div>

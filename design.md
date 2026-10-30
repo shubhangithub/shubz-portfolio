@@ -70,6 +70,12 @@ are implemented in `src/styles/calm.css`, loaded last:
 - /work/: the walk keeps its city scene and walking narrator above the
   record. (A compact version was tried on 30 October and reverted the same
   day: the scene is the page's character.)
+- /now/: Current work and Journal are connected. Each focus panel offers
+  "From the journal · n entries", which lights those entries in the index
+  and dims the rest until "show all". Current work carries the same section
+  label as the journal (no second date). The book rack opens its notes panel
+  like the other objects. Earlier years fold under the current year in the
+  index; every entry stays.
 - /now/: the journal is a spread on desktop — every entry listed beside the
   open page; one date, on the page. Phones keep the bound leaf.
 - /builds/: one way to narrow — category chips and the subject select. The
