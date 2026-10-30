@@ -118,7 +118,7 @@ export const TOOLBOX_TEASER_PATH = "./work/toolbox.md";
 export type HomeBuild = {
   name: string;
   c: NBAccentKey;
-  /** One sentence, taken from the project's own entry in work.ts. */
+  /** One plain sentence on what it is. No stack, no examples. */
   blurb: string;
   year: string;
   url: string;
@@ -129,9 +129,9 @@ export type HomeBuild = {
 //   taylor-rec-engine  → ochre  (recommendations roll up to markets)
 //   platypus-learn     → purple (ML technical research — LLM-driven learning)
 export const HOME_BUILDS: HomeBuild[] = [
-  { name: "fashion-web",        c: "ochre",  blurb: "Fashion-trend forecasting with a Holt-smoothed signal, an LMSR prediction market and outfit recognition.",                year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
-  { name: "taylor-rec-engine",  c: "ochre",  blurb: "Six engines in parallel: SBERT, a VAE on audio features, node2vec, neural CF, contrastive SSL, and a consensus-boosted ensemble.",            year: "2026",   url: "https://shubz-taylor-recommendation-engine.vercel.app" },
-  { name: "platypus-learn",     c: "purple", blurb: "Turns PDFs and YouTube videos into structured courses with assessments, a goals dashboard, and an email digest.",    year: "2025 —", url: "https://platypus-learn.vercel.app" },
+  { name: "fashion-web",        c: "ochre",  blurb: "A fashion-trend forecaster with a prediction market.",                year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
+  { name: "taylor-rec-engine",  c: "ochre",  blurb: "A song recommender for one artist's catalogue.",            year: "2026",   url: "https://shubz-taylor-recommendation-engine.vercel.app" },
+  { name: "platypus-learn",     c: "purple", blurb: "Turns documents and videos into courses.",    year: "2025 —", url: "https://platypus-learn.vercel.app" },
 ];
 
 // ---------------------------------------------------------------------------
