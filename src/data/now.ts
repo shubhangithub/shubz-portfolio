@@ -113,8 +113,8 @@ export const FOCUSES: Focus[] = [
         }
       : {}),
   },
-  // Procreate / drawing → outreach (personal, creative)
-  { kind: "Drawing",   family: "orange", what: "Procreate course on Skillshare. Trying to get better at making things by hand. No particular goal, just enjoy it." },
+  // Exploring San Francisco → personal life
+  { kind: "Exploring SF", family: "orange", what: "Getting to know San Francisco while I’m here for work, making time for the city beyond my desk. London is still home; I’m enjoying having somewhere new to explore." },
   // Public evaluation contribution → AI safety
   {
     kind: "Evaluating",
@@ -172,8 +172,8 @@ export const JOURNAL_ENTRIES: JournalEntry[] = [...JOURNAL, ...JOURNAL_ARCHIVE];
 
 // /now · "Conditions" tile
 export const CONDITIONS: Condition[] = [
-  // Drawing / creative mode → outreach (personal)
-  { k: "Mood",    family: "orange", v: "drawing things",    sub: "on procreate" },
+  // Exploring the city → personal life
+  { k: "Mood",    family: "orange", v: "exploring SF",       sub: "getting my bearings" },
   // Music → outreach (personal)
   { k: "Music",   family: "orange", v: "nolan's odyssey",   sub: "the soundtrack, on repeat" },
   // Reading → outreach (personal) · auto-filled from the Fable shelf

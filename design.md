@@ -579,3 +579,7 @@ ledges below the activity studies to connect them physically without crossing
 their drawings. Give the studies more room within their stations, and render the
 selected notes as a fitted attached sheet rather than a tall mostly empty column.
 Keep this treatment off the accepted phone composition.
+
+The current personal-life object is Exploring SF, illustrated by a small Golden
+Gate Bridge study whose cable draws on interaction. Keep London as home in its
+copy; historical drawing-course journal entries remain historical.

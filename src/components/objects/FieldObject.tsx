@@ -347,6 +347,17 @@ export function FieldObject({
         </>
       );
       break;
+    case "san-francisco":
+      art = <>
+        <path d="M38 172H285M42 179H281" />
+        <path d="M92 172V58H107V172M215 172V58H230V172M92 68H107M215 68H230M92 101H107M215 101H230" fill={paper}/>
+        <path className="field-city-cable" d="M37 165Q73 137 92 65M107 65Q160 190 215 65M230 65Q250 137 285 165"/>
+        <path d="M54 149V172M72 120V172M124 101V172M144 122V172M165 130V172M185 120V172M203 95V172M247 115V172M267 145V172" stroke={muted}/>
+        <path className="field-city-water" d="M40 195Q65 185 90 195T140 195T190 195T240 195T290 195" stroke={muted}/>
+        <circle cx="264" cy="62" r="17" stroke={muted}/>
+        {text(126, 47, "SAN FRANCISCO", 9)}
+      </>;
+      break;
     case "microphone":
       art = (
         <>

@@ -10,6 +10,7 @@ export type FieldObjectKind =
   | "books"
   | "card"
   | "map"
+  | "san-francisco"
   | "folio"
   | "oar"
   | "committee"
@@ -132,6 +133,7 @@ export const FOCUS_OBJECTS: Record<string, FieldObjectKind> = {
   Studying: "course",
   Reading: "books",
   Drawing: "tablet",
+  "Exploring SF": "san-francisco",
   Learning: "microphone",
 };
 

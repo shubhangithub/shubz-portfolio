@@ -51,6 +51,7 @@ export function NowArtifact({t}:{t:NBTheme}) {
   play('.field-tablet-stroke',[{strokeDasharray:'100',strokeDashoffset:100},{strokeDasharray:'100',strokeDashoffset:0}],1100);
   play('.field-tablet-pen',[{transform:'translate(-20px, 10px)'},{transform:'translate(7px, -7px)',offset:.75},{transform:'translate(0, 0)'}],1100);
   play('.field-microphone-wave',[{opacity:.2,transform:'scale(.9)'},{opacity:1,transform:'scale(1.08)',offset:.55},{opacity:.65,transform:'scale(1)'}],850,160);
+  play('.field-city-cable',[{strokeDasharray:'500',strokeDashoffset:500},{strokeDasharray:'500',strokeDashoffset:0}],1200);
   play('.rack-book-binding',[{transform:'scaleX(1)'},{transform:'scaleX(4)',offset:.45},{transform:'scaleX(1)'}],950);
  };
  const preview=(id:string)=>animateObject(id);
