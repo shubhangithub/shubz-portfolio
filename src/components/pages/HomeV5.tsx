@@ -41,7 +41,7 @@ export function HomeV5({ dark, toggleTheme }: PageProps) {
       <HomeWorkbench mode={mode} onTheme={toggleTheme}/>
       <BridgeNote/>
       <div className="home-columns home-parallel">
-          <section className="folio-section"><SectionLabel n="ii" title={GUIDE.homeProjects} href="/builds/" link="projects & tools ↗"/><div className="build-rows">{HOME_BUILDS.map(b => <a href={b.url} className="build-row" key={b.name} target="_blank" rel="noreferrer" style={{ "--item-accent": t[b.c] } as React.CSSProperties}><div><strong>{b.name} ↗</strong><em className="build-line">{b.line}</em><p>{b.blurb}</p></div><span>{b.year}</span></a>)}</div></section>
+          <section className="folio-section"><SectionLabel n="ii" title={GUIDE.homeProjects} href="/builds/" link="projects & tools ↗"/><div className="build-rows">{HOME_BUILDS.map(b => <a href={b.url} className="build-row" key={b.name} target="_blank" rel="noreferrer" style={{ "--item-accent": t[b.c] } as React.CSSProperties}><div><strong>{b.name} ↗</strong><p>{b.blurb}</p></div><span>{b.year}</span></a>)}</div></section>
           <section className="folio-section"><SectionLabel n="iii" title={GUIDE.homeWriting} href="/writing/" link="all essays ↗"/>
             <ol className="writing-list">{pinned.map((post,i) => <li key={post.slug}><a href={`/${post.slug}/`} className="writing-item" style={{ "--item-accent": t[post.nbAccent || "blue"] } as React.CSSProperties}>
               <span className="item-number">0{i+1}</span><div><h3>{post.title}</h3><p>{post.dek}</p><span className="item-meta">{post.kicker.replace(/^Essay · /, "")} · {post.minutes} min read</span></div>{thumbUrlFor(post.slug) ? <img src={thumbUrlFor(post.slug)} alt="" loading="lazy"/> : <span/>}<span className="item-arrow">↗</span>

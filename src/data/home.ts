@@ -118,8 +118,7 @@ export const TOOLBOX_TEASER_PATH = "./work/toolbox.md";
 export type HomeBuild = {
   name: string;
   c: NBAccentKey;
-  /** One plain sentence, a few words, on what the thing does for someone. */
-  line: string;
+  /** One sentence, taken from the project's own entry in work.ts. */
   blurb: string;
   year: string;
   url: string;
@@ -130,9 +129,9 @@ export type HomeBuild = {
 //   taylor-rec-engine  → ochre  (recommendations roll up to markets)
 //   platypus-learn     → purple (ML technical research — LLM-driven learning)
 export const HOME_BUILDS: HomeBuild[] = [
-  { name: "fashion-web",        c: "ochre",  line: "Forecasts fashion trends, then lets you bet on them.", blurb: "ML trend intelligence + LMSR exchange.",                year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
-  { name: "taylor-rec-engine",  c: "ochre",  line: "Six models argue about what to play next.",             blurb: "Six recommendation engines on one songbook.",            year: "2026",   url: "https://shubz-taylor-recommendation-engine.vercel.app" },
-  { name: "platypus-learn",     c: "purple", line: "Any PDF or video, turned into a course.",               blurb: "AI learning platform — PDFs and YouTube → courses.",    year: "2025 —", url: "https://platypus-learn.vercel.app" },
+  { name: "fashion-web",        c: "ochre",  blurb: "Fashion-trend forecasting with a Holt-smoothed signal, an LMSR prediction market and outfit recognition.",                year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
+  { name: "taylor-rec-engine",  c: "ochre",  blurb: "Six engines in parallel: SBERT, a VAE on audio features, node2vec, neural CF, contrastive SSL, and a consensus-boosted ensemble.",            year: "2026",   url: "https://shubz-taylor-recommendation-engine.vercel.app" },
+  { name: "platypus-learn",     c: "purple", blurb: "Turns PDFs and YouTube videos into structured courses with assessments, a goals dashboard, and an email digest.",    year: "2025 —", url: "https://platypus-learn.vercel.app" },
 ];
 
 // ---------------------------------------------------------------------------
