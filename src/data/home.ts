@@ -176,7 +176,7 @@ export const HOME_TOOLBOX: ToolGroup[] = [
     { name: "Compiler · HDL", links: [{ label: "Nand2Tetris · /work", href: "/work/" }] },
   ] },
   { group: "Infrastructure", primary: "yellow", items: [
-    { name: "Astro · React islands", links: [{ label: "this site", href: "https://github.com/shubhangithub/personal-site" }] },
+    { name: "Astro · React islands", links: [{ label: "this site", href: "https://github.com/shubhangithub/shubz-portfolio" }] },
     { name: "Next.js · Supabase",    links: [{ label: "platypus-learn", href: "https://platypus-learn.vercel.app" }] },
     { name: "UI / UX",               links: [{ label: "this site", href: "/" }] },
   ] },

@@ -191,7 +191,9 @@ export function BuildsV6({
     WORK_CORE_CARDS.find(
       (c) => c.cat === cat && (CORE_TOOL_BINDINGS[c.name] || c.name) === name,
     );
-  const allProjects = [...WORK_FEATURED_V5, ...WORK_BUILDS_LIST_V5];
+  const allProjects = [...WORK_FEATURED_V5, ...WORK_BUILDS_LIST_V5].sort(
+    (a, b) => PROJECT_GROUPS.findIndex(g => g.key === a.group) - PROJECT_GROUPS.findIndex(g => g.key === b.group),
+  );
   const projects = allProjects.filter(
     (p) =>
       (projectGroup === "all" || p.group === projectGroup) &&
