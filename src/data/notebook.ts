@@ -83,7 +83,7 @@ export const LETTER_COPY = {
   edit: 'unfold & edit ↶', elsewhere: 'Channels',
 };
 export const TTY_COPY = {
-  label: 'A side entrance / ~/tty', title: 'The notebook,', titleEm: 'from the command line.',
+  chip: '~', label: 'A side entrance · ~/tty', title: 'The notebook,', titleEm: 'from the command line.',
   fold: 'fold away the map', unfold: 'unfold the notebook map',
 };
 

@@ -29,7 +29,7 @@ export const CLIP_RECORDS: ClipRecord[] = [
 ];
 export const CLIP_COPY = {
   trigger: "Clips",
-  title: "Your paperclip tray",
+  title: "The paperclip tray",
   description:
     "Projects and essays to return to. Saved in this browser, without an account.",
   save: "Clip for later",

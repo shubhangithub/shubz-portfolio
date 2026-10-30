@@ -17,7 +17,7 @@ export default function NotFound() {
     >
       <main id="main" className="not-found-page" tabIndex={-1}>
         <header>
-          <p className="eyebrow">{COPY.label}</p>
+          <p className="eyebrow"><span className="chapter chapter-side">{COPY.chip}</span>{COPY.label}</p>
           <h1>{COPY.title}</h1>
           <p>{COPY.explanation}</p>
           <nav className="not-found-exits" aria-label="Find another page">

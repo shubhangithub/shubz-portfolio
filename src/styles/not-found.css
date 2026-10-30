@@ -1,7 +1,7 @@
 .not-found-page {
-  max-width: 900px;
+  max-width: 1248px;
   margin: 0 auto;
-  padding: 64px 40px 90px;
+  padding: 54px 40px 90px;
   color: var(--nb-ink);
   font-family: var(--f-ui);
 }

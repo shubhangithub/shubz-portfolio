@@ -142,7 +142,7 @@ export function FieldIndex() {
         <div className="field-index-inner">
           <header className="field-index-heading">
             <div>
-              <span className="eyebrow">~/notebook / index</span>
+              <span className="eyebrow">~/notebook · index</span>
               <h2 id="field-index-title">{COPY.title}</h2>
             </div>
             <button type="button" aria-label={COPY.close} onClick={close}>

@@ -45,13 +45,15 @@ export function NotebookGraph(){
  const shownEdges=edges.filter(e=>shownIds.has(e.from)&&shownIds.has(e.to));
  const textNodes=shown.filter(n=>!terms.length||matchIds.has(n.id));
  const labelPlacements=new Map<string,{x:number;y:number;anchor:'start'|'end'|'middle';size:number}>();
- const boxes:{x:number;y:number;w:number;h:number}[]=[];
+ // Labels avoid other labels AND the node discs, so a hub's name is never
+ // drawn through its neighbours.
+ const boxes:{x:number;y:number;w:number;h:number}[]=shown.map(n=>{const p=pmap.get(n.id);return p?{x:p.x-p.r,y:p.y-p.r,w:p.r*2,h:p.r*2}:null;}).filter((b):b is {x:number;y:number;w:number;h:number}=>!!b);
  const priority=(n:GraphNode)=>n.id===selected?100:n.id===hover?90:matchIds.has(n.id)?80:n.kind==='subject'||n.kind==='page'?70:degrees.get(n.id)||0;
  [...shown].sort((a,b)=>priority(b)-priority(a)).forEach(n=>{
   const wanted=labels==='all'||labels==='auto'&&(n.kind==='subject'||n.kind==='page'||(degrees.get(n.id)||0)>=3||camera.k>1.65||n.id===selected||neighbours.has(n.id)||matchIds.has(n.id)||hover===n.id);
   if(!wanted)return;const p=pmap.get(n.id)!;const size=(n.kind==='subject'||n.kind==='page'?15:12)/Math.pow(camera.k,.3);
   const title=(n.label.length>40?n.label.slice(0,38)+'…':n.label);const w=title.length*size*.52,h=size*1.25;
-  const options=[{x:p.r+5,y:4,anchor:'start' as const},{x:-p.r-5,y:4,anchor:'end' as const},{x:0,y:-p.r-7,anchor:'middle' as const},{x:0,y:p.r+size+5,anchor:'middle' as const},{x:p.r+5,y:-size,anchor:'start' as const}];
+  const options=[{x:p.r+5,y:4,anchor:'start' as const},{x:-p.r-5,y:4,anchor:'end' as const},{x:0,y:-p.r-7,anchor:'middle' as const},{x:0,y:p.r+size+5,anchor:'middle' as const},{x:p.r+5,y:-size,anchor:'start' as const},{x:0,y:p.r+size*2+10,anchor:'middle' as const}];
   let picked=options[0],best=Infinity;
   for(const o of options){const b={x:p.x+o.x-(o.anchor==='end'?w:o.anchor==='middle'?w/2:0),y:p.y+o.y-h,w,h};const overlap=boxes.filter(a=>a.x<b.x+b.w+4&&a.x+a.w+4>b.x&&a.y<b.y+b.h+3&&a.y+a.h+3>b.y).length;if(overlap<best){best=overlap;picked=o;}if(!overlap)break;}
   if(best&&labels==='auto'&&priority(n)<70)return;
@@ -106,7 +108,7 @@ export function NotebookGraph(){
     </div>
    </aside>
    <div className="network-stage">
-    <div className="network-stage-bar"><span>NOTEBOOK / FORCE-DIRECTED NETWORK</span><span>{terms.length?matches.length+' search matches':selected?'Selection highlighted · full network retained':`${shown.length} nodes · ${shownEdges.length} connections`}</span></div>
+    <div className="network-stage-bar"><span>NOTEBOOK · FORCE-DIRECTED NETWORK</span><span>{terms.length?matches.length+' search matches':selected?'Selection highlighted · full network retained':'drag to rearrange · wheel to zoom · click to select'}</span></div>
     <svg ref={svg} className="network-canvas" viewBox="0 0 1000 720" role="group" aria-label="Full network. Drag nodes to rearrange; drag background to pan. Wheel or pinch to zoom. Tab and arrows navigate nodes; Enter selects; Home fits the graph." tabIndex={0} onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={e=>{pointers.current.delete(e.pointerId);drag.current=null;pinch.current=null;}} onKeyDown={keyboard}>
      <defs><pattern id="network-grid" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".7" fill="var(--nb-rule)"/></pattern><marker id="network-arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0L5 3L0 6" fill="none" stroke="var(--nb-softInk)"/></marker></defs><rect width="1000" height="720" fill="url(#network-grid)"/>
      <g className="network-camera" transform={`translate(${camera.x} ${camera.y}) scale(${camera.k})`}>

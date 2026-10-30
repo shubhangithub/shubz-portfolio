@@ -75,6 +75,18 @@ are implemented in `src/styles/calm.css`, loaded last:
   ten-pen register is retired on every width.
 - Essays: 56ch measure (≈66 characters); diagrams keep enough right padding
   for their end labels (JaggedFrontier was clipping).
+- Side entrances (404, ~/tty, the map) share the chapter chip with a glyph
+  (`404`, `~`, `◎`) and the full column, and keep their own character: the
+  404's wit, the terminal's prompt-green, the map's map.
+- The two overlays share one frame (eyebrow `~/notebook · …`, title, lede,
+  square ×) and keep their own ink: cyan for Find (a tool), yellow for the
+  paperclip tray (things kept). Titles are parallel: "The field index",
+  "The paperclip tray".
+- Eyebrow separators: `·` between label parts; `/` only inside real paths.
+- Pixel has one body: the cat with a small speech bubble, never a console
+  panel. Home's "Writing" section reads the `featured` essays, so home and
+  /writing/ cannot disagree. Network labels avoid node discs as well as
+  other labels. Headings are weight 500 on pages and inside essays.
 - Build: `@astrojs/react` runs with `experimentalDisableStreaming` (plain
   `renderToString`). React 18's streaming encoder left NUL bytes before
   multi-byte characters at its buffer boundaries; one landed inside a graph

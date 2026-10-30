@@ -206,7 +206,9 @@ export const HOME_FIG_LABEL = "fig. 01 — the threshold";
 export const HOME_FIG_CAPTION = "ross–macdonald · august '26";
 export const HOME_FIG_LINK_TEXT = "see the equation →";
 
-export const HOME_PINNED_SLUGS = ["ross-threshold", "bluedot-unit1", "bluedot-assumptions"] as const;
+/** The home "Writing" section shows the essays marked `featured` in posts.ts
+ *  (the same three that open /writing/). Edit `featured` there, not here. */
+export const HOME_PINNED_SLUGS = [] as const;
 export const HOME_PINNED_LABEL = "§03  PINNED · FEATURED WRITING";
 export const HOME_PINNED_COMMENT = (count: number) => `${count} open on the desk`;
 export const HOME_VIEW_ALL_TEXT = (count: number) => `all ${count} essays →`;

@@ -178,3 +178,35 @@ html[data-theme="dark"] .folio:not(.folio-home)[data-live-grid="true"] { backgro
   .folio .journal-open-page { min-width: 0; }
   .folio .journal-reel > .pixel-station { grid-column: 2; }
 }
+
+/* ---------------------------------------------------------------------------
+   Side entrances (404, ~/tty, the map) share the chapter chip, with a glyph
+   where a chapter would have a number. The pages keep their own character:
+   the 404's wit, the terminal's green, the map's map.
+   --------------------------------------------------------------------------- */
+.folio .chapter-side { border-color: color-mix(in srgb, var(--nb-cyan) 45%, var(--nb-rule)); background: color-mix(in srgb, var(--nb-cyan) 7%, var(--nb-paper)); color: var(--nb-cyan); }
+.folio .tty-heading > .eyebrow .chapter-side { border-color: color-mix(in srgb, var(--nb-prompt) 45%, var(--nb-rule)); background: color-mix(in srgb, var(--nb-prompt) 7%, var(--nb-paper)); color: var(--nb-prompt); }
+.folio .not-found-page header > .eyebrow { display: flex; align-items: center; color: var(--nb-cyan); }
+.folio .not-found-page header > .eyebrow .chapter-side { border-color: color-mix(in srgb, var(--nb-yellow) 45%, var(--nb-rule)); background: color-mix(in srgb, var(--nb-yellow) 7%, var(--nb-paper)); color: var(--nb-yellow); }
+.folio .tty-heading > .eyebrow { display: flex; align-items: center; }
+.folio .guide-graph .guide-header .eyebrow { display: flex; align-items: center; }
+
+/* The two overlays share one frame: eyebrow · title · lede, a square × to
+   close. Each keeps its own ink (cyan = a tool, yellow = things kept). */
+.folio .paperclip-inner > header > button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--nb-rule); background: transparent; color: var(--nb-ink); font: 20px/1 var(--f-ui); }
+.folio .paperclip-inner > header > button:hover { border-color: var(--nb-yellow); color: var(--nb-yellow); }
+
+/* Pixel has one body everywhere: the cat, and a small speech bubble rather
+   than a console panel. */
+.folio .companion-console { min-width: 0; max-width: 230px; padding: 8px 12px; border-radius: 14px; border-color: var(--nb-rule); background: var(--nb-paper2); }
+.folio .companion-console::before { border-color: var(--nb-rule); background: var(--nb-paper2); }
+.folio .companion-name { font-size: 11px; }
+.folio .companion-status { margin: 4px 0 2px; font-size: 13px; }
+.folio .companion-controls { gap: 8px; }
+.folio .companion-controls button { min-height: 28px; padding: 2px 0; }
+.folio .companion-terminal { gap: 12px; }
+.folio .companion-terminal .companion-console { min-width: 0; }
+
+/* One heading weight across pages and essays. */
+.folio .section-label h2 { font-weight: 500; }
+.folio-essay #essay-body h2 { font-weight: 500; letter-spacing: -.03em; }

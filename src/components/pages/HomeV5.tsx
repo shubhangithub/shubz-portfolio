@@ -6,14 +6,17 @@ import "../../styles/home-workbench.css";
 import React from "react";
 import { NotebookShell, DeskScene, Spans, SectionLabel, type PageProps } from "../chrome/Notebook";
 import { nbTheme } from "../../data/palette";
-import { HERO_LINE_A, HERO_LINE_B, HOME_BUILDS, HOME_PINNED_SLUGS, HOME_PORTRAIT } from "../../data/home";
+import { HERO_LINE_A, HERO_LINE_B, HOME_BUILDS, HOME_PORTRAIT } from "../../data/home";
+import { FEATURED_ESSAYS } from "../essay/FeaturedEssay";
 import { NOTEBOOK_COPY, GUIDE_COPY as GUIDE } from "../../data/notebook";
-import { VISIBLE_POSTS, thumbUrlFor } from "../../data/posts";
+import { thumbUrlFor } from "../../data/posts";
 
 export function HomeV5({ dark, toggleTheme }: PageProps) {
   const mode = dark ? "dark" : "light";
   const t = nbTheme(mode);
-  const pinned = HOME_PINNED_SLUGS.map(slug => VISIBLE_POSTS.find(p => p.slug === slug)).filter((p): p is NonNullable<typeof p> => Boolean(p));
+  // The same three essays that open /writing/ (POSTS[i].featured), so the
+  // two pages never disagree about which writing matters.
+  const pinned = FEATURED_ESSAYS;
   return <NotebookShell mode={mode} current="home" onToggle={toggleTheme}>
     <main id="main" className="folio-main" tabIndex={-1}>
       <section className="home-intro" aria-labelledby="home-title">

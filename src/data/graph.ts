@@ -41,7 +41,7 @@ export const GRAPH_EDGES:GraphEdge[]=[
 export const GRAPH_KINDS:{key:NodeKind|'all';label:string}[]=[{key:'all',label:'All types'},{key:'project',label:'Projects'},{key:'essay',label:'Essays'},{key:'tool',label:'Tools'},{key:'career',label:'Career'},{key:'profile',label:'About'},{key:'journal',label:'Journal'},{key:'focus',label:'Now'},{key:'contact',label:'Contact'}];
 export const GRAPH_COPY={
  motionPause:"Pause motion",motionResume:"Resume motion",motionReduced:"Motion reduced",
- title:'A map of the notebook.',intro:'Pick a subject. Follow a connection. Open the thing that interests you.',
+ chip:'◎', label:'The map · every record, connected', title:'A map of the notebook.',intro:'Pick a subject. Follow a connection. Open the thing that interests you.',
  overview:'Whole map',search:'Find a node',placeholder:'Search every project, essay, tool, career note…',
  reset:'Reset view',zoomIn:'Zoom in',zoomOut:'Zoom out',list:'List view',graph:'Node map',
  hint:'Drag empty space to pan · + / − to zoom · Tab to a node, Enter to explore',

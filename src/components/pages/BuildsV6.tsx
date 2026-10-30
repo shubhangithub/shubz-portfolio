@@ -527,7 +527,9 @@ export function BuildsV6({
       >
         <header className="guide-header">
           <div>
-            <div className="eyebrow"><span className="chapter">04</span>{GUIDE.label}</div>
+            {view === "graph"
+              ? <div className="eyebrow"><span className="chapter chapter-side">{GRAPH_COPY.chip}</span>{GRAPH_COPY.label}</div>
+              : <div className="eyebrow"><span className="chapter">04</span>{GUIDE.label}</div>}
             <h1>
               {view === "graph" ? GRAPH_COPY.title : DISCOVERY.indexTitle}
             </h1>

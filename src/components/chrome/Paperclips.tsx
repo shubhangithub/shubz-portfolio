@@ -211,12 +211,12 @@ export function PaperclipTray() {
               <header>
                 <div>
                   <span className="eyebrow">
-                    {COPY.trigger} / {records.length}
+                    ~/notebook · clips · {records.length}
                   </span>
                   <h2 id="paperclip-title">{COPY.title}</h2>
                 </div>
-                <button type="button" ref={closeButton} onClick={close}>
-                  {COPY.close} ×
+                <button type="button" ref={closeButton} onClick={close} aria-label={COPY.close} title={COPY.close}>
+                  ×
                 </button>
               </header>
               <p id="paperclip-description">
