@@ -35,7 +35,6 @@ const years = Array.from(
 export function NowV5({ dark, toggleTheme }: PageProps) {
   const t = nbTheme(dark ? "dark" : "light");
   const [selected, setSelected] = useState<number[]>([]);
-  const [journalFamily, setJournalFamily] = useState<string | null>(null);
 
   const moveTo = (id: string, focus = false) => {
     const target = document.getElementById(id);
@@ -178,7 +177,7 @@ export function NowV5({ dark, toggleTheme }: PageProps) {
           className="current-desk current-combined"
           aria-labelledby="current-desk-title"
         >
-          <NowArtifact t={t} onJournal={(family)=>{setJournalFamily(family);const first=JOURNAL_ENTRIES.findIndex(e=>e.family===family);if(first>=0)choose("entry",String(first));requestAnimationFrame(()=>document.getElementById("journal-notes")?.scrollIntoView({block:"start",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth"}));}} />
+          <NowArtifact t={t} />
           <aside className="desk-conditions">
             <svg
               className="tea-study"
@@ -234,7 +233,7 @@ export function NowV5({ dark, toggleTheme }: PageProps) {
         >
           <SectionLabel n="ii" title={STUDIO.journal} />
           <h2 id="journal-archive-title" className="sr-only">{COPY.archive}</h2>
-          <JournalReel t={t} selected={selected} onChoose={choose} filter={journalFamily} onClearFilter={()=>setJournalFamily(null)}/>
+          <JournalReel t={t} selected={selected} onChoose={choose}/>
         </section>
         </div>
       </main>

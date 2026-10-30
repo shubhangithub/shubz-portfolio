@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { FOCUSES, JOURNAL_ENTRIES } from '../../data/now';
-import { PENS } from '../../data/notebook';
+import { FOCUSES } from '../../data/now';
 import reading from '../../data/reading.generated.json';
 import { FOCUS_OBJECTS } from '../../data/fieldKit';
 import type { NBTheme } from '../../data/palette';
@@ -10,13 +9,13 @@ import { useWorkbenchSound } from '../chrome/WorkbenchSound';
 import '../../styles/now-artifact.css';
 
 const COPY = {
- title:'Current work', intro:'Open an object or book.', journal:'From the journal',
+ title:'Current work', intro:'Open an object or book.',
  reading:'On the reading rack', back:'Back to the objects', source:'Open on Fable', snapshot:'Shelf snapshot',
 };
 const readingIndex = FOCUSES.findIndex(f=>f.kind==='Reading');
 const activities = FOCUSES.map((f,i)=>({f,i})).filter(({i})=>i!==readingIndex);
 const places = [[30,25],[70,25],[25,48],[75,48]];
-export function NowArtifact({t,onJournal}:{t:NBTheme;onJournal?:(family:string)=>void}) {
+export function NowArtifact({t}:{t:NBTheme}) {
  const [selection,setSelection]=useState('focus-0');
  const [reduced,setReduced]=useState(true),[visible,setVisible]=useState(false);
  const root=useRef<HTMLDivElement>(null),panel=useRef<HTMLDivElement>(null);
@@ -107,7 +106,7 @@ export function NowArtifact({t,onJournal}:{t:NBTheme;onJournal?:(family:string)=
     </div>
    </div>
    <div className="now-artifact-panel" ref={panel} tabIndex={-1} aria-label="Selected object's notes">
-    {FOCUSES.map((f,i)=><article id={`focus-${i}`} tabIndex={-1} key={f.kind} hidden={focusIndex!==i&&!(i===readingIndex&&bookIndex>=0)} className="now-focus-detail"><FieldObject kind={FOCUS_OBJECTS[f.kind]||'notebook'} className="now-detail-study"/><h3>{f.kind}</h3><p>{f.what}</p>{f.linkUrl&&<a href={f.linkUrl} title={f.linkTitle}>{f.linkText} ↗</a>}{(()=>{const n=JOURNAL_ENTRIES.filter(e=>e.family===f.family).length;const label=PENS.find(p=>p.key===f.family)?.label;return n>0&&onJournal?<button type="button" className="now-journal-link" onClick={()=>onJournal(f.family)}>{COPY.journal} · {n} {label} {n===1?'entry':'entries'} ↓</button>:null;})()}</article>)}
+    {FOCUSES.map((f,i)=><article id={`focus-${i}`} tabIndex={-1} key={f.kind} hidden={focusIndex!==i&&!(i===readingIndex&&bookIndex>=0)} className="now-focus-detail"><FieldObject kind={FOCUS_OBJECTS[f.kind]||'notebook'} className="now-detail-study"/><h3>{f.kind}</h3><p>{f.what}</p>{f.linkUrl&&<a href={f.linkUrl} title={f.linkTitle}>{f.linkText} ↗</a>}</article>)}
     {reading.books.map((b,i)=><article id={`reading-book-${i}`} tabIndex={-1} key={b.title} hidden={bookIndex!==i} className="now-book-detail"><FieldObject kind="books" className="now-detail-study"/><span className="now-book-number">{String(i+1).padStart(2,'0')}</span><h3>{b.title}</h3><p>{b.authors.join(', ')}</p><a href={b.url||reading.source}>{COPY.source} ↗</a><small>{COPY.snapshot} · {reading.fetchedAt.slice(0,10)}</small></article>)}
     <button className="now-return-objects" onClick={back}>↑ {COPY.back}</button>
    </div>
