@@ -531,3 +531,18 @@ Journal year tabs and the redundant current-entry link are removed; existing
 year/entry URLs still resolve. A bottom-right corner lifts on hover or focus and
 turns to the next older page on click/tap. Keep arrows, swipe, keyboard access and
 instant navigation under reduced motion. Hide the forward corner at the last entry.
+
+## Now’s phone composition
+
+At widths up to 760px, use a mounted two-tier activity rack with four larger
+object studies and a full-width reading shelf. Lay these out in normal grid
+flow; do not shrink the desktop hanging-mobile coordinates onto a phone.
+Keep selection orbits and meaningful object animation. Books sit on a visible
+shelf, and notes attach directly beneath the rack. A selected book shows its own
+details without repeating the general Reading paragraph; Reading remains a
+separate selectable heading. Desktop keeps its hanging composition.
+
+The phone introduction has a compact horizontal date stamp. Conditions use
+three plain columns with fine separators, without three nested cards. Let the
+journal use the available phone width with smaller outer margins, readable body
+text and the existing page curl. Check 320, 390 and 430px in both themes.
