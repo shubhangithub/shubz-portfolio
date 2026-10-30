@@ -92,9 +92,7 @@ export function NowArtifact({t}:{t:NBTheme}) {
    <div className="now-mobile-scene" role="group" aria-label="Current work and reading objects">
     <svg className="now-mobile-frame" viewBox="0 0 700 650" fill="none" aria-hidden="true">
      <path d="M70 601H641L601 627H109Z" fill="var(--nb-paper2)" stroke="var(--nb-control)"/><path d="M85 600V165Q85 60 195 60H519Q618 60 618 165V600" stroke="var(--nb-control)" strokeWidth="3"/>
-     <path d="M88 99Q350 35 616 99M350 60V87M210 126L350 87L490 126M219 307L350 267L476 307M350 87V267" stroke="var(--nb-yellow)"/>
-     <g stroke="var(--nb-rule)"><path d="M210 126V167M490 126V170M219 307V348M476 307V348"/><path d="M119 468H580L609 557H96Z" fill="var(--nb-paper)"/><path d="M96 557V569H609V557M119 468V485M580 468V485"/></g>
-     <g transform="translate(350 267)"><g className="now-mobile-axle"><circle r="24" stroke="var(--nb-yellow)"/><circle r="8" fill="var(--nb-paper2)" stroke="var(--nb-yellow)"/><path d="M0-24V-8M24 0H8M0 24V8M-24 0H-8" stroke="var(--nb-yellow)"/></g></g>
+     <g stroke="var(--nb-rule)"><path d="M119 468H580L609 557H96Z" fill="var(--nb-paper)"/><path d="M96 557V569H609V557M119 468V485M580 468V485"/></g>
      <path d="M73 600L60 619M637 600L650 619" stroke="var(--nb-control)" strokeWidth="5"/>
     </svg>
     {activities.map(({f,i},slot)=><button key={f.kind} className="now-focus-object" data-now-object={`focus-${i}`} style={{'--object-ink':t[f.family],'--object-x':`${places[slot][0]}%`,'--object-y':`${places[slot][1]}%`,'--object-delay':`${-i*1.7}s`} as CSSProperties} aria-pressed={selection===`focus-${i}`} aria-controls={`focus-${i}`} onPointerEnter={event=>{if(event.pointerType==='mouse')preview(`focus-${i}`);}} onFocus={event=>{if(event.currentTarget.matches(':focus-visible'))preview(`focus-${i}`);}} onClick={()=>choose(`focus-${i}`)}><FieldObject kind={FOCUS_OBJECTS[f.kind]||'notebook'}/><span>{f.kind}</span></button>)}

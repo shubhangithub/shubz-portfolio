@@ -555,3 +555,7 @@ visible stitched left edge, layered paper and a bottom-right turning corner.
 Desktop centres this same book at a maximum width of 720px. Do not restore the
 separate oversized date/verso panel. Keep the phone composition unchanged,
 preserve manual arrows/swipe, and animate the same full leaf on corner activation.
+
+The desktop current-activity rack keeps its outer frame and reading shelf.
+Do not draw suspension lines through the activity illustrations or restore the
+central wheel; selection orbits and object demonstrations provide the motion.
