@@ -616,3 +616,13 @@ Keep this treatment off the accepted phone composition.
 The current personal-life object is Exploring SF, illustrated by a small Golden
 Gate Bridge study whose cable draws on interaction. Keep London as home in its
 copy; historical drawing-course journal entries remain historical.
+
+## Figure captions
+
+Use `FigureCaption` for diagram captions, object studies and photo credits.
+Caption text is 13px IBM Plex Sans with 1.6 line-height, a 10px gap and the
+muted readable ink token in either theme. Numbered figures use `fig. 01 —`
+with a space after the full stop; only that prefix uses 12px mono. Preserve
+existing numbering and attribution; unnumbered photos need no invented figure
+number. Do not restore terminal arrows, slash separators, tiny mobile captions
+or per-component font overrides. Longer labels wrap naturally on phones.

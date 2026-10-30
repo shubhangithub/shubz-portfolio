@@ -1,0 +1,19 @@
+/* Shared by essay figures, object studies and photos. Keep legible on phones. */
+.figure-caption.figure-caption.figure-caption {
+  display:block;
+  margin-top:10px;
+  padding:0;
+  font:400 13px/1.6 var(--f-ui);
+  letter-spacing:normal;
+  text-transform:none;
+  color:var(--caption-ink,var(--nb-softInk));
+  overflow-wrap:anywhere;
+}
+.figure-caption .figure-caption-number {
+  display:inline;
+  font:400 12px/1.6 var(--f-mono);
+  color:inherit;
+  letter-spacing:normal;
+  text-transform:none;
+}
+.figure-caption .figure-caption-detail {display:block;}

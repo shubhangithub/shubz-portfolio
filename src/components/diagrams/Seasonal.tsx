@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { FigureCaption } from "../shared/FigureCaption";
 import React from 'react';
 import { useIsMobile } from '../../lib/hooks';
 
@@ -117,9 +118,7 @@ export function LotkaVolterra({ width, height, accent, ink, muted, line, theme, 
             <span className="mono" style={{ fontSize: 9, color: muted }}>{monthName.toLowerCase()}</span>
           </div>
 
-          <div className="mono" style={{ marginTop: 6, color: muted, fontSize: 10 }}>
-            <span style={{ color: ink }}>fig.01 — {theme.caption}</span>
-          </div>
+          <FigureCaption as="div" number={1} color={muted}>{theme.caption}</FigureCaption>
           <div style={{ marginTop: 4, fontFamily: "var(--f-body)", fontSize: 12, color: muted, fontStyle: "italic", lineHeight: 1.45 }}>
             {theme.why}
           </div>

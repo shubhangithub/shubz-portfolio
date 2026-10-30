@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { FigureCaption } from "../shared/FigureCaption";
 
 // Derive a short "filename" from the caption for the terminal title bar
 function toLabel(caption: string): string {
@@ -58,21 +59,7 @@ export function Figure({ children, caption, palette: p }) {
         {children}
       </div>
 
-      {/* caption — styled as terminal output */}
-      <figcaption style={{
-        fontFamily: "var(--f-mono)",
-        fontSize: "0.78rem",
-        color: p.muted,
-        marginTop: "0.5rem",
-        paddingLeft: "0.2rem",
-        lineHeight: 1.55,
-        display: "flex",
-        gap: "0.4rem",
-        alignItems: "flex-start",
-      }}>
-        <span style={{ color: "#28CA41", flexShrink: 0, marginTop: "0.05em" }}>→</span>
-        <span>{caption}</span>
-      </figcaption>
+      <FigureCaption color={p.muted}>{caption}</FigureCaption>
     </figure>
   );
 }

@@ -1,3 +1,4 @@
+import { FigureCaption } from "../shared/FigureCaption";
 import React, { useEffect, useRef, useState } from "react";
 import { nbTheme, type NBTheme } from "../../data/palette";
 import { NOTEBOOK_NAV, NOTEBOOK_COPY, PENS, COMPANION_COPY, DISCOVERY_COPY } from "../../data/notebook";
@@ -84,7 +85,7 @@ export function SectionLabel({ n, title, link, href }: { n?: string; title: stri
 }
 
 export function Photo({ src, alt, caption, tilt = -2 }: { src: string; alt: string; caption: string; tilt?: number }) {
-  return <figure className="folio-photo" style={{ "--tilt": `${tilt}deg` } as React.CSSProperties}><div className="photo-tape" aria-hidden="true"/><img src={src} alt={alt} loading="lazy"/><figcaption>{caption}</figcaption></figure>;
+  return <figure className="folio-photo" style={{ "--tilt": `${tilt}deg` } as React.CSSProperties}><div className="photo-tape" aria-hidden="true"/><img src={src} alt={alt} loading="lazy"/><FigureCaption>{caption}</FigureCaption></figure>;
 }
 
 export function PenShelf() {
@@ -104,7 +105,7 @@ export function DeskScene() {
     </div>
     <NarratorSprite className="desk-girl"/>
     <CatCompanion placement="desk"/>
-    <span className="desk-caption">fig. 01 / the author, in the margin</span>
+    <FigureCaption as="span" className="desk-caption" number={1}>the author, in the margin</FigureCaption>
     </div>
     {open && <button className="book-close text-button" onClick={() => {sound.play("close");setOpen(false);}}>{NOTEBOOK_COPY.bookClose} ↶</button>}
   </div>;

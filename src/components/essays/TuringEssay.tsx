@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { FigureCaption } from "../shared/FigureCaption";
 import React from 'react';
 import { Figure } from '../essay/FigureReact';
 import { PullQuote } from '../essay/PullQuoteReact';
@@ -241,10 +242,10 @@ export function TuringEssay({ palette: p }) {
         <div style={{ padding: "0.8rem", border: `1px solid ${withAlpha(p.muted, "60")}`, background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})` }}>
           <TuringRDFigure palette={p} />
         </div>
-        <div className="mono" style={{ marginTop: 8, fontSize: 10, color: p.muted, display: "flex", justifyContent: "space-between" }}>
-          <span>fig.01 — Gray–Scott reaction-diffusion · v-field concentration</span>
-          <span>D<sub>u</sub>=0.16 · D<sub>v</sub>=0.08</span>
-        </div>
+        <FigureCaption as="div" number={1} color={p.muted}>
+          Gray–Scott reaction-diffusion · v-field concentration
+          <span className="figure-caption-detail">D<sub>u</sub>=0.16 · D<sub>v</sub>=0.08</span>
+        </FigureCaption>
       </div>
 
       <h2 className="display" style={{ fontSize: "1.9rem", fontWeight: 400, marginTop: "3rem", marginBottom: "1rem", display: "flex", alignItems: "baseline", gap: 14 }}>

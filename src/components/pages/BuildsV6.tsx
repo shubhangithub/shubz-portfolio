@@ -1,3 +1,4 @@
+import { FigureCaption } from "../shared/FigureCaption";
 import {TOOL_PROJECT_SOURCES} from "../../data/toolSources";
 import {LIVE_EXPERIMENTS} from "../../data/experiments";
 import {LiveExperiments} from "../explore/LiveExperiments";
@@ -294,10 +295,10 @@ export function BuildsV6({
                   </span>
                 </div>
                 <ProjectStudy kind={PROJECT_STUDIES[p.name]?.kind || "site"} />
-                <figcaption>
+                <FigureCaption>
                   <span>{SHEET.sketch}</span>
                   {PROJECT_STUDIES[p.name]?.caption || p.name}
-                </figcaption>
+                </FigureCaption>
               </figure>
               <p>{p.blurb}</p>
               <div className="project-sheet-actions">

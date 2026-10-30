@@ -150,6 +150,12 @@ export function jsxToMarkdown(jsx, slug) {
   md = md.replace(/<PullQuote(?:\s[^>]*)?>([\s\S]*?)<\/PullQuote>/g,
     (_, c) => `\n\n> ${cleanInline(c)}\n\n`);
 
+  // Shared captions are text, not interactive diagram components.
+  md = md.replace(/<FigureCaption\b([^>]*)>/g, (_, attrs) => {
+    const number = attrs.match(/number=\{(\d+)\}/);
+    return `<figcaption>${number ? `fig. ${number[1].padStart(2, "0")} — ` : ""}`;
+  }).replace(/<\/FigureCaption>/g, "</figcaption>");
+
   // Ordinary article artwork → image + credit. Unlike interactive diagrams,
   // these already have a public site URL and do not need a screenshot.
   md = md.replace(/<figure\b[^>]*>[\s\S]*?<img\b([\s\S]*?)\/>[\s\S]*?<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>[\s\S]*?<\/figure>/g,

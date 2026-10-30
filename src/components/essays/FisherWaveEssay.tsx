@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { FigureCaption } from "../shared/FigureCaption";
 import { PullQuote } from '../essay/PullQuoteReact';
 import { FisherFront } from '../diagrams/FisherFront';
 import { WaveSpeedLaw } from '../diagrams/WaveSpeedLaw';
@@ -29,9 +30,9 @@ export function FisherWaveEssay({ palette: p }) {
             background: p.paper,
           }}
         />
-        <figcaption style={{ marginTop: "0.55rem", fontFamily: "var(--f-mono)", fontSize: "0.72rem", lineHeight: 1.5, color: p.muted }}>
+        <FigureCaption color={p.muted}>
           Muskrat, 9 December 2016. Artwork by <cite style={{ color: p.ink, fontStyle: "normal" }}>Raghuveer Parthasarathy</cite>, University of Oregon.
-        </figcaption>
+        </FigureCaption>
       </figure>
 
       <p>A constant speed is suspicious. Nature almost never holds a steady rate — things accelerate, saturate, crash, or wobble. A straight line usually means something very simple is running the show underneath. R. A. Fisher wrote down what in 1937 — about three decades after the muskrats got loose and started proving it without him.</p>

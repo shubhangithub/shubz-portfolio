@@ -1,3 +1,4 @@
+import { FigureCaption } from "../shared/FigureCaption";
 import { PixelStation } from "../chrome/RoboCat";
 import { ContactPost, CourierBird } from "../objects/ContactPost";
 import { HOME_PORTRAIT } from "../../data/home";
@@ -84,7 +85,7 @@ export function ContactV5({ dark, toggleTheme }: PageProps) {
             <figure className="contact-portrait">
               <svg className="contact-greeting-bird" viewBox="-75 0 150 170" fill="none" aria-hidden="true"><CourierBird/></svg>
               <img src={HOME_PORTRAIT.src} alt={HOME_PORTRAIT.alt} width="400" height="400"/>
-              <figcaption><span>Shubz Sharma</span><span>London</span></figcaption>
+              <FigureCaption>Shubz Sharma · London</FigureCaption>
             </figure>
           }
         >
