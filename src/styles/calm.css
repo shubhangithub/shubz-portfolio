@@ -210,3 +210,9 @@ html[data-theme="dark"] .folio:not(.folio-home)[data-live-grid="true"] { backgro
 /* One heading weight across pages and essays. */
 .folio .section-label h2 { font-weight: 500; }
 .folio-essay #essay-body h2 { font-weight: 500; letter-spacing: -.03em; }
+
+/* Home project rows: name, one plain line on what it does, then the short
+   technical blurb. The rows share a lower edge with the essays beside them,
+   so the line fills space that used to be padding. */
+.folio .build-line { display: block; margin: 6px 0 0; font: italic 16px/1.4 var(--f-ui); color: var(--nb-ink); }
+.folio .build-row p { margin-top: 8px; }

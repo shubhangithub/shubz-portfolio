@@ -118,6 +118,8 @@ export const TOOLBOX_TEASER_PATH = "./work/toolbox.md";
 export type HomeBuild = {
   name: string;
   c: NBAccentKey;
+  /** One plain sentence, a few words, on what the thing does for someone. */
+  line: string;
   blurb: string;
   year: string;
   url: string;
@@ -128,9 +130,9 @@ export type HomeBuild = {
 //   taylor-rec-engine  → ochre  (recommendations roll up to markets)
 //   platypus-learn     → purple (ML technical research — LLM-driven learning)
 export const HOME_BUILDS: HomeBuild[] = [
-  { name: "fashion-web",        c: "ochre",  blurb: "ML trend intelligence + LMSR exchange.",                year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
-  { name: "taylor-rec-engine",  c: "ochre",  blurb: "Six recommendation engines on one songbook.",            year: "2026",   url: "https://shubz-taylor-recommendation-engine.vercel.app" },
-  { name: "platypus-learn",     c: "purple", blurb: "AI learning platform — PDFs and YouTube → courses.",    year: "2025 —", url: "https://platypus-learn.vercel.app" },
+  { name: "fashion-web",        c: "ochre",  line: "Forecasts fashion trends, then lets you bet on them.", blurb: "ML trend intelligence + LMSR exchange.",                year: "2026 —", url: "https://fashion-web-psi.vercel.app" },
+  { name: "taylor-rec-engine",  c: "ochre",  line: "Six models argue about what to play next.",             blurb: "Six recommendation engines on one songbook.",            year: "2026",   url: "https://shubz-taylor-recommendation-engine.vercel.app" },
+  { name: "platypus-learn",     c: "purple", line: "Any PDF or video, turned into a course.",               blurb: "AI learning platform — PDFs and YouTube → courses.",    year: "2025 —", url: "https://platypus-learn.vercel.app" },
 ];
 
 // ---------------------------------------------------------------------------
