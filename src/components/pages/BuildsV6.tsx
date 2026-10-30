@@ -222,7 +222,7 @@ export function BuildsV6({
   const career = WORK_EVENTS_V5.filter((e) => e.cat === topic);
   const projectSection = () => (
     <section id="catalogue" className="folio-section">
-      <SectionLabel n="01" title={CAB.projects} />
+      <SectionLabel n="i" title={CAB.projects} />
       {projectGroup !== "all" && <button className="text-button" onClick={() => chooseView("projects")}>{GUIDE.projects} ↗</button>}
       <div className="catalogue-toolbar">
         <label className="search-field">
@@ -350,7 +350,7 @@ export function BuildsV6({
   );
   const toolsSection = () => (
     <section id="tools" className="folio-section cabinet-section">
-      <SectionLabel n="03" title={CAB.title} />
+      <SectionLabel n="iii" title={CAB.title} />
       <p className="collection-guidance">{CAB.intro}</p>
       <div className="cabinet-top">
         <label className="search-field">
@@ -527,10 +527,11 @@ export function BuildsV6({
       >
         <header className="guide-header">
           <div>
-            <span className="eyebrow">04 / {GUIDE.label}</span>
+            <div className="eyebrow"><span className="chapter">04</span>{GUIDE.label}</div>
             <h1>
               {view === "graph" ? GRAPH_COPY.title : DISCOVERY.indexTitle}
             </h1>
+            <p>{view === "graph" ? GRAPH_COPY.intro : GUIDE.intro}</p>
           </div>
         </header>
         {view!=="graph"&&<PixelStation scene="collection"/>}
@@ -668,7 +669,7 @@ export function BuildsV6({
               {(view === "projects" || view === "subject") && projectSection()}
               {view === "subject" && (
                 <section className="thread-writing folio-section">
-                  <SectionLabel n="02" title={GUIDE.writing} />
+                  <SectionLabel n="ii" title={GUIDE.writing} />
                   <div className="thread-essays">
                     {writing.map((p) => (
                       <a
@@ -699,7 +700,7 @@ export function BuildsV6({
               {(view === "tools" || view === "subject") && toolsSection()}
               {view === "subject" && career.length > 0 && (
                 <section className="thread-career folio-section">
-                  <SectionLabel n="04" title={GUIDE.career} />
+                  <SectionLabel n="iv" title={GUIDE.career} />
                   <div>
                     {career.map((e) => (
                       <a

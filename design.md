@@ -59,6 +59,22 @@ are implemented in `src/styles/calm.css`, loaded last:
   the newest date, so a short monthly note never displaces a long essay.
 - Subscribe (RSS) sits with Find and Clips in the header, in the yellow pen;
   icon-only on phones.
+- Every page opens the same way: chapter chip · label, one h1, one lede
+  sentence, then the page's object. Section numerals are roman (i, ii, iii)
+  on pages and `§` inside essays. Section headings are plain nouns (Journal,
+  Record, Projects, Photographs, Essays, Letter, Channels); the personality
+  lives in the ledes and the objects.
+- Hero accent words follow DECISIONS-v5 §14's per-page table: orange on /now
+  and /contact (Outreach), yellow on /work and /writing (Infrastructure),
+  the essay's own pen on an essay. They are not arbitrary; do not unify them.
+- /work/: the walk is a compact instrument (selector, route marks, slider,
+  current entry) above the record; the city scene is retired.
+- /now/: the journal is a spread on desktop — every entry listed beside the
+  open page; one date, on the page. Phones keep the bound leaf.
+- /builds/: one way to narrow — category chips and the subject select. The
+  ten-pen register is retired on every width.
+- Essays: 56ch measure (≈66 characters); diagrams keep enough right padding
+  for their end labels (JaggedFrontier was clipping).
 - Build: `@astrojs/react` runs with `experimentalDisableStreaming` (plain
   `renderToString`). React 18's streaming encoder left NUL bytes before
   multi-byte characters at its buffer boundaries; one landed inside a graph

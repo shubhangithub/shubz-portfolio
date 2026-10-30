@@ -121,3 +121,60 @@ html[data-theme="dark"] .folio:not(.folio-home)[data-live-grid="true"] { backgro
 .folio .walk-year-labels,
 .folio .walk-city-label span { font-size: 11px; }
 .folio .folio-nav a > span:first-child { font-size: 10px; }
+
+/* ---------------------------------------------------------------------------
+   8. /builds/ narrows 15 projects one way: the category chips plus a subject
+   select. The ten-pen register (a third filter) is gone on every width;
+   phones already used the select.
+   --------------------------------------------------------------------------- */
+.folio .guide-subjects.pen-register { display: none; }
+.folio .guide-rail-label { display: none; }
+.folio .guide-topic-picker { display: block; padding: 4px 0 20px; }
+.folio .guide-topic-picker > span { display: block; color: var(--nb-softInk); font: 12px var(--f-ui); margin-bottom: 9px; }
+.folio .guide-topic-picker select { display: block; width: 100%; height: 48px; background: var(--nb-paper2); border: 1px solid var(--nb-rule); padding: 0 13px; color: var(--nb-ink); font: 15px var(--f-ui); border-radius: 0; }
+.folio .guide-topic-picker select:focus-visible { border-color: var(--nb-cyan); }
+
+/* 9. Essays: the measure is set inline in ArticleV5 (56ch ≈ 66 characters).
+   The citation/sources rail was already sticky; nothing to add here. */
+
+/* ---------------------------------------------------------------------------
+   6. /work/: the walk is a compact instrument — selector, route marks, slider
+   and the current entry — above the record. The city scene with the
+   walking narrator showed one entry at 600px tall, directly above a list of
+   all 37; the record is the page's object now.
+   --------------------------------------------------------------------------- */
+.folio .walk-world { display: none; }
+.folio .walk-stage { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+.folio .walk-moment { border-left: 0; padding: 22px 26px 18px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 28px; align-items: start; }
+.folio .walk-moment > .eyebrow { grid-column: 1 / -1; }
+.folio .walk-moment h2 { margin: 8px 0 4px; font-size: 26px; }
+.folio .walk-moment .walk-where { grid-column: 1; }
+.folio .walk-moment p { grid-column: 1; margin: 10px 0 0; max-width: 70ch; }
+.folio .walk-moment > button { grid-column: 2; grid-row: 2 / span 3; align-self: start; margin-top: 10px; white-space: nowrap; }
+/* "follow the walk as you scroll" drove the scene; without it there is nothing to follow. */
+.folio .walk-bottomline > button:nth-of-type(2) { display: none; }
+@media (max-width: 700px) {
+  .folio .walk-moment { grid-template-columns: minmax(0, 1fr); padding: 18px; }
+  .folio .walk-moment > button { grid-column: 1; grid-row: auto; margin-top: 14px; }
+}
+
+/* ---------------------------------------------------------------------------
+   7. /now/: the journal is a spread — every entry listed beside the open
+   page on desktop (one date, on the page itself); phones keep the single
+   bound leaf and page turns.
+   --------------------------------------------------------------------------- */
+.folio .journal-index { display: none; }
+@media screen and (min-width: 1000px) {
+  .folio .journal-reel { max-width: none; display: grid; grid-template-columns: 300px minmax(0, 720px); gap: 32px; justify-content: center; align-items: start; }
+  .folio .journal-index { display: block; position: sticky; top: 110px; max-height: calc(100dvh - 140px); overflow: auto; scrollbar-width: thin; padding-right: 6px; }
+  .folio .journal-index ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  .folio .journal-index button { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; width: 100%; text-align: left; padding: 10px 12px 10px 14px; background: transparent; border: 0; border-left: 2px solid transparent; color: var(--nb-softInk); cursor: pointer; }
+  .folio .journal-index button:hover { background: color-mix(in srgb, var(--nb-ink) 4%, transparent); color: var(--nb-ink); }
+  .folio .journal-index button[aria-current="true"] { border-left-color: var(--item-accent); background: color-mix(in srgb, var(--item-accent) 7%, transparent); color: var(--nb-ink); }
+  .folio .journal-index-date { font: 11px var(--f-mono); letter-spacing: .06em; color: var(--nb-muted); }
+  .folio .journal-index button[aria-current="true"] .journal-index-date { color: var(--item-accent); }
+  .folio .journal-index-brief { font: 14px/1.4 var(--f-ui); }
+  .folio .journal-index small { font: 11px var(--f-mono); color: var(--nb-muted); }
+  .folio .journal-open-page { min-width: 0; }
+  .folio .journal-reel > .pixel-station { grid-column: 2; }
+}

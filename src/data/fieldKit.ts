@@ -118,7 +118,7 @@ export const STUDIO_COPY = {
   label: "SHUBZ / OPEN SKETCHBOOK",
   work: "Five things on the desk",
   margin: "Notes in the margin",
-  journal: "Pages from the journal",
+  journal: "Journal",
   reading: "Books within reach",
   context: "A snapshot of the work, study and things beside them.",
   date: "Last written",

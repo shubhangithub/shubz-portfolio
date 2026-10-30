@@ -9,7 +9,7 @@ import { useWorkbenchSound } from '../chrome/WorkbenchSound';
 import '../../styles/now-artifact.css';
 
 const COPY = {
- title:'On my wavelength.', intro:'Open an object or book.',
+ title:'Current work.', intro:'Open an object or book.',
  reading:'On the reading rack', back:'Back to the objects', source:'Open on Fable', snapshot:'Shelf snapshot',
 };
 const readingIndex = FOCUSES.findIndex(f=>f.kind==='Reading');

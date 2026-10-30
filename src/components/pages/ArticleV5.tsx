@@ -188,7 +188,7 @@ export function ArticleV5({
             Right:  cite + sources    (sticky) + "↤ all essays"
           Outer container caps at 1380px so columns sit close together on
           wide displays (otherwise the 62ch middle leaves big empty gaps
-          inside its 1fr cell). Mobile stacks single-column. */}
+          inside its 1fr cell; the article itself is 56ch ≈ 66 characters). Mobile stacks single-column. */}
       <div style={{
         padding: isMobile ? "0 20px" : "0 48px",
         maxWidth: isMobile ? "100%" : 1380,
@@ -229,7 +229,7 @@ export function ArticleV5({
           fontSize: isMobile ? "1.08rem" : "1.12rem",
           lineHeight: 1.72,
           color: t.ink,
-          maxWidth: "62ch",
+          maxWidth: "56ch", /* ≈66 characters at this size: the comfortable reading measure */
           minWidth: 0,
           margin: "0 auto",
           width: "100%",

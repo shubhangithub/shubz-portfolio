@@ -33,7 +33,9 @@ export function JaggedFrontier({ palette: p }) {
 
   const t = Math.min(1, tick / TICKS);
 
-  const W = 480, H = 260, padL = 48, padR = 16, padT = 20, padB = 36;
+  // padR leaves room for the end labels ("interpretability" is the longest) so
+  // they are never clipped by the viewBox at the right edge.
+  const W = 480, H = 260, padL = 48, padR = 84, padT = 20, padB = 36;
   const plotW = W - padL - padR;
   const plotH = H - padT - padB;
   const toX = (frac) => padL + frac * plotW;

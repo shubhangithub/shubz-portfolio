@@ -37,9 +37,25 @@ export function JournalReel({ t, selected, onChoose }: {
     const next = active + direction;
     if (next >= 0 && next < JOURNAL_ENTRIES.length) onChoose('entry',String(next));
   };
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const monthOf = (iso: string) => { const [y, m] = iso.split('-'); return `${months[Number(m) - 1] ?? m} ${y}`; };
   return <div className="journal-reel" data-book={book || undefined} style={{'--reel-ink':t[entry.family]} as React.CSSProperties}>
+    {/* Desktop: every entry beside the open page, so the journal is a spread
+        rather than a lone leaf; the page itself carries the date. */}
+    <nav className="journal-index" aria-label="All journal entries">
+      <ol>
+        {JOURNAL_ENTRIES.map((e, i) => <li key={i}>
+          <button type="button" aria-current={active === i ? 'true' : undefined} onClick={() => onChoose('entry', String(i))} style={{'--item-accent':t[e.family]} as React.CSSProperties}>
+            <span className="journal-index-date">{monthOf(e.date)}</span>
+            <span className="journal-index-brief">{e.brief || e.note.split(/(?<=[.!?])\s/)[0]}</span>
+            <small>{PENS.find(p => p.key === e.family)?.label}</small>
+          </button>
+        </li>)}
+      </ol>
+    </nav>
+    <div className="journal-open-page">
     <div className="journal-time-rail">
-      <span className="journal-frame-count" aria-live="polite">{COPY.page} {active+1} / {JOURNAL_ENTRIES.length} · {entry.date}</span>
+      <span className="journal-frame-count" aria-live="polite">{COPY.page} {active+1} / {JOURNAL_ENTRIES.length}</span>
       <div className="journal-reel-controls"><button aria-label={COPY.previous} disabled={active===0} onClick={()=>step(-1)}>← <span>{COPY.newer}</span></button><button aria-label={COPY.next} disabled={active===JOURNAL_ENTRIES.length-1} onClick={()=>step(1)}><span>{COPY.older}</span> →</button></div>
     </div>
     <div className="journal-bound-book" onTouchStart={e=>{if(!book || (e.target as Element).closest('a,button,select'))return;const p=e.touches[0];touch.current={x:p.clientX,y:p.clientY};}} onTouchEnd={e=>{const start=touch.current;touch.current=null;if(!start)return;const p=e.changedTouches[0],dx=p.clientX-start.x,dy=p.clientY-start.y;if(Math.abs(dx)>65 && Math.abs(dx)>Math.abs(dy)*1.5)step(dx<0?1:-1);}}>
@@ -65,6 +81,7 @@ export function JournalReel({ t, selected, onChoose }: {
           <div className="journal-leaf-back"><span>{COPY.bookplate}</span></div>
         </div>}
       </div>
+    </div>
     </div>
     <PixelStation scene="journal"/>
 

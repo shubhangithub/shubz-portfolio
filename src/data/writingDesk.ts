@@ -1,5 +1,5 @@
 export const WRITING_DESK_COPY = {
-  title: "The essay workbench",
+  title: "Essays",
   instruction:
     "Pick an illustrated slot to bring an essay into focus, or open its title to read.",
   preview: "Preview essay",

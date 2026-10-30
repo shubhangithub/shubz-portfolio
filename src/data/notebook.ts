@@ -61,9 +61,9 @@ export const WALK_COPY = {
   educationResults: "Education & results",
   complete: 'The complete walk', jump: 'Jump to any entry',
   label: 'The walk · work & study', title: 'A walk through', titleEm: 'the work.',
-  lede: 'Engineering, research, and the paths between them. Follow the years, or go straight to the annotated record.',
+  lede: 'Engineering, research, and the paths between them. Follow the years, or go straight to the record.',
   conventional: 'The conventional edition', cv: 'Curriculum vitæ', pdf: 'PDF · Shubhangi Sharma',
-  record: 'The annotated record', projects: 'projects & tools ↗',
+  record: 'Record', projects: 'projects & tools ↗',
   route: 'Field route / 2019 onwards', fullEntry: 'read the full entry ↓',
   pause: 'pause the walk', play: 'play the walk', slider: 'use the year slider', scroll: 'follow the walk as you scroll', skip: 'skip to the record ↓',
 };
@@ -78,9 +78,9 @@ export const JOURNAL_COPY = {
   reading: 'On the reading shelf', fable: 'the shelf on Fable ↗', conditions: 'Conditions',
 };
 export const LETTER_COPY = {
-  label: 'A letter · contact', compose: 'Write a note', open: 'Open in your mail app ↗',
+  label: 'A letter · contact', compose: 'Letter', open: 'Open in your mail app ↗',
   handedOff: 'Over to your mail app.', ready: 'Your note is ready to review and send there.',
-  edit: 'unfold & edit ↶', elsewhere: 'Other ways to find me',
+  edit: 'unfold & edit ↶', elsewhere: 'Channels',
 };
 export const TTY_COPY = {
   label: 'A side entrance / ~/tty', title: 'The notebook,', titleEm: 'from the command line.',
@@ -135,9 +135,9 @@ export const CABINET_COPY = {
  cv: 'CV · provenance',
  open: 'Open a drawer',
  close: 'Close drawer',
- projects: 'Project index',
+ projects: 'Projects',
  projectHint: 'Open a project for its notes, numbers and links.',
- photographs: 'Away from the screen',
+ photographs: 'Photographs',
  photoHint: 'Teams, classrooms and a few things that happened in person.',
  noTools: 'No tools match this search. Try a tool name or a subject.',
  noProjects: 'No projects match this search. Try another subject or clear the search.',
@@ -181,8 +181,8 @@ export const GUIDE_COPY = {
  noProjects: 'No project is filed under this subject yet.',
  noWriting: 'No writing is filed under this subject yet.',
  homeProjects: 'Projects',
- homeWriting: 'Read a little further',
- homeAbout: 'About me, in full',
+ homeWriting: 'Writing',
+ homeAbout: 'About',
  homeNotes: 'At the desk',
 };
 
