@@ -46,10 +46,8 @@ are implemented in `src/styles/calm.css`, loaded last:
   The former "FIELD NOTEBOOK / WORKBENCH" band is gone; do not reintroduce a
   third horizontal band above the hero. Clips shows its count only when it is
   above zero. Traffic lights sit at half opacity: they are decoration.
-- In lists (/work record, /builds index, writing, home) titles are `ink`. The
-  pen carries the left rule, the category chip, the dot and hover/open/selected
-  states. Ten full-chroma titles in one column read as confetti. The walk's
-  route marks are neutral except the current one.
+- List titles keep their pen colour (owner's call). The walk's route marks
+  are neutral except the current one: it is a position indicator.
 - /work entries with `big: true` are featured: larger title and the note's
   first sentence in the row (hidden while the entry is open). Keep that set
   to the handful a stranger should see first.

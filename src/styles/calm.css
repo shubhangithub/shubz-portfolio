@@ -42,24 +42,11 @@ html[data-theme="dark"] .folio:not(.folio-home)[data-live-grid="true"] { backgro
 }
 
 /* ---------------------------------------------------------------------------
-   3. Lists: titles in ink. The pen keeps the rule, the chip and the hover,
-   which is where it carries meaning. (/work record, /builds index, writing.)
+   3. Lists keep their pen-coloured titles (owner's call, 30 Oct 2026). The
+   only dosage change here is the walk's strip of 37 route marks: it is a
+   position indicator, so the current square keeps its pen and the rest
+   go neutral.
    --------------------------------------------------------------------------- */
-.folio .career-entry strong { color: var(--nb-ink); }
-.folio .career-entry:hover strong,
-.folio .career-entry[open] strong { color: var(--item-accent); }
-.folio .career-entry summary { border-left: 2px solid transparent; padding-left: 14px; margin-left: -16px; }
-.folio .career-entry:hover summary,
-.folio .career-entry[open] summary { border-left-color: var(--item-accent); }
-.folio .writing-item h3 { color: var(--nb-ink); }
-.folio .writing-item:hover h3 { color: var(--item-accent); }
-.folio .essay-proof-title { color: var(--nb-ink); }
-.folio .essay-proof:hover .essay-proof-title,
-.folio .essay-proof[data-selected="true"] .essay-proof-title { color: var(--item-accent); }
-.folio .build-row strong { color: var(--nb-ink); }
-.folio .build-row:hover strong { color: var(--item-accent); }
-/* The walk's strip of 37 coloured squares read as confetti; it is a position
-   indicator, so the current square keeps its pen and the rest go neutral. */
 .folio .walk-route-marks > span { background: var(--nb-rule); opacity: 1; }
 .folio .walk-route-marks > span:hover { background: var(--mark-ink); }
 .folio .walk-route-marks > span[data-current] { background: var(--mark-ink); }
