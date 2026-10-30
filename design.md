@@ -561,7 +561,10 @@ below the essay and a direct jump link above it. Never hide these for narrow wid
 Journal year tabs and the redundant current-entry link are removed; existing
 year/entry URLs still resolve. A bottom-right corner lifts on hover or focus and
 turns to the next older page on click/tap. Keep arrows, swipe, keyboard access and
-instant navigation under reduced motion. Hide the forward corner at the last entry.
+instant navigation under reduced motion. Show a mirrored bottom-left corner after
+the first entry to turn back, using the same hover/focus lift and backward page
+animation. Hide the backward corner on the first entry and the forward corner on
+the last entry, on both phone and desktop.
 
 ## Now’s phone composition
 

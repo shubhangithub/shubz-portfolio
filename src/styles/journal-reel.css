@@ -88,6 +88,7 @@
 .journal-page-corner span {position:absolute;right:1px;bottom:1px;width:26px;height:26px;clip-path:polygon(100% 0,100% 100%,0 100%);background:linear-gradient(135deg,var(--nb-control) 0%,var(--book-paper) 48%,var(--nb-rule) 50%,var(--nb-paper) 78%);transform-origin:bottom right;transition:width 240ms var(--ease-out),height 240ms var(--ease-out),filter 240ms;}
 .journal-page-corner:is(:hover,:focus-visible) span {width:58px;height:58px;filter:drop-shadow(-3px -3px 4px color-mix(in srgb,var(--nb-ink) 20%,transparent));}
 .journal-page-corner:focus-visible {outline:2px solid var(--reel-ink);outline-offset:3px;}
+.journal-page-corner-back {right:auto;left:0;transform:scaleX(-1);}
 .journal-reel[data-book] .journal-memory {padding-bottom:72px;}
 @media(prefers-reduced-motion:reduce){.journal-page-corner span{transition:none;}}
 @media print{.journal-page-corner{display:none;}}

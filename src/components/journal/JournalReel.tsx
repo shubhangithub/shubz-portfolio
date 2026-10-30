@@ -58,7 +58,8 @@ export function JournalReel({ t, selected, onChoose }: {
           {e.artifact && <a className="journal-memory-artifact" href={e.artifact.href}><img src={e.artifact.image} alt={e.artifact.alt} loading="lazy"/><span>{e.artifact.label}</span></a>}
 
         </article>)}
-        {book && active < JOURNAL_ENTRIES.length - 1 && <button className="journal-page-corner" aria-label={COPY.next} onClick={()=>step(1)}><span aria-hidden="true"/></button>}
+        {book && active > 0 && <button className="journal-page-corner journal-page-corner-back" aria-label={COPY.previous} onClick={()=>step(-1)}><span aria-hidden="true"/></button>}
+        {book && active < JOURNAL_ENTRIES.length - 1 && <button className="journal-page-corner journal-page-corner-next" aria-label={COPY.next} onClick={()=>step(1)}><span aria-hidden="true"/></button>}
         {book && turn && <div className={`journal-turning-leaf turn-${turn.direction}`} key={`${active}-${turn.from}`} aria-hidden="true">
           <div className="journal-leaf-front" style={{'--item-accent':t[turningEntry.family]} as React.CSSProperties}><small>{COPY.record}</small><strong>{turningEntry.date}</strong><p>{turningEntry.note}</p></div>
           <div className="journal-leaf-back"><span>{COPY.bookplate}</span></div>
