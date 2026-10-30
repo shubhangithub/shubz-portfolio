@@ -8,17 +8,14 @@ import { useWorkbenchSound } from './WorkbenchSound';
 
 type Mood = 'idle' | 'curious' | 'purring' | 'sleeping' | 'walking';
 type CompanionState = {
-  resting: boolean; quiet: boolean; hidden: boolean; reduced: boolean;
-  purring: boolean; pet: () => void; rest: (value: boolean) => void;
-  silence: (value: boolean) => void; hide: (value: boolean) => void;
+  hidden: boolean; reduced: boolean;
+  purring: boolean; pet: () => void; hide: (value: boolean) => void;
 };
 const CompanionContext = createContext<CompanionState | null>(null);
 export function useCompanion() { return useContext(CompanionContext); }
 
 export function CompanionProvider({ children }: { children: React.ReactNode }) {
   const sound=useWorkbenchSound();
-  const [resting,setResting] = useState(false);
-  const [quiet,setQuiet] = useState(false);
   const [hidden,setHidden] = useState(false);
   const [reduced,setReduced] = useState(false);
   const [purring,setPurring] = useState(false);
@@ -28,13 +25,13 @@ export function CompanionProvider({ children }: { children: React.ReactNode }) {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     const change = () => setReduced(mq.matches);
     change(); mq.addEventListener('change',change);
-    try { const saved=JSON.parse(sessionStorage.getItem('notebook-companion')||'{}'); setResting(saved.resting===true);setQuiet(saved.quiet===true);setHidden(saved.hidden===true); } catch {}
+    try { const saved=JSON.parse(sessionStorage.getItem('notebook-companion')||'{}'); setHidden(saved.hidden===true); } catch {}
     setReady(true);
     return () => { mq.removeEventListener('change',change); clearTimeout(timer.current); };
   },[]);
-  useEffect(() => { if(ready) { try {sessionStorage.setItem('notebook-companion',JSON.stringify({resting,quiet,hidden}));}catch{} } },[ready,resting,quiet,hidden]);
-  const pet = () => { if(!quiet)sound.play('pet');setHidden(false);setResting(false);setPurring(true);clearTimeout(timer.current);timer.current=setTimeout(()=>setPurring(false),3000); };
-  return <CompanionContext.Provider value={{resting,quiet,hidden,reduced,purring,pet,rest:setResting,silence:setQuiet,hide:setHidden}}>{children}</CompanionContext.Provider>;
+  useEffect(() => { if(ready) { try {sessionStorage.setItem('notebook-companion',JSON.stringify({hidden}));}catch{} } },[ready,hidden]);
+  const pet = () => { sound.play('pet');setHidden(false);setPurring(true);clearTimeout(timer.current);timer.current=setTimeout(()=>setPurring(false),3000); };
+  return <CompanionContext.Provider value={{hidden,reduced,purring,pet,hide:setHidden}}>{children}</CompanionContext.Provider>;
 }
 
 /** A small articulated machine: body, sensor face, ears, tail and four feet. */
@@ -91,11 +88,11 @@ export function CatCompanion({ placement = 'desk', walking = false, compact = fa
   const [curious,setCurious] = useState(false);
   const [inspecting,setInspecting] = useState(false);
   if(!pet) return null;
-  const mood:Mood = pet.resting ? 'sleeping' : pet.purring ? 'purring' : walking ? 'walking' : curious ? 'curious' : 'idle';
-  return <div className={`companion companion-${placement} ${compact?'companion-compact':''} ${pet.hidden?'companion-hidden':''} ${inspecting?'companion-inspecting':''}`} data-quiet={pet.quiet||pet.reduced ? 'true':'false'} data-resting={pet.resting?'true':'false'}>
+  const mood:Mood = pet.purring ? 'purring' : walking ? 'walking' : curious ? 'curious' : 'idle';
+  return <div className={`companion companion-${placement} ${compact?'companion-compact':''} ${pet.hidden?'companion-hidden':''} ${inspecting?'companion-inspecting':''}`} data-quiet={pet.reduced ? 'true':'false'}>
     {pet.hidden ? <button className="companion-restore" onClick={()=>pet.hide(false)}>{COPY.show} ↗</button> : <>
       <button className="companion-pet" aria-label={COPY.pet} onClick={()=>{pet.pet();setInspecting(!inspecting);}} onMouseEnter={()=>setCurious(true)} onMouseLeave={()=>setCurious(false)} onFocus={()=>setCurious(true)} onBlur={()=>setCurious(false)}><RoboCatDrawing mood={mood}/></button>
-      <div className="companion-console"><span className="companion-name">{COPY.name}<small>PX–01</small></span><p className="companion-status" role="status" aria-live="polite">{COPY[mood]}</p><div className="companion-controls"><button onClick={()=>pet.rest(!pet.resting)} aria-pressed={pet.resting}>{pet.resting?COPY.follow:COPY.rest}</button><button onClick={()=>pet.silence(!pet.quiet)} aria-pressed={pet.quiet}>{pet.quiet?COPY.animate:COPY.quiet}</button><button onClick={()=>pet.hide(true)} aria-label={COPY.hide}>×</button></div></div>
+      <div className="companion-console"><span className="companion-name">{COPY.name}<small>PX–01</small></span><p className="companion-status" role="status" aria-live="polite">{COPY[mood]}</p><div className="companion-controls"><button onClick={()=>pet.hide(true)} aria-label={COPY.hide}>×</button></div></div>
     </>}
   </div>;
 }
@@ -125,11 +122,11 @@ export function PixelStation({ scene }: PixelStationProps) {
   }, []);
   if (!pet) return null;
   const context = PIXEL_SCENES[scene];
-  const still = pet.quiet || pet.resting || pet.reduced || !visible;
-  const mood: Mood = pet.resting ? 'sleeping' : pet.purring ? 'purring' : curious ? 'curious' : 'idle';
+  const still = pet.reduced || !visible;
+  const mood: Mood = pet.purring ? 'purring' : curious ? 'curious' : 'idle';
   const hide = () => { pet.hide(true); requestAnimationFrame(() => restore.current?.focus()); };
   const show = () => { pet.hide(false); requestAnimationFrame(() => avatar.current?.focus()); };
-  return <div ref={station} className={`pixel-station pixel-station-${scene}`} data-pose={context.pose} data-still={still || undefined} data-quiet={pet.quiet || pet.reduced ? 'true' : 'false'} data-resting={pet.resting || undefined} data-hidden={pet.hidden || undefined} aria-label={`${PIXEL_COPY.name} · ${context.label}`}>
+  return <div ref={station} className={`pixel-station pixel-station-${scene}`} data-pose={context.pose} data-still={still || undefined} data-quiet={pet.reduced ? 'true' : 'false'} data-hidden={pet.hidden || undefined} aria-label={`${PIXEL_COPY.name} · ${context.label}`}>
     {pet.hidden ? <button ref={restore} className="pixel-station-restore" onClick={show}>{COPY.show} ↗</button> : <>
       <button ref={avatar} className="pixel-station-avatar" aria-label={COPY.pet} onClick={pet.pet} onMouseEnter={()=>setCurious(true)} onMouseLeave={()=>setCurious(false)} onFocus={()=>setCurious(true)} onBlur={()=>setCurious(false)}>
         <RoboCatDrawing mood={mood} prop={context.pose === 'reading' ? 'book' : context.pose === 'carrying' ? 'letter' : 'lens'}/>
@@ -138,8 +135,8 @@ export function PixelStation({ scene }: PixelStationProps) {
           <summary aria-label={PIXEL_COPY.settings}>···</summary>
           <div className="pixel-station-controls">
             <button onClick={pet.pet}>{COPY.pet}</button>
-            <button onClick={()=>pet.rest(!pet.resting)} aria-pressed={pet.resting}>{pet.resting?COPY.follow:COPY.rest}</button>
-            <button onClick={()=>pet.silence(!pet.quiet)} aria-pressed={pet.quiet}>{pet.quiet?COPY.animate:COPY.quiet}</button>
+
+
             <button onClick={hide}>{COPY.hide}</button>
           </div>
         </details>

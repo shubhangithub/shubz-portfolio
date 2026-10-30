@@ -186,13 +186,13 @@ their actual container is narrow; page-level overflow hiding is not a substitute
 for fitting the content. Wrap diagram controls and keep explanations below
 inherently wide matrices; the matrix may use a labelled, keyboard-focusable
 horizontal scroll region with a visible instruction and sticky row labels.
-Pixel retains rest/quiet controls and
+Pixel retains petting, hide/show and
 keyboard/touch access; it must not chase over reading content.
 
 Sound is off by default, explicitly enabled and locally remembered. Initialise
 Web Audio only from a user gesture. Keep cues brief, quiet, bounded and
 rate-limited; no typing, hover or automatic ambient soundtrack. Mute interrupts
-active sound immediately, and Pixel quiet suppresses its cues. Unsupported audio
+active sound immediately, and the shared sound toggle controls Pixel’s cues. Unsupported audio
 must not interfere with navigation. Reuse the shared sound API.
 
 ## Source and rendering boundaries
@@ -303,7 +303,7 @@ investigating and letter-carrying poses reuse the same articulated drawing.
 Use a 58px corner companion beside relevant objects, never a fixed overlay or
 an interrupting assistant. Context changes must not trigger live announcements,
 new audio or invented facts. Only deliberate petting uses the existing opt-in
-sound. Rest, quiet and hide are shared session preferences across all instances;
+sound. Hide is a shared session preference across all instances;
 hiding leaves a discreet restore control. Reduce motion and suspend animation
 when offscreen or in a hidden tab. Preserve links, history, focus and source content. Do not restore the
 "Inspect the next object" or similar repeated assistant prompts.
@@ -405,7 +405,7 @@ just to animate the bird. Reduced motion disables travel and flapping.
 
 Sound supports standard and prefixed Web Audio, resumes interrupted contexts
 from deliberate taps, and gives short feedback to buttons and disclosures.
-Keep Pixel's quiet setting effective, avoid duplicate cues, and never trigger
+Use the shared sound setting for Pixel, avoid duplicate cues, and never trigger
 sound from automatic object rotation or background/pigeon animation.
 
 On phones the portrait and London/SF line belong to the notebook/avatar scene;
@@ -559,3 +559,17 @@ preserve manual arrows/swipe, and animate the same full leaf on corner activatio
 The desktop current-activity rack keeps its outer frame and reading shelf.
 Do not draw suspension lines through the activity illustrations or restore the
 central wheel; selection orbits and object demonstrations provide the motion.
+
+## Current content and Pixel controls
+
+Refresh current-work summaries from the owner’s updates and read-only repository
+activity. Distinguish merged contributions from open proposals, and describe
+private work only at a suitable public level. Historical journal entries remain
+historical; add dated updates for current work. DissentCheck is ongoing Cosmos ×
+FIRE research, not a completed toolkit. Do not attribute team leadership to the
+Kolhapur project. The vice-captain record includes student-concern triage and
+coordination as well as the awards automation.
+
+Pixel has petting and hide/show only. Remove rest/follow/quiet controls and their
+terminal commands. Sound uses the shared header toggle; animation follows device
+reduced-motion preferences and visibility. Ignore obsolete saved mode flags.

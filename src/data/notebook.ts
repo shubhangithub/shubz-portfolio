@@ -117,7 +117,7 @@ export const COMPANION_COPY = {
   purring: 'A very small, very mechanical purr.',
   sleeping: 'Recharging. The notebook can wait.',
   walking: 'Coming along for the walk.',
-  help: 'Try pet, pet sleep, pet wake, pet quiet, pet show, or pet hide.',
+  help: 'Try pet, pet show, or pet hide.',
   quietResponse: 'Quiet mode on. Pixel will keep still.',
   motionResponse: 'Idle motion restored. Reduced-motion preferences still apply.',
   hiddenResponse: 'Pixel is tucked away. Use pet show to bring the companion back.',

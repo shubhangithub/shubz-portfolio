@@ -89,17 +89,17 @@ export type Condition = { k: string; v: string; sub: string; family: NBAccentKey
 // /now · "Right now" — five concurrent threads.
 // CAP: 5 entries (same reason as JOURNAL — anything more clutters the layout).
 export const FOCUSES: Focus[] = [
-  // DissentCheck / Cosmos grant → AI safety
+  // Production engineering at Torus → Infrastructure
   {
     kind: "Building",
-    family: "blue",
-    what: "DissentCheck — a toolkit and experimental framework for studying and testing consensus dynamics in AI committees. Funded by a Cosmos Institute grant, under the AI for Truth-Seeking track with FIRE.",
-    linkText: "Cosmos Institute",
-    linkUrl: "https://blog.cosmos-institute.org/p/announcing-80-new-cosmos-grantees",
-    linkTitle: "Cosmos Grants — September 2026 cohort announcement",
+    family: "yellow",
+    what: "At Torus, I’m building agentic engineering systems for physical infrastructure. Recently I’ve been working on production reliability, project-email handling and automated evaluation and review workflows.",
+    linkText: "Torus",
+    linkUrl: "https://usetorus.com",
+    linkTitle: "Torus — engineering for physical infrastructure",
   },
-  // BlueDot Technical AI Safety → AI safety
-  { kind: "Studying",  family: "blue",   what: "BlueDot's Technical AI Safety course — mechanistic interpretability, RLHF, evaluations, AI control. Alongside the BDI-funded research." },
+  // Current Cosmos research → AI safety
+  { kind: "Research", family: "blue", what: "I’m working on DissentCheck, my Cosmos Institute × FIRE project on AI committees. I’m designing experiments to test how their answers change when they see each other’s responses, share evidence or encounter dissent, and how to make those changes understandable to someone reviewing the results.", linkText: "Cosmos × FIRE", linkUrl: "https://blog.cosmos-institute.org/p/announcing-80-new-cosmos-grantees" },
   // Agentic AI reading → AI/ML · book clause + link auto-filled from Fable
   {
     kind: "Reading",
@@ -115,20 +115,24 @@ export const FOCUSES: Focus[] = [
   },
   // Procreate / drawing → outreach (personal, creative)
   { kind: "Drawing",   family: "orange", what: "Procreate course on Skillshare. Trying to get better at making things by hand. No particular goal, just enjoy it." },
-  // Structured science communication → outreach
+  // Public evaluation contribution → AI safety
   {
-    kind: "Learning",
-    family: "orange",
-    what: "Learning science communication through a structured programme with I'm a Scientist, one of the organisations I volunteer with.",
-    linkText: "I'm a Scientist",
-    linkUrl: "https://imascientist.org.uk/",
-    linkTitle: "Visit I'm a Scientist",
+    kind: "Evaluating",
+    family: "blue",
+    what: "My NARCBench V2.2 register update merged into Inspect Evals on 8 October. It restores the full public scenario and option context for the black-box monitor, with repeated evaluation runs and a comparison against the earlier reduced-context version.",
+    linkText: "Merged Inspect Evals contribution",
+    linkUrl: "https://github.com/UKGovernmentBEIS/inspect_evals/pull/2282",
+    linkTitle: "NARCBench V2.2 register update",
   },
 ];
 
 // /now · "Field journal" — newest first.
 // The home mini-terminal uses a short slice; the journal retains every entry.
 export const JOURNAL: JournalEntry[] = [
+  { date: "2026-10-29", family: "yellow", brief: "Production reliability and agent workflows at Torus.", note: "At Torus I’ve been spending time on the parts of agentic engineering that need to keep working across retries, delayed jobs and changes to project information. Recent work has covered project-email handling, automated evaluations and review workflows, alongside the engineering systems for physical infrastructure." },
+  { date: "2026-10-29", family: "blue", brief: "Working on DissentCheck, my Cosmos × FIRE research project.", note: "I’m working on the experimental design for DissentCheck, my Cosmos Institute × FIRE project. I want to test how an AI committee’s conclusions respond to shared evidence, exposure to other members’ answers and dissent. The aim is to make those observable changes useful to a reviewer, without treating agreement alone as evidence that the committee is right." },
+  { date: "2026-10-29", family: "ochre", brief: "Repairing fashion-data coverage and checking the source history.", note: "I’ve been repairing the fashion project’s data feeds and checking historical coverage against publication evidence. The recent work has been on missing trend-and-day records, editorial RSS connections and making the displayed coverage reflect the observations actually available." },
+  { date: "2026-10-08", family: "blue", brief: "NARCBench V2.2 merged into the Inspect Evals register.", note: "My NARCBench V2.2 register update merged into Inspect Evals. This version restores the public scenario and option context that the earlier monitor omitted, and keeps that earlier view as a comparison. The release includes repeated runs and explicit output validation so the context change can be assessed within each monitor model." },
   // Cosmos Institute grant → AI safety
   { date: "2026-09", family: "blue",   brief: "Awarded a Cosmos × FIRE grant for DissentCheck.", note: "Awarded a Cosmos Grant by the Cosmos Institute and FIRE, in the AI for Truth-Seeking track — one of 80 in their largest cohort yet. The project is DissentCheck, a toolkit and experimental framework for studying and testing consensus dynamics in AI committees.", artifact: { href: "https://blog.cosmos-institute.org/p/announcing-80-new-cosmos-grantees", image: "/social/cosmos-dissentcheck.jpg", alt: "Cosmos Institute grant announcement for DissentCheck", label: "Cosmos × FIRE ↗" } },
   { date: "2026-09", family: "yellow", brief: "Building physical infrastructure at Torus, now featured in Forbes.", note: "I joined Torus in July as a founding member of technical staff, and I'm excited about what we're building. Torus uses AI to draft the engineering drawings and calculations behind physical infrastructure, from plants and pipelines to substations, with engineers reviewing the work. I get to work on agentic systems whose output has to make sense beyond a screen, which is a big part of the appeal for me. Forbes included Torus in its look at YC's Summer 2026 batch this month.", artifact: { href: "https://www.forbes.com/sites/dariashunina/2026/09/03/meet-the-yc-startups-betting-on-what-comes-next/", image: "/social/torus-forbes.svg", alt: "Illustrated press clipping linking to Forbes coverage of Torus in the YC Summer 2026 batch", label: "Torus in Forbes ↗" } },

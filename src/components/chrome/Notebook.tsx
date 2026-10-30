@@ -127,13 +127,9 @@ export function NotebookTerminal({ full = false, onTheme }: { full?: boolean; on
     const [verb, ...rest] = cmd.toLowerCase().split(/\s+/); const arg = rest.join(" ");
     let output: React.ReactNode = NOTEBOOK_COPY.terminalUnknown;
     if (verb === "clear") { setEntries([]); setCommand(""); setShowIntro(false); setHistoryIndex(-1); return; }
-    if (verb === "help") output = NOTEBOOK_COPY.terminalHelp + " Clear the screen with clear; switch the light with theme. Pixel responds to pet, pet sleep and pet quiet. " + DISCOVERY_COPY.soundHelp;
+    if (verb === "help") output = NOTEBOOK_COPY.terminalHelp + " Clear the screen with clear; switch the light with theme. Pixel responds to pet, pet hide and pet show. " + DISCOVERY_COPY.soundHelp;
     if (verb === "pet" && companion) {
       if (!arg) { companion.pet(); output = COMPANION_COPY.purring; }
-      else if (arg === "sleep") { companion.rest(true); output = COMPANION_COPY.sleeping; }
-      else if (arg === "wake" || arg === "follow") { companion.rest(false);companion.hide(false);output = COMPANION_COPY.idle; }
-      else if (arg === "quiet") { companion.silence(true);output = COMPANION_COPY.quietResponse; }
-      else if (arg === "motion") { companion.silence(false);output = COMPANION_COPY.motionResponse; }
       else if (arg === "hide") { companion.hide(true);output = COMPANION_COPY.hiddenResponse; }
       else if (arg === "show") { companion.hide(false);output = COMPANION_COPY.shownResponse; }
       else output = COMPANION_COPY.help;

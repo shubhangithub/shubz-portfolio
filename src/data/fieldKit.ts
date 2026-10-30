@@ -126,7 +126,9 @@ export const STUDIO_COPY = {
   archive: "All entries, newest first.",
 };
 export const FOCUS_OBJECTS: Record<string, FieldObjectKind> = {
-  Building: "committee",
+  Building: "terminal",
+  Research: "committee",
+  Evaluating: "course",
   Studying: "course",
   Reading: "books",
   Drawing: "tablet",
