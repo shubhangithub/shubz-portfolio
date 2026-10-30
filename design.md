@@ -67,8 +67,9 @@ are implemented in `src/styles/calm.css`, loaded last:
 - Hero accent words follow DECISIONS-v5 §14's per-page table: orange on /now
   and /contact (Outreach), yellow on /work and /writing (Infrastructure),
   the essay's own pen on an essay. They are not arbitrary; do not unify them.
-- /work/: the walk is a compact instrument (selector, route marks, slider,
-  current entry) above the record; the city scene is retired.
+- /work/: the walk keeps its city scene and walking narrator above the
+  record. (A compact version was tried on 30 October and reverted the same
+  day: the scene is the page's character.)
 - /now/: the journal is a spread on desktop — every entry listed beside the
   open page; one date, on the page. Phones keep the bound leaf.
 - /builds/: one way to narrow — category chips and the subject select. The

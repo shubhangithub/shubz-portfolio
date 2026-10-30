@@ -138,27 +138,6 @@ html[data-theme="dark"] .folio:not(.folio-home)[data-live-grid="true"] { backgro
    The citation/sources rail was already sticky; nothing to add here. */
 
 /* ---------------------------------------------------------------------------
-   6. /work/: the walk is a compact instrument — selector, route marks, slider
-   and the current entry — above the record. The city scene with the
-   walking narrator showed one entry at 600px tall, directly above a list of
-   all 37; the record is the page's object now.
-   --------------------------------------------------------------------------- */
-.folio .walk-world { display: none; }
-.folio .walk-stage { grid-template-columns: minmax(0, 1fr); min-height: 0; }
-.folio .walk-moment { border-left: 0; padding: 22px 26px 18px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 28px; align-items: start; }
-.folio .walk-moment > .eyebrow { grid-column: 1 / -1; }
-.folio .walk-moment h2 { margin: 8px 0 4px; font-size: 26px; }
-.folio .walk-moment .walk-where { grid-column: 1; }
-.folio .walk-moment p { grid-column: 1; margin: 10px 0 0; max-width: 70ch; }
-.folio .walk-moment > button { grid-column: 2; grid-row: 2 / span 3; align-self: start; margin-top: 10px; white-space: nowrap; }
-/* "follow the walk as you scroll" drove the scene; without it there is nothing to follow. */
-.folio .walk-bottomline > button:nth-of-type(2) { display: none; }
-@media (max-width: 700px) {
-  .folio .walk-moment { grid-template-columns: minmax(0, 1fr); padding: 18px; }
-  .folio .walk-moment > button { grid-column: 1; grid-row: auto; margin-top: 14px; }
-}
-
-/* ---------------------------------------------------------------------------
    7. /now/: the journal is a spread — every entry listed beside the open
    page on desktop (one date, on the page itself); phones keep the single
    bound leaf and page turns.
