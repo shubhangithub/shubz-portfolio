@@ -79,6 +79,10 @@ has no cover-image field, so the jackets are typeset locally.
    `publishedAt` (shown as the month on /writing/), and `series` when the
    essay belongs to a labelled run (the AGI Strategy Course set, the monthly
    notes) — consecutive essays sharing a `series` are grouped under it.
+   To put an essay on the /writing/ front door, give it `featured` (1 opens
+   the page; 2 and 3 are the tabs) and `opening` (its first paragraph,
+   verbatim, without sidenote markers), and add its hero figure to
+   `src/components/essay/FeaturedFigures.tsx`.
 2. Create the essay body component at
    `src/components/essays/<Name>Essay.tsx`. Use one of the existing
    essays (e.g. `JayaEssay.tsx`) as a template.

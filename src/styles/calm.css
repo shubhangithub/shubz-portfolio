@@ -27,6 +27,15 @@ html[data-theme="dark"] .folio:not(.folio-home)[data-live-grid="true"] { backgro
 .folio-header-inner > .workbench-utilities button { min-height: 38px; padding: 0 11px; font-size: 12px; }
 .folio-header-inner > .workbench-utilities button > span { font-size: 15px; }
 .clip-count { font: 11px var(--f-mono); color: var(--nb-yellow); }
+/* Subscribe sits with Find and Clips, in the yellow pen so it reads as an
+   invitation rather than another tool. */
+.folio .workbench-rss { display: flex; align-items: center; gap: 7px; min-height: 38px; padding: 0 11px; border: 1px solid color-mix(in srgb, var(--nb-yellow) 45%, var(--nb-rule)); background: color-mix(in srgb, var(--nb-yellow) 6%, transparent); color: var(--nb-softInk); font: 12px var(--f-ui); text-decoration: none; box-sizing: border-box; }
+.folio .workbench-rss > svg { color: var(--nb-yellow); }
+.folio .workbench-rss:hover { color: var(--nb-ink); border-color: var(--nb-yellow); background: color-mix(in srgb, var(--nb-yellow) 12%, transparent); }
+@media (max-width: 700px) {
+  .folio .workbench-rss { width: 36px; min-height: 36px; padding: 0; justify-content: center; }
+  .folio .workbench-rss > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+}
 @media (max-width: 1150px) { .folio-header-inner > .workbench-utilities { margin-left: 12px; } }
 @media (max-width: 900px) {
   /* Row one: brand … Find Clips. Row two: the six chapters. */

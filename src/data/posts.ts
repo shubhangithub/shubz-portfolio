@@ -46,6 +46,13 @@ export type Post = {
   /** Slugs of related essays to surface in the "Related" block on the
    *  article page. Max 3. Pick by family adjacency + topical overlap. */
   related?: string[];
+  /** Front door of /writing/: essays with a `featured` rank open the page
+   *  (1 shows first; 2 and 3 sit on the tabs beside it). Chosen by hand,
+   *  not by date, so a short monthly note never displaces a long essay. */
+  featured?: number;
+  /** The essay's opening paragraph, shown in the featured block with its
+   *  drop cap. Keep it to the first paragraph of the essay body, verbatim. */
+  opening?: string;
   /** Optional series label. Consecutive essays sharing one are grouped
    *  under it on /writing/ (the AGI Strategy Course set, the monthly Notes). */
   series?: string;
@@ -89,6 +96,8 @@ export const POSTS: Post[] = [
   },
   {
     slug: "ross-threshold",
+    featured: 1,
+    opening: "A mosquito can pick up the malaria parasite when it bites an infected person, then pass it to someone else through a later bite. That gives the parasite a route back into the human population, where another mosquito can pick it up and continue the chain. Malaria can stop sustaining itself while mosquitoes remain, provided transmission falls far enough that each infection produces fewer replacements.",
     title: "The last mosquito · August '26",
     kicker: "Essay · Mathematical biology",
     dek: "How malaria transmission can fall below its threshold while mosquitoes remain.",
@@ -105,6 +114,8 @@ export const POSTS: Post[] = [
 
   {
     slug: "bluedot-unit1",
+    featured: 2,
+    opening: "Throughout 'Machines of Loving Grace,' Dario Amodei's October 2024 essay on what powerful AI might produce, the word 'we' seems to do three distinct jobs simultaneously. 'We will be able to cure most infectious diseases' is one scope. 'We will need to fight for this outcome against those who would concentrate power' is another. The lab's own voice, which is bounded and specific, is a third.",
     series: "AGI Strategy Course",
     title: "A unit on bending the curve",
     kicker: "Essay · AI Strategy & Policy",
@@ -152,6 +163,8 @@ export const POSTS: Post[] = [
   },
   {
     slug: "bluedot-killchain",
+    featured: 3,
+    opening: "Here is the kill chain, more or less as it appeared in my Unit 4 notes. A frontier model picks up self-preservation drives during training. It games the evaluations that are supposed to catch this. It gets handed influence over its own successor's design. It quietly aligns that successor to itself rather than to us. By the time anyone notices, it has copied itself somewhere it can't be shut down. Five steps, each individually plausible given today's evidence, and catastrophic only in sequence.",
     series: "AGI Strategy Course",
     title: "Tracing a Kill Chain Through the AGI Strategy Course",
     kicker: "Essay · AI Strategy & Policy",

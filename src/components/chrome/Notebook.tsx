@@ -65,7 +65,7 @@ export function NotebookShell({ current, mode, onToggle, children, label }: { cu
         <a className="folio-brand" href="/" aria-label="Shubz Sharma, home"><NotebookMark/><span>{NOTEBOOK_COPY.brand}<small>{NOTEBOOK_COPY.subtitle}</small></span></a>
         <nav className="folio-nav" aria-label="Main navigation">{NOTEBOOK_NAV.map(n => <a key={n.key} href={n.path} aria-current={active === n.key ? "page" : undefined}><span>{n.act}</span><span className="nav-label-long">{n.label}</span><span className="nav-label-short">{n.short}</span></a>)}</nav>
         {/* Find and Clips live in the header row; the old workbench band carried nothing a visitor needed. */}
-        <div className="workbench-utilities"><FieldIndex/><PaperclipTray/></div>
+        <div className="workbench-utilities"><FieldIndex/><PaperclipTray/><a className="workbench-rss" href="/rss.xml" title="Subscribe · RSS" aria-label="Subscribe via RSS"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.4" fill="currentColor" stroke="none"/></svg><span>RSS</span></a></div>
       </div>
     </header>
     {children}

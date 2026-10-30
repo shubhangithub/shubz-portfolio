@@ -10,19 +10,13 @@ import { WRITING_DESK_COPY as COPY } from "../../data/writingDesk";
 import React, { useEffect, useState, useRef } from "react";
 import {
   NotebookShell,
-  PageHero,
   SectionLabel,
-  Spans,
   type PageProps,
 } from "../chrome/Notebook";
 import { VISIBLE_POSTS, thumbUrlFor } from "../../data/posts";
 import { nbTheme } from "../../data/palette";
-import {
-  WRITING_HERO,
-  WRITING_LEDE,
-  WRITING_MARGINALIA,
-} from "../../data/writing";
 import { useWorkbenchSound } from "../chrome/WorkbenchSound";
+import { FeaturedEssay } from "../essay/FeaturedEssay";
 import "../../styles/writing-light-table.css";
 
 const essays = VISIBLE_POSTS.filter((p) => !p.draft);
@@ -193,6 +187,8 @@ function ReadingDesk({ t }: { t: ReturnType<typeof nbTheme> }) {
       <SectionLabel
         n="i"
         title={COPY.title}
+        href="/rss.xml"
+        link={WRITING_COPY.subscribe}
       />
       <div className="catalogue-toolbar">
         <label className="search-field">
@@ -317,25 +313,7 @@ export function WritingIndexV5({ dark, toggleTheme }: PageProps) {
       onToggle={toggleTheme}
     >
       <main id="main" className="folio-main editorial-lightroom" tabIndex={-1}>
-        <PageHero
-          n="05"
-          label={WRITING_COPY.label}
-          title={<Spans value={WRITING_HERO} t={t} />}
-          aside={
-            <div className="writing-margin-note">
-              <p>{WRITING_MARGINALIA.lines.join(" ")}</p>
-              <svg viewBox="0 0 150 70" aria-hidden="true" fill="none">
-                <path
-                  d="M12 12H125V58H12Z M23 24H75M23 33H102M23 42H85M119 5L141 27L116 54L94 32Z"
-                  stroke="currentColor"
-                />
-                <path d="M105 21L125 41" stroke="currentColor" />
-              </svg>
-            </div>
-          }
-        >
-          <p>{WRITING_LEDE}</p>
-        </PageHero>
+        <FeaturedEssay dark={dark} />
         <ReadingDesk t={t} />
       </main>
     </NotebookShell>

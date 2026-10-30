@@ -53,6 +53,12 @@ are implemented in `src/styles/calm.css`, loaded last:
   to the handful a stranger should see first.
 - Essays with a `series` value are grouped under a label on /writing/; every
   entry shows its dek and published month.
+- /writing/ opens on a hand-picked essay (`POSTS[i].featured`, 1 first; the
+  others on tabs), with that essay's own live figure (`FeaturedFigures.tsx`)
+  beside its opening paragraph. The index follows. Featured is a choice, not
+  the newest date, so a short monthly note never displaces a long essay.
+- Subscribe (RSS) sits with Find and Clips in the header, in the yellow pen;
+  icon-only on phones.
 - The contact letter says above the fields that it drafts an email in the
   visitor's own mail app, and offers a copy-address control.
 - Metadata floor: 11px. Sub-11px mono labels across the stylesheets were

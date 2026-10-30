@@ -1,0 +1,60 @@
+/* The front door of /writing/: a featured essay opens the page, its live
+   figure beside the opening paragraph. The index (ReadingDesk) follows. */
+.front-door { padding: 28px 0 0; }
+.front-door-topline { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.front-door-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.front-door-tabs button {
+  display: inline-flex; align-items: center; gap: 9px; min-height: 40px; padding: 0 13px;
+  background: transparent; border: 1px solid var(--nb-rule); color: var(--nb-softInk);
+  font: 13px var(--f-ui); cursor: pointer; text-align: left;
+  transition: border-color 200ms var(--ease-out), color 200ms var(--ease-out), background 200ms var(--ease-out);
+}
+.front-door-tabs button > span { font: 11px var(--f-mono); color: var(--tab-accent); }
+.front-door-tabs button:hover { border-color: var(--tab-accent); color: var(--nb-ink); }
+.front-door-tabs button[aria-selected="true"] { border-color: var(--tab-accent); color: var(--nb-ink); background: color-mix(in srgb, var(--tab-accent) 8%, transparent); }
+
+.front-door-stage { margin-top: 34px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+.front-door-text { min-width: 0; }
+.front-door-kicker { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font: 11px var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--item-accent); }
+.front-door-kicker small { font-size: 11px; letter-spacing: .06em; text-transform: none; color: var(--nb-muted); }
+.front-door-rule { width: 24px; height: 1px; background: var(--item-accent); }
+.front-door h1 { margin: 16px 0 14px; font-family: var(--f-ui); font-size: clamp(44px, 5.3vw, 76px); line-height: 1.02; font-weight: 500; letter-spacing: -.045em; max-width: 14ch; text-wrap: balance; }
+.front-door h1 a { color: var(--nb-ink); text-decoration: none; }
+.front-door h1 a:hover { color: var(--nb-ink); }
+.front-door h1 a > span { color: var(--item-accent); }
+.front-door-dek { margin: 0 0 26px; font-size: 21px; line-height: 1.45; font-style: italic; color: var(--nb-softInk); max-width: 32ch; }
+.front-door-opening { margin: 0; font-size: 18px; line-height: 1.7; color: var(--nb-ink); max-width: 58ch; }
+.front-door-actions { margin-top: 30px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.front-door-actions .folio-button > span { color: color-mix(in srgb, var(--nb-paper) 60%, transparent); }
+.front-door-meta { font: 11px var(--f-mono); color: var(--nb-muted); letter-spacing: .04em; }
+
+.front-door-figure { min-width: 0; }
+.front-door-figure .v4-figure { margin: 0 !important; }
+/* The essay figures size to the article measure; here the column is wider,
+   so the drawing fills it. */
+.front-door-figure svg, .front-door-figure canvas { max-width: 100%; }
+
+@media (max-width: 1100px) { .front-door-stage { gap: 36px; } }
+@media (max-width: 960px) {
+  /* One column: kicker, title, standfirst, the live figure, then the opening. */
+  .front-door-stage { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .front-door-text { display: contents; }
+  .front-door-kicker { order: 1; }
+  .front-door h1 { order: 2; }
+  .front-door-dek { order: 3; }
+  .front-door-figure { order: 4; margin: 4px 0 26px; }
+  .front-door-opening { order: 5; }
+  .front-door-actions { order: 6; }
+}
+@media (max-width: 700px) {
+  .front-door { padding-top: 18px; }
+  .front-door-topline { gap: 14px; }
+  .front-door-tabs button { min-height: 44px; font-size: 12px; padding: 0 10px; }
+  .front-door-stage { margin-top: 22px; }
+  .front-door h1 { font-size: clamp(38px, 12vw, 48px); margin: 12px 0 10px; }
+  .front-door-dek { font-size: 18px; margin-bottom: 18px; }
+  .front-door-opening { font-size: 17px; }
+  .front-door-actions { flex-direction: column; align-items: stretch; gap: 10px; }
+  .front-door-actions .folio-button { justify-content: space-between; min-height: 48px; }
+  .front-door-meta { text-align: center; }
+}
