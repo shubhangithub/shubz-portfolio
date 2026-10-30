@@ -91,3 +91,16 @@
 .journal-reel[data-book] .journal-memory {padding-bottom:72px;}
 @media(prefers-reduced-motion:reduce){.journal-page-corner span{transition:none;}}
 @media print{.journal-page-corner{display:none;}}
+
+/* The accepted phone notebook is also the desktop journal: one bound leaf. */
+@media screen and (min-width:761px){
+ .journal-reel {max-width:720px;}
+ .journal-reel[data-book] .journal-bound-book {grid-template-columns:minmax(0,1fr);padding:10px 10px 18px 20px;overflow:clip;}
+ .journal-reel .journal-verso {display:none;}
+ .journal-reel[data-book] .journal-bound-book::before {content:"";position:absolute;left:6px;top:22px;bottom:24px;width:7px;border-right:1px solid var(--nb-control);background:repeating-linear-gradient(transparent 0 32px,var(--nb-muted) 32px 37px,transparent 37px 70px);}
+ .journal-reel .journal-memory,.journal-reel .journal-leaf-front,.journal-reel .journal-leaf-back {padding:34px 38px;}
+ .journal-reel[data-book] .journal-memory {min-height:500px;padding-bottom:76px;}
+ .journal-reel .journal-memory time {font-size:36px;margin:24px 0;}
+ .journal-reel .journal-memory>p {font-size:18px;line-height:1.75;}
+ .journal-reel .journal-turning-leaf {clip-path:inset(-30px -30px -30px 0);}
+}

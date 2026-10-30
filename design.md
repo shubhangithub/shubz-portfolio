@@ -97,7 +97,7 @@ hashes select their matching objects; phone selection moves to the notes with a
 return-to-objects control. Motion pauses offscreen and in hidden tabs, and follows reduced motion.
 There is no visible motion setting on this artifact. The selected object has a
 planet-like orbital ring; do not use an underline as its primary selection cue. Keep conditions in a compact strip.
-The journal opens as a bound spread, with layered page edges, a stitched spine
+The journal opens as a single bound page on phone and desktop, with layered page edges, a stitched spine
 and a two-sided page turn. Visitors turn manually with Older/Newer buttons or
 a horizontal swipe; page scrolling never selects an entry. Per-entry URLs,
 initial HTML and print retain every note. Do not restore the redundant journal
@@ -547,3 +547,11 @@ The phone introduction has a compact horizontal date stamp. Conditions use
 three plain columns with fine separators, without three nested cards. Let the
 journal use the available phone width with smaller outer margins, readable body
 text and the existing page curl. Check 320, 390 and 430px in both themes.
+
+## Shared journal book
+
+The accepted phone journal is the desktop model too: one bound page with a
+visible stitched left edge, layered paper and a bottom-right turning corner.
+Desktop centres this same book at a maximum width of 720px. Do not restore the
+separate oversized date/verso panel. Keep the phone composition unchanged,
+preserve manual arrows/swipe, and animate the same full leaf on corner activation.
