@@ -178,3 +178,15 @@ html[data-theme=light] .now-focus-object .field-object :is(path,circle,ellipse,r
  .rack-book-title {font-size:10.5px;}
  .now-reading-rack small {font-size:9.5px;}
 }
+
+/* A shared perforated backboard and small ledges anchor the desktop studies. */
+@media(min-width:761px){
+ .now-artifact-workspace {grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:12px;padding:6px 22px 18px 0;}
+ .now-focus-object {width:30%;}
+ .now-focus-object[data-now-object="focus-0"],.now-focus-object[data-now-object="focus-1"] {top:24%;}
+ .now-focus-object[data-now-object="focus-3"],.now-focus-object[data-now-object="focus-4"] {top:49%;}
+ .now-artifact-panel {align-self:center;border:1px solid var(--nb-control);border-top:2px solid var(--artifact-ink);padding:24px 26px;margin:18px 0;box-shadow:5px 5px 0 var(--nb-paper),6px 6px 0 var(--nb-rule);}
+ .now-artifact-panel::before {content:"";display:block;width:42px;height:5px;background:var(--artifact-ink);margin-bottom:12px;}
+ .now-detail-study {width:180px;height:130px;margin:6px 0 16px;}
+ .now-artifact-panel h3 {margin-top:6px;}
+}

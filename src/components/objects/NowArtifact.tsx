@@ -91,6 +91,9 @@ export function NowArtifact({t}:{t:NBTheme}) {
   <div className="now-artifact-workspace">
    <div className="now-mobile-scene" role="group" aria-label="Current work and reading objects">
     <svg className="now-mobile-frame" viewBox="0 0 700 650" fill="none" aria-hidden="true">
+     <defs><pattern id="now-rack-perforations" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="1" fill="var(--nb-control)" opacity=".28"/></pattern></defs>
+     <path d="M85 600V165Q85 60 195 60H519Q618 60 618 165V600Z" fill="url(#now-rack-perforations)"/>
+     <g className="now-object-ledges" stroke="var(--nb-control)" fill="var(--nb-paper2)"><path d="M128 210H310L321 219H119Z M389 210H570L581 219H380Z M128 370H310L321 379H119Z M389 370H570L581 379H380Z"/><path d="M145 219V229M294 219V229M406 219V229M554 219V229M145 379V389M294 379V389M406 379V389M554 379V389"/></g>
      <path d="M70 601H641L601 627H109Z" fill="var(--nb-paper2)" stroke="var(--nb-control)"/><path d="M85 600V165Q85 60 195 60H519Q618 60 618 165V600" stroke="var(--nb-control)" strokeWidth="3"/>
      <g stroke="var(--nb-rule)"><path d="M119 468H580L609 557H96Z" fill="var(--nb-paper)"/><path d="M96 557V569H609V557M119 468V485M580 468V485"/></g>
      <path d="M73 600L60 619M637 600L650 619" stroke="var(--nb-control)" strokeWidth="5"/>

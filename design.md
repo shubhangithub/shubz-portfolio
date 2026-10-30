@@ -573,3 +573,9 @@ coordination as well as the awards automation.
 Pixel has petting and hide/show only. Remove rest/follow/quiet controls and their
 terminal commands. Sound uses the shared header toggle; animation follows device
 reduced-motion preferences and visibility. Ignore obsolete saved mode flags.
+
+The desktop On my wavelength rack has a faint perforated backboard and short
+ledges below the activity studies to connect them physically without crossing
+their drawings. Give the studies more room within their stations, and render the
+selected notes as a fitted attached sheet rather than a tall mostly empty column.
+Keep this treatment off the accepted phone composition.
