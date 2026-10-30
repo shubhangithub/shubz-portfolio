@@ -364,6 +364,8 @@ html:not([data-theme="dark"])
  .office-window-labels{font-size:7px;}
 }
 @media(max-width:760px){
- .office-object[data-office-group="education"]{left:33%;top:14%;}
- .office-object[data-office-group="away"]{left:33%;top:43%;}
+ .office-object[data-office-group="education"]{left:30%;top:14%;}
+ .office-object[data-office-group="away"]{left:30%;top:37%;}
 }
+
+.office-explore-hint {margin:18px 0 4px;font:12px/1.5 var(--f-ui);color:var(--nb-muted);}

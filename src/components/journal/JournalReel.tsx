@@ -6,7 +6,6 @@ import { PENS } from '../../data/notebook';
 import type { NBTheme } from '../../data/palette';
 import '../../styles/journal-reel.css';
 
-const years = [...new Set(JOURNAL_ENTRIES.map(entry => entry.date.slice(0,4)))];
 export function JournalReel({ t, selected, onChoose }: {
   t: NBTheme; selected: number[];
   onChoose: (kind: 'entry' | 'year', value: string) => void;
@@ -40,7 +39,6 @@ export function JournalReel({ t, selected, onChoose }: {
   };
   return <div className="journal-reel" data-book={book || undefined} style={{'--reel-ink':t[entry.family]} as React.CSSProperties}>
     <div className="journal-time-rail">
-      <nav className="journal-year-scale" aria-label={COPY.timeline}>{years.map(year=><a key={year} href={`?year=${year}#journal-year-${year}`} aria-current={entry.date.startsWith(year)?'location':undefined} onClick={e=>{e.preventDefault();onChoose('year',year)}}>{year}</a>)}</nav>
       <span className="journal-frame-count" aria-live="polite">{COPY.page} {active+1} / {JOURNAL_ENTRIES.length} · {entry.date}</span>
       <div className="journal-reel-controls"><button aria-label={COPY.previous} disabled={active===0} onClick={()=>step(-1)}>← <span>{COPY.newer}</span></button><button aria-label={COPY.next} disabled={active===JOURNAL_ENTRIES.length-1} onClick={()=>step(1)}><span>{COPY.older}</span> →</button></div>
     </div>
@@ -58,8 +56,9 @@ export function JournalReel({ t, selected, onChoose }: {
           <time dateTime={e.date}>{e.date}</time>
           <p>{e.note}</p>
           {e.artifact && <a className="journal-memory-artifact" href={e.artifact.href}><img src={e.artifact.image} alt={e.artifact.alt} loading="lazy"/><span>{e.artifact.label}</span></a>}
-          <footer><span>{COPY.record}</span><a href={`?entry=${i}#journal-entry-${i}`} aria-label={`${COPY.link}: ${e.date}`} onClick={event=>{event.preventDefault();onChoose('entry',String(i))}}>{COPY.link} ↗</a></footer>
+
         </article>)}
+        {book && active < JOURNAL_ENTRIES.length - 1 && <button className="journal-page-corner" aria-label={COPY.next} onClick={()=>step(1)}><span aria-hidden="true"/></button>}
         {book && turn && <div className={`journal-turning-leaf turn-${turn.direction}`} key={`${active}-${turn.from}`} aria-hidden="true">
           <div className="journal-leaf-front" style={{'--item-accent':t[turningEntry.family]} as React.CSSProperties}><small>{COPY.record}</small><strong>{turningEntry.date}</strong><p>{turningEntry.note}</p></div>
           <div className="journal-leaf-back"><span>{COPY.bookplate}</span></div>

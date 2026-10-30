@@ -21,8 +21,8 @@ const PLACES: Record<string, number[]> = {
   societies: [10, 44, 12],
   outreach: [10, 65, 15],
   making: [81, 84, 25],
-  education: [31, 17, 24],
-  away: [31, 40, 25],
+  education: [30, 17, 20],
+  away: [30, 37, 21],
 };
 function OfficeRoom() {
   return (
@@ -367,6 +367,7 @@ export function FieldKit({ t }: { t: NBTheme }) {
               </dl>
             </section>
           ))}
+          <p className="office-explore-hint">{COPY.explore}</p>
           <nav className="office-display-controls" aria-label={COPY.scene}>
             <button
               type="button"

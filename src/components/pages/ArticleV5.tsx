@@ -17,6 +17,7 @@ import { ClipButton } from "../chrome/Paperclips";
 import { essayClipId } from "../../data/paperclips";
 
 import { VISIBLE_POSTS, findPost } from "../../data/posts";
+import { PENS } from "../../data/notebook";
 import { nbTheme, withAlpha } from "../../data/palette";
 import { essayMeta } from "../../lib/essay-meta";
 import { useIsMobile } from "../../lib/hooks";
@@ -179,6 +180,7 @@ export function ArticleV5({
       </div>
 
       {isMobile && !post.draft && <BookmarkRuler slug={post.slug} mobile />}
+      {isMobile && <a className="article-source-jump" href="#article-sources">Sources, citation & details ↓</a>}
 
       {/* BODY + LEFT-RAIL + RIGHT-RAIL — 3-column layout on desktop.
             Left:   TOC + meta JSON   (sticky)
@@ -314,15 +316,16 @@ export function ArticleV5({
 
         {/* RIGHT RAIL — cite block + sources + "↤ all essays". Sticky on
             desktop, scrolls below article on mobile. */}
-        {!isMobile && (
-          <aside style={{ position: "relative" }}>
-            <div style={{ position: "sticky", top: 115 }}>
+        {(
+          <aside id="article-sources" className="article-sources" tabIndex={-1} style={{ position: "relative" }}>
+            <div style={{ position: isMobile ? "static" : "sticky", top: 115 }}>
+              {isMobile && <section className="article-mobile-details"><h2 className="article-aux-heading">Details</h2><dl><div><dt>Topic</dt><dd>{PENS.find(p => p.key === accentKey)?.label || post.family}</dd></div><div><dt>Reading</dt><dd>{post.minutes} min</dd></div><div><dt>Sidenotes</dt><dd>{meta.sidenotes || 0}</dd></div><div><dt>Updated</dt><dd>{fmtLong(post.updatedAt || post.publishedAt)}</dd></div></dl></section>}
               {/* CITE — how to reference this essay. */}
               <h2 className="article-aux-heading">Citation</h2>
               <div style={{
                 background: t.paper2, border: `1px solid ${t.rule}`,
                 padding: "10px 12px", borderRadius: 3,
-                fontFamily: "var(--f-mono)", fontSize: 10.5, lineHeight: 1.7,
+                fontFamily: isMobile ? "var(--f-ui)" : "var(--f-mono)", fontSize: isMobile ? 13 : 10.5, lineHeight: 1.7,
                 color: t.softInk, marginBottom: 28,
               }}>
                 Sharma, S. (2026).<br/>
@@ -339,7 +342,7 @@ export function ArticleV5({
                   <div style={{
                     background: t.paper2, border: `1px solid ${t.rule}`,
                     padding: "10px 12px", borderRadius: 3,
-                    fontFamily: "var(--f-mono)", fontSize: 10.5, lineHeight: 1.7,
+                    fontFamily: isMobile ? "var(--f-ui)" : "var(--f-mono)", fontSize: isMobile ? 13 : 10.5, lineHeight: 1.7,
                     color: t.softInk, marginBottom: 28,
                   }}>
                     {meta.sources.map((pair: [string, string], i: number) => (
@@ -353,7 +356,7 @@ export function ArticleV5({
 
               <a href="/writing/" onClick={(e) => { e.preventDefault(); onNavigate("writing"); }} style={{
                 display: "inline-block",
-                fontFamily: "var(--f-mono)", fontSize: 11, color: accent,
+                fontFamily: isMobile ? "var(--f-ui)" : "var(--f-mono)", fontSize: 11, color: accent,
                 textDecoration: "none", letterSpacing: "0.08em",
               }}>↤ all essays</a>
             </div>

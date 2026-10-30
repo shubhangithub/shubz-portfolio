@@ -20,8 +20,8 @@
 .now-reading-rack button:nth-child(even) {transform:rotate(4deg);}
 .now-reading-rack button[aria-pressed=true] {outline:2px solid var(--nb-yellow);outline-offset:3px;}
 .rack-book-binding {position:absolute;left:6px;top:0;bottom:0;width:2px;background:var(--nb-yellow);}
-.rack-book-title {font:500 clamp(10px,1vw,14px)/1.35 var(--f-ui);display:block;}
-.now-reading-rack small {display:block;margin-top:5px;font:10px/1.4 var(--f-ui);color:var(--nb-muted);}
+.rack-book-title {overflow:hidden;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;font:500 clamp(10px,1vw,14px)/1.35 var(--f-ui);}
+.now-reading-rack small {display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere;margin-top:5px;font:10px/1.4 var(--f-ui);color:var(--nb-muted);}
 .now-artifact-panel {position:relative;min-width:0;padding:25px 32px 32px;border-left:1px solid var(--nb-rule);background:var(--nb-paper2);scroll-margin-top:125px;}
 .now-panel-registration {display:flex;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid var(--artifact-ink);font:12px var(--f-mono);color:var(--artifact-ink);}
 .now-artifact-panel article {scroll-margin-top:125px;}
@@ -36,7 +36,7 @@
 .current-combined .desk-conditions {display:flex!important;align-items:center;gap:24px;padding:20px 0!important;}
 .current-combined .desk-conditions .tea-study {width:110px;flex-shrink:0;}
 .current-combined .desk-conditions>.eyebrow {display:none;}
-.current-combined .desk-conditions .conditions-grid {display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;width:100%;}
+.current-combined .desk-conditions .conditions-grid {display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;width:100%;}
 .current-combined .desk-conditions .conditions-grid>div {transform:none!important;margin:0!important;padding:15px!important;}
 .current-combined .desk-conditions .conditions-grid>div:before {display:none;}
 .current-combined .desk-conditions .conditions-grid dd {font-size:16px;}
@@ -103,3 +103,15 @@ html[data-theme=light] .now-focus-object .field-object :is(path,circle,ellipse,r
 /* The book rack owns Reading; the margin keeps only distinct current details. */
 .now-continuum .conditions-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 600px) { .now-continuum .conditions-grid { grid-template-columns: 1fr; } }
+
+/* Give the three conditions the full phone width; the cup belongs by Drink. */
+@media(max-width:760px){
+ .current-combined .desk-conditions {position:relative;display:block!important;}
+ .current-combined .desk-conditions .tea-study {position:absolute;z-index:1;pointer-events:none;top:10px;right:16px;width:34px;height:28px;margin:0;}
+ .current-combined .desk-conditions .conditions-grid {grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+ .current-combined .desk-conditions .conditions-grid>div {min-width:0;padding:6px 0!important;}
+ .current-combined .desk-conditions .conditions-grid dt {font-size:11px;min-height:28px;}
+ .current-combined .desk-conditions .conditions-grid dd {font-size:14px;overflow-wrap:anywhere;}
+ .current-combined .desk-conditions .conditions-grid small {font-size:11px;line-height:1.45;}
+ .now-reading-rack button:not(.reading-rack-label) {padding-right:6px;}
+}

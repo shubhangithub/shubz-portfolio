@@ -1057,3 +1057,10 @@ html[data-theme="dark"] .folio {
 .folio-brand>.notebook-monogram {width:40px;height:46px;filter:drop-shadow(0 0 8px color-mix(in srgb,var(--nb-yellow) 18%,transparent));}
 .article-shell .article-aux-heading {font:500 13px/1.4 var(--f-ui);letter-spacing:.04em;color:var(--nb-yellow);margin:22px 0 10px;}
 @media(max-width:700px){.folio-brand>.notebook-monogram{width:34px;height:40px;}}
+
+.article-source-jump {display:block;width:fit-content;margin:12px 20px 28px;min-height:44px;padding:10px 0;color:var(--nb-yellow);font:13px/1.5 var(--f-ui);}
+.article-sources {min-width:0;scroll-margin-top:125px;overflow-wrap:anywhere;}
+.article-mobile-details dl {margin:0;font:13px/1.65 var(--f-ui);}
+.article-mobile-details dl>div {display:flex;justify-content:space-between;gap:18px;padding:5px 0;border-bottom:1px solid var(--nb-rule);}
+.article-mobile-details dt {color:var(--nb-muted);}
+.article-mobile-details dd {margin:0;text-align:right;color:var(--nb-ink);}

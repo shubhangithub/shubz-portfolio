@@ -99,7 +99,7 @@ There is no visible motion setting on this artifact. The selected object has a
 planet-like orbital ring; do not use an underline as its primary selection cue. Keep conditions in a compact strip.
 The journal opens as a bound spread, with layered page edges, a stitched spine
 and a two-sided page turn. Visitors turn manually with Older/Newer buttons or
-a horizontal swipe; page scrolling never selects an entry. Year links, per-entry URLs,
+a horizontal swipe; page scrolling never selects an entry. Per-entry URLs,
 initial HTML and print retain every note. Do not restore the redundant journal
 intro, entry-count strip or dated-entry dropdown above it. Reduced motion
 keeps manual navigation and swaps pages instantly. Vertical touch scrolling
@@ -283,8 +283,7 @@ Below the office, the Notebook, Experiments and GitHub share a moving
 carousel. Keep every panel mounted to preserve interaction state; inactive
 panels are inert. Rotate every three seconds, including after tab selection.
 Pause while focus is inside a slide, outside the viewport, in hidden tabs and
-for reduced motion. Hovering does not pause; the Hold control does. Keep
-explicit controls for this carousel. The LinkedIn note uses a quiet London–SF
+for reduced motion. Hovering does not pause. Keep the tabs and previous/next controls, without an Auto/Hold button. The LinkedIn note uses a quiet London–SF
 bridge illustration; preserve the original post and source image. Projects and
 essays sit side by side on desktop and stack on phones.
 
@@ -331,8 +330,7 @@ position, scale, rotation and connection highlights, with a short time-based
 settling curve. It must reverse when scrolling back, work with touch scrolling,
 and remain static with reduced motion. Do not hijack native scrolling.
 
-The journal has one presentation: the page-turning book, with its year and page
-controls. Do not duplicate the entries in an all-notes disclosure underneath.
+The journal has one presentation: the page-turning book, with its page controls. Do not duplicate the entries in an all-notes disclosure underneath.
 
 ### Current-work object motion
 
@@ -518,3 +516,18 @@ essay figures, separate from projects and tools. Preserve existing project and
 Primary navigation order is Home, Now, Timeline, Projects & tools, Writing,
 Contact. Timeline retains `/work/`. Chapter numbers, notebook contents and
 next-page links follow this order on desktop and mobile.
+
+## Phone reading and page corners
+
+Keep Now’s Mood, Music and Drink in one three-column strip on phones. The tea
+illustration sits above Drink without taking a grid column. Miniature book titles
+wrap within their covers and truncate with an ellipsis; the selected detail keeps
+the full title. Education and Reading/offline use smaller wall frames clear of
+the work monitor. Attached About notes include a small coloured-link discovery hint.
+
+Article sources and citations must remain available on phones, with Details
+below the essay and a direct jump link above it. Never hide these for narrow widths.
+Journal year tabs and the redundant current-entry link are removed; existing
+year/entry URLs still resolve. A bottom-right corner lifts on hover or focus and
+turns to the next older page on click/tap. Keep arrows, swipe, keyboard access and
+instant navigation under reduced motion. Hide the forward corner at the last entry.
