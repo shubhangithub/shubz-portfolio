@@ -15,7 +15,7 @@
 .workbench-slide .github-note {display:flex;flex-direction:column;justify-content:center;gap:24px;}
 .workbench-slide .github-calendar {max-width:100%;overflow-x:auto;}
 .home-bridge-note {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) 150px;gap:28px;align-items:center;padding:28px 0;border-bottom:1px solid var(--nb-rule);margin:20px 0 0;}
-.bridge-postcard {min-width:0;color:var(--nb-cyan);}.bridge-postcard>span{font:10px var(--f-mono);letter-spacing:.08em;}.bridge-postcard svg{width:100%;height:auto;overflow:visible;}
+.bridge-postcard {min-width:0;color:var(--nb-cyan);}.bridge-postcard>span{font:11px var(--f-mono);letter-spacing:.08em;}.bridge-postcard svg{width:100%;height:auto;overflow:visible;}
 .bridge-letter {offset-path:path('M100 125Q310 5 540 125');animation:bridge-delivery 12s ease-in-out infinite alternate;offset-rotate:auto;}
 .bridge-note-copy p {font:15px/1.7 var(--f-ui);color:var(--nb-softInk);}.bridge-note-image img {width:100%;height:auto;display:block;border:1px solid var(--nb-rule);transform:rotate(3deg);}
 .folio .home-columns.home-parallel {grid-template-columns:repeat(2,minmax(0,1fr));gap:44px;align-items:start;}

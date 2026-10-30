@@ -2,7 +2,7 @@
 .field-object { display:block; width:100%; height:auto; color:var(--object-ink,var(--item-accent,var(--nb-yellow))); overflow:visible; }
 .home-field-kit { padding-top:44px; }
 .kit-registration { display:flex; flex-wrap:wrap; align-items:center; gap:16px 30px; padding:4px 0 26px; }
-.kit-registration>span { font:10px var(--f-mono); color:var(--nb-muted); letter-spacing:.08em; }
+.kit-registration>span { font:11px var(--f-mono); color:var(--nb-muted); letter-spacing:.08em; }
 .kit-registration>span:last-child { margin-left:auto; }
 .kit-registration p { margin:0; font:16px var(--f-ui); color:var(--nb-softInk); }
 .home-field-kit .illustrated-kit { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:45px 48px; margin:0; padding:32px 30px 46px; border:1px solid var(--nb-rule); background:radial-gradient(ellipse at 50% 40%,color-mix(in srgb,var(--nb-cyan) 3%,transparent),transparent 65%); position:relative; }
@@ -17,7 +17,7 @@
 .kit-tag { display:inline-flex; align-items:center; gap:8px; position:relative; padding:7px 13px 7px 17px; margin:10px 0 16px 18px; background:var(--nb-paper2); border:1px solid var(--nb-rule); box-shadow:3px 3px 0 color-mix(in srgb,var(--object-ink) 10%,transparent); }
 .kit-tag:before { content:''; position:absolute; width:3px; height:3px; border-radius:50%; border:1px solid var(--object-ink); left:6px; top:14px; }
 .kit-tag:after { content:''; position:absolute; width:1px; height:22px; background:var(--object-ink); left:8px; top:-21px; transform:rotate(-17deg); transform-origin:bottom; opacity:.5; }
-.kit-tag>span:first-child { font:10px var(--f-mono); opacity:.7; }
+.kit-tag>span:first-child { font:11px var(--f-mono); opacity:.7; }
 .home-field-kit .illustrated-kit dd { margin:0; padding:0 18px; font:16px/1.65 var(--f-ui); color:var(--nb-ink); }
 .home-field-kit .context-detail { margin-top:12px; }
 .home-field-kit .context-detail summary { min-height:44px; display:flex; align-items:center; gap:9px; cursor:pointer; color:var(--nb-muted); font:12px var(--f-ui); border-top:1px solid var(--nb-rule); }
@@ -33,7 +33,7 @@
 .home-field-kit .kit-map .field-object { transform:rotate(4deg) scale(1.05); }
 
 /* Current work is a working sketchbook, opened on a desk rather than a set of cards. */
-.studio-imprint { display:flex; justify-content:space-between; gap:20px; font:10px var(--f-mono); letter-spacing:.09em; color:var(--nb-yellow); margin:6px 0 20px; }
+.studio-imprint { display:flex; justify-content:space-between; gap:20px; font:11px var(--f-mono); letter-spacing:.09em; color:var(--nb-yellow); margin:6px 0 20px; }
 .illustrated-studio .current-desk { grid-template-columns:minmax(0,1fr) 220px; gap:36px; padding:0 0 55px; }
 .illustrated-studio .studio-open-book { position:relative; padding:30px 32px 0 43px; background:var(--nb-paper2); border:1px solid var(--nb-rule); border-left:10px solid color-mix(in srgb,var(--nb-yellow) 45%,var(--nb-paper)); border-radius:5px 12px 12px 5px; box-shadow:4px 4px 0 var(--nb-paper),5px 5px 0 var(--nb-rule),8px 8px 0 var(--nb-paper),9px 9px 0 var(--nb-rule); }
 .studio-open-book:before { content:''; position:absolute; top:32px; bottom:25px; left:13px; width:12px; background:radial-gradient(ellipse at center,var(--nb-paper) 0 3px,var(--nb-rule) 3.5px 4.5px,transparent 5px) 0 0/12px 42px; }
@@ -59,14 +59,14 @@
 .illustrated-studio .desk-conditions .conditions-grid>div:nth-child(even) { transform:rotate(3deg); }
 .illustrated-studio .desk-conditions .conditions-grid>div:before { content:''; position:absolute; left:30%; top:-7px; width:40%; height:13px; background:color-mix(in srgb,var(--nb-yellow) 16%,transparent); border-left:1px dashed var(--nb-rule); border-right:1px dashed var(--nb-rule); transform:rotate(-3deg); }
 .illustrated-studio .desk-conditions .conditions-grid dd { font-size:21px; }
-.illustrated-studio .desk-conditions .conditions-grid dt { font:10px var(--f-mono); margin-bottom:10px; }
+.illustrated-studio .desk-conditions .conditions-grid dt { font:11px var(--f-mono); margin-bottom:10px; }
 
 /* The archive is a continuous sewn book: complete entries, generous facing pages. */
 .illustrated-studio .archive-workspace { grid-template-columns:110px minmax(0,1fr); gap:32px; }
 .illustrated-studio .journal-year { display:grid; grid-template-columns:1fr 1fr; position:relative; background:var(--nb-paper2); border:1px solid var(--nb-rule); border-radius:4px 9px 9px 4px; padding:27px 36px 15px; column-gap:50px; box-shadow:4px 4px 0 var(--nb-paper),5px 5px 0 var(--nb-rule); }
 .illustrated-studio .journal-year:before { content:''; position:absolute; left:50%; top:270px; bottom:24px; width:15px; transform:translateX(-50%); background:repeating-linear-gradient(30deg,transparent 0 10px,var(--nb-rule) 11px 12px,transparent 13px 23px),repeating-linear-gradient(-30deg,transparent 0 10px,var(--nb-rule) 11px 12px,transparent 13px 23px); }
 .illustrated-studio .journal-year>h3 { grid-column:1/-1; color:var(--nb-yellow); margin-bottom:12px; font:500 32px var(--f-ui); }
-.journal-year-imprint { font:9px var(--f-mono); color:var(--nb-muted); letter-spacing:.12em; }
+.journal-year-imprint { font:11px var(--f-mono); color:var(--nb-muted); letter-spacing:.12em; }
 .illustrated-studio .dated-note { display:block; padding:22px 0 28px; min-width:0; border-bottom:1px solid var(--nb-rule); }
 .illustrated-studio .dated-note:last-child { border-bottom:0; }
 .illustrated-studio .dated-note[data-entry-selected] { padding:22px 14px 28px; margin-left:-14px; margin-right:-14px; background:color-mix(in srgb,var(--item-accent) 5%,transparent); box-shadow:inset 3px 0 var(--item-accent); }
@@ -103,7 +103,7 @@
  .kit-tag { margin-left:4px; margin-bottom:13px; }
  .home-field-kit .illustrated-kit dd { padding:0 4px; font-size:16px; }
  .home-field-kit .context-detail p { font-size:15px; }
- .studio-imprint { font-size:8px; gap:15px; }
+ .studio-imprint { font-size:11px; gap:15px; }
  .illustrated-studio .current-desk { padding-bottom:25px; }
  .illustrated-studio .studio-open-book { padding:22px 17px 0 25px; border-left-width:6px; border-radius:3px 8px 8px 3px; margin-right:6px; }
  .studio-open-book:before { left:5px; width:9px; background-size:9px 42px; opacity:.7; }
@@ -121,7 +121,7 @@
  .illustrated-studio .journal-year { display:block; padding:22px 20px; margin-right:5px; }
  .illustrated-studio .journal-year:before { display:none; }
  .illustrated-studio .journal-year>h3 { font-size:29px; gap:12px; }
- .journal-year-imprint { font-size:8px; }
+ .journal-year-imprint { font-size:11px; }
  .illustrated-studio .dated-note { padding:22px 0 28px; }
  .illustrated-studio .dated-note>p { font-size:16px; }
  .illustrated-studio .note-dateline { gap:9px; }

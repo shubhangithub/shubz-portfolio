@@ -7,14 +7,14 @@
 .post-route span:last-child {color:var(--nb-muted);font-family:var(--f-ui);}
 .pigeon-wire {display:block;width:100%;height:auto;overflow:visible;margin-top:8px;}
 .post-wire {stroke:var(--nb-control);stroke-width:1.5;}
-.pigeon-wire text {fill:currentColor;stroke:none;font:9px var(--f-mono);}
+.pigeon-wire text {fill:currentColor;stroke:none;font:11px var(--f-mono);}
 .courier-position {transition:transform 700ms cubic-bezier(.4,0,.2,1);}
 .courier-pigeon {animation:courier-hop 700ms ease-in-out;}
 .courier-wing {transform-box:fill-box;transform-origin:top right;animation:courier-flap 350ms ease-in-out 2;}
 .post-destinations {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:14px;}
 .post-envelope {position:relative;display:flex;flex-direction:column;gap:12px;min-width:0;padding:40px 14px 18px;background:var(--nb-paper2);border:1px solid var(--nb-control);border-bottom:3px solid var(--item-accent);color:var(--nb-ink);text-decoration:none;transition:transform 240ms var(--ease-out),border-color 240ms;}
 .post-envelope-flap {position:absolute;inset:0 0 auto;height:33px;clip-path:polygon(0 0,100% 0,50% 100%);background:color-mix(in srgb,var(--item-accent) 15%,var(--nb-paper2));border-top:1px solid var(--item-accent);}
-.post-number {position:absolute;right:7px;top:7px;font:9px var(--f-mono);color:var(--item-accent);}
+.post-number {position:absolute;right:7px;top:7px;font:11px var(--f-mono);color:var(--item-accent);}
 .post-service {display:flex;justify-content:space-between;gap:6px;font:500 19px var(--f-ui);color:var(--item-accent);}
 .post-address {font:12px/1.6 var(--f-ui);overflow-wrap:anywhere;}
 .post-note {font:13px/1.6 var(--f-ui);color:var(--nb-softInk);margin-top:auto;}
@@ -26,7 +26,7 @@
 @media(max-width:700px){
  .contact-portrait{width:155px;margin:16px 8px 8px auto;}
  .folio .contact-post{padding:16px;}
- .post-route{font-size:10px;}
+ .post-route{font-size:11px;}
  .pigeon-wire{height:auto;width:100%;max-width:100%;margin:8px auto 0;overflow:visible}.post-route-mark{display:block}.pigeon-wire text{font-size:12px}
  .post-destinations{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
  .post-envelope{padding:37px 12px 16px;}

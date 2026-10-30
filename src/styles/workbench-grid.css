@@ -28,7 +28,7 @@ html:not([data-theme="dark"]) .workbench-grid { opacity: .075; }
     border: 0;
   }
   .folio .workbench-utilities { width: 100%; justify-content: space-between; gap: 4px; }
-  .folio .workbench-utilities > button { padding-inline: 5px; font-size: 10px; }
+  .folio .workbench-utilities > button { padding-inline: 5px; font-size:11px; }
 }
 /* Window chrome uses the same pens and surfaces as the notebook. */
 .notebook-window-bar {height:44px;display:grid;grid-template-columns:96px minmax(0,1fr) 96px;align-items:center;padding:0 18px;border-bottom:1px solid var(--nb-rule);background:var(--nb-paper2);}
@@ -45,7 +45,7 @@ html:not([data-theme="dark"]) .workbench-grid { opacity: .075; }
 @media(max-width:700px){
  .notebook-window-bar{grid-template-columns:62px minmax(0,1fr) 88px;padding:0 10px;}
  .window-lights{gap:6px;}.window-lights i{width:9px;height:9px;}
- .window-title{font-size:10px;}
+ .window-title{font-size:11px;}
  .folio .header-toggles{position:static;gap:0;}
  .folio .folio-brand{padding-right:0;}
  .folio .workbench-utilities{width:auto;margin-left:auto;justify-content:flex-end;}

@@ -70,13 +70,24 @@ export function ResearchBackdrop() {
     const resize = new ResizeObserver(measure);
     const main = document.querySelector('main');
     if (main) resize.observe(main);
+    // The drawings belong to the introduction: fade them with the hero so the
+    // office, terminal and lists below sit on a quiet surface.
+    const hero = main?.querySelector('section');
+    let fade: IntersectionObserver | undefined;
+    if (hero) {
+      fade = new IntersectionObserver(entries => {
+        const ratio = entries[0].intersectionRatio;
+        layer.style.opacity = String(Math.min(1, ratio * 1.6));
+      }, { threshold: Array.from({ length: 21 }, (_, i) => i / 20) });
+      fade.observe(hero);
+    }
     measure(); update();
     document.addEventListener('visibilitychange', update);
     window.addEventListener('scroll', readScroll, {passive:true});
     window.addEventListener('resize', measure);
     reduced.addEventListener('change', update);
     return () => {
-      cancelAnimationFrame(frame); resize.disconnect();
+      cancelAnimationFrame(frame); resize.disconnect(); fade?.disconnect();
       document.removeEventListener('visibilitychange', update);
       window.removeEventListener('scroll', readScroll);
       window.removeEventListener('resize', measure);

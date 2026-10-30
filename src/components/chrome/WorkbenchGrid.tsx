@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import '../../styles/workbench-grid.css';
 import { ResearchBackdrop } from './ResearchBackdrop';
 
-/** A viewport-sized decorative mesh; no React renders in the animation loop. */
-export function WorkbenchGrid() {
+/** A viewport-sized decorative mesh; no React renders in the animation loop.
+ *  `drawings` adds the research sketches; they belong to the home hero only. */
+export function WorkbenchGrid({ drawings = false }: { drawings?: boolean }) {
   const [running, setRunning] = useState(false);
   useEffect(() => {
     const media = matchMedia('(prefers-reduced-motion: reduce)');
@@ -135,5 +136,5 @@ export function WorkbenchGrid() {
       window.removeEventListener('scroll', scroll);
     };
   }, [running]);
-  return <><canvas ref={ref} className="workbench-grid" aria-hidden="true" /><ResearchBackdrop /></>;
+  return <><canvas ref={ref} className="workbench-grid" aria-hidden="true" />{drawings && <ResearchBackdrop />}</>;
 }

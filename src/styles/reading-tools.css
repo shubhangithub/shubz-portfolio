@@ -168,7 +168,7 @@
   color: var(--ruler-pen, var(--nb-yellow));
 }
 .ruler-heading small {
-  font: 10px var(--f-mono);
+  font: 11px var(--f-mono);
   margin-left: auto;
   white-space: nowrap;
   color: var(--nb-muted);
@@ -189,7 +189,7 @@
   text-decoration: none;
 }
 .bookmark-ruler a > span {
-  font: 10px var(--f-mono);
+  font: 11px var(--f-mono);
   color: var(--nb-muted);
 }
 .bookmark-ruler a[aria-current="location"] {

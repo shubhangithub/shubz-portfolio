@@ -41,7 +41,7 @@
   display: flex;
   justify-content: space-around;
   color: var(--nb-muted);
-  font: 10px var(--f-mono);
+  font: 11px var(--f-mono);
   letter-spacing: 0.06em;
 }
 .office-object {
@@ -84,7 +84,7 @@
   white-space: nowrap;
 }
 .office-object small {
-  font: 9px var(--f-mono);
+  font: 11px var(--f-mono);
 }
 .office-object:hover .field-object,
 .office-object[aria-pressed="true"] .field-object {
@@ -129,7 +129,7 @@
   justify-content: space-between;
   gap: 15px;
   color: var(--object-ink);
-  font: 10px var(--f-mono);
+  font: 11px var(--f-mono);
   padding-bottom: 16px;
   border-bottom: 1px solid var(--nb-rule);
 }
@@ -220,7 +220,7 @@ html:not([data-theme="dark"])
     height: 620px;
   }
   .office-object > span {
-    font-size: 10px;
+    font-size:11px;
     padding: 5px 4px;
   }
   .office-object small {
@@ -230,7 +230,7 @@ html:not([data-theme="dark"])
     padding: 15px 16px 0;
   }
   .office-window-labels {
-    font-size: 8px;
+    font-size:11px;
   }
 }
 @media (max-width: 760px) {
@@ -266,7 +266,7 @@ html:not([data-theme="dark"])
     padding: 5px;
   }
   .office-window-labels {
-    font-size: 9px;
+    font-size:11px;
   }
   .office-object .field-object {
     max-height: 150px;
@@ -288,11 +288,11 @@ html:not([data-theme="dark"])
     width: calc(100% + 16px);
   }
   .office-object > span {
-    font-size: 9px;
+    font-size:11px;
     padding: 4px 3px;
   }
   .office-window-labels {
-    font-size: 8px;
+    font-size:11px;
   }
   .office-display {
     padding: 15px 15px 0;
@@ -344,7 +344,7 @@ html:not([data-theme="dark"])
 /* Match the room's coordinate system: framed studies on the back wall,
    a broad monitor and a foreshortened notebook resting on the desk plane. */
 .office-stage {height:auto;aspect-ratio:760/720;}
-.office-window-labels {left:50%;right:10%;top:10%;gap:6px;font-size:9px;}
+.office-window-labels {left:50%;right:10%;top:10%;gap:6px;font-size:11px;}
 .office-object .office-study {max-height:none;filter:drop-shadow(2px 3px 0 color-mix(in srgb,var(--nb-ink) 12%,transparent));}
 .office-object[data-office-group="research"]:is(:hover,[aria-pressed="true"]) .field-object,
 .office-object[data-office-group="education"]:is(:hover,[aria-pressed="true"]) .field-object,
@@ -354,14 +354,14 @@ html:not([data-theme="dark"])
 .office-object[data-office-group="research"] .office-object-aura {top:4%;height:76%;transform:rotate(8deg);}
 @media(max-width:760px){
  .office-object[data-office-group="education"]>span,
- .office-object[data-office-group="away"]>span{font-size:10px;padding:4px;}
- .office-window-labels{font-size:8px;letter-spacing:0;}
+ .office-object[data-office-group="away"]>span{font-size:11px;padding:4px;}
+ .office-window-labels{font-size:11px;letter-spacing:0;}
  .office-object[data-office-group="research"]>span{margin-top:-3px;}
 }
 @media(max-width:420px){
  .office-object[data-office-group="away"]>span{max-width:75px;white-space:normal;text-align:center;}
  .office-object[data-office-group="open-source"]>span{max-width:62px;white-space:normal;text-align:center;}
- .office-window-labels{font-size:7px;}
+ .office-window-labels{font-size:11px;}
 }
 @media(max-width:760px){
  .office-object[data-office-group="education"]{left:30%;top:14%;}

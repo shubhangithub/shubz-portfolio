@@ -1,6 +1,6 @@
 # Design guidelines
 
-Current UI authority · 29 October 2026
+Current UI authority · 30 October 2026
 
 Read this before changing presentation or interaction. [AGENTS.md](./AGENTS.md)
 remains the authority for voice, essay craft and factual integrity;
@@ -31,6 +31,38 @@ illustrate a subject qualitatively; charts, documentary imagery, book covers
 and claims about implementation require real sources. Keep labels visible
 without hover. Avoid generic icon-card grids, diffuse pastel haze, unrelated
 gradients, oversized introductions and decorative browser chrome.
+
+## Dosage (30 October 2026 review)
+
+The objects were right; the surface around them was at full strength on every
+page, so nothing stood out. These rules lower the dose of existing devices and
+are implemented in `src/styles/calm.css`, loaded last:
+
+- The research drawings (`ResearchBackdrop`) render on the home introduction
+  only and fade as it scrolls away. The canvas mesh stays on every page at a
+  third of its former opacity on inner pages. Do not add drawings behind
+  lists, the walk, the index or essays.
+- Primary navigation is one row: brand, the six chapters, then Find and Clips.
+  The former "FIELD NOTEBOOK / WORKBENCH" band is gone; do not reintroduce a
+  third horizontal band above the hero. Clips shows its count only when it is
+  above zero. Traffic lights sit at half opacity: they are decoration.
+- In lists (/work record, /builds index, writing, home) titles are `ink`. The
+  pen carries the left rule, the category chip, the dot and hover/open/selected
+  states. Ten full-chroma titles in one column read as confetti. The walk's
+  route marks are neutral except the current one.
+- /work entries with `big: true` are featured: larger title and the note's
+  first sentence in the row (hidden while the entry is open). Keep that set
+  to the handful a stranger should see first.
+- Essays with a `series` value are grouped under a label on /writing/; every
+  entry shows its dek and published month.
+- The contact letter says above the fields that it drafts an email in the
+  visitor's own mail app, and offers a copy-address control.
+- Metadata floor: 11px. Sub-11px mono labels across the stylesheets were
+  raised in place; only text inside illustrations (book cover, desk slip,
+  SVG diagrams) stays smaller. Use tracking and colour, not size, for "small".
+- The home page keeps the office, the terminal, the LinkedIn note, projects
+  and essays. The ten-pen shelf was removed; the subject register on /builds/
+  is the way into a pen.
 
 ## Colour, type and contrast
 

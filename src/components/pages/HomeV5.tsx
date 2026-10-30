@@ -4,7 +4,7 @@ import "../../styles/field-studio.css";
 import "../../styles/home-desk.css";
 import "../../styles/home-workbench.css";
 import React from "react";
-import { NotebookShell, DeskScene, PenShelf, Spans, SectionLabel, type PageProps } from "../chrome/Notebook";
+import { NotebookShell, DeskScene, Spans, SectionLabel, type PageProps } from "../chrome/Notebook";
 import { nbTheme } from "../../data/palette";
 import { HERO_LINE_A, HERO_LINE_B, HOME_BUILDS, HOME_PINNED_SLUGS, HOME_PORTRAIT } from "../../data/home";
 import { NOTEBOOK_COPY, GUIDE_COPY as GUIDE } from "../../data/notebook";
@@ -45,7 +45,6 @@ export function HomeV5({ dark, toggleTheme }: PageProps) {
             </a></li>)}</ol>
           </section>
       </div>
-      <PenShelf/>
     </main>
   </NotebookShell>;
 }

@@ -91,7 +91,7 @@
 .folio .desk-book .book-cover::after {display:none;}
 .book-cover-front,.book-cover-back {position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;backface-visibility:hidden;border:1px solid var(--nb-cyan);border-radius:3px 9px 9px 3px;background:repeating-linear-gradient(0deg,transparent 0 27px,color-mix(in srgb,var(--nb-cyan) 7%,transparent) 27px 28px),var(--nb-paper2);box-shadow:inset 6px 0 0 var(--nb-paper),inset 7px 0 0 var(--nb-cyan);}
 .book-cover-front {transform:translateZ(1px);}
-.book-cover-back {transform:rotateY(180deg) translateZ(1px);justify-content:center;gap:18px;border-radius:9px 3px 3px 9px;box-shadow:inset -7px 0 0 var(--nb-paper);color:var(--nb-cyan);font:10px var(--f-mono);}
+.book-cover-back {transform:rotateY(180deg) translateZ(1px);justify-content:center;gap:18px;border-radius:9px 3px 3px 9px;box-shadow:inset -7px 0 0 var(--nb-paper);color:var(--nb-cyan);font:11px var(--f-mono);}
 .book-cover-back::after {content:"";position:absolute;inset:14px;border:1px solid var(--nb-rule);}
 .folio .book-is-open .desk-book {transform:translateX(80px) rotate(-4deg);z-index:3;}
 .folio .book-is-open .book-cover {transform:rotateY(-125deg);}

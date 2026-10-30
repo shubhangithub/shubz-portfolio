@@ -53,6 +53,10 @@ export const CONTACT_COMPOSE = {
   bodyPlaceholder: "what would you like to talk about?",
   defaultSubject: "Hi from your site",
   footerNote: "opens your mail client",
+  /** Shown above the fields, before anyone types: nothing is sent from the site itself. */
+  notice: "This drafts an email in your own mail app — nothing is sent from this page.",
+  copy: "copy address",
+  copied: "copied ✓",
   sendButton: "Send →",
 };
 

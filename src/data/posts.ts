@@ -46,6 +46,9 @@ export type Post = {
   /** Slugs of related essays to surface in the "Related" block on the
    *  article page. Max 3. Pick by family adjacency + topical overlap. */
   related?: string[];
+  /** Optional series label. Consecutive essays sharing one are grouped
+   *  under it on /writing/ (the AGI Strategy Course set, the monthly Notes). */
+  series?: string;
   /** Unpublished work: excluded from all public surfaces and routes. */
   draft?: boolean;
   /** Temporarily remove from every public surface, including its direct route. */
@@ -102,6 +105,7 @@ export const POSTS: Post[] = [
 
   {
     slug: "bluedot-unit1",
+    series: "AGI Strategy Course",
     title: "A unit on bending the curve",
     kicker: "Essay · AI Strategy & Policy",
     dek: "Who shapes artificial intelligence and what 'shape' means.",
@@ -116,6 +120,7 @@ export const POSTS: Post[] = [
   },
   {
     slug: "bluedot-assumptions",
+    series: "AGI Strategy Course",
     title: "Underlying Assumptions on the AGI Strategy Course",
     kicker: "Essay · AI Strategy & Policy",
     dek: "Six assumptions the AGI Strategy readings share, that almost none of them defends.",
@@ -131,6 +136,7 @@ export const POSTS: Post[] = [
   },
   {
     slug: "bluedot-civilization",
+    series: "AGI Strategy Course",
     title: "The civilisation frame",
     kicker: "Essay · AI Strategy & Policy",
     dek: "Four readings, four ideologies, one shared unit of analysis.",
@@ -146,6 +152,7 @@ export const POSTS: Post[] = [
   },
   {
     slug: "bluedot-killchain",
+    series: "AGI Strategy Course",
     title: "Tracing a Kill Chain Through the AGI Strategy Course",
     kicker: "Essay · AI Strategy & Policy",
     dek: "One concrete failure story walked backwards through all five units.",
@@ -176,6 +183,7 @@ export const POSTS: Post[] = [
   },
   {
     slug: "fisher-wave",
+    series: "Monthly notes · mathematical biology",
     title: "The wave of advance · July '26",
     kicker: "Note · Mathematical biology",
     dek: "Five muskrats, one equation, and the square-root speed limit on how fast anything — a gene, a species, a bad idea — can spread.",
@@ -191,6 +199,7 @@ export const POSTS: Post[] = [
   },
   {
     slug: "turing-morphogenesis",
+    series: "Monthly notes · mathematical biology",
     title: "Turing's last equation · June '26",
     kicker: "Note · Mathematical biology",
     dek: "How diffusion, usually a smoothing force, can write a pattern from nothing.",
@@ -206,6 +215,7 @@ export const POSTS: Post[] = [
   },
   {
     slug: "may-2026",
+    series: "Monthly notes · mathematical biology",
     title: "Predator and prey, on a closed loop · May '26",
     kicker: "Note · Mathematical ecology",
     dek: "The May figure: Lotka–Volterra, drawn for Robert May.",

@@ -210,7 +210,7 @@ export function ArticleV5({
               <pre style={{
                 background: t.paper2, border: `1px solid ${t.rule}`,
                 padding: "10px 12px", borderRadius: 3,
-                fontFamily: "var(--f-mono)", fontSize: 10.5, lineHeight: 1.8,
+                fontFamily: "var(--f-mono)", fontSize: 11, lineHeight: 1.8,
                 color: t.softInk, margin: 0, whiteSpace: "pre-wrap",
               }}>{`{
   `}<span style={{ color: t.blue }}>"family"</span>{`:    `}<span style={{ color: t.ochre }}>{`"${post.family || "—"}"`}</span>{`,
@@ -265,7 +265,7 @@ export function ArticleV5({
                         }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                           <NBThumbtack color={accent} ink={t.ink} size={12} />
-                          <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: accent, letterSpacing: "0.06em" }}>
+                          <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: accent, letterSpacing: "0.06em" }}>
                             {rp.kicker.replace(/^(Essay|Note)\s*·\s*/i, "").toLowerCase()}
                           </span>
                         </div>
@@ -275,7 +275,7 @@ export function ArticleV5({
                         <div style={{ fontFamily: "var(--f-body)", fontSize: 13, color: t.softInk, lineHeight: 1.5 }}>
                           {rp.dek}
                         </div>
-                        <div style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, marginTop: "auto" }}>
+                        <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, marginTop: "auto" }}>
                           {rp.minutes} min · ↗ read
                         </div>
                       </a>
@@ -297,7 +297,7 @@ export function ArticleV5({
                   padding: 16, border: `1px solid ${withAlpha(t.muted, "55")}`,
                   background: t.paper2, textDecoration: "none", color: "inherit",
                 }}>
-                  <div style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, letterSpacing: "0.08em", marginBottom: 4 }}>← PREVIOUS</div>
+                  <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, letterSpacing: "0.08em", marginBottom: 4 }}>← PREVIOUS</div>
                   <div style={{ fontFamily: "var(--f-display)", fontSize: 18, color: prevAccent, fontStyle: "italic" }}>{prev.title}</div>
                 </a>
               ) : <span />}
@@ -306,7 +306,7 @@ export function ArticleV5({
                   padding: 16, border: `1px solid ${withAlpha(t.muted, "55")}`,
                   background: t.paper2, textAlign: "right" as any, textDecoration: "none", color: "inherit",
                 }}>
-                  <div style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, letterSpacing: "0.08em", marginBottom: 4 }}>NEXT →</div>
+                  <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, letterSpacing: "0.08em", marginBottom: 4 }}>NEXT →</div>
                   <div style={{ fontFamily: "var(--f-display)", fontSize: 18, color: nextAccent, fontStyle: "italic" }}>{next.title}</div>
                 </a>
               ) : <span />}

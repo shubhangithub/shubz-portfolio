@@ -26,6 +26,12 @@ import { useWorkbenchSound } from "../chrome/WorkbenchSound";
 import "../../styles/writing-light-table.css";
 
 const essays = VISIBLE_POSTS.filter((p) => !p.draft);
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+/** "2026-06-07" → "Jun 2026", for the list meta. */
+function formatMonth(iso: string) {
+  const [y, m] = iso.split("-");
+  return `${MONTHS[Number(m) - 1] ?? m} ${y}`;
+}
 function ReadingDesk({ t }: { t: ReturnType<typeof nbTheme> }) {
   const workspace = useRef<HTMLDivElement>(null);
   const [trace, setTrace] = useState("");
@@ -247,10 +253,11 @@ function ReadingDesk({ t }: { t: ReturnType<typeof nbTheme> }) {
       <div className="reading-desk-workspace" ref={workspace} style={{'--active-ink': t[active?.nbAccent || 'blue']} as React.CSSProperties}>
         <svg className="essay-connection" aria-hidden="true"><path d={trace}/></svg>
         <ol className="essay-contact-sheet" aria-label={COPY.choose}>
-          {visible.map((p) => (
+          {visible.map((p, i) => (
             <li
               key={p.slug}
               className="essay-proof"
+              data-series={p.series && visible[i - 1]?.series !== p.series ? `${p.series} · ${visible.filter((v) => v.series === p.series).length}` : undefined}
               data-selected={active?.slug === p.slug && (!mobile || previewOpen)}
               style={
                 {
@@ -285,8 +292,10 @@ function ReadingDesk({ t }: { t: ReturnType<typeof nbTheme> }) {
                 {p.title}
                 <span aria-hidden="true">↗</span>
               </a>
+              <p className="essay-proof-dek">{p.dek}</p>
               <div className="essay-proof-meta">
                 <span>{PENS.find((pen) => pen.key === p.nbAccent)?.label}</span>
+                {p.publishedAt && <time dateTime={p.publishedAt}>{formatMonth(p.publishedAt)}</time>}
                 <span>{p.minutes} min</span>
               </div>
               {mobile && previewOpen && active?.slug===p.slug && renderPreview()}

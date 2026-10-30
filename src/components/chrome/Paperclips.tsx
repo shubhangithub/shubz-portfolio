@@ -161,7 +161,7 @@ export function PaperclipTray() {
       >
         <PaperclipMark />
         {COPY.trigger}
-        <span className="clip-count">{ids.length}</span>
+        {ids.length > 0 && <span className="clip-count">{ids.length}</span>}
       </button>
       {mounted &&
         createPortal(

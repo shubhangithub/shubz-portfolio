@@ -1,0 +1,127 @@
+/* calm.css — the October 2026 review pass. Loaded last, after daylight.css.
+   One idea: the objects stay, the surface around them goes quiet. Every rule
+   here lowers the dose of an existing device rather than adding a new one.
+   See design.md → "Dosage". */
+
+/* ---------------------------------------------------------------------------
+   1. Background. The research drawings now render on the home introduction
+   only (WorkbenchGrid `drawings`) and fade with it. The mesh stays everywhere
+   but at a third of its previous strength on inner pages.
+   --------------------------------------------------------------------------- */
+.research-backdrop { transition: opacity 320ms var(--ease-out); }
+.folio:not(.folio-home) .workbench-grid { opacity: .04; }
+html:not([data-theme="dark"]) .folio:not(.folio-home) .workbench-grid { opacity: .035; }
+@media (max-width: 700px) {
+  .folio:not(.folio-home) .workbench-grid { opacity: .07; }
+  html:not([data-theme="dark"]) .folio:not(.folio-home) .workbench-grid { opacity: .05; }
+}
+/* The purple wash behind the hero belongs to the introduction too. */
+html[data-theme="dark"] .folio:not(.folio-home)[data-live-grid="true"] { background-image: none; }
+
+/* ---------------------------------------------------------------------------
+   2. Chrome. Traffic lights are decoration, so they sit at half strength;
+   Find and Clips share the brand row; the workbench band is gone.
+   --------------------------------------------------------------------------- */
+.window-lights i { opacity: .5; }
+.folio-header-inner > .workbench-utilities { margin-left: 22px; }
+.folio-header-inner > .workbench-utilities button { min-height: 38px; padding: 0 11px; font-size: 12px; }
+.folio-header-inner > .workbench-utilities button > span { font-size: 15px; }
+.clip-count { font: 11px var(--f-mono); color: var(--nb-yellow); }
+@media (max-width: 1150px) { .folio-header-inner > .workbench-utilities { margin-left: 12px; } }
+@media (max-width: 900px) {
+  /* Row one: brand … Find Clips. Row two: the six chapters. */
+  .folio-header-inner > .workbench-utilities { order: 2; margin-left: auto; gap: 6px; }
+  .folio-header-inner > .folio-nav { order: 3; }
+}
+@media (max-width: 700px) {
+  .folio-header-inner > .workbench-utilities button { padding: 0 9px; min-height: 36px; }
+  .folio-header-inner > .workbench-utilities .workbench-find kbd { display: none; }
+}
+@media (max-width: 380px) {
+  .folio-header-inner > .workbench-utilities button { font-size: 11px; padding: 0 7px; }
+}
+
+/* ---------------------------------------------------------------------------
+   3. Lists: titles in ink. The pen keeps the rule, the chip and the hover,
+   which is where it carries meaning. (/work record, /builds index, writing.)
+   --------------------------------------------------------------------------- */
+.folio .career-entry strong { color: var(--nb-ink); }
+.folio .career-entry:hover strong,
+.folio .career-entry[open] strong { color: var(--item-accent); }
+.folio .career-entry summary { border-left: 2px solid transparent; padding-left: 14px; margin-left: -16px; }
+.folio .career-entry:hover summary,
+.folio .career-entry[open] summary { border-left-color: var(--item-accent); }
+.folio .writing-item h3 { color: var(--nb-ink); }
+.folio .writing-item:hover h3 { color: var(--item-accent); }
+.folio .essay-proof-title { color: var(--nb-ink); }
+.folio .essay-proof:hover .essay-proof-title,
+.folio .essay-proof[data-selected="true"] .essay-proof-title { color: var(--item-accent); }
+.folio .build-row strong { color: var(--nb-ink); }
+.folio .build-row:hover strong { color: var(--item-accent); }
+/* The walk's strip of 37 coloured squares read as confetti; it is a position
+   indicator, so the current square keeps its pen and the rest go neutral. */
+.folio .walk-route-marks > span { background: var(--nb-rule); opacity: 1; }
+.folio .walk-route-marks > span:hover { background: var(--mark-ink); }
+.folio .walk-route-marks > span[data-current] { background: var(--mark-ink); }
+
+/* ---------------------------------------------------------------------------
+   4. Featured rows on /work. `big` entries (Torus, Orion, Oxford, Cosmos,
+   Best Paper…) get a larger title and their first sentence in the row.
+   --------------------------------------------------------------------------- */
+.folio .career-featured summary { padding-top: 28px; padding-bottom: 28px; }
+.folio .career-featured strong { font-size: 28px; }
+.folio .career-featured .career-lead { display: block; margin-top: 8px; font: 15px/1.55 var(--f-ui); color: var(--nb-softInk); max-width: 62ch; }
+.folio .career-featured .career-dot { width: 9px; height: 9px; }
+/* The full note opens below the row, so the lead sentence steps aside. */
+.folio .career-featured[open] .career-lead { display: none; }
+@media (max-width: 700px) {
+  .folio .career-featured strong { font-size: 22px; }
+  .folio .career-featured .career-lead { font-size: 14px; }
+}
+
+/* ---------------------------------------------------------------------------
+   5. Writing: series labels, blurbs and dates on every entry.
+   --------------------------------------------------------------------------- */
+.folio .essay-proof[data-series] { margin-top: 26px; }
+.folio .essay-proof[data-series]::before {
+  content: attr(data-series);
+  position: absolute; left: -1px; top: -22px;
+  font: 11px var(--f-mono); letter-spacing: .1em; text-transform: uppercase;
+  color: var(--nb-muted);
+}
+.folio .essay-proof { position: relative; grid-template-rows: auto auto auto; }
+.folio .essay-proof-image { grid-row: 1 / 4; }
+.folio .essay-proof-dek { margin: 0 0 6px; font: 13.5px/1.5 var(--f-ui); color: var(--nb-softInk); }
+.folio .essay-proof-meta { gap: 12px; }
+.folio .essay-proof-meta time { color: var(--nb-muted); }
+@media (max-width: 760px) { .folio .essay-proof-dek { font-size: 13px; } }
+@media (max-width: 360px) { .folio .essay-proof-dek { display: none; } }
+
+/* ---------------------------------------------------------------------------
+   6. Contact: say what the letter does before anyone types.
+   --------------------------------------------------------------------------- */
+.folio .letter-notice { margin: 0 0 14px; font: 13px/1.5 var(--f-ui); color: var(--nb-softInk); }
+.folio .letter-to { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; }
+.folio .letter-copy { margin-left: auto; font-size: 11px !important; }
+
+/* ---------------------------------------------------------------------------
+   7. Metadata floor. Sub-11px mono labels across the stylesheets were bumped
+   in place; these are the few that are set in shorthand elsewhere.
+   --------------------------------------------------------------------------- */
+.folio .desk-caption,
+.folio .scene-coordinate,
+.folio .home-note,
+.folio .folio-brand small,
+.folio .folio-colophon,
+.folio .eyebrow,
+.folio .chapter,
+.folio .item-meta,
+.folio .frame-registration,
+.folio .result-count,
+.folio .terminal-bar,
+.folio .terminal-date,
+.folio .career-date,
+.folio .career-track,
+.folio .walk-year-labels,
+.folio .walk-city-label span { font-size: 11px; }
+.folio .folio-nav a > span:first-child { font-size: 10px; }

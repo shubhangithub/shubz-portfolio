@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { nbTheme, type NBTheme } from "../../data/palette";
-import { NOTEBOOK_NAV, NOTEBOOK_COPY, PENS, WORKBENCH_COPY, COMPANION_COPY, DISCOVERY_COPY } from "../../data/notebook";
+import { NOTEBOOK_NAV, NOTEBOOK_COPY, PENS, COMPANION_COPY, DISCOVERY_COPY } from "../../data/notebook";
 import { SITE_LAST_UPDATED_DATE } from "../../data/site";
 import { BIO, type Span } from "../../data/home";
 import { JOURNAL } from "../../data/now";
@@ -52,7 +52,7 @@ export function NotebookShell({ current, mode, onToggle, children, label }: { cu
     } catch {}
   }, []);
   return <WorkbenchSoundProvider><PaperclipProvider><CompanionProvider><SoundSurface><div className={`folio folio-${current}`}>
-    <WorkbenchGrid/>
+    <WorkbenchGrid drawings={current === "home"}/>
     <a className="skip-link" href="#main">Skip to content</a>
     <header className={`folio-header ${headerHidden ? "folio-header-away" : ""}`}>
       <div className="notebook-window-bar">
@@ -63,10 +63,10 @@ export function NotebookShell({ current, mode, onToggle, children, label }: { cu
       <div className="folio-header-inner">
         <a className="folio-brand" href="/" aria-label="Shubz Sharma, home"><NotebookMark/><span>{NOTEBOOK_COPY.brand}<small>{NOTEBOOK_COPY.subtitle}</small></span></a>
         <nav className="folio-nav" aria-label="Main navigation">{NOTEBOOK_NAV.map(n => <a key={n.key} href={n.path} aria-current={active === n.key ? "page" : undefined}><span>{n.act}</span><span className="nav-label-long">{n.label}</span><span className="nav-label-short">{n.short}</span></a>)}</nav>
-
+        {/* Find and Clips live in the header row; the old workbench band carried nothing a visitor needed. */}
+        <div className="workbench-utilities"><FieldIndex/><PaperclipTray/></div>
       </div>
     </header>
-    <div className="workbench-status"><span><i/>{WORKBENCH_COPY.edition}</span><span>{WORKBENCH_COPY.status}</span><div className="workbench-utilities"><FieldIndex/><PaperclipTray/></div></div>
     {children}
     {current !== "tty" && <footer className="folio-footer">
       <div className="folio-footer-top"><div><span className="eyebrow">The next page</span><a href={next.path}>{next.label}<span>↗</span></a></div><p>{NOTEBOOK_COPY.edition}</p><NotebookMark/></div>

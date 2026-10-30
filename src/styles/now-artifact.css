@@ -21,7 +21,7 @@
 .now-reading-rack button[aria-pressed=true] {outline:2px solid var(--nb-yellow);outline-offset:3px;}
 .rack-book-binding {position:absolute;left:6px;top:0;bottom:0;width:2px;background:var(--nb-yellow);}
 .rack-book-title {overflow:hidden;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;font:500 clamp(10px,1vw,14px)/1.35 var(--f-ui);}
-.now-reading-rack small {display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere;margin-top:5px;font:10px/1.4 var(--f-ui);color:var(--nb-muted);}
+.now-reading-rack small {display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere;margin-top:5px;font:11px/1.4 var(--f-ui);color:var(--nb-muted);}
 .now-artifact-panel {position:relative;min-width:0;padding:25px 32px 32px;border-left:1px solid var(--nb-rule);background:var(--nb-paper2);scroll-margin-top:125px;}
 .now-panel-registration {display:flex;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid var(--artifact-ink);font:12px var(--f-mono);color:var(--artifact-ink);}
 .now-artifact-panel article {scroll-margin-top:125px;}
@@ -42,7 +42,7 @@
 .current-combined .desk-conditions .conditions-grid dd {font-size:16px;}
 @keyframes now-object-sway {from{transform:rotate(-2deg)}to{transform:rotate(2deg)}}
 @keyframes now-axle {to{transform:rotate(360deg)}}
-@media(max-width:1000px) {.now-artifact-panel{padding:22px;}.now-focus-object>span{font-size:12px;}.now-reading-rack{gap:9px;}.now-reading-rack button{min-height:86px;padding:8px 7px 8px 13px;}.now-reading-rack small{font-size:9px;}}
+@media(max-width:1000px) {.now-artifact-panel{padding:22px;}.now-focus-object>span{font-size:12px;}.now-reading-rack{gap:9px;}.now-reading-rack button{min-height:86px;padding:8px 7px 8px 13px;}.now-reading-rack small{font-size:11px;}}
 @media(max-width:760px) {
  .now-artifact-heading {padding:20px;gap:14px;flex-wrap:wrap;}.now-artifact-heading button{font-size:12px;}
  .now-artifact-workspace {grid-template-columns:minmax(0,1fr);}.now-mobile-scene{max-width:620px;width:100%;margin:auto;}
@@ -52,7 +52,7 @@
  .current-combined .desk-conditions{gap:12px;}.current-combined .desk-conditions .tea-study{width:70px;}.current-combined .desk-conditions .conditions-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
  .current-combined .desk-conditions .conditions-grid>div{padding:10px!important;}
 }
-@media(max-width:400px) {.now-focus-object>span{font-size:11px;padding:3px;}.now-reading-rack{left:17%;right:16%;gap:8px;}.now-reading-rack button{min-height:80px;padding-block:5px;}.rack-book-title{font-size:9px;}.now-reading-rack small{font-size:8px;}}
+@media(max-width:400px) {.now-focus-object>span{font-size:11px;padding:3px;}.now-reading-rack{left:17%;right:16%;gap:8px;}.now-reading-rack button{min-height:80px;padding-block:5px;}.rack-book-title{font-size:11px;}.now-reading-rack small{font-size:11px;}}
 @media(prefers-reduced-motion:reduce){.now-focus-object .field-object,.now-mobile-axle{animation:none!important;}}
 html[data-theme=light] .now-focus-object .field-object :is(path,circle,ellipse,rect,polyline,line) {vector-effect:non-scaling-stroke;stroke-width:1px;}
 @media(max-width:760px) {.now-detail-study {display:none;}}
@@ -65,7 +65,7 @@ html[data-theme=light] .now-focus-object .field-object :is(path,circle,ellipse,r
 /* Stamped metadata, without distressing or reducing the text contrast. */
 .journal-studio .date-stamp.now-ink-stamp {position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;width:220px;max-width:100%;padding:22px 18px;border:3px double var(--nb-yellow);border-radius:3px;transform:rotate(-7deg);color:var(--nb-yellow);background:transparent;box-shadow:1px 1px 0 color-mix(in srgb,var(--nb-yellow) 45%,transparent);}
 .journal-studio .date-stamp.now-ink-stamp::after {content:"";position:absolute;inset:5px;border:1px dashed currentColor;opacity:.55;pointer-events:none;}
-.journal-studio .date-stamp.now-ink-stamp span,.journal-studio .date-stamp.now-ink-stamp small {display:block;font:10px var(--f-mono);letter-spacing:.1em;}
+.journal-studio .date-stamp.now-ink-stamp span,.journal-studio .date-stamp.now-ink-stamp small {display:block;font:11px var(--f-mono);letter-spacing:.1em;}
 .journal-studio .date-stamp.now-ink-stamp strong {display:block;margin:0;font:600 20px var(--f-mono);text-transform:uppercase;letter-spacing:.01em;}
 @media(max-width:760px) {.journal-studio .date-stamp.now-ink-stamp {width:205px;padding:16px;gap:7px;transform:rotate(-3deg);}.journal-studio .date-stamp.now-ink-stamp strong{font-size:18px;}}
 
@@ -124,7 +124,7 @@ html[data-theme=light] .now-focus-object .field-object :is(path,circle,ellipse,r
  .journal-studio .page-hero aside {max-width:none;width:100%;}
  .journal-studio .date-stamp.now-ink-stamp {width:100%;display:grid;grid-template-columns:1fr auto;padding:12px 15px;gap:5px 12px;transform:rotate(-1deg);border-width:1px;box-shadow:none;align-items:center;}
  .journal-studio .date-stamp.now-ink-stamp strong {grid-column:2;grid-row:1/3;font-size:16px;}
- .journal-studio .date-stamp.now-ink-stamp span,.journal-studio .date-stamp.now-ink-stamp small {font-size:8px;letter-spacing:.03em;}
+ .journal-studio .date-stamp.now-ink-stamp span,.journal-studio .date-stamp.now-ink-stamp small {font-size:11px;letter-spacing:.03em;}
  .journal-studio .page-jumps {margin-bottom:20px;}
  .now-artifact-heading {padding:20px 16px 16px;}
  .now-artifact-heading h2 {font-size:28px;margin:8px 0 0;}
@@ -142,25 +142,25 @@ html[data-theme=light] .now-focus-object .field-object :is(path,circle,ellipse,r
  .now-reading-rack button:not(.reading-rack-label):nth-child(odd) {transform:rotate(2deg);}
  .now-reading-rack .reading-rack-label {top:-43px;left:0;transform:none;font-size:13px;padding-left:0;background:none;border:0;}
  .rack-book-title {font-size:11px;line-height:1.4;-webkit-line-clamp:4;}
- .now-reading-rack small {font-size:10px;line-height:1.35;}
+ .now-reading-rack small {font-size:11px;line-height:1.35;}
  .now-artifact-panel {margin:0 10px 16px;padding:18px 14px 12px;border:1px solid var(--nb-control);border-top:2px solid var(--artifact-ink);}
  .now-artifact-panel h3 {font-size:25px;margin:6px 0 14px;}
  .now-artifact-panel p {font-size:15px;line-height:1.7;margin-bottom:10px;}
  .now-artifact .now-detail-study {width:72px;height:58px;margin:0 0 8px 12px;}
  .now-return-objects {margin-top:4px;font-size:12px;}
  .now-book-detail .now-book-number {display:none;}
- .now-book-detail small {font-size:10px;margin-top:12px;}
+ .now-book-detail small {font-size:11px;margin-top:12px;}
  .current-combined .desk-conditions .conditions-grid {gap:0;}
  .current-combined .desk-conditions .conditions-grid>div {border:0!important;background:transparent!important;padding:4px 9px!important;box-shadow:none!important;}
  .current-combined .desk-conditions .conditions-grid>div+div {border-left:1px solid var(--nb-rule)!important;}
  .current-combined .desk-conditions .conditions-grid dd {font-size:13px;line-height:1.45;}
- .current-combined .desk-conditions .conditions-grid small {font-size:10px;line-height:1.5;margin-top:7px;}
+ .current-combined .desk-conditions .conditions-grid small {font-size:11px;line-height:1.5;margin-top:7px;}
  .current-combined .desk-conditions .tea-study {width:27px;right:12px;top:9px;}
  .now-continuum>.journal-archive {padding:22px 8px 20px;}
  .now-continuum>.journal-archive>.section-label {margin-inline:8px;}
  .now-continuum>.journal-archive .section-label h2 {font-size:23px;}
  .journal-reel .journal-time-rail {gap:8px;margin:0 5px 14px;}
- .journal-reel .journal-frame-count {font-size:10px;}
+ .journal-reel .journal-frame-count {font-size:11px;}
  .journal-reel[data-book] .journal-bound-book {padding:6px 5px 12px 10px;}
  .journal-reel .journal-memory,.journal-reel .journal-leaf-front,.journal-reel .journal-leaf-back {padding:22px 16px;}
  .journal-reel[data-book] .journal-memory {padding-bottom:64px;}
@@ -175,8 +175,8 @@ html[data-theme=light] .now-focus-object .field-object :is(path,circle,ellipse,r
 }
 @media(max-width:360px){
  .now-reading-rack button:not(.reading-rack-label) {padding-left:11px;padding-right:4px;}
- .rack-book-title {font-size:10.5px;}
- .now-reading-rack small {font-size:9.5px;}
+ .rack-book-title {font-size:11px;}
+ .now-reading-rack small {font-size:11px;}
 }
 
 /* A shared perforated backboard and small ledges anchor the desktop studies. */

@@ -26,6 +26,16 @@ export function ContactV5({ dark, toggleTheme }: PageProps) {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [folded, setFolded] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const copyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(COPY.toAddress);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      /* Clipboard unavailable: the address is still a plain mailto link beside the button. */
+    }
+  };
   const envelopeHeading = useRef<HTMLHeadingElement>(null);
   const messageField = useRef<HTMLTextAreaElement>(null);
   const interacted = useRef(false);
@@ -89,9 +99,13 @@ export function ContactV5({ dark, toggleTheme }: PageProps) {
 
             <div className={`letter-object ${folded ? "letter-folded" : ""}`}>
               <form className="letter-paper" onSubmit={compose} hidden={folded}>
+                <p className="letter-notice">{COPY.notice}</p>
                 <div className="letter-to">
                   <span>{COPY.toLabel}</span>
                   <a href={`mailto:${COPY.toAddress}`}>{COPY.toAddress}</a>
+                  <button type="button" className="text-button letter-copy" onClick={copyAddress} aria-live="polite">
+                    {copied ? COPY.copied : COPY.copy}
+                  </button>
                 </div>
                 <label className="letter-field">
                   <span>From</span>

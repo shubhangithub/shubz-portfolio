@@ -133,7 +133,7 @@ export function WorkV5({ dark, toggleTheme }: PageProps) {
               <details
                 key={e.what}
                 id={evId(e.what)}
-                className="career-entry"
+                className={`career-entry ${e.big ? "career-featured" : ""}`}
                 open={open === e.what}
                 onToggle={(event) => {
                   if (event.currentTarget.open) setOpen(e.what);
@@ -148,6 +148,7 @@ export function WorkV5({ dark, toggleTheme }: PageProps) {
                   <span>
                     <strong>{e.what}</strong>
                     <small>{e.where}</small>
+                    {e.big && <span className="career-lead">{e.note.split(/(?<=[.!?])\s/)[0]}</span>}
                   </span>
                   <span className="career-track">{e.track}</span>
                   <span className="career-plus" aria-hidden="true">
