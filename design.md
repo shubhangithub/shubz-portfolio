@@ -59,6 +59,10 @@ are implemented in `src/styles/calm.css`, loaded last:
   the newest date, so a short monthly note never displaces a long essay.
 - Subscribe (RSS) sits with Find and Clips in the header, in the yellow pen;
   icon-only on phones.
+- Build: `@astrojs/react` runs with `experimentalDisableStreaming` (plain
+  `renderToString`). React 18's streaming encoder left NUL bytes before
+  multi-byte characters at its buffer boundaries; one landed inside a graph
+  node id and took down /builds/network/. Keep the flag until React 19.
 - The contact letter says above the fields that it drafts an email in the
   visitor's own mail app, and offers a copy-address control.
 - Metadata floor: 11px. Sub-11px mono labels across the stylesheets were
