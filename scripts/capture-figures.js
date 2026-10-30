@@ -34,9 +34,17 @@ const ROOT = path.resolve(__dirname, "..");
 const OUT_DIR = path.join(ROOT, "exported", "figures");
 
 const ESSAYS = [
-  "bluedot-unit1", "bluedot-assumptions", "bluedot-vocabulary", "bluedot-civilization",
-  "bluedot-killchain", "zx-calculus", "jaya", "fashion-trends", "threshold-gate",
-  "constraint-clustering", "six-engines", "turing-morphogenesis", "may-2026", "fisher-wave",
+  "october-feedback",
+  "september-queue",
+  "ross-threshold",
+  "bluedot-unit1",
+  "bluedot-assumptions",
+  "bluedot-civilization",
+  "bluedot-killchain",
+  "six-engines",
+  "fisher-wave",
+  "turing-morphogenesis",
+  "may-2026"
 ];
 
 // --- args -----------------------------------------------------------------

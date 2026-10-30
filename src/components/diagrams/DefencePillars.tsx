@@ -52,7 +52,7 @@ export function DefencePillars({ palette: p }) {
   return (
     <div>
       {/* toggle */}
-      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: "1rem" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, marginBottom: "1rem" }}>
         <button
           onClick={() => setShowConcentrated(false)}
           style={{
@@ -92,7 +92,7 @@ export function DefencePillars({ palette: p }) {
       {/* 2×2 grid */}
       <div style={{
         display: "grid",
-        gridTemplateColumns: "repeat(2, 1fr)",
+        gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))",
         gap: "0.75rem",
       }}>
         {PILLARS.map(pillar => (

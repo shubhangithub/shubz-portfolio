@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
     inputs:
       slug:
-        description: "Single essay slug (e.g. 'jaya'). Leave blank for all."
+        description: "Single essay slug (e.g. 'fisher-wave'). Leave blank for all."
         required: false
         default: ""
       base_url:
@@ -39,26 +39,31 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: "npm"
 
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
 
       - name: Export Markdown
+        env:
+          ESSAY_SLUG: ${{ inputs.slug }}
         run: |
-          if [ -z "${{ inputs.slug }}" ]; then
+          if [ -z "$ESSAY_SLUG" ]; then
             node scripts/export-markdown.js
           else
-            node scripts/export-markdown.js "${{ inputs.slug }}"
+            node scripts/export-markdown.js "$ESSAY_SLUG"
           fi
 
       - name: Capture figures
+        env:
+          ESSAY_SLUG: ${{ inputs.slug }}
+          ESSAY_BASE_URL: ${{ inputs.base_url }}
         run: |
-          if [ -z "${{ inputs.slug }}" ]; then
-            node scripts/capture-figures.js --base "${{ inputs.base_url }}"
+          if [ -z "$ESSAY_SLUG" ]; then
+            node scripts/capture-figures.js --base "$ESSAY_BASE_URL"
           else
-            node scripts/capture-figures.js "${{ inputs.slug }}" --base "${{ inputs.base_url }}"
+            node scripts/capture-figures.js "$ESSAY_SLUG" --base "$ESSAY_BASE_URL"
           fi
 
       - name: List captured assets

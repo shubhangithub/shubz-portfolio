@@ -46,11 +46,57 @@ export type Post = {
   /** Slugs of related essays to surface in the "Related" block on the
    *  article page. Max 3. Pick by family adjacency + topical overlap. */
   related?: string[];
-  /** Hide from writing index and home; accessible via direct URL. */
+  /** Unpublished work: excluded from all public surfaces and routes. */
   draft?: boolean;
+  /** Temporarily remove from every public surface, including its direct route. */
+  hidden?: boolean;
 };
 
+// Published essay metadata for this public source snapshot.
 export const POSTS: Post[] = [
+  {
+    slug: "october-feedback",
+    title: "The correction arrives late",
+    kicker: "Essay · Infrastructure",
+    dek: "What happens when a controller keeps correcting an error that has already changed.",
+    minutes: 7,
+    illustration: "wave",
+    cardBg: "#F0EAE8",
+    accent: "#1F3DBF",
+    tag: "infrastructure",
+    family: "infra",
+    nbAccent: "yellow",
+    publishedAt: "2026-10-29",
+  },
+  {
+    slug: "september-queue",
+    title: "The queue at ninety per cent",
+    kicker: "Essay · Infrastructure",
+    dek: "Why spare capacity matters, and what an average can hide about waiting.",
+    minutes: 7,
+    illustration: "wave",
+    cardBg: "#F0EAE8",
+    accent: "#1F3DBF",
+    tag: "infrastructure",
+    family: "infra",
+    nbAccent: "yellow",
+    publishedAt: "2026-10-29",
+  },
+  {
+    slug: "ross-threshold",
+    title: "The last mosquito",
+    kicker: "Essay · Mathematical biology",
+    dek: "How malaria transmission can fall below its threshold while mosquitoes remain.",
+    minutes: 7,
+    illustration: "wave",
+    cardBg: "#F0EAE8",
+    accent: "#1F3DBF",
+    tag: "mathematical biology",
+    family: "biotech",
+    nbAccent: "red",
+    publishedAt: "2026-10-29",
+  },
+
   {
     slug: "bluedot-unit1",
     title: "A unit on bending the curve",
@@ -81,22 +127,6 @@ export const POSTS: Post[] = [
     related: ["bluedot-unit1", "bluedot-vocabulary", "bluedot-civilization"],
   },
   {
-    slug: "bluedot-vocabulary",
-    draft: true,
-    title: "The same word, five meanings",
-    kicker: "Essay · AI Strategy & Policy",
-    dek: "How most AI debates dissolve once you say whose dictionary you're using.",
-    minutes: 14,
-    illustration: "wave",
-    cardBg: "#E6E8F2",
-    accent: "#1F3DBF",
-    tag: "ai safety",
-    family: "ai-safety",
-    nbAccent: "blue",
-    publishedAt: "2026-06-07",
-    related: ["bluedot-assumptions", "bluedot-killchain", "bluedot-unit1"],
-  },
-  {
     slug: "bluedot-civilization",
     title: "The civilisation frame",
     kicker: "Essay · AI Strategy & Policy",
@@ -125,86 +155,6 @@ export const POSTS: Post[] = [
     nbAccent: "blue",
     publishedAt: "2026-06-07",
     related: ["bluedot-civilization", "bluedot-assumptions", "bluedot-unit1"],
-  },
-  {
-    slug: "zx-calculus",
-    draft: true,
-    title: "Two colours and a Hadamard",
-    kicker: "Essay · Quantum Computation",
-    dek: "ZX-calculus as a way of picturing — and actually proving things about — quantum circuits.",
-    minutes: 11,
-    illustration: "hex",
-    cardBg: "#E4EAE6",
-    accent: "#1F3DBF",
-    tag: "physics",
-    family: "physics",
-    nbAccent: "prompt",
-    publishedAt: "2025-09-15",
-    related: ["threshold-gate", "constraint-clustering"],
-  },
-  {
-    slug: "jaya",
-    draft: true,
-    title: "JAYA, improved",
-    kicker: "Essay · Optimisation & Bioinformatics",
-    dek: "Improving a parameter-free optimiser with a fitness trade-off and elitism.",
-    minutes: 12,
-    illustration: "hex",
-    cardBg: "#E5E8F0",
-    accent: "#1F3DBF",
-    tag: "biology",
-    family: "ml-research",
-    nbAccent: "purple",
-    publishedAt: "2025-08-10",
-    related: ["threshold-gate", "constraint-clustering"],
-  },
-  {
-    slug: "fashion-trends",
-    draft: true,
-    title: "Pricing the next scarf",
-    kicker: "Essay · Forecasting & Markets",
-    dek: "Five-source forecasting and an LMSR prediction market on fashion micro-trends.",
-    minutes: 9,
-    illustration: "wave",
-    cardBg: "#ECEAE3",
-    accent: "#1F3DBF",
-    tag: "forecasting",
-    family: "markets",
-    nbAccent: "ochre",
-    publishedAt: "2026-04-15",
-    related: ["six-engines"],
-  },
-  {
-    slug: "threshold-gate",
-    draft: true,
-    title: "Positive by how much",
-    kicker: "Essay · Computational biology",
-    dek: "Four automated methods replicating a pathologist's threshold on immune cell data.",
-    minutes: 9,
-    illustration: "hex",
-    cardBg: "#EFEEE7",
-    accent: "#1F3DBF",
-    tag: "biology",
-    family: "biotech",
-    nbAccent: "red",
-    publishedAt: "2025-09-20",
-    related: ["constraint-clustering", "jaya"],
-  },
-  {
-    slug: "constraint-clustering",
-    draft: true,
-    title: "Cells that can't exist",
-    kicker: "Essay · Computational biology",
-    dek: "A standard clustering algorithm, plus nine immunology constraints.",
-    minutes: 10,
-    illustration: "hex",
-    cardBg: "#EDE9E4",
-    accent: "#1F3DBF",
-    tag: "biology",
-    family: "biotech",
-    nbAccent: "red",
-    publishedAt: "2025-10-12",
-    related: ["threshold-gate", "jaya"],
   },
   {
     slug: "six-engines",
@@ -268,8 +218,11 @@ export const POSTS: Post[] = [
   },
 ];
 
+/** Posts available on public routes, indexes, feeds and navigation. */
+export const VISIBLE_POSTS: Post[] = POSTS.filter((post) => !post.hidden && !post.draft);
+
 export function findPost(slug: string): Post | undefined {
-  return POSTS.find((p) => p.slug === slug);
+  return VISIBLE_POSTS.find((p) => p.slug === slug);
 }
 
 /**
@@ -279,6 +232,9 @@ export function findPost(slug: string): Post | undefined {
  * fall back to NBThumb's striped accent placeholder.
  */
 export const ESSAY_THUMB_SLUGS: ReadonlySet<string> = new Set([
+  "ross-threshold",
+  "september-queue",
+  "october-feedback",
   "bluedot-unit1",
   "bluedot-assumptions",
   "bluedot-civilization",
@@ -295,4 +251,18 @@ export const ESSAY_THUMB_SLUGS: ReadonlySet<string> = new Set([
 
 export function thumbUrlFor(slug: string): string | undefined {
   return ESSAY_THUMB_SLUGS.has(slug) ? `/thumbs/${slug}.jpg` : undefined;
+}
+
+// Only unavailable route identifiers enter public code, never their editorial metadata.
+const UNAVAILABLE_POST_SLUGS = new Set(["bluedot-vocabulary", "zx-calculus", "jaya", "fashion-trends", "threshold-gate", "constraint-clustering"]);
+
+/** Suppress links to unpublished/hidden essays while retaining their local source. */
+export function isAvailableSiteLink(href: string | null | undefined): href is string {
+  if (!href) return false;
+  try {
+    const url = new URL(href, 'https://shubzsharma.com');
+    if (url.hostname !== 'shubzsharma.com') return true;
+    const slug = url.pathname.replace(/^\/+|\/+$/g, '');
+    return !UNAVAILABLE_POST_SLUGS.has(slug) && !POSTS.some(post => post.slug === slug && (post.hidden || post.draft));
+  } catch { return false; }
 }

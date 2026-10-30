@@ -1,0 +1,114 @@
+/* Keep readable notes in document flow; only the illustrated objects overlap. */
+.folio .home-person {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-top: 32px;
+  max-width: 390px;
+}
+.home-portrait {
+  position: relative;
+  flex: 0 0 108px;
+  margin: 0;
+  padding: 6px 6px 13px;
+  background: var(--nb-paper2);
+  border: 1px solid var(--nb-control);
+  transform: rotate(-3deg);
+  box-shadow: 3px 4px 0 var(--nb-rule);
+}
+.home-portrait::before {
+  content: "";
+  position: absolute;
+  width: 46px;
+  height: 13px;
+  top: -8px;
+  left: 29px;
+  background: color-mix(in srgb, var(--nb-yellow) 45%, var(--nb-paper));
+  transform: rotate(5deg);
+}
+.home-portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.home-person-name {
+  font: 500 17px/1.4 var(--f-ui);
+  color: var(--nb-ink);
+}
+.folio .home-person .home-note {
+  display: block;
+  margin-top: 7px;
+  font: 13px/1.65 var(--f-ui);
+}
+.home-person .home-note::before { display: none; }
+
+/* The notebook and narrator share a compact footprint; retain their illustrated scale. */
+.folio .desk-scene {display:flex;flex-direction:column;gap:12px;height:auto;min-width:0;width:100%;max-width:430px;margin:0 auto;padding-top:0;transform:none;}
+.folio .desk-scene::before {inset:24px 0 74px;}
+.folio .desk-scene::after {bottom:74px;}
+.desk-objects {position:relative;height:440px;margin-bottom:20px;}
+.desk-objects > .narrator-sprite {position:absolute;}
+.desk-objects .desk-orbit {inset:20px 8px 85px;}
+.desk-objects .desk-orbit > span {display:none;}
+.desk-objects .desk-book {top:35px;left:20px;width:210px;height:285px;}
+.folio .desk-objects .desk-girl {height:350px!important;width:140px!important;bottom:78px;right:0;}
+.desk-objects .desk-caption {bottom:-18px;right:4px;}
+.desk-objects .book-cover strong {width:100%;padding:0 40px 0 12px;line-height:1.15;}
+.folio .desk-scene > .book-close {position:static;align-self:flex-start;margin:-10px 14px 0;min-height:44px;}
+.desk-objects .companion-desk {bottom:0;}
+@media(max-width:1150px){
+ .desk-objects .desk-book{width:178px;height:250px;left:16px;top:45px;}
+ .folio .desk-objects .desk-girl{height:320px!important;width:125px!important;}
+}
+@media(min-width:701px) and (max-width:900px){
+ .folio .home-intro{grid-template-columns:minmax(0,1fr);}
+ .folio .home-intro-copy{max-width:600px;}
+}
+@media(max-width:700px){
+ .folio .home-person{margin-top:28px;gap:18px;}
+ .folio .desk-scene{margin:18px auto 0;max-width:350px;}
+ .desk-objects{height:405px;}
+ .desk-objects .desk-book{width:165px;height:235px;left:16px;top:30px;}
+ .folio .desk-objects .desk-girl{height:290px!important;width:114px!important;}
+}
+@media(max-width:380px){
+ .home-portrait{flex-basis:92px;}
+ .home-person-name{font-size:16px;}
+ .folio .home-person .home-note{font-size:12px;}
+ .desk-objects .desk-book{width:145px;height:215px;left:12px;}
+ .folio .desk-objects .desk-girl{height:270px!important;width:104px!important;}
+}
+.folio .home-intro{min-height:0;}
+/* A circuit-bound notebook, sharing the workbench's paper and electric inks. */
+.folio .desk-book .book-cover {background:linear-gradient(90deg,color-mix(in srgb,var(--nb-cyan) 14%,transparent),transparent 12%),repeating-linear-gradient(0deg,transparent 0 27px,color-mix(in srgb,var(--nb-cyan) 7%,transparent) 27px 28px),var(--nb-paper2);color:var(--nb-ink);border:1px solid var(--nb-cyan);border-radius:3px 9px 9px 3px;box-shadow:inset 6px 0 0 var(--nb-paper),inset 7px 0 0 var(--nb-cyan),5px 6px 0 var(--nb-rule);}
+.folio .desk-book .book-cover::after {border:1px solid color-mix(in srgb,var(--nb-cyan) 35%,transparent);border-radius:0;inset:13px;}
+.folio .desk-book .book-emblem {color:var(--nb-cyan);}
+.folio .desk-book .book-band {background:var(--nb-paper);border-inline:1px solid var(--nb-cyan);box-shadow:0 0 8px color-mix(in srgb,var(--nb-cyan) 20%,transparent);width:8px;right:23px;}
+.folio .desk-book .book-cover-top,.folio .desk-book .book-cover-byline,.folio .desk-book .book-open-label {color:var(--nb-cyan);opacity:1;}
+/* A hinged cover needs two opaque faces; the inside remains visible past 90°. */
+.folio .desk-book {transition:transform 800ms var(--ease-out);}
+.folio .desk-book .book-cover {transform-style:preserve-3d;backface-visibility:visible;background:none;border:0;box-shadow:none;overflow:visible;}
+.folio .desk-book .book-cover::after {display:none;}
+.book-cover-front,.book-cover-back {position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;backface-visibility:hidden;border:1px solid var(--nb-cyan);border-radius:3px 9px 9px 3px;background:repeating-linear-gradient(0deg,transparent 0 27px,color-mix(in srgb,var(--nb-cyan) 7%,transparent) 27px 28px),var(--nb-paper2);box-shadow:inset 6px 0 0 var(--nb-paper),inset 7px 0 0 var(--nb-cyan);}
+.book-cover-front {transform:translateZ(1px);}
+.book-cover-back {transform:rotateY(180deg) translateZ(1px);justify-content:center;gap:18px;border-radius:9px 3px 3px 9px;box-shadow:inset -7px 0 0 var(--nb-paper);color:var(--nb-cyan);font:10px var(--f-mono);}
+.book-cover-back::after {content:"";position:absolute;inset:14px;border:1px solid var(--nb-rule);}
+.folio .book-is-open .desk-book {transform:translateX(80px) rotate(-4deg);z-index:3;}
+.folio .book-is-open .book-cover {transform:rotateY(-125deg);}
+@media(max-width:380px){.folio .book-is-open .desk-book{transform:translateX(72px) rotate(-4deg);}}
+@media(prefers-reduced-motion:reduce){.folio .desk-book,.folio .desk-book .book-cover{transition:none;}}
+.folio .book-is-open .desk-book {z-index:20;}
+@media(max-width:700px){.folio .book-is-open .desk-book{transform:translateX(100px) rotate(0deg);}}
+
+.home-scene-composition{display:contents;}
+.folio .home-person-mobile{display:none;}
+@media(max-width:700px){
+ .folio .home-person-desktop{display:none;}
+ .home-scene-composition{display:block;position:relative;min-width:0;border-top:1px solid var(--nb-rule);padding-top:12px;margin-top:12px;background:radial-gradient(ellipse at 60% 40%,color-mix(in srgb,var(--nb-cyan) 5%,transparent),transparent 70%);}
+ .folio .home-person-mobile{display:flex;position:relative;z-index:4;margin:0 8px -10px;max-width:295px;gap:16px;align-items:center;}
+ .home-person-mobile .home-portrait{flex:0 0 65px;padding:4px 4px 10px;transform:rotate(-7deg);}
+ .home-person-mobile .home-portrait::before{left:15px;width:30px;height:10px;top:-5px;}
+ .home-person-mobile .home-person-name{font-size:14px;}
+ .folio .home-person-mobile .home-note{font-size:12px;line-height:1.5;margin:5px 0 0;max-width:19ch;}
+ .home-scene-composition .desk-scene{margin-top:0;}
+}

@@ -1,10 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import AppShell from "../components/pages/AppShell.tsx";
-import { POSTS } from "../data/posts";
+import ArticleAppShell from "../components/pages/ArticleAppShell.tsx";
+import { VISIBLE_POSTS } from "../data/posts";
 
 export async function getStaticPaths() {
-  return POSTS.map((post) => ({
+  return VISIBLE_POSTS.map((post) => ({
     params: { slug: post.slug },
     props: { post },
   }));
@@ -41,5 +41,5 @@ if (post.publishedAt) {
   jsonLd={jsonLd}
   noindex={post.draft}
 >
-  <AppShell page="essay" slug={post.slug} client:load />
+  <ArticleAppShell slug={post.slug} client:load />
 </BaseLayout>

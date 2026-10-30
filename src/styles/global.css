@@ -12,6 +12,13 @@
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
+  /* V6 motion grammar (DESIGN-v6.md §4) — ONE ease, one duration scale.
+     Everything new moves with these; if a motion can't be said in this
+     grammar it probably shouldn't move. */
+  --v6-ease: cubic-bezier(0.22, 0.8, 0.2, 1);
+  --v6-dur: 520ms;
+  --v6-dur-fast: 240ms;
+
   /* Measure */
   --measure: 64ch;
 }
@@ -313,4 +320,489 @@ body { transition: background 600ms cubic-bezier(0.25, 0.1, 0.25, 1); }
 @keyframes nb-shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -100% 0; }
+}
+
+/* ============================================================================
+   V6 — motion grammar classes (DESIGN-v6.md §4). JS-gated: src/lib/v6.ts adds
+   .v6-reveal / .v6-develop to [data-reveal] elements only once JS runs, so a
+   no-JS visit sees everything immediately. IO then adds .v6-in.
+   ============================================================================ */
+
+/* Pen-stroke rise: sections lift in like a line being drawn. */
+.v6-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+}
+.v6-reveal.v6-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--v6-dur) var(--v6-ease),
+    transform var(--v6-dur) var(--v6-ease);
+  transition-delay: var(--v6-delay, 0ms);
+}
+
+/* Polaroid develop: photos arrive washed-out and develop into colour. */
+.v6-develop {
+  opacity: 0;
+  filter: brightness(1.75) contrast(0.55) saturate(0.25);
+}
+.v6-develop.v6-in {
+  opacity: 1;
+  filter: none;
+  transition:
+    opacity var(--v6-dur) var(--v6-ease),
+    filter 1100ms var(--v6-ease);
+  transition-delay: var(--v6-delay, 0ms);
+}
+
+/* Rubber-stamp settle: the titleblock REV cell and date stamps land. */
+@keyframes v6-stamp {
+  0%   { opacity: 0; transform: rotate(-1.2deg) scale(1.5); }
+  62%  { opacity: 1; transform: rotate(-1.2deg) scale(0.96); }
+  100% { opacity: 1; transform: rotate(-1.2deg) scale(1); }
+}
+.v6-stamp.v6-in { animation: v6-stamp 420ms var(--v6-ease) both; }
+
+/* Ink line-draw: SVGs whose paths set pathLength=1 draw themselves in. */
+.v6-inkdraw path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.v6-inkdraw.v6-in path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 900ms var(--v6-ease);
+  transition-delay: calc(var(--v6-delay, 0ms) + var(--v6-path-delay, 0ms));
+}
+
+/* The ink girl's idle breath — barely-there sway, grounded at her feet. */
+@keyframes v6-idle {
+  0%, 100% { transform: rotate(0deg); }
+  50%      { transform: rotate(1.1deg); }
+}
+.v6-idle {
+  transform-origin: 50% 100%;
+  animation: v6-idle 6.5s var(--ease-in-out) infinite;
+}
+
+/* Reduced motion: everything is simply present. */
+@media (prefers-reduced-motion: reduce) {
+  .v6-reveal, .v6-develop { opacity: 1; transform: none; filter: none; }
+  .v6-inkdraw path { stroke-dasharray: none; stroke-dashoffset: 0; }
+  .v6-idle { animation: none; }
+}
+
+/* ============================================================================
+   V6 — entrance ritual (BaseLayout): a full scene, not an icon. A worn
+   leather field notebook floats in a dark warm room; the elastic band slips,
+   the cover swings open onto a ruled first page, light blooms, and the site
+   is simply what the notebook opens onto. `?entrance=hold` keeps the book
+   closed for admiring; clicking it plays the opening.
+   ============================================================================ */
+#v6-entrance {
+  position: fixed; inset: 0; z-index: 999;
+  display: none;
+  align-items: center; justify-content: center;
+  background:
+    radial-gradient(120% 90% at 50% 42%, #2a2119 0%, #171210 52%, #0b0908 100%);
+}
+#v6-entrance.v6-entrance-on { display: flex; }
+#v6-entrance::after { /* vignette + room grain */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='180' height='180' filter='url(%23n)' opacity='0.5'/></svg>"),
+    radial-gradient(90% 70% at 50% 45%, transparent 55%, rgba(0,0,0,0.55) 100%);
+  opacity: 0.55; mix-blend-mode: overlay;
+}
+#v6-entrance.v6-gone { opacity: 0; transition: opacity 600ms var(--v6-ease); }
+
+#v6-entrance .v6-scene {
+  position: relative;
+  perspective: 1400px;
+}
+
+/* — the book ————————————————————————————————————————————————— */
+#v6-entrance .v6-book {
+  position: relative;
+  width: min(340px, 58vw);
+  aspect-ratio: 3 / 4.1;
+  transform-style: preserve-3d;
+  animation: v6-bookfloat 7s var(--ease-in-out) infinite;
+}
+@keyframes v6-bookfloat {
+  0%, 100% { transform: rotateX(7deg) rotateY(-9deg) translateY(0); }
+  50%      { transform: rotateX(9deg) rotateY(-7deg) translateY(-9px); }
+}
+
+/* page block — the cream stack the cover closes over */
+#v6-entrance .v6-pages {
+  position: absolute; inset: 2px -7px -7px 2px;
+  border-radius: 3px 8px 8px 3px;
+  background: #EFE7CE;
+  /* stacked page edges, right + bottom */
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 calc(100% - 7px), #d9cfae calc(100% - 7px) calc(100% - 6px), #efe7ce calc(100% - 6px) calc(100% - 5px), #d9cfae calc(100% - 5px) calc(100% - 4px), #efe7ce calc(100% - 4px) calc(100% - 3px), #d9cfae calc(100% - 3px) calc(100% - 2px), #efe7ce calc(100% - 2px) calc(100% - 1px), #d9cfae calc(100% - 1px) 100%),
+    repeating-linear-gradient(180deg, transparent 0 calc(100% - 7px), #d9cfae calc(100% - 7px) calc(100% - 6px), #efe7ce calc(100% - 6px) calc(100% - 5px), #d9cfae calc(100% - 5px) calc(100% - 4px), #efe7ce calc(100% - 4px) calc(100% - 3px), #d9cfae calc(100% - 3px) calc(100% - 2px), #efe7ce calc(100% - 2px) calc(100% - 1px), #d9cfae calc(100% - 1px) 100%);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+/* the first page, revealed as the cover opens */
+#v6-entrance .v6-firstpage {
+  position: absolute; inset: 0 7px 7px 0;
+  border-radius: 3px 6px 6px 3px;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23p)' opacity='0.22'/></svg>"),
+    repeating-linear-gradient(180deg, transparent 0 26px, rgba(45, 79, 139, 0.16) 26px 27px),
+    linear-gradient(115deg, #F7F0DA, #EFE6C9);
+  background-blend-mode: overlay, normal, normal;
+  display: grid; place-items: center;
+}
+#v6-entrance .v6-firstpage::before { /* margin rule */
+  content: ""; position: absolute; top: 0; bottom: 0; left: 12%;
+  border-left: 1px solid rgba(184, 60, 60, 0.35);
+}
+#v6-entrance .v6-firstpage-line {
+  font-family: var(--f-display); font-style: italic;
+  font-size: clamp(15px, 2.6vw, 21px); color: #4A4458;
+  transform: rotate(-1.6deg);
+  opacity: 0; transition: opacity 500ms var(--v6-ease) 1150ms;
+}
+#v6-entrance.v6-play .v6-firstpage-line { opacity: 1; }
+
+/* the leather cover — two faces on one 3D flap */
+#v6-entrance .v6-cover {
+  position: absolute; inset: 0;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 1000ms cubic-bezier(0.6, 0, 0.2, 1) 480ms;
+}
+#v6-entrance.v6-play .v6-cover { transform: rotateY(-148deg); }
+#v6-entrance .v6-cover-face,
+#v6-entrance .v6-cover-back {
+  position: absolute; inset: 0;
+  border-radius: 4px 9px 9px 4px;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+#v6-entrance .v6-cover-face {
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='l'><feTurbulence type='fractalNoise' baseFrequency='0.11' numOctaves='4'/><feColorMatrix type='saturate' values='0'/></filter><rect width='220' height='220' filter='url(%23l)' opacity='0.55'/></svg>"),
+    radial-gradient(130% 100% at 18% 12%, #4a3a2c 0%, #352a20 38%, #241c15 72%, #191310 100%);
+  background-blend-mode: overlay, normal;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 -14px 30px rgba(0, 0, 0, 0.45),
+    inset 14px 0 26px rgba(0, 0, 0, 0.35),
+    0 10px 28px rgba(0, 0, 0, 0.5);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 8px;
+}
+/* corner + edge wear */
+#v6-entrance .v6-cover-face::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(46px 40px at 100% 0%, rgba(214, 188, 148, 0.16), transparent 70%),
+    radial-gradient(52px 44px at 100% 100%, rgba(214, 188, 148, 0.12), transparent 70%),
+    radial-gradient(30px 60px at 0% 50%, rgba(0, 0, 0, 0.5), transparent 75%);
+}
+#v6-entrance .v6-cover-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(115deg, #E9DFC2, #DFD3B0);
+  box-shadow: inset 0 0 40px rgba(120, 100, 60, 0.25);
+}
+/* blind-embossed frame */
+#v6-entrance .v6-emboss {
+  position: absolute; inset: 13px;
+  border: 1.5px solid rgba(0, 0, 0, 0.55);
+  border-radius: 3px 6px 6px 3px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+/* spine stitching */
+#v6-entrance .v6-stitch {
+  position: absolute; top: 10px; bottom: 10px; left: 9px;
+  border-left: 2px dashed rgba(214, 188, 148, 0.38);
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.6));
+}
+/* letterpress title */
+#v6-entrance .v6-title {
+  font-family: var(--f-display); font-style: italic; font-weight: 400;
+  font-size: clamp(20px, 3.4vw, 30px);
+  color: #1d1712;
+  text-shadow: 0 1px 0 rgba(214, 188, 148, 0.22), 0 -1px 1px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.02em;
+}
+#v6-entrance .v6-subtitle {
+  font-family: var(--f-mono);
+  font-size: clamp(8px, 1.1vw, 10px); letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(214, 188, 148, 0.5);
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.7);
+}
+/* moving sheen — quiet while closed, sweeps hard on open */
+#v6-entrance .v6-sheen {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 228, 180, 0.10) 46%, rgba(255, 228, 180, 0.04) 52%, transparent 68%);
+  background-size: 240% 100%;
+  animation: v6-sheen 5.4s var(--ease-in-out) infinite;
+}
+@keyframes v6-sheen {
+  0%, 100% { background-position: 82% 0; }
+  50%      { background-position: 30% 0; }
+}
+
+/* elastic band — over the whole book, real shadow, slips off on play */
+#v6-entrance .v6-band {
+  position: absolute; top: -5px; bottom: -11px; right: 16%;
+  width: clamp(10px, 2.2vw, 15px);
+  border-radius: 3px;
+  background: linear-gradient(90deg, #8f4413, #E8853D 45%, #a55317);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.25),
+    -3px 4px 8px rgba(0, 0, 0, 0.5);
+  transform: translateZ(6px);
+  transition: transform 380ms cubic-bezier(0.5, -0.3, 0.7, 1), opacity 300ms var(--v6-ease) 160ms;
+}
+#v6-entrance.v6-play .v6-band {
+  transform: translateZ(6px) translateY(112%) rotate(9deg);
+  opacity: 0;
+}
+
+/* dust motes in the light */
+#v6-entrance .v6-dust {
+  position: absolute; border-radius: 999px;
+  background: rgba(255, 232, 190, 0.5);
+  filter: blur(1px);
+  animation: v6-drift 9s linear infinite;
+  opacity: 0;
+}
+#v6-entrance .v6-dust:nth-child(1) { width: 3px; height: 3px; left: 38%; top: 64%; animation-delay: 0s; }
+#v6-entrance .v6-dust:nth-child(2) { width: 2px; height: 2px; left: 61%; top: 40%; animation-delay: 1.6s; animation-duration: 12s; }
+#v6-entrance .v6-dust:nth-child(3) { width: 4px; height: 4px; left: 30%; top: 34%; animation-delay: 3.1s; animation-duration: 10s; }
+#v6-entrance .v6-dust:nth-child(4) { width: 2px; height: 2px; left: 70%; top: 66%; animation-delay: 4.4s; }
+#v6-entrance .v6-dust:nth-child(5) { width: 3px; height: 3px; left: 52%; top: 26%; animation-delay: 5.8s; animation-duration: 13s; }
+#v6-entrance .v6-dust:nth-child(6) { width: 2px; height: 2px; left: 45%; top: 72%; animation-delay: 7s; }
+@keyframes v6-drift {
+  0%   { transform: translate(0, 12px); opacity: 0; }
+  12%  { opacity: 0.7; }
+  60%  { opacity: 0.35; }
+  100% { transform: translate(14px, -46px); opacity: 0; }
+}
+
+/* warm light bloom as the cover opens, then the room exhales */
+#v6-entrance .v6-bloom {
+  position: absolute; inset: -10%;
+  pointer-events: none;
+  background: radial-gradient(58% 48% at 50% 46%, rgba(255, 214, 150, 0.32), transparent 70%);
+  opacity: 0;
+  transition: opacity 700ms var(--v6-ease) 900ms;
+}
+#v6-entrance.v6-play .v6-bloom { opacity: 1; }
+#v6-entrance.v6-play {
+  opacity: 0;
+  transition: opacity 480ms var(--v6-ease) 1560ms;
+}
+
+/* Walk cycle: two leg frames swapped on a steps() clock (InkGirl pose="walk"). */
+@keyframes v6-stepA { 0%, 49.9% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes v6-stepB { 0%, 49.9% { opacity: 0; } 50%, 100% { opacity: 1; } }
+.v6-walk .v6-legA { animation: v6-stepA 620ms steps(1) infinite; }
+.v6-walk .v6-legB { animation: v6-stepB 620ms steps(1) infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .v6-walk .v6-legA { animation: none; opacity: 1; }
+  .v6-walk .v6-legB { animation: none; opacity: 0; }
+}
+
+/* 3D entrance additions: the hint under the floating book */
+#v6-entrance .v6-hint {
+  position: absolute; left: 50%; bottom: 9%; transform: translateX(-50%);
+  z-index: 3;
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: rgba(255, 232, 190, 0.45);
+  opacity: 0; transition: opacity 700ms var(--v6-ease);
+  pointer-events: none;
+  animation: v6-hintpulse 2.6s var(--ease-in-out) infinite;
+}
+#v6-entrance .v6-hint.v6-hint-on { opacity: 1; }
+@keyframes v6-hintpulse {
+  0%, 100% { letter-spacing: 0.22em; }
+  50%      { letter-spacing: 0.26em; }
+}
+/* keep the CSS dust + vignette above the canvas, hint above those */
+#v6-entrance canvas { z-index: 1; }
+#v6-entrance .v6-scene { z-index: 2; pointer-events: none; }
+#v6-entrance::after { z-index: 2; }
+
+/* ============================================================================
+   V6 — THE NIGHT LAYER (dark mode only). The desk after dark: neon-tube
+   hero words that ignite, an aurora of pen-light behind the hero, CRT
+   scanlines + phosphor glow on terminal panels, LED underglow, chromatic
+   glitch on reveals. Light mode stays the daytime notebook; this whole
+   block is gated on [data-theme="dark"].
+   ============================================================================ */
+
+/* Neon hero words — layered glow + tube-ignition flicker on load */
+html[data-theme="dark"] .v6-neon {
+  text-shadow:
+    0 0 7px color-mix(in srgb, currentColor 65%, transparent),
+    0 0 22px color-mix(in srgb, currentColor 38%, transparent),
+    0 0 60px color-mix(in srgb, currentColor 22%, transparent);
+  animation: v6-neon-ignite 1300ms var(--v6-ease) backwards;
+  animation-delay: var(--v6-delay, 0ms);
+}
+@keyframes v6-neon-ignite {
+  0%   { opacity: 0.12; text-shadow: none; }
+  7%   { opacity: 0.9; }
+  11%  { opacity: 0.18; text-shadow: none; }
+  17%  { opacity: 1; }
+  21%  { opacity: 0.4; }
+  27%, 100% { opacity: 1; }
+}
+
+/* Aurora of pen-light breathing behind the hero */
+html[data-theme="dark"] .v6-hero { isolation: isolate; }
+html[data-theme="dark"] .v6-hero::before {
+  content: ""; position: absolute; inset: -12% -8%; z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(36% 30% at 12% 16%, rgba(217, 70, 160, 0.13), transparent 70%),
+    radial-gradient(30% 26% at 80% 10%, rgba(126, 148, 255, 0.16), transparent 70%),
+    radial-gradient(30% 30% at 64% 80%, rgba(39, 200, 64, 0.09), transparent 70%),
+    radial-gradient(26% 26% at 28% 86%, rgba(255, 200, 87, 0.10), transparent 70%);
+  filter: blur(30px);
+  animation: v6-aurora 14s var(--ease-in-out) infinite alternate;
+}
+@keyframes v6-aurora {
+  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
+  100% { transform: translate3d(4%, -4%, 0) scale(1.08); opacity: 1; }
+}
+
+/* CRT panels — scanlines + a slow travelling scan bar */
+html[data-theme="dark"] .v6-crt::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.03) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: overlay;
+}
+html[data-theme="dark"] .v6-crt::after {
+  content: ""; position: absolute; left: 0; right: 0; top: -30%; height: 22%;
+  pointer-events: none; z-index: 2;
+  background: linear-gradient(180deg, transparent, rgba(180, 220, 255, 0.05) 45%, rgba(180, 220, 255, 0.09) 50%, rgba(180, 220, 255, 0.05) 55%, transparent);
+  animation: v6-scanbar 7s linear infinite;
+}
+@keyframes v6-scanbar {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(640%); }
+}
+
+/* LED underglow on glowing panels */
+html[data-theme="dark"] .v6-glow {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--v6-glow-c, #7E94FF) 22%, transparent),
+    0 6px 42px -8px color-mix(in srgb, var(--v6-glow-c, #7E94FF) 38%, transparent);
+  transition: box-shadow var(--v6-dur) var(--v6-ease);
+}
+html[data-theme="dark"] .v6-glow:hover {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--v6-glow-c, #7E94FF) 40%, transparent),
+    0 8px 60px -6px color-mix(in srgb, var(--v6-glow-c, #7E94FF) 55%, transparent);
+}
+
+/* Phosphor cursor */
+html[data-theme="dark"] .v6-cursor {
+  box-shadow:
+    0 0 6px color-mix(in srgb, var(--v6-glow-c, #27C840) 80%, transparent),
+    0 0 18px color-mix(in srgb, var(--v6-glow-c, #27C840) 45%, transparent);
+}
+
+/* Reveals glitch in at night — one chromatic slip, 240ms, not a seizure */
+html[data-theme="dark"] .v6-reveal.v6-in {
+  animation: v6-glitchin 240ms steps(3, end) 1;
+}
+@keyframes v6-glitchin {
+  0%   { clip-path: inset(0 0 55% 0); transform: translateX(-4px); filter: drop-shadow(2px 0 0 rgba(217,70,160,0.5)) drop-shadow(-2px 0 0 rgba(126,148,255,0.5)); }
+  50%  { clip-path: inset(35% 0 0 0); transform: translateX(3px); }
+  100% { clip-path: none; transform: none; filter: none; }
+}
+
+/* Neon buzz on link hover at night */
+html[data-theme="dark"] a:hover {
+  text-shadow: 0 0 10px color-mix(in srgb, currentColor 55%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme="dark"] .v6-neon,
+  html[data-theme="dark"] .v6-hero::before,
+  html[data-theme="dark"] .v6-crt::after,
+  html[data-theme="dark"] .v6-reveal.v6-in { animation: none; }
+}
+
+/* ---- living night layer: rain canvas, fog, drones ---- */
+#v6-rain {
+  position: fixed; inset: 0; z-index: 35;
+  pointer-events: none;
+  opacity: 0; transition: opacity 800ms var(--v6-ease);
+  mix-blend-mode: screen;
+}
+.v6-fog { display: none; }
+html[data-theme="dark"] .v6-fog {
+  display: block;
+  position: fixed; inset: -18%; z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(42% 32% at 18% 82%, rgba(126, 148, 255, 0.055), transparent 70%),
+    radial-gradient(36% 28% at 78% 16%, rgba(217, 70, 160, 0.045), transparent 70%);
+  filter: blur(42px);
+  animation: v6-fogdrift 26s var(--ease-in-out) infinite alternate;
+}
+@keyframes v6-fogdrift {
+  to { transform: translate3d(5%, -4%, 0) scale(1.05); }
+}
+
+.v6-drone { display: none; }
+html[data-theme="dark"] .v6-drone {
+  display: block;
+  position: fixed; left: 0; z-index: 36;
+  pointer-events: none;
+  filter: drop-shadow(0 0 7px rgba(0, 255, 245, 0.45));
+  animation: v6-dronefly var(--v6-drone-dur, 18s) linear forwards;
+}
+html[data-theme="dark"] .v6-drone-rev {
+  animation-name: v6-dronefly-rev;
+}
+.v6-drone-bob { animation: v6-dronebob 2.3s var(--ease-in-out) infinite alternate; }
+.v6-drone .v6-rotor { animation: v6-rotor 240ms linear infinite; transform-origin: center; transform-box: fill-box; }
+.v6-drone .v6-nav-a { animation: v6-navblink 1.6s steps(1) infinite; }
+.v6-drone .v6-nav-b { animation: v6-navblink 1.6s steps(1) infinite 0.8s; }
+@keyframes v6-dronefly {
+  from { transform: translateX(-140px) scale(var(--v6-drone-scale, 1)); }
+  to   { transform: translateX(calc(100vw + 140px)) scale(var(--v6-drone-scale, 1)); }
+}
+@keyframes v6-dronefly-rev {
+  from { transform: translateX(calc(100vw + 140px)) scale(var(--v6-drone-scale, 1)) scaleX(-1); }
+  to   { transform: translateX(-140px) scale(var(--v6-drone-scale, 1)) scaleX(-1); }
+}
+@keyframes v6-dronebob {
+  from { transform: translateY(0); }
+  to   { transform: translateY(7px); }
+}
+@keyframes v6-rotor {
+  from { transform: scaleX(1); }
+  50%  { transform: scaleX(0.25); }
+  to   { transform: scaleX(1); }
+}
+@keyframes v6-navblink {
+  0%, 45% { opacity: 1; } 50%, 95% { opacity: 0.12; } 100% { opacity: 1; }
+}
+
+/* V6 sprite grading: one day-lit sprite serves both worlds — at night she
+   is dimmed with magenta/cyan neon rim light, keeping registration identical. */
+html[data-theme="dark"] .v6-sprite {
+  filter: brightness(0.7) contrast(1.08) saturate(1.05)
+    drop-shadow(-4px 0 6px rgba(217, 70, 160, 0.42))
+    drop-shadow(4px 0 7px rgba(0, 255, 245, 0.38));
 }

@@ -1,0 +1,18 @@
+.live-experiments {padding-top:0;}
+.experiment-register {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+.experiment-register article {min-width:0;border:1px solid var(--nb-rule);border-left:3px solid var(--item-accent);background:var(--nb-paper);}
+.experiment-register .experiment-open {grid-column:1/-1;border-color:var(--item-accent);}
+.experiment-selector {display:flex;align-items:center;gap:14px;width:100%;min-height:76px;padding:18px;text-align:left;background:none;border:0;color:var(--nb-ink);cursor:pointer;font:16px/1.4 var(--f-ui);}
+.experiment-selector strong {flex:1;font-weight:500;}
+.experiment-selector>span {color:var(--item-accent);}
+.experiment-selector>span:first-child {font:11px var(--f-mono);}
+.experiment-selector:focus-visible {outline:2px solid var(--item-accent);outline-offset:3px;}
+.experiment-body {padding:0 22px 24px;}
+.experiment-body>p {font:15px/1.6 var(--f-ui);color:var(--nb-softInk);margin:0 0 20px;}
+.experiment-body>a {display:inline-block;margin-top:24px;color:var(--item-accent);font:14px/1.5 var(--f-ui);}
+.experiment-instrument {min-width:0;container-type:inline-size;}
+.experiment-instrument>div {max-width:100%;}
+.experiment-instrument canvas {max-width:100%;height:auto!important;}
+.experiment-instrument button {min-height:36px;}
+@container(max-width:600px){.experiment-instrument .v4-diagram-pair {grid-template-columns:minmax(0,1fr)!important;}}
+@media(max-width:700px){.experiment-register{grid-template-columns:minmax(0,1fr);}.experiment-selector{padding:15px;min-height:66px;font-size:15px;}.experiment-body{padding:0 12px 20px;}.experiment-instrument .v4-diagram-pair{grid-template-columns:minmax(0,1fr)!important;}}

@@ -2,6 +2,7 @@
 // reads from this file. Edit copy here; the page updates automatically.
 
 import type { NBAccentKey } from "./palette";
+import { SITE_LAST_UPDATED_DATE } from "./site";
 import type { Span } from "./home";
 
 // ---------------------------------------------------------------------------
@@ -16,7 +17,7 @@ export const WRITING_HERO: Span[] = [
 ];
 
 export const WRITING_LEDE =
-  "Thinking on the projects I actually built. Some pieces are finished; some are still arguing with themselves.";
+  "Thinking on the projects I actually built.";
 
 export const WRITING_MARGINALIA = {
   lines: ["with lots of", "interactive diagrams,", "obviously."],
@@ -24,4 +25,4 @@ export const WRITING_MARGINALIA = {
 };
 
 export const WRITING_LAST_UPDATED_LABEL = "WRITING · THE GARDEN";
-export const WRITING_LAST_UPDATED_DATE = "17 jul 2026";
+export const WRITING_LAST_UPDATED_DATE = SITE_LAST_UPDATED_DATE;

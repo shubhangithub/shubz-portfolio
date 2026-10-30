@@ -31,7 +31,7 @@ export type NBAccentKey =
   | "teal" | "purple" | "yellow" | "cyan" | "orange";
 
 export type NBTheme = {
-  paper: string; paper2: string; rule: string; chrome: string;
+  paper: string; paper2: string; rule: string; control: string; chrome: string;
   ink: string; softInk: string; muted: string;
   bgCard: string;
   prompt: string; red: string; blue: string; ochre: string;
@@ -40,21 +40,21 @@ export type NBTheme = {
 };
 
 export const NB_LIGHT: NBTheme = {
-  paper: "#F3EEDB", paper2: "#FAF6E6", rule: "#E6DCBE", chrome: "#DEDCD3",
-  ink: "#26222B", softInk: "#4A4458", muted: "#7F7869",
-  bgCard: "rgba(255,255,255,0.4)",
-  prompt: "#3F6E48", red: "#B83C3C", blue: "#2D4F8B", ochre: "#A86A2C",
-  magenta: "#9E3A66", teal: "#2E6A6E", purple: "#5A4B7F",
-  yellow: "#B58A1A", cyan: "#1F7382", orange: "#C2562A",
+  paper: "#E9EDF2", paper2: "#FFFFFF", rule: "#A5AFBE", control: "#64748B", chrome: "#D8DFE8",
+  ink: "#101827", softInk: "#273449", muted: "#475569",
+  bgCard: "rgba(255,255,255,0.7)",
+  prompt: "#006B35", red: "#B11D32", blue: "#1646C8", ochre: "#835000",
+  magenta: "#991069", teal: "#00665F", purple: "#652BB8",
+  yellow: "#806000", cyan: "#005D83", orange: "#A8360A",
 };
 
 export const NB_DARK: NBTheme = {
-  paper: "#0E131D", paper2: "#141A26", rule: "#1A2233", chrome: "#171B27",
-  ink: "#F0E9D6", softInk: "#C5BCA6", muted: "#5C6478",
+  paper: "#080C14", paper2: "#101827", rule: "#243247", control: "#8B9BB4", chrome: "#0D1420",
+  ink: "#F2F5FC", softInk: "#CED6E6", muted: "#8B9BB4",
   bgCard: "rgba(255,255,255,0.025)",
-  prompt: "#27C840", red: "#F08C7E", blue: "#7E94FF", ochre: "#FFC857",
-  magenta: "#F49ABE", teal: "#6FBEC2", purple: "#B6A3DC",
-  yellow: "#FFD37E", cyan: "#8FD9E0", orange: "#F0A176",
+  prompt: "#18EE79", red: "#FF435B", blue: "#4E82FF", ochre: "#FFAA00",
+  magenta: "#FF36C4", teal: "#00D7AD", purple: "#B15CFF",
+  yellow: "#F2D21B", cyan: "#00CFFF", orange: "#FF702B",
 };
 
 // ---------------------------------------------------------------------------
@@ -71,7 +71,7 @@ export const NB_DARK: NBTheme = {
 //   2. Anything that string-appends a hex alpha — use withAlpha() below.
 // ---------------------------------------------------------------------------
 export const NB_VARS: NBTheme = {
-  paper: "var(--nb-paper)", paper2: "var(--nb-paper2)", rule: "var(--nb-rule)", chrome: "var(--nb-chrome)",
+  paper: "var(--nb-paper)", paper2: "var(--nb-paper2)", rule: "var(--nb-rule)", control: "var(--nb-control)", chrome: "var(--nb-chrome)",
   ink: "var(--nb-ink)", softInk: "var(--nb-softInk)", muted: "var(--nb-muted)",
   bgCard: "var(--nb-bgCard)",
   prompt: "var(--nb-prompt)", red: "var(--nb-red)", blue: "var(--nb-blue)", ochre: "var(--nb-ochre)",

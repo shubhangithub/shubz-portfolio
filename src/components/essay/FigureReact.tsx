@@ -1,5 +1,4 @@
 // @ts-nocheck
-import React from 'react';
 
 // Derive a short "filename" from the caption for the terminal title bar
 function toLabel(caption: string): string {
@@ -12,28 +11,13 @@ function toLabel(caption: string): string {
 }
 
 export function Figure({ children, caption, palette: p }) {
-  const ref = React.useRef(null);
-  const [on, setOn] = React.useState(false);
-  React.useEffect(() => {
-    const el = ref.current; if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setOn(true); },
-      { threshold: 0.2 }
-    );
-    obs.observe(el); return () => obs.disconnect();
-  }, []);
-
   const label = toLabel(caption);
 
   return (
     <figure
-      ref={ref}
       className="v4-figure"
       style={{
-        margin: "2.4rem -3rem",
-        transform: on ? "translateY(0)" : "translateY(24px)",
-        opacity: on ? 1 : 0,
-        transition: "all 720ms var(--ease-out)",
+        margin: "2.4rem 0",
       }}
     >
       {/* terminal title bar */}

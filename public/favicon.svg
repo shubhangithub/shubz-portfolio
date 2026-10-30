@@ -1,7 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" fill="#1F3DBF" rx="5"/>
-  <text x="16" y="23" text-anchor="middle"
-    font-family="Georgia, 'Times New Roman', serif"
-    font-size="17" font-style="italic" font-weight="400"
-    fill="white" letter-spacing="-0.5">SS</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="12" fill="#080C14"/><g transform="translate(8 4)" color="#F2D21B">
+    <path d="M8 7Q8 4 12 4H42V47H12Q6 47 6 51V11Q6 7 8 7Z" fill="currentColor" opacity=".08"/>
+    <path d="M12 4H42V47H12Q6 47 6 51Q6 54 12 54H42M6 51V11Q6 4 12 4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M12 8V43M13 50H39" stroke="currentColor" stroke-width="1" opacity=".55"/>
+    <g stroke="currentColor" stroke-width="2.7" stroke-linecap="round">
+      <path d="M26 17C18 10 12 19 20 24C29 29 23 39 15 34"/>
+      <path d="M37 21C29 14 23 23 31 28C40 33 34 43 26 38"/>
+    </g>
+    <path d="M33 4V12L36 10L39 12V4" fill="currentColor"/>
+  </g></svg>

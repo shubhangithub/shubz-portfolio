@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { PixelStation } from "../chrome/RoboCat";
 /* eslint-disable */
 /**
  * ArticleV5 — Wraps the existing essay components in V5 "field notebook"
@@ -10,7 +11,12 @@
  * accent key.
  */
 import React from "react";
-import { POSTS, findPost } from "../../data/posts";
+import { BookmarkRuler } from "../essay/BookmarkRuler";
+import { ArticleLike } from "../chrome/ArticleLike";
+import { ClipButton } from "../chrome/Paperclips";
+import { essayClipId } from "../../data/paperclips";
+
+import { VISIBLE_POSTS, findPost } from "../../data/posts";
 import { nbTheme, withAlpha } from "../../data/palette";
 import { essayMeta } from "../../lib/essay-meta";
 import { useIsMobile } from "../../lib/hooks";
@@ -18,40 +24,33 @@ import { BluedotAssumptionsEssay } from "../essays/BluedotAssumptionsEssay";
 import { BluedotCivilizationEssay } from "../essays/BluedotCivilizationEssay";
 import { BluedotEssay } from "../essays/BluedotEssay";
 import { BluedotKillchainEssay } from "../essays/BluedotKillchainEssay";
-import { BluedotVocabularyEssay } from "../essays/BluedotVocabularyEssay";
-import { ConstraintClusterEssay } from "../essays/ConstraintClusterEssay";
-import { DraftEssay } from "../essays/DraftEssay";
-import { FashionEssay } from "../essays/FashionEssay";
 import { FisherWaveEssay } from "../essays/FisherWaveEssay";
-import { JayaEssay } from "../essays/JayaEssay";
 import { MayEssay } from "../essays/MayEssay";
 import { SixEnginesEssay } from "../essays/SixEnginesEssay";
-import { ThresholdEssay } from "../essays/ThresholdEssay";
+import { RossThresholdEssay } from "../essays/RossThresholdEssay";
+import { SeptemberQueueEssay } from "../essays/SeptemberQueueEssay";
+import { OctoberFeedbackEssay } from "../essays/OctoberFeedbackEssay";
 import { TuringEssay } from "../essays/TuringEssay";
-import { ZXEssay } from "../essays/ZXEssay";
 import {
-  NBPageShell, NBLastUpdated, NBPrompt, NBThumbtack,
+  NBPageShell, NBThumbtack,
 } from "../chrome/NB";
 
 type NavFn = (page: string, slug?: string | null) => void;
 
 function essayBodyFor(slug: string) {
   switch (slug) {
-    case "jaya":                  return JayaEssay;
-    case "threshold-gate":        return ThresholdEssay;
-    case "constraint-clustering": return ConstraintClusterEssay;
+    case "ross-threshold": return RossThresholdEssay;
+    case "september-queue": return SeptemberQueueEssay;
+    case "october-feedback": return OctoberFeedbackEssay;
     case "six-engines":           return SixEnginesEssay;
-    case "fashion-trends":        return FashionEssay;
     case "may-2026":              return MayEssay;
     case "fisher-wave":           return FisherWaveEssay;
     case "turing-morphogenesis":  return TuringEssay;
     case "bluedot-unit1":         return BluedotEssay;
     case "bluedot-assumptions":   return BluedotAssumptionsEssay;
-    case "bluedot-vocabulary":    return BluedotVocabularyEssay;
     case "bluedot-civilization":  return BluedotCivilizationEssay;
     case "bluedot-killchain":     return BluedotKillchainEssay;
-    case "zx-calculus":           return ZXEssay;
-    default:                      return DraftEssay;
+    default: throw new Error(`Missing published essay renderer: ${slug}`);
   }
 }
 
@@ -88,7 +87,7 @@ export function ArticleV5({
 }) {
   const mode: "light" | "dark" = dark ? "dark" : "light";
   const t = nbTheme(mode);
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile(1020);
 
   React.useEffect(() => {
     if (typeof document !== "undefined") {
@@ -97,7 +96,7 @@ export function ArticleV5({
     }
   }, [slug, t.paper]);
 
-  const post = findPost(slug) || POSTS[0];
+  const post = findPost(slug) || VISIBLE_POSTS[0];
   const accentKey = post.nbAccent || "blue";
   const accent = t[accentKey];
 
@@ -120,9 +119,9 @@ export function ArticleV5({
   const meta = essayMeta(post.slug);
 
   // Prev / next essays for the bottom navigator.
-  const idx = POSTS.findIndex((p) => p.slug === post.slug);
-  const prev = idx > 0 ? POSTS[idx - 1] : null;
-  const next = idx >= 0 && idx < POSTS.length - 1 ? POSTS[idx + 1] : null;
+  const idx = VISIBLE_POSTS.findIndex((p) => p.slug === post.slug);
+  const prev = idx > 0 ? VISIBLE_POSTS[idx - 1] : null;
+  const next = idx >= 0 && idx < VISIBLE_POSTS.length - 1 ? VISIBLE_POSTS[idx + 1] : null;
   const prevAccent = prev ? t[prev.nbAccent || "blue"] : t.muted;
   const nextAccent = next ? t[next.nbAccent || "blue"] : t.muted;
 
@@ -139,14 +138,14 @@ export function ArticleV5({
       onNavigate={onNavigate as any}
       onToggle={toggleTheme}
     >
-      <NBLastUpdated t={t} label={`ESSAY · ${kicker.toUpperCase()} · NO.${pin}`} date={fmtLong(post.updatedAt || post.publishedAt)} accent={accent} />
+      <main id="main" className="article-shell" tabIndex={-1}>
+      <div className="article-breadcrumb"><a href="/writing/">← The writing</a><span>{fmtLong(post.updatedAt || post.publishedAt)}</span></div>
 
       {/* HERO — outer container caps at 1380px so the body grid below
           doesn't sprawl on ultra-wide displays. Centred. The hero itself
           spans this max-width; the H1 + dek still cap typographically. */}
       <div style={{ padding: PAGE_PAD, maxWidth: 1380, margin: "0 auto" }}>
         <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 36, position: "relative" }}>
-          <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="cat ./meta.json" comment="essay header" accent={accent} />
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 22, marginTop: 18, gap: 12, flexWrap: "wrap" }}>
             <div className="caps" style={{ fontFamily: "var(--f-ui)", color: accent, fontSize: 12, letterSpacing: "0.16em", display: "flex", alignItems: "center", gap: 12 }}>
               <span style={{ width: 26, height: 1, background: accent }} />
@@ -154,10 +153,9 @@ export function ArticleV5({
             </div>
             <div style={{ fontFamily: "var(--f-mono)", color: t.muted, fontSize: 11, textAlign: "right", lineHeight: 1.7 }}>
               <div>no.{pin} · {post.minutes} min read</div>
-              <div style={{ color: accent }}>./{post.slug}.mdx</div>
             </div>
           </div>
-          <h1 style={{
+          <h1 id="essay-title" style={{
             fontFamily: "var(--f-display)",
             fontVariationSettings: '"opsz" 144, "SOFT" 50',
             fontWeight: 400,
@@ -176,8 +174,11 @@ export function ArticleV5({
           }}>
             {post.dek}
           </p>
+          {!post.draft && <div className="article-actions"><ClipButton id={essayClipId(post.slug)} /><ArticleLike slug={post.slug}/></div>}
         </div>
       </div>
+
+      {isMobile && !post.draft && <BookmarkRuler slug={post.slug} mobile />}
 
       {/* BODY + LEFT-RAIL + RIGHT-RAIL — 3-column layout on desktop.
             Left:   TOC + meta JSON   (sticky)
@@ -191,7 +192,7 @@ export function ArticleV5({
         maxWidth: isMobile ? "100%" : 1380,
         margin: "0 auto",
         display: "grid",
-        gridTemplateColumns: isMobile ? "1fr" : "220px minmax(0, 1fr) 240px",
+        gridTemplateColumns: isMobile ? "minmax(0, 1fr)" : "180px minmax(0, 1fr) 210px",
         gap: isMobile ? 36 : 36,
         position: "relative",
       }}>
@@ -199,27 +200,11 @@ export function ArticleV5({
             article on mobile. */}
         {!isMobile && (
           <aside style={{ position: "relative" }}>
-            <div style={{ position: "sticky", top: 24 }}>
-              {meta.toc && meta.toc.length > 1 && (
-                <>
-                  <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="grep '^##' ." comment="toc" accent={accent} />
-                  <div style={{
-                    background: t.paper2, border: `1px solid ${t.rule}`,
-                    padding: "12px 14px", borderRadius: 3,
-                    fontFamily: "var(--f-mono)", fontSize: 11.5, lineHeight: 1.9,
-                    marginBottom: 28,
-                  }}>
-                    {meta.toc.slice(1).map((entry: string, i: number) => (
-                      <div key={i} style={{ color: i === 0 ? accent : t.softInk }}>
-                        §{String(i + 1).padStart(2, "0")} · {entry}
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
+            <div style={{ position: "sticky", top: 115 }}>
+              {!post.draft && <BookmarkRuler slug={post.slug} />}
 
               {/* Essay meta JSON = meta-info about the essay → Infra & craft (yellow). */}
-              <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="cat .meta" accent={t.yellow} />
+              <h2 className="article-aux-heading">Details</h2>
               <pre style={{
                 background: t.paper2, border: `1px solid ${t.rule}`,
                 padding: "10px 12px", borderRadius: 3,
@@ -243,21 +228,22 @@ export function ArticleV5({
           lineHeight: 1.72,
           color: t.ink,
           maxWidth: "62ch",
+          minWidth: 0,
           margin: "0 auto",
           width: "100%",
         }}>
-          <Body palette={essayPalette} post={post} onNavigate={onNavigate} />
+          <div id="essay-body"><Body palette={essayPalette} post={post} onNavigate={onNavigate} /></div>
 
+          <PixelStation scene="article"/>
           {/* Related — driven by `post.related` slug list in posts.ts. Hidden if empty. */}
           {post.related && post.related.length > 0 && (() => {
             const relatedPosts = post.related
               .map((s: string) => findPost(s))
-              .filter((p: any) => p && p.slug !== post.slug);
+              .filter((p: any) => p && !p.hidden && p.slug !== post.slug);
             if (relatedPosts.length === 0) return null;
             return (
               <section style={{ marginTop: 48, paddingTop: 26, borderTop: `1px solid ${withAlpha(t.muted, "55")}` }}>
-                <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="ls ../related/" comment={`${relatedPosts.length} essays`} accent={t.yellow} />
-                <h2 className="sr-only">Related essays</h2>
+                <h2 className="article-aux-heading">Related essays</h2>
                 <div style={{
                   display: "grid",
                   gridTemplateColumns: isMobile ? "1fr" : `repeat(${Math.min(relatedPosts.length, 3)}, 1fr)`,
@@ -330,9 +316,9 @@ export function ArticleV5({
             desktop, scrolls below article on mobile. */}
         {!isMobile && (
           <aside style={{ position: "relative" }}>
-            <div style={{ position: "sticky", top: 24 }}>
+            <div style={{ position: "sticky", top: 115 }}>
               {/* CITE — how to reference this essay. */}
-              <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="cat .cite" accent={t.yellow} />
+              <h2 className="article-aux-heading">Citation</h2>
               <div style={{
                 background: t.paper2, border: `1px solid ${t.rule}`,
                 padding: "10px 12px", borderRadius: 3,
@@ -349,7 +335,7 @@ export function ArticleV5({
                   citations there; they show up here automatically. */}
               {meta.sources && meta.sources.length > 0 && (
                 <>
-                  <NBPrompt t={t} cwd={`~/writing/${post.slug}`} cmd="cat .sources" comment={`${meta.sources.length} refs`} accent={t.yellow} />
+                  <h2 className="article-aux-heading">Sources</h2>
                   <div style={{
                     background: t.paper2, border: `1px solid ${t.rule}`,
                     padding: "10px 12px", borderRadius: 3,
@@ -376,6 +362,7 @@ export function ArticleV5({
       </div>
 
       <div style={{ height: 40 }} />
+      </main>
     </NBPageShell>
   );
 }

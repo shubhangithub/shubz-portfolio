@@ -9,3 +9,8 @@ export const SITE_DESCRIPTION =
   "Geospatial ML, AI safety, maths, biology, interactive essays, and side projects by Shubhangi Sharma.";
 export const SITE_OG_TAGLINE =
   "Geospatial ML · AI safety · maths · biology · side projects";
+
+/** The one site-wide "last updated" date. Every page's banner reads this —
+ *  update it here once per editing session and all five pages move together.
+ *  Format: "dd mmm yyyy", lowercase month. */
+export const SITE_LAST_UPDATED_DATE = "29 oct 2026";

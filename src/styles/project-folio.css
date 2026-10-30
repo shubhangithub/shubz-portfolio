@@ -1,0 +1,73 @@
+/* Project folios preserve the complete index; opening one unfolds its illustrated sheet. */
+.project-study { display:block; width:100%; height:auto; color:var(--item-accent); }
+.guide-panel .project-folio-index .project-file>summary { grid-template-columns:70px 24px minmax(0,1fr) 105px 17px; gap:12px; padding:16px 12px; }
+.project-thumbnail { display:flex; align-items:center; justify-content:center; width:70px; height:64px; color:var(--item-accent); }
+.project-thumbnail .project-study { width:70px; height:64px; stroke-width:2.6px; }
+.project-study-compact text { display:none; }
+.project-folio-index .project-number { font-size:10px; }
+.guide-panel .project-folio-index .project-title { font-size:22px; }
+.guide-panel .project-folio-index .project-subject { font-size:11px; }
+.project-folio-index .project-file[open] { background:var(--nb-paper2); border:1px solid var(--item-accent); margin:12px 0; box-shadow:5px 5px 0 var(--nb-paper),6px 6px 0 var(--nb-rule); }
+.project-folio-index .project-file[open]>summary { border-bottom:1px solid var(--nb-rule); }
+.guide-panel .project-folio-index .project-file-body { display:grid; grid-template-columns:minmax(190px,.9fr) minmax(0,1.3fr); gap:18px 30px; padding:28px 28px 30px; position:relative; }
+.project-sheet-study { grid-row:1/3; min-width:0; align-self:start; margin:0; padding:16px 15px 18px; background:var(--nb-paper); border:1px solid var(--nb-rule); transform:rotate(-2deg); }
+.sheet-registration { display:flex; justify-content:space-between; align-items:center; gap:12px; color:var(--item-accent); font:9px var(--f-mono); letter-spacing:.08em; }
+.project-sheet-study>.project-study { width:100%; max-height:260px; margin:12px 0 8px; }
+.project-sheet-study figcaption { display:block; border-top:1px solid var(--nb-rule); padding-top:13px; font:13px/1.5 var(--f-ui); color:var(--nb-ink); }
+.project-sheet-study figcaption>span { display:block; color:var(--nb-muted); font:9px var(--f-mono); text-transform:uppercase; letter-spacing:.1em; margin-bottom:3px; }
+.guide-panel .project-folio-index .project-file-body>p { grid-column:2; margin:0; font:16px/1.75 var(--f-ui); }
+.project-sheet-actions { grid-column:2; min-width:0; }
+.project-folio-index .project-metrics { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; }
+.project-folio-index .project-metrics>span { font:11px/1.4 var(--f-mono); padding:7px 9px; border:1px solid var(--nb-rule); color:var(--nb-softInk); }
+.project-folio-index .project-links { display:flex; flex-wrap:wrap; gap:8px 15px; }
+.project-folio-index .project-links a { display:inline-flex; align-items:center; min-height:44px; padding:7px 0; font:13px/1.45 var(--f-ui); color:var(--item-accent); }
+.pen-register { border-top:1px solid var(--nb-rule); }
+.guide-subjects.pen-register button { display:grid; grid-template-columns:12px minmax(0,1fr) 16px; gap:12px; padding:10px 7px; min-height:62px; align-items:center; border-bottom:1px solid var(--nb-rule); }
+.guide-subjects.pen-register .register-label { display:block; margin:0; opacity:1; min-width:0; color:var(--nb-ink); }
+.guide-subjects.pen-register strong { display:block; font:500 15px var(--f-ui); margin-bottom:3px; }
+.register-label small { display:block; font:11px/1.6 var(--f-ui); color:var(--nb-muted); }
+.register-pen { position:relative; width:7px; height:29px; justify-self:center; background:color-mix(in srgb,var(--item-accent) 20%,var(--nb-paper)); border:1px solid var(--item-accent); border-radius:2px 2px 0 0; }
+.register-pen:after { content:''; position:absolute; bottom:-9px; left:-1px; width:0; height:0; border-left:3.5px solid transparent; border-right:3.5px solid transparent; border-top:8px solid var(--item-accent); }
+.register-pen i { position:absolute; width:2px; height:13px; top:3px; right:-4px; border:1px solid var(--item-accent); }
+.register-pen b { position:absolute; top:17px; left:0; right:0; height:2px; background:var(--item-accent); }
+.guide-subjects.pen-register button>.register-number { opacity:1; margin:0; font:9px var(--f-mono); color:var(--nb-muted); align-self:start; padding-top:2px; }
+.guide-subjects.pen-register button[aria-pressed=true] strong { color:var(--item-accent); }
+.kit-ink-link { display:flex; align-items:center; min-height:44px; gap:9px; margin-top:12px; font:12px/1.5 var(--f-ui); }
+.kit-ink-link>span { width:18px; height:3px; background:currentColor; transform:rotate(-20deg); flex-shrink:0; }
+#subject-overview { scroll-margin-top:125px; }
+@media(max-width:1050px) {
+ .guide-panel .project-folio-index .project-file>summary { grid-template-columns:56px 20px minmax(0,1fr) 17px; gap:10px; }
+ .project-thumbnail { grid-column:1; grid-row:1/3; width:56px; height:56px; }
+ .project-thumbnail .project-study { width:56px; height:56px; }
+ .project-folio-index .project-number { grid-column:2; grid-row:1; }
+ .project-folio-index .project-title { grid-column:3; grid-row:1; }
+ .guide-panel .project-folio-index .project-subject { grid-column:3; grid-row:2; }
+ .guide-panel .project-folio-index .project-expand { grid-column:4; grid-row:1/3; }
+ .guide-panel .project-folio-index .project-file-body { grid-template-columns:minmax(0,1fr); padding:25px; }
+ .project-sheet-study { grid-column:1; grid-row:auto; width:100%; max-width:370px; justify-self:center; box-sizing:border-box; }
+ .guide-panel .project-folio-index .project-file-body>p,.project-sheet-actions { grid-column:1; }
+}
+@media(max-width:700px) {
+ .guide-panel .project-folio-index .project-file>summary { grid-template-columns:47px minmax(0,1fr) 17px; padding:17px 2px; gap:8px 11px; }
+ .project-folio-index .project-number { display:none; }
+ .project-thumbnail { grid-column:1; grid-row:1/3; width:47px; height:53px; }
+ .project-thumbnail .project-study { width:47px; height:53px; }
+ .guide-panel .project-folio-index .project-title { grid-column:2; grid-row:1; font-size:20px; }
+ .guide-panel .project-folio-index .project-subject { grid-column:2; grid-row:2; font-size:11px; }
+ .guide-panel .project-folio-index .project-expand { grid-column:3; grid-row:1/3; }
+ .guide-panel .project-folio-index .project-file[open]>summary { padding-left:10px; padding-right:10px; }
+ .guide-panel .project-folio-index .project-file-body { padding:23px 18px; gap:23px; }
+ .project-sheet-study { padding:15px; transform:rotate(-1deg); }
+ .project-sheet-study>.project-study { height:180px; max-height:180px; margin:7px 0; }
+ .guide-panel .project-folio-index .project-file-body>p { font-size:16px; }
+ .project-folio-index .project-links { gap:8px 16px; }
+ .project-folio-index .project-links a { font-size:13px; }
+ .guide-subjects.pen-register { display:none; }
+}
+/* Keep search hints legible over either theme's technical backdrop. */
+.guide-panel .search-field input::placeholder{color:var(--nb-muted);opacity:1;}
+.guide-panel .catalogue-toolbar>.result-count{font-size:11px;}
+
+.project-purpose-group + .project-purpose-group { margin-top: 36px; }
+.project-purpose-heading { display:flex; align-items:center; gap:14px; margin:0; padding:16px 0; border-bottom:1px solid var(--nb-rule); color:var(--nb-ink); font:500 21px/1.4 var(--f-ui); scroll-margin-top:120px; }
+.project-purpose-heading span { color:var(--nb-muted); font:400 14px/1.4 var(--f-ui); }

@@ -1,7 +1,7 @@
 // @ts-nocheck
 export function PullQuote({ children, color }) {
   return (
-    <blockquote style={{
+    <blockquote className="essay-pull-quote" style={{
       margin: "3rem -2rem",
       padding: "1rem 1.6rem",
       borderLeft: `3px solid ${color}`,

@@ -3,6 +3,9 @@
 // description, canonical, OG/Twitter cards, JSON-LD, fonts. Also includes
 // global CSS + the dark-mode initialiser so theme switching doesn't flash.
 import "../styles/global.css";
+import "../styles/notebook.css";
+import "../styles/workbench.css";
+import "../styles/daylight.css";
 import { NB_LIGHT, NB_DARK } from "../data/palette";
 import { SITE_NAME, SITE_URL } from "../data/site";
 
@@ -59,10 +62,11 @@ const ogImageUrl = new URL(ogImage, SITE_URL).href;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <slot name="head" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{fullTitle}</title>
@@ -113,24 +117,13 @@ const ogImageUrl = new URL(ogImage, SITE_URL).href;
     <style is:inline set:html={nbThemeCss} />
 
     {/* Inline pre-paint script so dark mode doesn't flash */}
-    <script is:inline>
+    <script is:inline define:vars={{ darkPaper: NB_DARK.paper, lightPaper: NB_LIGHT.paper }}>
       (function () {
-        try {
-          // Default to dark; only switch to light if the user explicitly chose it.
-          var saved = localStorage.getItem("theme");
-          var dark = saved !== "light";
-          if (dark) document.documentElement.dataset.theme = "dark";
-          // Set --page-bg on <html> before <body> paints so background is
-          // correct on the first paint — prevents the cream→dark transition
-          // flash on every page navigation.
-          document.documentElement.style.setProperty(
-            "--page-bg",
-            dark ? "#0E131D" : "#F3EEDB"
-          );
-        } catch (e) {
-          document.documentElement.dataset.theme = "dark";
-          document.documentElement.style.setProperty("--page-bg", "#0E131D");
-        }
+        // First visits start dark; an explicit light choice survives navigation.
+        var dark = true;
+        try { dark = localStorage.getItem("theme") !== "light"; } catch (_) {}
+        document.documentElement.dataset.theme = dark ? "dark" : "";
+        document.documentElement.style.setProperty("--page-bg", dark ? darkPaper : lightPaper);
       })();
     </script>
   </head>

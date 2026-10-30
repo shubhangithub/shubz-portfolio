@@ -9,11 +9,11 @@
 
 import type { APIRoute } from "astro";
 import sharp from "sharp";
-import { POSTS } from "../../data/posts";
+import { VISIBLE_POSTS } from "../../data/posts";
 import { NB_LIGHT } from "../../data/palette";
 
 export function getStaticPaths() {
-  return POSTS.map((post) => ({
+  return VISIBLE_POSTS.map((post) => ({
     params: { slug: post.slug },
     props: { post },
   }));
@@ -51,7 +51,7 @@ function wrap(text: string, perLine: number, maxLines = 3): string[] {
 }
 
 export const GET: APIRoute = async ({ props }) => {
-  const post = props.post as (typeof POSTS)[number];
+  const post = props.post as (typeof VISIBLE_POSTS)[number];
   const titleLines = wrap(post.title, 22, 3);
   const dekLines = wrap(post.dek, 60, 2);
 

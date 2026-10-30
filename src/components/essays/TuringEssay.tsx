@@ -47,7 +47,7 @@ function makeGrid() {
   return { u, v, nu: new Float32Array(GW*GH), nv: new Float32Array(GW*GH) };
 }
 
-function TuringRDFigure({ palette: p }) {
+export function TuringRDFigure({ palette: p }) {
   const W = 520, H = 360;
   const [activePreset, setActivePreset] = React.useState("spots");
   const [sliderF, setSliderF] = React.useState(0.035);

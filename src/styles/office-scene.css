@@ -1,0 +1,369 @@
+/* A single room: eight objects and their attached information display. */
+.office-kit .kit-registration {
+  padding-bottom: 18px;
+  gap: 12px 20px;
+}
+.office-kit .kit-registration p {
+  font-size: 15px;
+}
+.office-workspace {
+  position: relative;
+  isolation: isolate;
+  min-height: 690px;
+  padding: 42px 20px 36px 65%;
+  border: 1px solid var(--nb-rule);
+  background: radial-gradient(
+    ellipse at 30% 40%,
+    color-mix(in srgb, var(--nb-cyan) 5%, transparent),
+    transparent 65%
+  );
+}
+.office-stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 66%;
+  height: 690px;
+  isolation: isolate;
+}
+.office-architecture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+.office-window-labels {
+  position: absolute;
+  left: 27%;
+  right: 9%;
+  top: 10%;
+  display: flex;
+  justify-content: space-around;
+  color: var(--nb-muted);
+  font: 10px var(--f-mono);
+  letter-spacing: 0.06em;
+}
+.office-object {
+  position: absolute;
+  left: var(--object-x);
+  top: var(--object-y);
+  width: var(--object-width);
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--object-ink);
+  cursor: pointer;
+  z-index: 2;
+}
+.office-object .field-object {
+  height: auto;
+  width: 100%;
+  max-height: 190px;
+  filter: drop-shadow(
+    3px 5px 0 color-mix(in srgb, var(--nb-ink) 12%, transparent)
+  );
+  transition: transform 180ms var(--ease-out);
+}
+.office-object > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: var(--nb-paper2);
+  border: 1px solid var(--nb-rule);
+  border-bottom: 2px solid var(--object-ink);
+  padding: 6px 8px;
+  font: 12px/1.2 var(--f-ui);
+  white-space: nowrap;
+}
+.office-object small {
+  font: 9px var(--f-mono);
+}
+.office-object:hover .field-object,
+.office-object[aria-pressed="true"] .field-object {
+  transform: translateY(-5px);
+}
+.office-object[aria-pressed="true"] > span {
+  border-color: var(--object-ink);
+  box-shadow: 0 3px 14px color-mix(in srgb, var(--object-ink) 15%, transparent);
+}
+.office-object:focus-visible {
+  outline: 2px solid var(--object-ink);
+  outline-offset: 4px;
+}
+.office-connection {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 1;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  stroke-dasharray: 4 5;
+  opacity: 0.7;
+}
+.office-display {
+  position: relative;
+  z-index: 3;
+  min-height: 570px;
+  background: var(--nb-paper2);
+  border: 1px solid var(--object-ink);
+  border-top: 4px solid var(--object-ink);
+  box-shadow: 7px 8px 0 color-mix(in srgb, var(--nb-ink) 10%, transparent);
+  padding: 18px 21px 0;
+  display: flex;
+  flex-direction: column;
+}
+.office-display-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  color: var(--object-ink);
+  font: 10px var(--f-mono);
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--nb-rule);
+}
+.office-display h3 {
+  font: 500 30px/1.15 var(--f-ui);
+  margin: 23px 0;
+  color: var(--object-ink);
+  letter-spacing: -0.035em;
+}
+.office-kit .office-group-fields {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.office-kit .office-group-fields > div {
+  display: block;
+  padding: 0 0 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--nb-rule);
+  scroll-margin-top: 125px;
+  min-width: 0;
+}
+.office-kit .office-group-fields dt {
+  font: 500 12px var(--f-ui);
+  color: var(--object-ink);
+  margin-bottom: 9px;
+}
+.office-kit .office-group-fields dd {
+  margin: 0;
+  padding: 0;
+  font: 15px/1.6 var(--f-ui);
+  color: var(--nb-ink);
+}
+.office-kit .office-group-fields .context-detail {
+  margin-top: 8px;
+}
+.office-kit .office-group-fields .context-detail summary {
+  min-height: 44px;
+  font-size: 12px;
+}
+.office-kit .office-group-fields .context-detail p {
+  font-size: 14px;
+  line-height: 1.7;
+}
+.office-kit .office-group-fields .kit-ink-link {
+  font-size: 12px;
+  line-height: 1.5;
+  min-height: 44px;
+}
+.office-display-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+  margin-top: auto;
+  padding: 12px 0;
+  border-top: 1px solid var(--nb-rule);
+}
+.office-display-controls button {
+  min-width: 44px;
+  min-height: 44px;
+  background: var(--nb-paper);
+  border: 1px solid var(--nb-control);
+  color: var(--object-ink);
+  font: 18px var(--f-ui);
+  cursor: pointer;
+}
+.office-display-controls span {
+  font: 12px var(--f-ui);
+  color: var(--nb-muted);
+}
+html:not([data-theme="dark"])
+  .office-object
+  .field-object
+  :is(path, line, polyline, polygon, rect, circle, ellipse) {
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1px;
+}
+@media (max-width: 1050px) {
+  .office-workspace {
+    padding-left: 58%;
+    min-height: 650px;
+  }
+  .office-stage {
+    width: 60%;
+    height: 620px;
+  }
+  .office-object > span {
+    font-size: 10px;
+    padding: 5px 4px;
+  }
+  .office-object small {
+    display: none;
+  }
+  .office-display {
+    padding: 15px 16px 0;
+  }
+  .office-window-labels {
+    font-size: 8px;
+  }
+}
+@media (max-width: 760px) {
+  .office-workspace {
+    padding: 0 14px 18px;
+    min-height: 0;
+  }
+  .office-stage {
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 760/720;
+    margin: 0 auto 14px;
+    max-width: 620px;
+  }
+  .office-display {
+    min-height: 420px;
+    padding: 16px 20px 0;
+  }
+  .office-connection {
+    display: none;
+  }
+  .office-display:before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    height: 24px;
+    border-left: 1px dashed var(--object-ink);
+  }
+  .office-object > span {
+    font-size: 11px;
+    padding: 5px;
+  }
+  .office-window-labels {
+    font-size: 9px;
+  }
+  .office-object .field-object {
+    max-height: 150px;
+  }
+  .office-display h3 {
+    margin: 18px 0;
+    font-size: 27px;
+  }
+  .office-kit .office-group-fields dd {
+    font-size: 16px;
+  }
+}
+@media (max-width: 420px) {
+  .office-workspace {
+    padding-inline: 9px;
+  }
+  .office-stage {
+    margin-left: -8px;
+    width: calc(100% + 16px);
+  }
+  .office-object > span {
+    font-size: 9px;
+    padding: 4px 3px;
+  }
+  .office-window-labels {
+    font-size: 8px;
+  }
+  .office-display {
+    padding: 15px 15px 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .office-object .field-object {
+    transition: none;
+  }
+}
+@media (max-width: 420px) {
+  .office-object > span {
+    font-size: 11px;
+  }
+}
+
+.office-display { scroll-margin-top: 125px; }
+.office-return { display: none; }
+@media (max-width: 760px) {
+  .office-return {
+    display: block;
+    align-self: flex-start;
+    min-height: 44px;
+    padding: 8px 0;
+    border: 0;
+    background: none;
+    color: var(--object-ink);
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+  }
+}
+@media (max-width: 500px) {
+  .office-object[data-office-group="away"] > span {
+    max-width: 80px;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* The selected physical object carries its own quiet moving pen halo. */
+.office-object-aura{position:absolute;z-index:3;left:-12%;top:1%;width:124%;height:80%;overflow:visible;pointer-events:none;opacity:0;transform:rotate(-15deg);transition:opacity 240ms;}
+.office-object-aura ellipse{fill:none;stroke:var(--object-ink);stroke-width:1.7;stroke-dasharray:12 5 2 5;filter:drop-shadow(0 0 5px var(--object-ink));animation:office-ink-orbit 9s linear infinite;animation-play-state:paused;}
+.office-object[aria-pressed=true] .office-object-aura{opacity:.8;}
+.office-workspace[data-office-motion] .office-object[aria-pressed=true] .office-object-aura ellipse{animation-play-state:running;}
+@keyframes office-ink-orbit{to{stroke-dashoffset:-144}}
+@media(prefers-reduced-motion:reduce){.office-object-aura{transition:none}.office-object-aura ellipse{animation:none}}
+
+/* Match the room's coordinate system: framed studies on the back wall,
+   a broad monitor and a foreshortened notebook resting on the desk plane. */
+.office-stage {height:auto;aspect-ratio:760/720;}
+.office-window-labels {left:50%;right:10%;top:10%;gap:6px;font-size:9px;}
+.office-object .office-study {max-height:none;filter:drop-shadow(2px 3px 0 color-mix(in srgb,var(--nb-ink) 12%,transparent));}
+.office-object[data-office-group="research"]:is(:hover,[aria-pressed="true"]) .field-object,
+.office-object[data-office-group="education"]:is(:hover,[aria-pressed="true"]) .field-object,
+.office-object[data-office-group="away"]:is(:hover,[aria-pressed="true"]) .field-object {transform:none;}
+.office-object[data-office-group="education"] .office-object-aura,
+.office-object[data-office-group="away"] .office-object-aura {top:12%;height:64%;}
+.office-object[data-office-group="research"] .office-object-aura {top:4%;height:76%;transform:rotate(8deg);}
+@media(max-width:760px){
+ .office-object[data-office-group="education"]>span,
+ .office-object[data-office-group="away"]>span{font-size:10px;padding:4px;}
+ .office-window-labels{font-size:8px;letter-spacing:0;}
+ .office-object[data-office-group="research"]>span{margin-top:-3px;}
+}
+@media(max-width:420px){
+ .office-object[data-office-group="away"]>span{max-width:75px;white-space:normal;text-align:center;}
+ .office-object[data-office-group="open-source"]>span{max-width:62px;white-space:normal;text-align:center;}
+ .office-window-labels{font-size:7px;}
+}
+@media(max-width:760px){
+ .office-object[data-office-group="education"]{left:33%;top:14%;}
+ .office-object[data-office-group="away"]{left:33%;top:43%;}
+}

@@ -1,0 +1,7 @@
+.article-actions {display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:20px;}
+.article-like {display:inline-flex;align-items:center;flex-wrap:wrap;gap:8px;}
+.article-like button {display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:10px 14px;background:var(--nb-paper2);border:1px solid var(--nb-control);color:var(--nb-ink);font:14px var(--f-ui);cursor:pointer;}
+.article-like button[aria-pressed=true] {color:var(--nb-yellow);border-color:currentColor;}
+.article-like button:focus-visible {outline:2px solid var(--nb-yellow);outline-offset:3px;}
+.article-like button:disabled {opacity:.6;cursor:wait;}
+.article-like small {font:12px var(--f-ui);color:var(--nb-muted);}

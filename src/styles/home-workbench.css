@@ -1,0 +1,63 @@
+.home-workbench {margin-top:40px;border:1px solid var(--nb-control);background:var(--nb-paper);}
+.workbench-selector {display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:12px;border-bottom:1px solid var(--nb-rule);}
+.workbench-selector>div {display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.workbench-selector button {min-height:44px;min-width:44px;padding:8px 12px;background:none;border:1px solid var(--nb-control);color:var(--nb-softInk);font:12px var(--f-ui);cursor:pointer;}
+.workbench-selector button[aria-pressed=true] {color:var(--nb-cyan);border-color:var(--nb-cyan);background:color-mix(in srgb,var(--nb-cyan) 7%,var(--nb-paper));}
+.workbench-step span {font:11px var(--f-mono);color:var(--nb-muted);}
+.workbench-window {overflow:hidden;}
+.workbench-belt {display:flex;align-items:stretch;transition:transform 600ms cubic-bezier(.22,.7,.2,1);}
+.workbench-slide {flex:0 0 100%;width:100%;min-width:0;padding:24px;}
+.workbench-slide>.notebook-terminal,.workbench-slide>.sidebar-note {width:100%;max-width:none;height:100%;margin:0;min-height:275px;}
+.workbench-slide .notebook-terminal {font-size:14px;}
+.workbench-slide .terminal-body {min-height:170px;}
+.home-experiment {display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.home-experiment>.eyebrow {width:100%;}.home-experiment>svg {display:block;max-width:100%;height:auto;}
+.workbench-slide .github-note {display:flex;flex-direction:column;justify-content:center;gap:24px;}
+.workbench-slide .github-calendar {max-width:100%;overflow-x:auto;}
+.home-bridge-note {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) 150px;gap:28px;align-items:center;padding:28px 0;border-bottom:1px solid var(--nb-rule);margin:20px 0 0;}
+.bridge-postcard {min-width:0;color:var(--nb-cyan);}.bridge-postcard>span{font:10px var(--f-mono);letter-spacing:.08em;}.bridge-postcard svg{width:100%;height:auto;overflow:visible;}
+.bridge-letter {offset-path:path('M100 125Q310 5 540 125');animation:bridge-delivery 12s ease-in-out infinite alternate;offset-rotate:auto;}
+.bridge-note-copy p {font:15px/1.7 var(--f-ui);color:var(--nb-softInk);}.bridge-note-image img {width:100%;height:auto;display:block;border:1px solid var(--nb-rule);transform:rotate(3deg);}
+.folio .home-columns.home-parallel {grid-template-columns:repeat(2,minmax(0,1fr));gap:44px;align-items:start;}
+.home-parallel .folio-section {min-width:0;margin-top:0;}
+.home-parallel .section-label {flex-wrap:wrap;}
+.home-parallel .writing-item {grid-template-columns:20px minmax(0,1fr) 65px 12px;gap:10px;}
+.home-parallel .writing-item img {width:65px;height:65px;}
+.home-parallel .writing-item h3 {font-size:22px;}
+@keyframes bridge-delivery {from{offset-distance:0%}to{offset-distance:100%}}
+@media(max-width:760px){.folio .home-columns.home-parallel{grid-template-columns:minmax(0,1fr);gap:28px}.workbench-slide{padding:12px}.workbench-selector{padding:9px}.workbench-selector button{font-size:11px;padding:8px}.home-experiment{gap:14px}.workbench-slide>.sidebar-note{padding:16px}.home-bridge-note{grid-template-columns:minmax(0,1fr) 90px;gap:20px}.bridge-postcard{grid-column:1/-1;max-width:400px;width:100%;margin:auto}.bridge-note-copy p{font-size:14px}.home-workbench{margin-top:28px}}
+@media(prefers-reduced-motion:reduce){.workbench-belt{transition:none}.bridge-letter{animation:none;offset-distance:50%}}
+.folio .home-parallel > .folio-section {padding-top:0;}
+/* Share one lower edge, distributing the three projects over the essay height. */
+@media(min-width:761px){
+ .folio .home-columns.home-parallel{align-items:stretch;}
+ .home-parallel>.folio-section{display:flex;flex-direction:column;}
+ .home-parallel .build-rows{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));flex:1;}
+ .home-parallel .build-row{align-content:center;}
+ .home-parallel .writing-list{flex:1;}
+ .home-parallel .writing-list>li:last-child{border-bottom:1px solid var(--nb-rule);}
+}
+
+/* Give the two visual instruments a measured canvas, rather than a stretched sidebar. */
+.workbench-slide>.home-experiment,.workbench-slide>.github-note{
+ display:grid;grid-template-columns:minmax(170px,.7fr) minmax(0,1.5fr);
+ align-items:center;gap:36px;max-width:950px;margin:0 auto;padding:24px 30px;
+ box-shadow:none;min-height:300px;
+}
+.workbench-panel-caption{display:flex;flex-direction:column;align-items:flex-start;gap:24px;min-width:0;}
+.workbench-panel-caption .eyebrow{line-height:1.8;font-size:12px;}
+.workbench-panel-caption .text-link{min-height:44px;display:inline-flex;align-items:center;line-height:1.6;font-size:14px;}
+.home-experiment>svg{width:100%;max-width:520px;justify-self:center;}
+.workbench-slide .github-calendar{margin:0;width:100%;min-height:150px;display:flex;align-items:center;}
+.workbench-slide .github-calendar .react-activity-calendar{width:max-content;max-width:100%;}
+.workbench-step>.pixel-station{float:none;flex:none;margin:-7px 8px -7px 0;}
+.workbench-step .pixel-station-settings{z-index:5;}
+@media(max-width:760px){
+ .workbench-slide>.home-experiment,.workbench-slide>.github-note{grid-template-columns:minmax(0,1fr);gap:16px;padding:18px;min-height:300px;}
+ .workbench-panel-caption{gap:8px;}
+ .workbench-panel-caption .eyebrow{font-size:11px;}
+ .workbench-panel-caption .text-link{font-size:13px;}
+ .workbench-slide .github-calendar{min-height:160px;}
+ .workbench-step>.pixel-station{margin:0 8px 0 0;}
+}
+.workbench-selector .pixel-station-avatar{border:0;padding:0;background:transparent;}

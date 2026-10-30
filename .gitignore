@@ -11,3 +11,15 @@ exported/
 # Astro build outputs
 dist/
 .astro/
+
+# Unpublished writing — this repo is public. Manuscripts under review,
+# experiment code behind them, and pitches to editors all stay local
+# until they're deliberately wired into the site.
+drafts/
+experiments/
+guest-writing/
+
+# Local-only article reaction review data
+.local-data/
+.vercel
+.env*

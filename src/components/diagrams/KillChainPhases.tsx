@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
+import '../../styles/essay-responsive-diagrams.css';
 
 const PHASES = [
   {
@@ -61,9 +62,9 @@ export function KillChainPhases({ palette: p }) {
   const activePhase = PHASES.find(ph => ph.id === active);
 
   return (
-    <div style={{ fontFamily: "var(--f-ui)" }}>
+    <div className="kill-chain-study" style={{ fontFamily: "var(--f-ui)" }}>
       {/* Phase boxes */}
-      <div style={{
+      <div className="kill-chain-phases" style={{
         display: "flex",
         flexWrap: "wrap",
         gap: "0.5rem",
@@ -74,10 +75,9 @@ export function KillChainPhases({ palette: p }) {
           const col = strengthColor(ph.strength);
           return (
             <React.Fragment key={ph.id}>
-              <button
+              <button className="kill-chain-phase"
                 onClick={() => setActive(isActive ? null : ph.id)}
                 style={{
-                  flex: "1 1 140px",
                   display: "flex",
                   flexDirection: "column",
                   gap: "0.3rem",
@@ -133,7 +133,7 @@ export function KillChainPhases({ palette: p }) {
 
               {/* connector arrow (not after last) */}
               {i < PHASES.length - 1 && (
-                <div style={{
+                <div className="kill-chain-arrow" aria-hidden="true" style={{
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -160,7 +160,7 @@ export function KillChainPhases({ palette: p }) {
           borderRadius: 4,
           background: `color-mix(in srgb, ${p.paper} 88%, ${p.ink})`,
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(220px, 100%), 1fr))",
           gap: "1rem",
         }}>
           {/* Evidence */}

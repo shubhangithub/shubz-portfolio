@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NetworkPage from '../../components/pages/NetworkPage';
+import { DISCOVERY_COPY } from '../../data/guide';
+---
+
+<BaseLayout
+  title={DISCOVERY_COPY.networkMetaTitle}
+  description={DISCOVERY_COPY.networkMetaDescription}
+  canonicalPath="/builds/network/"
+  ogType="website"
+>
+  <NetworkPage client:load />
+</BaseLayout>

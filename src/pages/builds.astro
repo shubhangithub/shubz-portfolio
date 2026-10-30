@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { PENS } from "../data/notebook";
+import { DISCOVERY_COPY } from "../data/guide";
+import AppShell from "../components/pages/AppShell.tsx";
+---
+
+<BaseLayout
+  title={DISCOVERY_COPY.metaTitle}
+  description={DISCOVERY_COPY.metaDescription}
+  canonicalPath="/builds/"
+  ogType="website"
+>
+  <script slot="head" is:inline define:vars={{ subjectKeys: PENS.map(p => p.key) }}>
+    // Compatibility for saved query URLs: redirect before the index paints.
+    // Record and subject parameters retain their existing higher priority.
+    const params = new URLSearchParams(location.search);
+    const record = params.get('project') || params.get('tool');
+    const subject = subjectKeys.includes(params.get('topic'));
+    const explicitIndex = ['projects', 'tools', 'lab'].includes(params.get('view'))
+      || ['#catalogue', '#tools'].includes(location.hash);
+    if (!record && !subject && !explicitIndex &&
+      (params.get('view') === 'graph' || params.has('node') || params.has('lens'))) {
+      const target = new URL('/builds/network/', location.origin);
+      target.search = location.search;
+      target.hash = location.hash;
+      location.replace(target.href);
+    }
+  </script>
+  <AppShell page="builds" client:load />
+</BaseLayout>

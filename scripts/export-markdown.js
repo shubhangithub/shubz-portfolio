@@ -35,6 +35,7 @@ const ESSAY_DIR = path.join(ROOT, "src/components/essays");
 const POSTS_SRC = fs.readFileSync(path.join(ROOT, "src/data/posts.ts"), "utf-8");
 const BASE_URL = "https://shubzsharma.com";
 const OUT_DIR = path.join(ROOT, "exported");
+const RSS_FIGURE_DIR = path.join(ROOT, "public/rss-figures");
 
 // figure manifest (written by capture-figures.js): per essay, each figure's
 // frame filename(s) + whether it's a slider sweep. Optional — falls back to
@@ -42,26 +43,43 @@ const OUT_DIR = path.join(ROOT, "exported");
 let MANIFEST = {};
 try { MANIFEST = JSON.parse(fs.readFileSync(path.join(OUT_DIR, "figures", "manifest.json"), "utf-8")); } catch {}
 
+function getFigureEntry(slug, n) {
+  const captured = (MANIFEST[slug] || []).find((figure) => figure.n === n);
+  if (captured) return captured;
+
+  const stem = `${slug}-${String(n).padStart(2, "0")}`;
+  const sliderFrames = [`${stem}-a.png`, `${stem}-b.png`];
+  if (sliderFrames.every((filename) =>
+    fs.existsSync(path.join(RSS_FIGURE_DIR, filename))
+  )) {
+    return { n, slider: true, sliderLabel: "slider", frames: sliderFrames };
+  }
+
+  const staticFrame = `${stem}.png`;
+  if (fs.existsSync(path.join(RSS_FIGURE_DIR, staticFrame))) {
+    return { n, slider: false, frames: [staticFrame] };
+  }
+
+  return null;
+}
+
 // slug → essay component (each lives in src/components/essays/<Component>.tsx)
-const ESSAYS = {
+export const ESSAYS = {
   "bluedot-unit1":         "BluedotEssay",
   "bluedot-assumptions":   "BluedotAssumptionsEssay",
-  "bluedot-vocabulary":    "BluedotVocabularyEssay",
   "bluedot-civilization":  "BluedotCivilizationEssay",
   "bluedot-killchain":     "BluedotKillchainEssay",
-  "zx-calculus":           "ZXEssay",
-  "jaya":                  "JayaEssay",
-  "fashion-trends":        "FashionEssay",
-  "threshold-gate":        "ThresholdEssay",
-  "constraint-clustering": "ConstraintClusterEssay",
   "six-engines":           "SixEnginesEssay",
   "turing-morphogenesis":  "TuringEssay",
   "may-2026":              "MayEssay",
   "fisher-wave":           "FisherWaveEssay",
+  "ross-threshold":        "RossThresholdEssay",
+  "september-queue": "SeptemberQueueEssay",
+  "october-feedback": "OctoberFeedbackEssay",
 };
 
 // --- POSTS metadata -------------------------------------------------------
-function getPostMeta(slug) {
+export function getPostMeta(slug) {
   const re = new RegExp(
     `slug:\\s*"${slug}",[\\s\\S]*?title:\\s*"([^"]+)",[\\s\\S]*?kicker:\\s*"([^"]+)",[\\s\\S]*?dek:\\s*"([^"]+)",[\\s\\S]*?minutes:\\s*(\\d+)`,
     "m",
@@ -73,7 +91,7 @@ function getPostMeta(slug) {
 }
 
 // --- pull the essay's returned JSX ----------------------------------------
-function getEssayBody(component) {
+export function getEssayBody(component) {
   const file = path.join(ESSAY_DIR, `${component}.tsx`);
   if (!fs.existsSync(file)) return null;
   const src = fs.readFileSync(file, "utf-8");
@@ -115,7 +133,7 @@ function cleanInline(s) {
 }
 
 // --- JSX → Markdown -------------------------------------------------------
-function jsxToMarkdown(jsx, slug) {
+export function jsxToMarkdown(jsx, slug) {
   let md = jsx;
   const figures = []; // preserve document order
 
@@ -132,10 +150,26 @@ function jsxToMarkdown(jsx, slug) {
   md = md.replace(/<PullQuote(?:\s[^>]*)?>([\s\S]*?)<\/PullQuote>/g,
     (_, c) => `\n\n> ${cleanInline(c)}\n\n`);
 
+  // Ordinary article artwork → image + credit. Unlike interactive diagrams,
+  // these already have a public site URL and do not need a screenshot.
+  md = md.replace(/<figure\b[^>]*>[\s\S]*?<img\b([\s\S]*?)\/>[\s\S]*?<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>[\s\S]*?<\/figure>/g,
+    (_, attrs, caption) => {
+      const srcMatch = attrs.match(/src="([^"]+)"/);
+      const altMatch = attrs.match(/alt="([^"]*)"/);
+      if (!srcMatch) return "";
+      const src = srcMatch[1].startsWith("/") ? `${BASE_URL}${srcMatch[1]}` : srcMatch[1];
+      const alt = altMatch ? altMatch[1] : "Article artwork";
+      return `\n\n![${alt}](${src})\n*${cleanInline(caption)}*\n\n`;
+    });
+
   // <Figure caption="…">…</Figure> → figure token
   md = md.replace(/<Figure\s+caption="([^"]*)"[^>]*>[\s\S]*?<\/Figure>/g, (_, cap) => {
     figures.push(cap || "Figure"); return `\n\n@@FIG:${figures.length}@@\n\n`;
   });
+
+  // Shared formula style used by the monthly essays.
+  md = md.replace(/<p\s+style=\{formula\}>([\s\S]*?)<\/p>/g,
+    (_, c) => `\n\n\`\`\`\n${cleanInline(c)}\n\`\`\`\n\n`);
 
   // equation boxes: a <p> styled monospace → fenced code (keeps the look)
   md = md.replace(/<p\s+style=\{\{[^}]*var\(--f-mono\)[\s\S]*?\}\}[^>]*>([\s\S]*?)<\/p>/g,
@@ -182,10 +216,17 @@ function jsxToMarkdown(jsx, slug) {
     const n = Number(i);
     const name = figures[n - 1] || "figure";
     const nn = String(n).padStart(2, "0");
-    const entry = (MANIFEST[slug] || []).find((f) => f.n === n);
+    const entry = getFigureEntry(slug, n);
     // slider diagram → two frames (low & high) so the static version shows it responding
     if (entry && entry.slider && entry.frames.length >= 2) {
       const s = entry.sliderLabel || "slider";
+      const animation = `${slug}-${nn}.gif`;
+      if (fs.existsSync(path.join(RSS_FIGURE_DIR, animation))) {
+        return [
+          `![Figure ${n} — ${name} · animated ${s} sweep](figures/${animation})`,
+          `*▶ Two ${s} settings — drag it live at ${BASE_URL}/${slug}*`,
+        ].join("\n");
+      }
       return [
         `![Figure ${n}a — ${name} · ${s} low](figures/${entry.frames[0]})`,
         `![Figure ${n}b — ${name} · ${s} high](figures/${entry.frames[1]})`,
@@ -208,14 +249,14 @@ function jsxToMarkdown(jsx, slug) {
   return { md, figureCount: figures.length };
 }
 
-// --- write one essay ------------------------------------------------------
-function exportOne(slug) {
+// --- build / write one essay ----------------------------------------------
+export function getEssayExport(slug) {
   const component = ESSAYS[slug];
-  if (!component) { console.error(`unknown slug: ${slug}`); return false; }
+  if (!component) throw new Error(`unknown slug: ${slug}`);
   const meta = getPostMeta(slug);
   const body = getEssayBody(component);
-  if (!meta) { console.error(`missing POSTS metadata for ${slug}`); return false; }
-  if (!body) { console.error(`could not extract essay body for ${component}`); return false; }
+  if (!meta) throw new Error(`missing POSTS metadata for ${slug}`);
+  if (!body) throw new Error(`could not extract essay body for ${component}`);
 
   const { md, figureCount } = jsxToMarkdown(body, slug);
 
@@ -238,19 +279,33 @@ ${md}
 _Originally published at [shubzsharma.com/${slug}](${BASE_URL}/${slug}), where the diagrams are live and interactive. When you cross-post, set the Substack canonical URL to ${BASE_URL}/${slug} so search engines credit the original._
 `;
 
+  return { meta, md, figureCount, output: out };
+}
+
+export function exportOne(slug) {
+  let essay;
+  try {
+    essay = getEssayExport(slug);
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : String(error));
+    return false;
+  }
+
   fs.mkdirSync(OUT_DIR, { recursive: true });
   const outPath = path.join(OUT_DIR, `${slug}.md`);
-  fs.writeFileSync(outPath, out);
-  console.log(`✓ ${path.relative(ROOT, outPath)}  (${meta.minutes} min · ${figureCount} figure${figureCount === 1 ? "" : "s"} · ${out.length} chars)`);
+  fs.writeFileSync(outPath, essay.output);
+  console.log(`✓ ${path.relative(ROOT, outPath)}  (${essay.meta.minutes} min · ${essay.figureCount} figure${essay.figureCount === 1 ? "" : "s"} · ${essay.output.length} chars)`);
   return true;
 }
 
 // --- CLI ------------------------------------------------------------------
-const arg = process.argv[2];
-if (arg === "--list" || arg === "-l") {
-  console.log("essays:"); Object.keys(ESSAYS).forEach((s) => console.log(`  ${s}`)); process.exit(0);
+if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
+  const arg = process.argv[2];
+  if (arg === "--list" || arg === "-l") {
+    console.log("essays:"); Object.keys(ESSAYS).forEach((s) => console.log(`  ${s}`)); process.exit(0);
+  }
+  const targets = arg ? [arg] : Object.keys(ESSAYS);
+  let ok = 0;
+  for (const slug of targets) if (exportOne(slug)) ok++;
+  console.log(`\n${ok}/${targets.length} essays → ${path.relative(ROOT, OUT_DIR)}/`);
 }
-const targets = arg ? [arg] : Object.keys(ESSAYS);
-let ok = 0;
-for (const slug of targets) if (exportOne(slug)) ok++;
-console.log(`\n${ok}/${targets.length} essays → ${path.relative(ROOT, OUT_DIR)}/`);

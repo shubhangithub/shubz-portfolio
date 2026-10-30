@@ -1,0 +1,23 @@
+{
+  "ross-threshold": {
+    "source": "https://commons.wikimedia.org/wiki/File:Nuttall_et_Shipley_1901_Anopheles_maculipennis.jpg",
+    "original": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Nuttall_et_Shipley_1901_Anopheles_maculipennis.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original",
+    "creator": "E. Wilson, Cambridge (1901).",
+    "description": "Anopheles maculipennis, plate VIII in Nuttall & Shipley, Studies in Relation to Malaria. Public domain.",
+    "processing": "Resized and JPEG-encoded; no compositing or recolouring."
+  },
+  "september-queue": {
+    "source": "https://commons.wikimedia.org/wiki/File:Britain_Queues_For_Food-_Rationing_and_Food_Shortages_in_Wartime,_London,_England,_UK,_1945_D25037.jpg",
+    "original": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Britain_Queues_For_Food-_Rationing_and_Food_Shortages_in_Wartime%2C_London%2C_England%2C_UK%2C_1945_D25037.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original",
+    "creator": "Ministry of Information Photo Division (1945).",
+    "description": "Queue outside Williamson’s, Wood Green High Road, London. IWM D 25037. Expired Crown copyright; public domain.",
+    "processing": "Resized and JPEG-encoded; no compositing or recolouring."
+  },
+  "october-feedback": {
+    "source": "https://commons.wikimedia.org/wiki/File:Centrifugal_governor.png",
+    "original": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Centrifugal_governor.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original",
+    "creator": "R. Routledge (1900).",
+    "description": "Governor and throttle-valve, Discoveries & Inventions of the Nineteenth Century, 13th edition. Public domain.",
+    "processing": "Resized and JPEG-encoded; no compositing or recolouring."
+  }
+}

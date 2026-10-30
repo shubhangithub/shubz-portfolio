@@ -1,0 +1,20 @@
+import { useState, useEffect, useRef } from 'react';
+type Palette = {accent:string;ink:string;muted:string;line:string;paper:string};
+// Preserve a readable rendered label size as the SVG scales into a phone column.
+function usePlotLabels(viewWidth:number){
+ const ref=useRef<SVGSVGElement>(null);const [size,setSize]=useState(14);
+ useEffect(()=>{const node=ref.current;if(!node)return;const update=()=>setSize(Math.max(14,12*viewWidth/Math.max(200,node.getBoundingClientRect().width)));const observer=new ResizeObserver(update);observer.observe(node);update();return()=>observer.disconnect();},[viewWidth]);
+ return {ref,size};
+}
+const control={minHeight:44,width:'100%',accentColor:'var(--nb-yellow)'};
+export function QueueHeadroom({palette:p}:{palette:Palette}) {
+ const labels=usePlotLabels(580);
+ const [rho,setRho]=useState(.8);const mu=10,wait=1/(mu*(1-rho));
+ const path=Array.from({length:91},(_,i)=>{const r=i/100;return `${i?'L':'M'}${(80+r*480).toFixed(2)} ${(220-18/(1-r)).toFixed(2)}`}).join(' ');
+ return <div style={{color:p.ink}}><label style={{display:'block'}}>Utilisation ρ: {(rho*100).toFixed(0)}%<input aria-label="Server utilisation" type="range" min=".1" max=".9" step=".01" value={rho} onChange={e=>setRho(+e.target.value)} style={{...control,accentColor:p.accent}}/></label><svg ref={labels.ref} viewBox="0 0 580 300" width="100%" role="img" aria-label={`Mean time in system ${wait.toFixed(3)} seconds at ${rho*100}% utilisation`}><path d="M80 30V220H535" fill="none" stroke={p.muted}/><path d={path} fill="none" stroke={p.accent} strokeWidth="3"/><circle cx={80+rho*480} cy={220-wait*180} r="6" fill={p.paper} stroke={p.accent} strokeWidth="3"/>{[0,.5,1].map(v=><text key={v} x="74" y={224-v*180} textAnchor="end" fill={p.muted} fontSize={labels.size}>{v}s</text>)}{[0,.3,.6,.9].map(v=><text key={v} x={80+v*480} y="255" textAnchor="middle" fill={p.muted} fontSize={labels.size}>{Math.round(v*100)}%</text>)}<text x="300" y="289" textAnchor="middle" fill={p.ink} fontSize={labels.size}>utilisation · μ = 10 jobs/s</text></svg><p style={{fontFamily:'var(--f-mono)',fontSize:13}}>λ = {(rho*mu).toFixed(1)}/s · W = {wait.toFixed(3)} s · Wq = {(wait-.1).toFixed(3)} s · L = {(rho/(1-rho)).toFixed(2)} jobs</p><p>Stationary M/M/1 expectation, including service. This curve describes a model, not measured production latency.</p></div>;
+}
+export function QueueLedger({palette:p}:{palette:Palette}) {
+ const labels=usePlotLabels(520);
+ const [spacing,setSpacing]=useState(2);const arrivals=[0,1,2,3].map(n=>n*spacing);let end=0;const departures=arrivals.map(a=>{end=Math.max(end,a)+3;return end;});const horizon=departures[3],total=departures.reduce((s,d,i)=>s+d-arrivals[i],0);const x=(t:number)=>45+t/horizon*440;
+ return <div style={{color:p.ink}}><label>Arrival spacing: {spacing.toFixed(1)} s<input aria-label="Seconds between four arrivals" type="range" min="1" max="5" step=".5" value={spacing} onChange={e=>setSpacing(+e.target.value)} style={{...control,accentColor:p.accent}}/></label><svg ref={labels.ref} viewBox="0 0 520 210" width="100%" role="img" aria-label="Four jobs, showing each arrival-to-departure interval">{arrivals.map((a,i)=><g key={i}><text x="9" y={53+i*35} fill={p.ink} fontSize={labels.size}>{i+1}</text><path d={`M${x(a)} ${49+i*35}H${x(departures[i])}`} stroke={p.accent} strokeWidth="9"/><circle cx={x(a)} cy={49+i*35} r="5" fill={p.paper} stroke={p.accent}/><circle cx={x(departures[i])} cy={49+i*35} r="5" fill={p.accent}/></g>)}<path d="M45 184H485" stroke={p.muted}/><text x="45" y="204" fill={p.muted} fontSize={labels.size}>0 s</text><text x="485" y="204" textAnchor="end" fill={p.muted} fontSize={labels.size}>T = {horizon.toFixed(1)} s</text></svg><p style={{fontFamily:'var(--f-mono)',fontSize:13}}>Σ time = {total.toFixed(1)} job·s<br/>L̄ = {(total/horizon).toFixed(3)} jobs<br/>(4/T) × W̄ = {(4/horizon).toFixed(3)}/s × {(total/4).toFixed(3)} s</p><p>Four arrivals, deterministic three-second service, empty at both boundaries. This finite ledger illustrates the accounting identity; it is not an M/M/1 sample.</p></div>;
+}

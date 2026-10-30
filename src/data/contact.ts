@@ -1,6 +1,7 @@
 // contact.ts — editable copy for /contact. ContactV5 reads from this file.
 
 import type { NBAccentKey } from "./palette";
+import { SITE_LAST_UPDATED_DATE } from "./site";
 import type { Span } from "./home";
 
 // ---------------------------------------------------------------------------
@@ -11,15 +12,7 @@ export const CONTACT_HERO_LINES: Span[][] = [
   ["I read everything ", { em: "eventually", c: "orange" }, "."],
 ];
 
-export const CONTACT_LEDE: Span[] = [
-  "I prefer email. If you're writing about ",
-  { tag: "computational biology", c: "red" },
-  ", ",
-  { tag: "geospatial ML", c: "teal" },
-  ", or ",
-  { tag: "music recommendations", c: "purple" },
-  ", you will get a longer reply than you expect.",
-];
+export const CONTACT_LEDE: Span[] = ["I prefer email."];
 
 export const CONTACT_MARGINALIA = {
   lines: ["best on email,", "read once daily."],
@@ -27,7 +20,7 @@ export const CONTACT_MARGINALIA = {
 };
 
 export const CONTACT_LAST_UPDATED_LABEL = "CONTACT · CHANNELS + COMPOSE";
-export const CONTACT_LAST_UPDATED_DATE = "23 jul 2026";
+export const CONTACT_LAST_UPDATED_DATE = SITE_LAST_UPDATED_DATE;
 
 // ---------------------------------------------------------------------------
 // §02 CHANNELS
@@ -75,14 +68,23 @@ export const CONTACT_PROTOCOL = {
 // "Open to" block — what kinds of collaboration / topics. Moved here from
 // /work since this is a contact / communication preference, not a CV item.
 // ---------------------------------------------------------------------------
-export const CONTACT_OPEN_TO: Span[] = [
-  "Open to collaboration on ",
-  { tag: "geospatial ML", c: "teal" },
-  ", ",
-  { tag: "AI safety", c: "blue" },
-  ", ",
-  { tag: "computational biology", c: "red" },
-  ", ",
-  { tag: "STEM-ed outreach", c: "prompt" },
-  ", or anything that crosses these.",
-];
+export const CONTACT_OPEN_TO = [
+  "research collabs",
+  "talks, podcasts, & panels",
+  "judging & mentoring",
+  "guest writing",
+  "the occasional 1-1",
+] as const;
+
+// ---------------------------------------------------------------------------
+// Photo polaroid under the "open to" block — proof the talks happen.
+// Outreach (orange) per §14. File lives in public/photos/.
+// ---------------------------------------------------------------------------
+export const CONTACT_PHOTO = {
+  src: "/photos/downing-street.jpg",
+  caption: "Presentation at 10 Downing Street, UK",
+  alt: "Shubz beside the lectern in the briefing room at 10 Downing Street, UK",
+  cat: "orange",
+  tilt: 1.6,
+  w: 272, h: 204,
+} as const;

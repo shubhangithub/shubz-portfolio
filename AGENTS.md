@@ -7,6 +7,11 @@ generic blog-post prior will produce writing that's ejected on review.
 This file is the canonical source. `CLAUDE.md` redirects here. Cursor, Aider,
 Copilot, and Claude Code agents all pick up `AGENTS.md` automatically.
 
+> **Current UI guidelines:** read [`design.md`](./design.md) before changing
+> layout, objects, typography or interactions. It documents the accepted site
+> direction and review requirements. This file remains the voice authority;
+> `DECISIONS-v5.md §14` remains the topic-colour authority.
+
 > **V5 colour system (canonical, must read before assigning colours).**
 > The site uses **10 meta-topic categories**, each owning one of 10 NB pens.
 > Every essay, project, skill, chip, or new piece of content rolls up to
@@ -47,6 +52,20 @@ back.
 - **No "leverage," "robust," "synergy," "delve," "tapestry," "in today's
   fast-paced world," or any other LLM-default phrasing.** If a sentence
   could appear in a generic Substack, rewrite it.
+- **Verify the maths computationally before publishing.** Every formula,
+  derived quantity, and number quoted in an essay must be checked by
+  actual computation — integrate the ODEs and compare equilibria to the
+  closed forms, recompute the percentages, confirm the special values —
+  not by eyeballing. Randomised numeric checks (many parameter draws
+  against the claimed formula) are the standard; keep the check script in
+  the commit message or a comment if it's short. A wrong number in a
+  published essay is worse than a dull sentence.
+- **No ironic tag-clauses or applause lines.** "Khan had malaria, which
+  was the point." "He sued people." "This is not a curiosity. It is the
+  entire case for X." The clipped one-two punch — a short sentence that
+  exists to land rather than to inform — is the single strongest AI tell.
+  Say the fact plainly inside a normal sentence, or cut it. At most one
+  deliberately short sentence per essay, and it must carry information.
 
 ---
 

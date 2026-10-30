@@ -12,6 +12,7 @@ export function NotebookFisher({
   accent,
   paper,
   muted,
+  running = true,
 }: {
   w?: number;
   h?: number;
@@ -19,11 +20,13 @@ export function NotebookFisher({
   accent: string;
   paper: string;
   muted: string;
+  running?: boolean;
 }) {
   const [front, setFront] = React.useState(0.34);
 
   React.useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const media=window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!running) {
       setFront(0.54);
       return;
     }
@@ -34,14 +37,16 @@ export function NotebookFisher({
       setFront(0.08 + (((now - start) / 7200) % 1) * 0.92);
       frame = requestAnimationFrame(tick);
     };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, []);
+    const stop=()=>{cancelAnimationFrame(frame);if(!media.matches&&!document.hidden)frame=requestAnimationFrame(tick);};
+    stop();
+    media.addEventListener("change",stop);document.addEventListener("visibilitychange",stop);
+    return () => {cancelAnimationFrame(frame);media.removeEventListener("change",stop);document.removeEventListener("visibilitychange",stop);};
+  }, [running]);
 
-  const W = 290;
+  const W = 360;
   const H = 210;
   const left = 25;
-  const right = 278;
+  const right = 348;
   const top = 34;
   const base = 164;
   const span = right - left;
@@ -64,10 +69,10 @@ export function NotebookFisher({
       viewBox={`0 0 ${W} ${H}`}
       role="img"
       aria-label="A Fisher–KPP travelling wave advancing from left to right"
-      style={{ display: "block", width: w, height: h, maxWidth: "100%" }}
+      style={{ display: "block", width: w, height: "auto", aspectRatio: `${W}/${H}`, maxWidth: "100%" }}
     >
       <rect width={W} height={H} fill={paper} />
-      <text x={left} y={18} fontFamily="var(--f-display)" fontSize="13" fontStyle="italic" fill={ink}>
+      <text x={left} y={18} fontFamily="var(--f-ui)" fontSize="13" fill={ink}>
         the wave of advance
       </text>
 
@@ -84,15 +89,15 @@ export function NotebookFisher({
         strokeWidth="1.5"
       />
 
-      <text x={left + 5} y={base - 7} fontFamily="var(--f-mono)" fontSize="8" fill={accent}>u → 1</text>
-      <text x={right - 4} y={base - 7} textAnchor="end" fontFamily="var(--f-mono)" fontSize="8" fill={muted}>u → 0</text>
-      <text x={left - 5} y={top + 3} textAnchor="end" fontFamily="var(--f-mono)" fontSize="7.5" fill={muted}>1</text>
-      <text x={left - 5} y={base + 2} textAnchor="end" fontFamily="var(--f-mono)" fontSize="7.5" fill={muted}>0</text>
+      <text x={left + 5} y={base - 7} fontFamily="var(--f-mono)" fontSize="10" fill={accent}>u → 1</text>
+      <text x={right - 4} y={base - 7} textAnchor="end" fontFamily="var(--f-mono)" fontSize="10" fill={muted}>u → 0</text>
+      <text x={left - 5} y={top + 3} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={muted}>1</text>
+      <text x={left - 5} y={base + 2} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={muted}>0</text>
 
       <g transform={`translate(${W / 2}, 184)`}>
         <line x1="-45" y1="0" x2="45" y2="0" stroke={muted} strokeWidth="1" />
         <path d="M45 0 L38 -3 L38 3 Z" fill={muted} />
-        <text x="0" y="16" textAnchor="middle" fontFamily="var(--f-mono)" fontSize="8.5" fill={ink}>
+        <text x="0" y="16" textAnchor="middle" fontFamily="var(--f-mono)" fontSize="11" fill={ink}>
           c* = 2√(rD)
         </text>
       </g>

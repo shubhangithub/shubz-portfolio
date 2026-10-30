@@ -2,37 +2,6 @@
 
 export function essayMeta(slug) {
   const meta = {
-    "jaya": {
-      tags: "optimisation, feature selection, bioinformatics",
-      toc: ["Header", "Lede", "JAYA, briefly", "Two modifications", "Three protein datasets", "What improved means"],
-      sources: [
-        ['[1] Rao, R. V. (2016). ', '"Jaya: A simple and new optimization algorithm." Int. J. Industrial Engineering Computations.'],
-        ['[2] Gandhi, N., Sharma, S., Rawat, O., Bhosale, H., Sane, A., & Jayaraman, V. K. (2022). ', '"Improved Jaya algorithm for identification of protein functions." Poster PP-28, INBIX\'22, VFSTR.'],
-        ['[3] ', "github.com/shubhangithub/inbix22"],
-      ],
-      sidenotes: 4,
-    },
-    "threshold-gate": {
-      tags: "computational biology, thresholding",
-      toc: ["Header", "Lede", "Six markers, one panel", "Four ways to draw a line", "The marker that broke everything", "What 0.11 units hides"],
-      sources: [
-        ['[1] Otsu, N. (1979). ', '"A threshold selection method from gray-level histograms." IEEE Trans. Systems, Man, and Cybernetics.'],
-        ['[2] Sharma, S. (2024). ', "Analysing and Advancing Automated Immune Biomarker Detection. MFoCS thesis, Oxford · Lady Margaret Hall."],
-        ['[3] Wilson, C. M., et al. (2021). ', '"Challenges and opportunities in the statistical analysis of multiplex immunofluorescence data." Cancers 13(12).'],
-      ],
-      sidenotes: 4,
-    },
-    "constraint-clustering": {
-      tags: "computational biology, clustering",
-      toc: ["Header", "Lede", "Why not just threshold?", "What the textbook misses", "Teaching the distance metric", "The honest result"],
-      sources: [
-        ['[1] Ng, A., Jordan, M., & Weiss, Y. (2001). ', '"On spectral clustering: Analysis and an algorithm." NIPS 14.'],
-        ['[2] Ward, J. H. (1963). ', '"Hierarchical grouping to optimize an objective function." J. American Statistical Association.'],
-        ['[3] Sharma, S. (2024). ', "Analysing and Advancing Automated Immune Biomarker Detection. MFoCS thesis, Oxford · Lady Margaret Hall."],
-        ['[4] Wagstaff, K. L. (2011). ', '"Constrained clustering." Encyclopedia of Machine Learning, Springer.'],
-      ],
-      sidenotes: 5,
-    },
     "turing-morphogenesis": {
       tags: "mathematical biology, reaction-diffusion, morphogenesis",
       toc: ["Header", "Lede", "What the figure shows", "The condition", "Does it actually happen", "For Alan Turing"],
@@ -60,6 +29,37 @@ export function essayMeta(slug) {
       ],
       sidenotes: 5,
     },
+    "ross-threshold": {
+      tags: "malaria, mathematical biology, transmission thresholds",
+      toc: ["Header", "Lede", "Two populations, one loop", "Forty-two per cent of what?", "The mosquitoes that live long enough"],
+      sources: [
+        ["Image: E. Wilson, Cambridge (1901). ", "Anopheles maculipennis, plate VIII in Nuttall & Shipley, Studies in Relation to Malaria. Public domain. https://commons.wikimedia.org/wiki/File:Nuttall_et_Shipley_1901_Anopheles_maculipennis.jpg"],
+        ['[1] Ross, R. (1902). ', 'Nobel lecture on malaria.'],
+        ['[2] Simoy, M. I. & Aparicio, J. P. (2020). ', 'Ross–Macdonald models and their assumptions. arXiv:2002.11267.'],
+        ['[3] Smith, D. L. et al. (2012). ', 'Ross, Macdonald, and a theory for the dynamics and control of mosquito-transmitted pathogens. PLoS Pathogens 8(4):e1002588.'],
+      ],
+      sidenotes: 4,
+    },
+    "september-queue": {
+      tags: "queueing theory, Little’s law, utilisation, latency",
+      toc: ["Header", "Lede", "Whose second is it?", "The spare capacity has to clear the queue", "The queue outside the measurement"],
+      sources: [
+        ["Image: Ministry of Information Photo Division (1945). ", "Queue outside Williamson\u2019s, Wood Green High Road, London. IWM D 25037. Expired Crown copyright; public domain. https://commons.wikimedia.org/wiki/File:Britain_Queues_For_Food-_Rationing_and_Food_Shortages_in_Wartime,_London,_England,_UK,_1945_D25037.jpg"],
+        ['[1] Wu, C. (2026). ', 'Queueing models. MIT 1.041 lecture 8.'],
+        ['[2] MIT OpenCourseWare (2016). ', 'M/M/1 Queue. Introduction to Manufacturing Systems.'],
+        ['[3] Victoria University of Wellington (2018). ', 'Queueing simulation notebook, SCIE201, lecture 9.'],
+      ],
+      sidenotes: 4,
+    },
+    "october-feedback": {
+      tags: "feedback control, delay, stability, discrete time",
+      toc: ["Header", "Lede", "Start with an obliging machine", "Two corrections against the same old error", "Follow the amplitude", "The timestamp belongs in the state"],
+      sources: [
+        ["Image: R. Routledge (1900). ", "Governor and throttle-valve, Discoveries & Inventions of the Nineteenth Century, 13th edition. Public domain. https://commons.wikimedia.org/wiki/File:Centrifugal_governor.png"],
+        ['[1] Haugen, F. ', 'Advanced Dynamics and Control, chapters 13–14. Discrete-time modelling and stability.'],
+      ],
+      sidenotes: 4,
+    },
     "may-2026": {
       tags: "mathematical ecology, ODE, predator–prey",
       toc: ["Header", "Lede", "What the sliders teach", "For Robert May"],
@@ -85,19 +85,6 @@ export function essayMeta(slug) {
       ],
       sidenotes: 3,
     },
-    "zx-calculus": {
-      tags: "quantum computation, ZX-calculus, physics",
-      toc: ["Header", "Lede", "What circuits hide", "Spiders", "Three rules", "Why teleportation is obvious", "Completeness and what comes after"],
-      sources: [
-        ['[1] Coecke, B. & Duncan, R. (2008). ', '"Interacting Quantum Observables." ICALP 2008.'],
-        ['[2] Coecke, B. & Duncan, R. (2011). ', '"Interacting Quantum Observables: Categorical Algebra and Diagrammatics." New Journal of Physics 13.'],
-        ['[3] van de Wetering, J. (2020). ', '"ZX-calculus for the working quantum computer scientist." arXiv 2012.13966.'],
-        ['[4] Kissinger, A. & van de Wetering, J. ', 'PyZX — Python library for ZX-calculus circuit optimisation. github.com/Quantomatic/pyzx'],
-        ['[5] Jeandel, E., Perdrix, S. & Vilmart, R. (2018). ', '"A Complete Axiomatisation of the ZX-Calculus for Clifford+T Quantum Mechanics." LICS.'],
-        ['[6] Coecke, B. & Kissinger, A. (2017). ', 'Picturing Quantum Processes. Cambridge University Press.'],
-      ],
-      sidenotes: 4,
-    },
     "bluedot-assumptions": {
       tags: "ai strategy, epistemology, governance",
       toc: ["Header", "Lede", "Capability is scalar", "Compute is the binding lever", "The developer is well-intentioned", "Timelines are short", "Western actors write the rules", "Defence is the goal"],
@@ -116,24 +103,6 @@ export function essayMeta(slug) {
         ['ARC Prize Foundation (Feb 2026). ', 'ARC-AGI-2 and ARC-AGI-3 evaluation results.'],
       ],
       sidenotes: 1,
-    },
-    "bluedot-vocabulary": {
-      tags: "ai strategy, language, policy",
-      toc: ["Header", "Lede", "Alignment", "Coordination", "Race", "Control", "Safety", "Capability", "AGI"],
-      sources: [
-        ['Jones, A. / BlueDot (2025). ', '"What is AI alignment?"'],
-        ['Aschenbrenner, L. (Jun 2024). ', '"Situational Awareness: IV. The Project."'],
-        ['AI Treaty letter. ', 'aitreaty.org'],
-        ['Buterin, V. (Jan 2025). ', '"d/acc one year later."'],
-        ['Sarah / BlueDot (Apr 2025). ', '"Introduction to AI Control."'],
-        ['Davidson, T. et al. (Apr 2025). ', '"AI-Enabled Coups." Forethought.'],
-        ['Nevo, S. et al. / RAND (2024). ', '"Securing AI Model Weights."'],
-        ['Samuel, S. / Vox (2024). ', '"It\'s Practically Impossible to Run a Big AI Company Ethically."'],
-        ['Chollet, F. (2019). ', '"On the Measure of Intelligence." arXiv 1911.01547.'],
-        ['ARC Prize Foundation (Mar 2026). ', 'ARC-AGI-3 release and evaluation.'],
-        ['CAISI rebrand (Jun 2025). ', 'US Commerce Department announcement.'],
-      ],
-      sidenotes: 0,
     },
     "bluedot-civilization": {
       tags: "ai strategy, governance, civilisation",
@@ -193,17 +162,6 @@ export function essayMeta(slug) {
         ['[9] Krook, J. (2023). ', '"Solarpunk: A Vision for a Sustainable Future."'],
       ],
       sidenotes: 5,
-    },
-    "fashion-trends": {
-      tags: "forecasting, computer vision, LMSR",
-      toc: ["Header", "Lede", "Five signals, one composite", "The Trend Exchange", "What the camera sees", "What I'm optimising for"],
-      sources: [
-        ['[1] Hanson, R. (2003). ', '"Combinatorial Information Market Design." Information Systems Frontiers.'],
-        ['[2] ', "fashion-web-psi.vercel.app — live platform, Next.js / Vercel edge / LMSR exchange."],
-        ['[3] ', "Google Trends (trendspyg), Bluesky firehose, Pinterest, Reddit, YouTube — five-source ingestion pipeline."],
-        ['[4] ', "Gemini 2.5 Flash — garment detection, colour palette extraction, runway matching."],
-      ],
-      sidenotes: 3,
     },
   };
   return meta[slug] || meta["jaya"];

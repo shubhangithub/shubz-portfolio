@@ -251,6 +251,23 @@ is no runtime or source flag to flip.
 
 ## 14. Colour system — 10 canonical topic categories
 
+**29 October 2026 · owner review:** the homepage Shubz name now uses the
+existing yellow pen, with luminous yellow at night and readable gold by day.
+Light mode has a cooler desk, white paper, stronger neutral rules and deeper
+topic inks. `control` is a neutral palette token for meaningful control
+boundaries; it is not an eleventh pen. Current values remain in
+`src/data/palette.ts`, and [design.md](./design.md) records the current UI
+guidelines. Topic assignments and provenance colours below are unchanged.
+
+**28 October 2026 · V6 owner review:** the owner requested more saturated,
+contrasty colours after finding the first neon pass too pastel. The current
+literal values in `src/data/palette.ts` therefore replace the earlier V5
+swatches: clean near-black/white paper, decisive electric colours in dark
+mode, and deeper readable inks in light mode. The ten categories, pen keys,
+slotting rules and essay assignments below are unchanged. This is a palette
+revision, not an additional colour taxonomy. IBM Plex Sans now provides one
+primary type family; mono is retained for command/code/technical metadata.
+
 Earlier passes layered two colour axes (essays = topic-coded, toolbox =
 skill-type-coded), which produced unrelated overlaps (e.g. `blue` meant
 "AI" for the bluedot essay AND "Languages" for the toolbox category).

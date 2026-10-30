@@ -62,6 +62,27 @@ clean).
   `POSTS` (with `family` + `nbAccent`), `ArticleV5` dispatcher. All five.
 - New skill / project / role goes in the relevant `WORK_TOOLBOX` group in
   `WorkV5.tsx` (and optionally `HOME_TOOLBOX` for prominent ones).
+- **Home "latest" row (`src/data/social.ts` → `SOCIAL_POSTS`): exactly ONE
+  LinkedIn entry, always the latest post on the profile.** When Shubz posts
+  something new, replace the existing entry — never append. Use the post's
+  permalink (`/feed/update/urn:li:activity:<id>/`), not the recent-activity
+  page. Any "update my site from LinkedIn" pass should check this first.
+- LinkedIn is the source of truth for role dates (one confirmed exception:
+  the BDI-funded research entry keeps its April 2026 start on the site).
+- **Home `cat .now` mini-terminal: brief lines only, two entries max** —
+  it streams the two most recent journal entries' `brief` (≤10 words
+  each). Every `JOURNAL` entry in `src/data/now.ts` must carry a `brief`;
+  the full `note` renders only in the /now field journal. Never stream
+  full notes on the home page.
+- **The "last updated" banner is site-wide**: one date,
+  `SITE_LAST_UPDATED_DATE` in `src/data/site.ts`, shown identically on
+  every page. Bump it once per editing session; never set per-page dates.
+- **There is a monthly "Note" series** — short mathematical-biology pieces,
+  always `family: biotech` / `nbAccent: red`, titled `… · <Month> '<yy>`,
+  each anchored to a date or person belonging to that month (May →
+  Robert May, June → Turing's birthday, July → Fisher). It's a distinct
+  format from the long essays. Recipe + house rules in
+  [`EDITING.md`](./EDITING.md) → "Add the monthly note".
 
 If the rules in `AGENTS.md` / `DECISIONS-v5.md` and a user request conflict,
 surface the conflict to the user before proceeding.

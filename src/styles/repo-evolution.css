@@ -1,0 +1,23 @@
+/* The comparison also appears inside narrow essay columns and project sheets. */
+.repo-evolution {
+  container-type: inline-size;
+  min-width: 0;
+}
+.repo-evolution-panels {
+  display: flex;
+  align-items: stretch;
+}
+@container (max-width: 550px) {
+  .repo-evolution-panels {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .repo-evolution-panels > .repo-evolution-connector {
+    flex-direction: row !important;
+    gap: 12px !important;
+  }
+  .repo-evolution-connector > div:nth-child(2),
+  .repo-evolution-connector > div:nth-child(4) {
+    display: none;
+  }
+}

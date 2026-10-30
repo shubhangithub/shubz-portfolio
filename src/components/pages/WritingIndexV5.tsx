@@ -1,347 +1,334 @@
-// @ts-nocheck
-/* eslint-disable */
-/**
- * WritingIndexV5 — notebook-style writing index.
- *
- * Filter chips by tag → featured pick (top essay) → all-essays list with
- * tilted polaroid thumbs → working-notes terminal table. Right rail: topics
- * count, colour-key explainer, drafts pre block.
- *
- * Data: POSTS (src/data/posts.ts) drives essays. Working notes are inlined
- * (net-new V5 content; no existing data source). Filtering is local state.
- */
-import React from "react";
-import { POSTS, thumbUrlFor } from "../../data/posts";
-import { nbTheme, withAlpha } from "../../data/palette";
-import { useIsMobile } from "../../lib/hooks";
+import { PixelStation } from "../chrome/RoboCat";
+import { ClipButton } from "../chrome/Paperclips";
+import { essayClipId } from "../../data/paperclips";
 import {
-  NBPageShell, NBLastUpdated, NBPrompt, NBPromptHead, NBThumbtack, NBThumb,
-  NBMarginalia, NBDiagramPlaceholder,
-} from "../chrome/NB";
+  WRITING_COPY,
+  FILTER_COPY,
+  PENS,
+} from "../../data/notebook";
+import { WRITING_DESK_COPY as COPY } from "../../data/writingDesk";
+import React, { useEffect, useState, useRef } from "react";
 import {
-  WRITING_HERO, WRITING_LEDE, WRITING_MARGINALIA,
-  WRITING_LAST_UPDATED_LABEL, WRITING_LAST_UPDATED_DATE,
+  NotebookShell,
+  PageHero,
+  SectionLabel,
+  Spans,
+  type PageProps,
+} from "../chrome/Notebook";
+import { VISIBLE_POSTS, thumbUrlFor } from "../../data/posts";
+import { nbTheme } from "../../data/palette";
+import {
+  WRITING_HERO,
+  WRITING_LEDE,
+  WRITING_MARGINALIA,
 } from "../../data/writing";
-import type { Span } from "../../data/home";
+import { useWorkbenchSound } from "../chrome/WorkbenchSound";
+import "../../styles/writing-light-table.css";
 
-type NavFn = (page: string, slug?: string | null) => void;
-
-function renderSpans(spans: Span[], t: any) {
-  return spans.map((s, i) => {
-    if (typeof s === "string") return s;
-    if ("em" in s) {
-      return <em key={i} style={{ fontStyle: "italic", color: s.c ? t[s.c] : undefined }}>{s.em}</em>;
-    }
-    return <span key={i} style={{ color: s.c ? t[s.c] : undefined }}>{s.tag}</span>;
-  });
-}
-
-export function WritingIndexV5({
-  dark,
-  toggleTheme,
-  onNavigate,
-}: {
-  dark: boolean;
-  toggleTheme: () => void;
-  onNavigate: NavFn;
-}) {
-  const mode: "light" | "dark" = dark ? "dark" : "light";
-  const t = nbTheme(mode);
-  const isMobile = useIsMobile();
-
-  React.useEffect(() => {
-    if (typeof document !== "undefined") {
-      document.body.style.background = t.paper;
-    }
-  }, [t.paper]);
-
-  const drafts = POSTS.filter((p) => p.draft);
-
-  // Decorate posts with theme-resolved accent + shortened kicker for chips.
-  const essays = POSTS.filter((p) => !p.draft).map((p, i) => {
-    const accentKey = p.nbAccent || "blue";
-    const c = t[accentKey];
-    const kicker = (p.kicker || "").replace(/^(Essay|Note)\s*·\s*/i, "").toLowerCase();
-    return { ...p, c, kicker, pin: String(i + 1).padStart(2, "0") };
-  });
-
-  const tags = ["all", ...Array.from(new Set(essays.map((e) => e.kicker)))];
-  const [active, setActive] = React.useState<string>("all");
-  const visible = active === "all" ? essays : essays.filter((e) => e.kicker === active);
-  const featured = essays[0];
-  const rest = visible.filter((e) => e.slug !== featured.slug);
-
-  const PAGE_PAD = isMobile ? "16px 20px 0" : "20px 64px 0";
-
-  return (
-    <NBPageShell
-      t={t} mode={mode} current="writing"
-      label="shubz — ~/writing — vim"
-      onNavigate={onNavigate as any}
-      onToggle={toggleTheme}
-    >
-      <NBLastUpdated t={t} label={WRITING_LAST_UPDATED_LABEL} date={WRITING_LAST_UPDATED_DATE} accent={t.yellow} cwd="~/writing" cmd="cat ./README.md" comment="essays · notes · ideas" />
-
-      <div style={{
-        padding: PAGE_PAD,
-        display: "grid",
-        gridTemplateColumns: isMobile ? "1fr" : "1fr 320px",
-        gap: isMobile ? 36 : 56,
-      }}>
-        <main id="main" tabIndex={-1}>
-          {/* Title */}
-          <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 32, position: "relative" }}>
-            <h1 style={{
-              fontFamily: "var(--f-display)",
-              fontVariationSettings: '"opsz" 144, "SOFT" 50',
-              fontWeight: 400,
-              fontSize: isMobile ? "clamp(2.2rem, 9vw, 3.2rem)" : "clamp(2.4rem, 6vw, 4.8rem)",
-              lineHeight: 1.0,
-              letterSpacing: "-0.02em",
-              margin: 0, color: t.ink, maxWidth: "18ch",
-            }}>
-              {renderSpans(WRITING_HERO, t)}
-            </h1>
-            <p style={{ fontSize: isMobile ? 16 : 18, lineHeight: 1.6, color: t.softInk, maxWidth: "56ch", marginTop: 26 }}>
-              {WRITING_LEDE}
-            </p>
-            {!isMobile && (
-              <NBMarginalia t={t} top={120} tilt={-2.4} accent={t[WRITING_MARGINALIA.accent]}>
-                {WRITING_MARGINALIA.lines.map((line, i) => (
-                  <React.Fragment key={i}>
-                    {line}
-                    {i < WRITING_MARGINALIA.lines.length - 1 && <br />}
-                  </React.Fragment>
-                ))}
-              </NBMarginalia>
-            )}
-          </div>
-
-          {/* Filter strip */}
-          <div style={{ marginBottom: 26 }}>
-            {/* Filter chips section → Infra & craft (yellow, organizing essays). */}
-            <NBPrompt t={t} cmd={`grep -l '${active}' *.mdx`} comment={`${visible.length} of ${essays.length}`} accent={t.yellow} />
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              {tags.map((tag) => {
-                const isActive = tag === active;
-                return (
-                  <button
-                    key={tag}
-                    onClick={() => setActive(tag)}
-                    style={{
-                      all: "unset", cursor: "pointer",
-                      padding: "5px 12px",
-                      border: `1px solid ${isActive ? t.prompt : t.muted}66`,
-                      color: isActive ? t.prompt : t.muted,
-                      background: isActive ? `${withAlpha(t.prompt, "10")}` : "transparent",
-                      fontFamily: "var(--f-mono)", fontSize: 11,
-                      letterSpacing: "0.04em", borderRadius: 2,
-                    }}
-                  >
-                    {tag}{isActive && " ●"}
-                  </button>
-                );
-              })}
+const essays = VISIBLE_POSTS.filter((p) => !p.draft);
+function ReadingDesk({ t }: { t: ReturnType<typeof nbTheme> }) {
+  const workspace = useRef<HTMLDivElement>(null);
+  const [trace, setTrace] = useState("");
+  const [mobile,setMobile]=useState(false),[previewOpen,setPreviewOpen]=useState(false);
+  useEffect(()=>{const media=matchMedia('(max-width:760px)');const update=()=>setMobile(media.matches);update();media.addEventListener('change',update);return()=>media.removeEventListener('change',update);},[]);
+  const search = useRef<HTMLInputElement>(null),
+    preview = useRef<HTMLElement>(null);
+  const [query, setQuery] = useState(""),
+    [topic, setTopic] = useState("all"),
+    [selected, setSelected] = useState(essays[0]?.slug || "");
+  const sound = useWorkbenchSound();
+  useEffect(()=>{const restore=()=>setPreviewOpen(new URLSearchParams(location.search).has('essay'));restore();window.addEventListener('popstate',restore);return()=>window.removeEventListener('popstate',restore);},[]);
+  const visible = essays.filter(
+    (p) =>
+      (topic === "all" || p.nbAccent === topic) &&
+      `${p.title} ${p.dek} ${p.kicker}`
+        .toLowerCase()
+        .includes(query.toLowerCase()),
+  );
+  const active = visible.find((p) => p.slug === selected) || visible[0];
+  useEffect(() => {
+    const restore = () => {
+      const params = new URLSearchParams(location.search),
+        slug = params.get("essay"),
+        cat = params.get("topic");
+      setSelected(
+        slug && essays.some((p) => p.slug === slug)
+          ? slug
+          : essays[0]?.slug || "",
+      );
+      if (cat && PENS.some((p) => p.key === cat)) setTopic(cat);
+      else setTopic("all");
+      setQuery(params.get("q") || "");
+    };
+    restore();
+    window.addEventListener("popstate", restore);
+    return () => window.removeEventListener("popstate", restore);
+  }, []);
+  useEffect(() => {
+    const root = workspace.current;
+    if (!root || !active) { setTrace(""); return; }
+    const measure = () => {
+      const source = root.querySelector<HTMLElement>('[data-selected="true"]');
+      const target = preview.current;
+      if (!source || !target || innerWidth <= 760) { setTrace(""); return; }
+      const r = root.getBoundingClientRect(), a = source.getBoundingClientRect(), b = target.getBoundingClientRect();
+      const x = a.right-r.left, y = a.top+a.height/2-r.top;
+      const end = b.left-r.left, endY = b.top+36-r.top;
+      const bend = end-17;
+      setTrace(`M ${x} ${y} H ${bend} V ${endY} H ${end}`);
+    };
+    let frame = 0;
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(() => { frame = 0; measure(); }); };
+    const observer = new ResizeObserver(schedule); observer.observe(root);
+    if (preview.current) observer.observe(preview.current);
+    measure(); window.addEventListener('resize', schedule); window.addEventListener('scroll', schedule, { passive: true });
+    return () => { observer.disconnect(); cancelAnimationFrame(frame); window.removeEventListener('resize', schedule); window.removeEventListener('scroll', schedule); };
+  }, [active?.slug, visible.length]);
+  const updateURL = (slug: string, cat = topic, q = query) => {
+    const url = new URL(location.href);
+    url.searchParams.delete("draft");
+    url.searchParams.set("essay", slug);
+    if (cat === "all") url.searchParams.delete("topic");
+    else url.searchParams.set("topic", cat);
+    if (q) url.searchParams.set("q", q);
+    else url.searchParams.delete("q");
+    history.pushState(null, "", url.pathname + url.search);
+  };
+  const choose = (slug: string, move = false) => {
+    setSelected(slug);
+    updateURL(slug);
+    sound.play("pen");
+    if (move && matchMedia("(max-width:760px)").matches)
+      requestAnimationFrame(() => {
+        preview.current?.focus({ preventScroll: true });
+        preview.current?.scrollIntoView({
+          block: "start",
+          behavior: matchMedia("(prefers-reduced-motion:reduce)").matches
+            ? "instant"
+            : "smooth",
+        });
+      });
+  };
+  const changeTopic = (cat: string) => {
+    setTopic(cat);
+    updateURL(selected, cat);
+  };
+  const renderPreview=()=>(active ? (
+          <aside
+            id="essay-preview"
+            className="essay-preview"
+            ref={preview}
+            tabIndex={-1}
+            style={
+              {
+                "--item-accent": t[active.nbAccent || "blue"],
+              } as React.CSSProperties
+            }
+            aria-label={`${COPY.selected}: ${active.title}`}
+          >
+            <PixelStation scene="writing"/>
+            <div className="preview-registration">
+              <span>{COPY.selected}</span>
+              <span>
+                {String(essays.indexOf(active) + 1).padStart(2, "0")} /{" "}
+                {essays.length}
+              </span>
             </div>
-          </div>
-
-          {/* Featured */}
-          {(active === "all" || active === featured.kicker) && (
-            <div style={{ marginBottom: 44 }}>
-              <NBPromptHead t={t} n="§02" command="cat ./featured.md" comment={featured.slug} title="Featured" accent={featured.c} level={22} />
-              <a href={`/${featured.slug}/`} onClick={(e) => { e.preventDefault(); onNavigate("essay", featured.slug); }} style={{
-                display: "grid",
-                gridTemplateColumns: isMobile ? "1fr" : "1.3fr 1fr",
-                gap: 0,
-                background: t.paper2,
-                border: `2px solid ${t.ink}`,
-                position: "relative",
-                minHeight: isMobile ? 0 : 280,
-                textDecoration: "none",
-                color: "inherit",
-              }}>
-                <div style={{ padding: "26px 28px", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 24 }}>
-                  <div>
-                    <NBThumbtack color={featured.c} ink={t.ink} size={16} />
-                    <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: featured.c, letterSpacing: "0.04em" }}>
-                      no.{featured.pin} · {featured.kicker}
-                    </span>
-                  </div>
-                  <div>
-                    <h3 style={{ fontFamily: "var(--f-display)", fontVariationSettings: '"opsz" 144, "SOFT" 50', fontWeight: 400, fontSize: isMobile ? 30 : 42, color: featured.c, lineHeight: 1.05, margin: 0, maxWidth: "16ch" }}>
-                      {featured.title}
-                    </h3>
-                    <p style={{ fontFamily: "var(--f-body)", fontStyle: "italic", color: t.softInk, fontSize: 16, marginTop: 14, maxWidth: "44ch", lineHeight: 1.5 }}>
-                      {featured.dek}
-                    </p>
-                    <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted, marginTop: 16, display: "flex", gap: 18 }}>
-                      <span>{featured.minutes} min read</span>
-                      <span style={{ color: featured.c }}>↗ read</span>
-                    </div>
-                  </div>
-                </div>
-                {!isMobile && (
-                  thumbUrlFor(featured.slug) ? (
-                    <div style={{
-                      position: "relative",
-                      overflow: "hidden",
-                      borderLeft: `1px solid ${featured.c}55`,
-                    }}>
-                      <img
-                        src={thumbUrlFor(featured.slug)}
-                        alt={featured.title}
-                        style={{
-                          width: "100%", height: "100%",
-                          objectFit: "cover", display: "block",
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <NBDiagramPlaceholder t={t} accent={featured.c} h={"100%"} label={featured.kicker} />
-                  )
-                )}
-              </a>
+            <div className="preview-art" key={active.slug}>
+              {thumbUrlFor(active.slug) ? (
+                <img src={thumbUrlFor(active.slug)} alt="" />
+              ) : (
+                <span aria-hidden="true">
+                  §{String(essays.indexOf(active) + 1).padStart(2, "0")}
+                </span>
+              )}
+              <i className="preview-corner" aria-hidden="true" />
             </div>
-          )}
-
-          {/* All essays */}
-          {/* §03 All essays listing → Infra & craft (yellow). */}
-          <NBPromptHead t={t} n="§03" command="ls ./essays/" title="All essays" accent={t.yellow} level={22} comment={`${visible.length} listed`} />
-          <ol style={{ listStyle: "none", padding: 0, margin: "0 0 44px" }}>
-            {rest.map((e, i, arr) => (
-              <li key={e.slug} style={{
-                display: "grid",
-                gridTemplateColumns: isMobile ? "auto 1fr auto" : "auto 1fr auto auto",
-                gap: isMobile ? 14 : 22,
-                alignItems: "center",
-                padding: "20px 0",
-                borderBottom: i === arr.length - 1 ? "none" : `1px dashed ${withAlpha(t.muted, "66")}`,
-              }}>
-                <NBThumbtack color={e.c} ink={t.ink} size={16} />
-                <a href={`/${e.slug}/`} onClick={(ev) => { ev.preventDefault(); onNavigate("essay", e.slug); }} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
-                  <span style={{ fontFamily: "var(--f-display)", fontSize: isMobile ? 20 : 26, color: e.c, fontVariationSettings: '"opsz" 144, "SOFT" 50', lineHeight: 1.1, display: "block" }}>{e.title}</span>
-                  <span style={{ display: "block", fontFamily: "var(--f-body)", fontStyle: "italic", color: t.softInk, fontSize: 14, marginTop: 4, maxWidth: "52ch", lineHeight: 1.5 }}>
-                    {e.dek}
-                  </span>
-                  <span style={{ display: "block", fontFamily: "var(--f-mono)", color: t.muted, fontSize: 11, marginTop: 6 }}>
-                    no.{e.pin} · {e.kicker} · {e.minutes}m
-                  </span>
-                </a>
-                {!isMobile && (
-                  <NBThumb t={t} accent={e.c} label={e.kicker.split(/[\s&]+/)[0]} alt={`Thumbnail for ${e.title}`} tilt={i % 2 === 0 ? -1.8 : 2} w={110} h={82} src={thumbUrlFor(e.slug)} />
-                )}
-                <a href={`/${e.slug}/`} onClick={(ev) => { ev.preventDefault(); onNavigate("essay", e.slug); }} style={{ fontFamily: "var(--f-mono)", color: e.c, fontSize: 12, textDecoration: "none", whiteSpace: "nowrap" }}>↗ read</a>
-              </li>
-            ))}
-          </ol>
-
-          {/* Working notes */}
-          {drafts.length > 0 && (
-            <div style={{ marginBottom: 44 }}>
-              <NBPromptHead t={t} n="§04" command="ls ./drafts/" comment={`${drafts.length} in progress`} title="Working notes" accent={t.muted} level={22} />
-              <div style={{
-                border: `1px solid ${t.rule}`,
-                borderRadius: 3,
-                overflow: "hidden",
-              }}>
-                <div style={{
-                  background: `color-mix(in oklch, ${t.ink} 6%, transparent)`,
-                  borderBottom: `1px solid ${t.rule}`,
-                  padding: "7px 14px",
-                  display: "flex", alignItems: "center", gap: 7,
-                }}>
-                  <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#FF5F57", display: "inline-block", flexShrink: 0 }} />
-                  <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#FFBD2E", display: "inline-block", flexShrink: 0 }} />
-                  <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#28CA41", display: "inline-block", flexShrink: 0 }} />
-                  <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, marginLeft: 4 }}>
-                    ~/writing/drafts — pieces still arguing with themselves
-                  </span>
-                </div>
-                {drafts.map((d, i) => {
-                  const c = t[d.nbAccent || "blue"] as string;
-                  return (
-                    <div key={d.slug} style={{
-                      padding: isMobile ? "12px 14px" : "14px 18px",
-                      borderBottom: i < drafts.length - 1 ? `1px dashed ${withAlpha(t.muted, "33")}` : "none",
-                      display: "grid",
-                      gridTemplateColumns: "22px 1fr",
-                      gap: "0 10px",
-                    }}>
-                      <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: t.muted, paddingTop: 3 }}>
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <div>
-                        <span style={{
-                          fontFamily: "var(--f-display)",
-                          fontVariationSettings: '"opsz" 144, "SOFT" 50',
-                          fontSize: isMobile ? 16 : 18,
-                          color: c, display: "block", lineHeight: 1.1,
-                        }}>
-                          {d.title}
-                        </span>
-                        <span style={{
-                          fontFamily: "var(--f-body)", fontStyle: "italic",
-                          color: t.muted, fontSize: 13,
-                          marginTop: 4, display: "block", lineHeight: 1.5,
-                        }}>
-                          {d.dek}
-                        </span>
-                        <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: `${withAlpha(t.muted, "99")}`, marginTop: 5, display: "block" }}>
-                          {(d.kicker || "").replace(/^(Essay|Note)\s*·\s*/i, "").toLowerCase()} · not yet published
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
+            <div className="preview-text">
+              <span className="eyebrow">
+                {active.kicker} · {active.minutes} min read
+              </span>
+              <h3>{active.title}</h3>
+              <p>{active.dek}</p>
+              <div className="preview-actions">
+                <a href={`/${active.slug}/`}>{COPY.read} ↗</a>
+                <ClipButton id={essayClipId(active.slug)} />
+                <button
+                  className="preview-return"
+                  type="button"
+                  onClick={() => {
+                    setPreviewOpen(false);
+                    const url = new URL(location.href);
+                    url.searchParams.delete("essay");
+                    history.pushState(null, "", url.pathname + url.search);
+                    const button = document.querySelector<HTMLButtonElement>(
+                      `[data-essay-preview="${active.slug}"]`,
+                    );
+                    button?.focus({ preventScroll: true });
+                    button?.scrollIntoView({
+                      block: "center",
+                      behavior: matchMedia("(prefers-reduced-motion:reduce)")
+                        .matches
+                        ? "instant"
+                        : "smooth",
+                    });
+                  }}
+                >
+                  {COPY.back} ↑
+                </button>
               </div>
             </div>
-          )}
-
-        </main>
-
-        {/* Right rail */}
-        <aside>
-          {/* Topic counts in right rail = meta-summary → Infra & craft (yellow). */}
-          <NBPrompt t={t} cwd="~/writing" cmd="cat .topics" comment="counts" accent={t.yellow} />
-          <div style={{
-            background: t.paper2, border: `1px solid ${t.rule}`,
-            padding: "14px 16px", borderRadius: 3, marginBottom: 28,
-            fontFamily: "var(--f-mono)", fontSize: 12,
-          }}>
-            {tags.filter((tag) => tag !== "all").map((tag) => {
-              const count = essays.filter((e) => e.kicker === tag).length;
-              const ess = essays.find((e) => e.kicker === tag);
-              const isActive = tag === active;
-              return (
-                <div key={tag} onClick={() => setActive(tag)} style={{
-                  display: "flex", justifyContent: "space-between",
-                  padding: "5px 0", borderBottom: `1px dashed ${withAlpha(t.muted, "33")}`,
-                  color: isActive ? ess!.c : t.softInk, cursor: "pointer",
-                }}>
-                  <span><span style={{ color: ess!.c, marginRight: 6 }}>■</span>{tag}</span>
-                  <span style={{ color: t.muted }}>{count}</span>
-                </div>
-              );
-            })}
-          </div>
-
-          <NBPrompt t={t} cwd="~/writing" cmd="ls -la *.draft.mdx" comment="in progress" accent={t.red} />
-          <pre style={{
-            background: t.paper2, border: `1px solid ${t.rule}`,
-            padding: "12px 14px",
-            fontFamily: "var(--f-mono)", fontSize: 11, lineHeight: 1.7,
-            color: t.softInk, borderRadius: 3, margin: 0,
-            whiteSpace: "pre-wrap",
-          }}>
-            <span style={{ color: t.muted }}>{drafts.length} drafts</span>{"\n"}
-            {drafts.map((d) => (
-              <span key={d.slug}>
-                <span style={{ color: t.prompt }}>-rw-</span> {d.slug}.draft.mdx{"\n"}
-              </span>
-            ))}
-          </pre>
-        </aside>
+          </aside>
+        ) : (
+          <p className="empty-drawer">{COPY.empty}</p>
+        ));
+  return (
+    <section className="writing-index folio-section writing-light-table">
+      <SectionLabel
+        n="i"
+        title={COPY.title}
+      />
+      <div className="catalogue-toolbar">
+        <label className="search-field">
+          <span aria-hidden="true">⌕</span>
+          <input
+            ref={search}
+            type="search"
+            aria-label="Search essays"
+            value={query}
+            onChange={(e) => {
+              const value = e.target.value;
+              setQuery(value);
+              const url = new URL(location.href);
+              if (value) url.searchParams.set("q", value);
+              else url.searchParams.delete("q");
+              history.replaceState(null, "", url.pathname + url.search);
+            }}
+            placeholder={WRITING_COPY.search}
+          />
+        </label>
+        <span className="result-count" aria-live="polite">
+          {visible.length} of {essays.length} essays
+        </span>
+        {(query || topic !== "all") && (
+          <button
+            className="filter-reset"
+            onClick={() => {
+              setQuery("");
+              setTopic("all");
+              updateURL(selected, "all", "");
+              search.current?.focus();
+            }}
+          >
+            {FILTER_COPY.reset} ×
+          </button>
+        )}
       </div>
-    </NBPageShell>
+      <div className="topic-filters">
+        <button
+          onClick={() => changeTopic("all")}
+          aria-pressed={topic === "all"}
+        >
+          {WRITING_COPY.all}
+        </button>
+        {PENS.filter((p) => essays.some((e) => e.nbAccent === p.key)).map(
+          (p) => (
+            <button
+              key={p.key}
+              style={{ "--item-accent": t[p.key] } as React.CSSProperties}
+              onClick={() => changeTopic(p.key)}
+              aria-pressed={topic === p.key}
+            >
+              {p.label}
+            </button>
+          ),
+        )}
+      </div>
+      <div className="reading-desk-workspace" ref={workspace} style={{'--active-ink': t[active?.nbAccent || 'blue']} as React.CSSProperties}>
+        <svg className="essay-connection" aria-hidden="true"><path d={trace}/></svg>
+        <ol className="essay-contact-sheet" aria-label={COPY.choose}>
+          {visible.map((p) => (
+            <li
+              key={p.slug}
+              className="essay-proof"
+              data-selected={active?.slug === p.slug && (!mobile || previewOpen)}
+              style={
+                {
+                  "--item-accent": t[p.nbAccent || "blue"],
+                } as React.CSSProperties
+              }
+            >
+              <button
+                type="button"
+                className="essay-proof-image"
+                data-essay-preview={p.slug}
+                aria-label={`${COPY.preview}: ${p.title}`}
+                aria-pressed={active?.slug === p.slug && (!mobile || previewOpen)}
+                aria-controls={!mobile || previewOpen ? "essay-preview" : undefined}
+                onClick={() => {setPreviewOpen(true);choose(p.slug, true);}}
+              >
+                {thumbUrlFor(p.slug) ? (
+                  <img src={thumbUrlFor(p.slug)} alt="" loading="lazy" />
+                ) : (
+                  <span className="essay-proof-placeholder" aria-hidden="true">
+                    §{String(essays.indexOf(p) + 1).padStart(2, "0")}
+                  </span>
+                )}
+                <span className="proof-index">
+                  {String(essays.indexOf(p) + 1).padStart(2, "0")}
+                </span>
+                <span className="proof-preview-mark" aria-hidden="true">
+                  ⌕
+                </span>
+              </button>
+              <a className="essay-proof-title" href={`/${p.slug}/`}>
+                {p.title}
+                <span aria-hidden="true">↗</span>
+              </a>
+              <div className="essay-proof-meta">
+                <span>{PENS.find((pen) => pen.key === p.nbAccent)?.label}</span>
+                <span>{p.minutes} min</span>
+              </div>
+              {mobile && previewOpen && active?.slug===p.slug && renderPreview()}
+            </li>
+          ))}
+        </ol>
+        {!mobile && renderPreview()}
+        {mobile && !active && <p className="empty-drawer">{COPY.empty}</p>}
+      </div>
+    </section>
+  );
+}
+export function WritingIndexV5({ dark, toggleTheme }: PageProps) {
+  const t = nbTheme(dark ? "dark" : "light");
+  return (
+    <NotebookShell
+      current="writing"
+      mode={dark ? "dark" : "light"}
+      onToggle={toggleTheme}
+    >
+      <main id="main" className="folio-main editorial-lightroom" tabIndex={-1}>
+        <PageHero
+          n="05"
+          label={WRITING_COPY.label}
+          title={<Spans value={WRITING_HERO} t={t} />}
+          aside={
+            <div className="writing-margin-note">
+              <p>{WRITING_MARGINALIA.lines.join(" ")}</p>
+              <svg viewBox="0 0 150 70" aria-hidden="true" fill="none">
+                <path
+                  d="M12 12H125V58H12Z M23 24H75M23 33H102M23 42H85M119 5L141 27L116 54L94 32Z"
+                  stroke="currentColor"
+                />
+                <path d="M105 21L125 41" stroke="currentColor" />
+              </svg>
+            </div>
+          }
+        >
+          <p>{WRITING_LEDE}</p>
+        </PageHero>
+        <ReadingDesk t={t} />
+      </main>
+    </NotebookShell>
   );
 }

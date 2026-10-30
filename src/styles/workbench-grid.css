@@ -1,0 +1,66 @@
+/* The original CSS grid remains the no-JS/canvas fallback. */
+.folio:has(> .workbench-grid) { isolation: isolate; position: relative; }
+.folio[data-live-grid="true"] { background-image: none; }
+html[data-theme="dark"] .folio[data-live-grid="true"] {
+  background-image: radial-gradient(ellipse at 85% 0%, color-mix(in srgb, var(--nb-purple) 10%, transparent), transparent 42%);
+  background-size: 100% 1000px;
+  background-repeat: no-repeat;
+}
+.workbench-grid {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .085;
+}
+html:not([data-theme="dark"]) .workbench-grid { opacity: .075; }
+@media print { .workbench-grid { display: none; } }
+@media (max-width: 700px) {
+  .folio .workbench-status { position: relative; }
+  .folio .workbench-status > span:first-child { padding-right: 65px; }
+  .folio .workbench-status > a {
+    position: absolute;
+    top: 0;
+    right: 24px;
+    min-height: 30px;
+    border: 0;
+  }
+  .folio .workbench-utilities { width: 100%; justify-content: space-between; gap: 4px; }
+  .folio .workbench-utilities > button { padding-inline: 5px; font-size: 10px; }
+}
+/* Window chrome uses the same pens and surfaces as the notebook. */
+.notebook-window-bar {height:44px;display:grid;grid-template-columns:96px minmax(0,1fr) 96px;align-items:center;padding:0 18px;border-bottom:1px solid var(--nb-rule);background:var(--nb-paper2);}
+.window-lights {display:flex;gap:8px;align-items:center;}
+.window-lights i {width:11px;height:11px;border-radius:50%;background:var(--nb-red);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--nb-ink) 16%,transparent);}
+.window-lights i:nth-child(2){background:var(--nb-yellow);}
+.window-lights i:nth-child(3){background:var(--nb-prompt);}
+.window-title {text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:11px/1.4 var(--f-mono);color:var(--nb-muted);}
+.header-toggles {display:flex;gap:4px;align-items:center;justify-content:flex-end;}
+.folio .header-toggles button {display:grid;place-items:center;width:44px;height:44px;min-width:44px;padding:0;margin:0;border:0;border-radius:5px;background:transparent;color:var(--nb-softInk);}
+.folio .header-toggles button:hover,.folio .header-toggles button[aria-pressed=true] {background:color-mix(in srgb,var(--nb-ink) 7%,transparent);color:var(--nb-cyan);}
+.folio .header-toggles button:focus-visible{outline-offset:-4px;}
+.folio .workbench-status>span:first-child {padding-right:0;}
+@media(max-width:700px){
+ .notebook-window-bar{grid-template-columns:62px minmax(0,1fr) 88px;padding:0 10px;}
+ .window-lights{gap:6px;}.window-lights i{width:9px;height:9px;}
+ .window-title{font-size:10px;}
+ .folio .header-toggles{position:static;gap:0;}
+ .folio .folio-brand{padding-right:0;}
+ .folio .workbench-utilities{width:auto;margin-left:auto;justify-content:flex-end;}
+}
+@media print{.notebook-window-bar{display:none;}}
+.folio .header-toggles .theme-toggle:hover{transform:none;}
+.walk-topline-date{display:inline-block;white-space:nowrap;}
+@media(max-width:700px){
+ .folio .walk-topline{flex-direction:column;align-items:flex-start;gap:7px;}
+ .folio .walk-topline .eyebrow,.folio .walk-topline>span:last-child{font-size:11px;text-align:left;line-height:1.5;}
+}
+
+/* Explicit foreground layers avoid negative fixed-layer compositing on phones. */
+.folio>main,.folio>.workbench-status,.folio>.folio-footer{position:relative;z-index:1;}
+@media(max-width:700px){
+ .workbench-grid{opacity:.16;}
+ html:not([data-theme="dark"]) .workbench-grid{opacity:.12;}
+}

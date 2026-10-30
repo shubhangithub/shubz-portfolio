@@ -46,14 +46,14 @@ export function LMSRPriceCurve({ palette: p }) {
           <button key={id} onClick={() => setView(id)} style={{ all: "unset", cursor: "pointer", padding: "2px 8px", border: `1px solid ${view === id ? p.accent : p.line}`, color: view === id ? p.accent : p.muted, letterSpacing: "0.04em" }}>{label}</button>
         ))}
       </div>
-      <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 240, cursor: dragging ? "grabbing" : "grab", userSelect: "none", touchAction: "none" }}
+      <svg ref={svgRef} tabIndex={0} role="slider" aria-label="Net YES shares" aria-valuemin={qMin} aria-valuemax={qMax} aria-valuenow={q} onKeyDown={e => { if (["ArrowLeft","ArrowDown","ArrowRight","ArrowUp","Home","End"].includes(e.key)) { e.preventDefault(); setQ(v => e.key === "Home" ? qMin : e.key === "End" ? qMax : Math.max(qMin, Math.min(qMax, v + (["ArrowLeft","ArrowDown"].includes(e.key) ? -10 : 10)))); } }} viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: 240, cursor: dragging ? "grabbing" : "grab", userSelect: "none", touchAction: "none" }}
            onPointerDown={(e) => { e.currentTarget.setPointerCapture && e.currentTarget.setPointerCapture(e.pointerId); onDown(e); }}
            onPointerMove={onMove} onPointerUp={onUp} onPointerLeave={onUp} onPointerCancel={onUp}>
         <line x1={left} y1={bottom} x2={right} y2={bottom} stroke={p.muted} strokeWidth="1" />
         <line x1={left} y1={top} x2={left} y2={bottom} stroke={p.muted} strokeWidth="1" />
         {view === "price" && <line x1={left} y1={yToPx(0.5)} x2={right} y2={yToPx(0.5)} stroke={p.muted} strokeDasharray="3 4" opacity="0.4" />}
         <text x={right} y={bottom + 16} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>net YES shares (q) →</text>
-        <text x={left - 6} y={top - 6} textAnchor="end" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>{view === "price" ? "price (probability)" : "log-cost (norm.)"}</text>
+        <text x={left} y={top - 6} textAnchor="start" fontFamily="var(--f-ui)" fontSize="10" fill={p.muted}>{view === "price" ? "price (probability)" : "log-cost (norm.)"}</text>
         {view === "price" && <text x={left - 6} y={yToPx(0.5) + 4} textAnchor="end" fontFamily="var(--f-mono)" fontSize="9" fill={p.muted}>0.5</text>}
         <path d={pts.join(" ")} stroke={p.accent} strokeWidth="2" fill="none" />
 

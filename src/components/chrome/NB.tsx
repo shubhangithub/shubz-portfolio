@@ -8,10 +8,12 @@
  * with one statement.
  */
 import React from "react";
+import { NotebookShell } from "./Notebook";
 import { NB_LIGHT, NB_DARK, nbTheme, withAlpha } from "../../data/palette";
 import { JOURNAL } from "../../data/now";
-import { SITE_SHELL_USER } from "../../data/site";
+import { SITE_SHELL_USER, SITE_LAST_UPDATED_DATE } from "../../data/site";
 import { useIsMobile } from "../../lib/hooks";
+import { useV6Reveals, useHeaderHidden, useHudSections } from "../../lib/v6";
 
 export type NBPageKey = "home" | "writing" | "work" | "now" | "contact" | "essay";
 
@@ -243,6 +245,7 @@ export function NBPromptHead({
   level = 32,
   comment,
   cwd,
+  hud,
 }: {
   t: any;
   n: string;
@@ -252,9 +255,21 @@ export function NBPromptHead({
   level?: number;
   comment?: string;
   cwd?: string;
+  /** V6: label for the section HUD wayfinder. Defaults to the title when
+   *  it's a plain string; pass explicitly for rich titles, or "" to opt out. */
+  hud?: string;
 }) {
+  const hudLabel = hud ?? (typeof title === "string" ? title.toLowerCase() : undefined);
+  const hudId = hudLabel
+    ? `${n.replace("§", "s")}-${hudLabel.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "")}`
+    : undefined;
   return (
-    <div style={{ marginBottom: 18 }}>
+    <div
+      id={hudId}
+      data-hud={hudLabel || undefined}
+      data-reveal="rise"
+      style={{ marginBottom: 18, scrollMarginTop: 96 }}
+    >
       <NBPrompt t={t} cwd={cwd} cmd={command} comment={comment} accent={accent} />
       <h2 style={{
         fontFamily: "var(--f-display)",
@@ -274,10 +289,11 @@ export function NBPromptHead({
 // BLINKER — terminal cursor blip
 // =============================================================================
 export function NBBlinker({ t }: { t: any }) {
-  return <span style={{
+  return <span className="v6-cursor" style={{
     display: "inline-block", width: 9, height: 16, background: t.prompt,
     verticalAlign: "text-bottom", marginLeft: 2,
     animation: "nb-blink 1s steps(2, end) infinite",
+    ["--v6-glow-c" as any]: t.prompt,
   }} />;
 }
 
@@ -306,6 +322,7 @@ export function NBThumb({
   h = 88,
   tilt = -1.5,
   src,
+  caption,
 }: {
   t: any;
   accent: string;
@@ -317,10 +334,12 @@ export function NBThumb({
   h?: number;
   tilt?: number;
   src?: string;
+  /** Handwritten-style line inside the polaroid's bottom margin. */
+  caption?: string;
 }) {
   return (
-    <div style={{
-      width: w + 8, height: h + 18,
+    <div data-reveal="develop" style={{
+      width: w + 8, height: caption ? "auto" : h + 18,
       padding: "4px 4px 12px",
       background: t.paper2,
       border: `1px solid ${t.rule}`,
@@ -352,6 +371,13 @@ export function NBThumb({
           }}>{label}</span>
         )}
       </div>
+      {caption && (
+        <div style={{
+          fontFamily: "var(--f-display)", fontStyle: "italic",
+          fontSize: 13.5, lineHeight: 1.35, color: t.ink,
+          padding: "9px 6px 2px",
+        }}>{caption}</div>
+      )}
     </div>
   );
 }
@@ -394,24 +420,102 @@ export function NBMarginalia({
 }
 
 // =============================================================================
-// STATUS FOOTER — zsh status row
+// STATUS FOOTER — engineering titleblock + zsh status row
 // =============================================================================
 export function NBStatusFooter({ t, page = "home" }: { t: any; page?: NBPageKey }) {
   const isMobile = useIsMobile();
+  // Titleblock: the drawing-office block from an engineering sheet
+  // (V6 chrome — see DESIGN-v6.md §4; stolen with pride from usetorus.com).
+  const cell: React.CSSProperties = {
+    padding: isMobile ? "7px 12px" : "8px 18px",
+    borderLeft: `1px solid ${t.rule}`,
+    display: "flex", flexDirection: "column", gap: 2, minWidth: 0,
+  };
+  const k: React.CSSProperties = { fontSize: 9, letterSpacing: "0.14em", color: t.muted };
+  const v: React.CSSProperties = { fontSize: 11, color: t.softInk, whiteSpace: "nowrap" };
   return (
-    <div style={{
-      marginTop: 32,
-      borderTop: `1px solid ${t.rule}`,
-      background: t.chrome,
-      padding: isMobile ? "10px 20px" : "10px 64px",
-      display: "flex", justifyContent: "space-between", alignItems: "center",
-      flexWrap: "wrap", gap: 8,
-      fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted,
-    }}>
-      <span><span style={{ color: t.prompt }}>●</span> connected · zsh 5.9</span>
-      <span style={{ fontFamily: "var(--f-display)", fontStyle: "italic", color: t.softInk, fontSize: 13 }}>Made in London.</span>
-      <span>© Shubz Sharma · /{page === "home" ? "" : page}</span>
+    <div style={{ marginTop: 32 }}>
+      <div data-reveal="rise" style={{
+        borderTop: `1px solid ${t.rule}`,
+        display: "flex", justifyContent: "flex-end",
+        fontFamily: "var(--f-mono)", textTransform: "uppercase",
+        overflowX: "auto", scrollbarWidth: "none",
+      }}>
+        <div style={{ ...cell, borderLeft: "none", marginRight: "auto", justifyContent: "center" }}>
+          <span style={{ ...v, textTransform: "none", fontFamily: "var(--f-display)", fontStyle: "italic", fontSize: 13 }}>
+            field notebook · sheet /{page === "home" ? "" : page}
+          </span>
+        </div>
+        <div style={cell}><span style={k}>drawn</span><span style={v}>shubz sharma</span></div>
+        <div style={cell}><span style={k}>chk'd</span><span style={v}>the reader</span></div>
+        <div style={cell}>
+          <span style={k}>rev</span>
+          <span data-reveal="stamp" style={{ ...v, color: t.ochre, display: "inline-block" }}>{SITE_LAST_UPDATED_DATE}</span>
+        </div>
+      </div>
+      <div style={{
+        borderTop: `1px solid ${t.rule}`,
+        background: t.chrome,
+        padding: isMobile ? "10px 20px" : "10px 64px",
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        flexWrap: "wrap", gap: 8,
+        fontFamily: "var(--f-mono)", fontSize: 11, color: t.muted,
+      }}>
+        <span><span style={{ color: t.prompt }}>●</span> connected · zsh 5.9</span>
+        <span style={{ fontFamily: "var(--f-display)", fontStyle: "italic", color: t.softInk, fontSize: 13 }}>Made in London.</span>
+        <span>© Shubz Sharma · /{page === "home" ? "" : page}</span>
+      </div>
     </div>
+  );
+}
+
+// =============================================================================
+// SECTION HUD — fixed mono wayfinder (V6). Reads [data-hud] sections from the
+// page, lights the one under the reader, announces changes politely. Appears
+// only mid-page on desktop; never on mobile, never over the footer.
+// =============================================================================
+export function NBSectionHud({ t, page }: { t: any; page?: NBPageKey }) {
+  const isMobile = useIsMobile();
+  const { sections, active, visible } = useHudSections(page);
+  if (isMobile || sections.length < 2) return null;
+  const activeLabel = sections.find((s) => s.id === active)?.label ?? "";
+  return (
+    <nav
+      aria-label="section wayfinder"
+      style={{
+        position: "fixed", right: "clamp(10px, 2vw, 28px)", bottom: 24, zIndex: 60,
+        display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 3,
+        fontFamily: "var(--f-mono)", fontSize: 10, letterSpacing: "0.06em",
+        opacity: visible ? 1 : 0,
+        transform: visible ? "none" : "translateY(6px)",
+        transition: "opacity var(--v6-dur-fast) var(--v6-ease), transform var(--v6-dur-fast) var(--v6-ease)",
+        pointerEvents: visible ? "auto" : "none",
+      }}
+    >
+      {sections.map((s, i) => {
+        const on = s.id === active;
+        return (
+          <a
+            key={s.id}
+            href={`#${s.id}`}
+            style={{
+              color: on ? t.ink : t.muted,
+              textDecoration: "none",
+              padding: "1px 6px",
+              borderRight: `2px solid ${on ? t.ochre : t.rule}`,
+              background: on ? withAlpha(t.ochre, "14") : "transparent",
+              transition: "color var(--v6-dur-fast) var(--v6-ease), border-color var(--v6-dur-fast) var(--v6-ease)",
+            }}
+          >
+            §{String(i + 1).padStart(2, "0")} {on ? s.label : ""}
+          </a>
+        );
+      })}
+      <span aria-live="polite" style={{
+        position: "absolute", width: 1, height: 1, overflow: "hidden",
+        clipPath: "inset(50%)",
+      }}>{activeLabel}</span>
+    </nav>
   );
 }
 
@@ -446,7 +550,8 @@ export function NBMiniTerm({
       const months = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
       const [yr, mo] = (j.date || "").split("-");
       const d = mo && yr ? `${months[Number(mo) - 1]} ${yr.slice(-2)}` : (j.date || "—");
-      return { d, c: t[palette[i % palette.length]] || t.ink, txt: j.note };
+      // Home rule: the mini-term streams the ≤10-word brief, never the essay.
+      return { d, c: t[palette[i % palette.length]] || t.ink, txt: j.brief || j.note };
     });
     return limit ? src.slice(0, limit) : src;
   }, [lines, limit, t]);
@@ -462,10 +567,11 @@ export function NBMiniTerm({
   }, [playing, allLines.length, autoplaySec]);
 
   return (
-    <div style={{
+    <div className="v6-crt v6-glow" style={{
       background: t.paper2, border: `1px solid ${t.rule}`, borderRadius: 3,
       padding: "12px 14px 14px", fontFamily: "var(--f-mono)", fontSize: 12,
       lineHeight: 1.7, minHeight: 240, overflow: "hidden", position: "relative",
+      ["--v6-glow-c" as any]: accent,
     }}>
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10, paddingBottom: 8, borderBottom: `1px dashed ${t.rule}` }}>
         <span style={{ width: 7, height: 7, borderRadius: 999, background: "#FF5F57" }} />
@@ -575,23 +681,7 @@ export function NBPageShell({
   onToggle?: () => void;
   children: React.ReactNode;
 }) {
-  const gridColor = mode === "dark" ? "rgba(126,148,255,0.07)" : t.rule;
-  return (
-    <div
-      className="nb-graph-paper"
-      style={{
-        background: t.paper, color: t.ink, minHeight: "100vh",
-        fontFamily: "var(--f-body)",
-        // graph-paper grid colour follows the active theme.
-        ["--nb-grid" as any]: gridColor,
-      }}
-    >
-      <NBMacChrome t={t} mode={mode} label={label} onToggle={onToggle} />
-      <NBTabStrip t={t} current={current} onNavigate={onNavigate} />
-      {children}
-      <NBStatusFooter t={t} page={current} />
-    </div>
-  );
+  return <NotebookShell t={t} mode={mode} current={current} onToggle={onToggle} label={label}>{children}</NotebookShell>;
 }
 
 export { NB_LIGHT, NB_DARK, nbTheme };

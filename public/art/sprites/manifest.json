@@ -1,0 +1,14 @@
+{
+  "night": {
+    "cellW": 198,
+    "cellH": 405,
+    "standW": 190,
+    "standH": 488
+  },
+  "day": {
+    "cellW": 197,
+    "cellH": 371,
+    "standW": 194,
+    "standH": 512
+  }
+}

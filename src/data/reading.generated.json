@@ -1,0 +1,27 @@
+{
+  "source": "https://fable.co/fabler/shubz-sharma-375148102003",
+  "fetchedAt": "2026-10-29T23:01:35.765Z",
+  "books": [
+    {
+      "title": "Meditations",
+      "authors": [
+        "Marcus Aurelius"
+      ],
+      "url": "https://fable.co/book/meditations-by-marcus-aurelius-VwSiqxSOJv"
+    },
+    {
+      "title": "The Myth of Sisyphus and Other Essays",
+      "authors": [
+        "Albert Camus"
+      ],
+      "url": "https://fable.co/book/the-myth-of-sisyphus-and-other-essays-by-albert-camus-ihtRv73Ykp"
+    },
+    {
+      "title": "Zen and the Art of Motorcycle Maintenance",
+      "authors": [
+        "Robert M. Pirsig"
+      ],
+      "url": "https://fable.co/book/zen-and-the-art-of-motorcycle-maintenance-by-robert-m-pirsig-9780061907999"
+    }
+  ]
+}

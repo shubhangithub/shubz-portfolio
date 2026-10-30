@@ -10,10 +10,16 @@
 // lives in `src/data/<page>.ts`.
 
 import type { NBAccentKey } from "./palette";
+import { SITE_LAST_UPDATED_DATE } from "./site";
 // CV path is declared once in work.ts and re-used everywhere. Updating the
 // PDF filename? Edit CV_PDF in src/data/work.ts — every chip on every page
 // re-resolves automatically. (See EDITING.md → "Update the CV PDF".)
 import { CV_PDF } from "./work";
+
+export const HOME_PORTRAIT = {
+  src: "/assets/portrait.jpg",
+  alt: "Shubz Sharma",
+};
 
 // ---------------------------------------------------------------------------
 // Inline-coloured prose. A line/paragraph is a list of `Span`s.
@@ -34,9 +40,9 @@ export const HERO_LINE_A: Span[] = [
   "Read ",
   { em: "maths", c: "magenta" },
   " and ",
-  { em: "CS", c: "blue" },
+  { em: "CS", c: "magenta" },
   " at ",
-  { em: "Oxford", c: "ochre" },
+  { em: "Oxford", c: "magenta" },
   ".",
 ];
 
@@ -44,39 +50,61 @@ export const HERO_LINE_B: Span[] = [
   "Currently working on ",
   { em: "agentic engineering", c: "purple" },
   " for physical infrastructure at ",
-  { em: "Torus (YC S26)", c: "teal" },
+  { em: "Torus (YC S26)", c: "yellow" },
   ", researching ",
   { em: "AI safety", c: "blue" },
-  " with funding from ",
-  { em: "BlueDot", c: "blue" },
-  ", and more.",
+  ", and lots more.",
 ];
 
 // ---------------------------------------------------------------------------
 // BIO PARAGRAPH (mixed italic + coloured tags)
 // ---------------------------------------------------------------------------
 export const BIO: Span[] = [
-  "I'm a founding engineer at ",
-  { em: "Torus", c: "teal" },
-  ". Outside of that, I research AI safety, do STEM outreach, contribute to open source (including work with the UK Government on AI), write essays, and build side projects. I'm also an avid reader and usually learning something new (see ",
+  "I'm a founding member of technical staff at ",
+  { link: "Torus", href: "https://www.usetorus.com/", c: "yellow" },
+  " ",
+  { link: "(YC S26)", href: "https://www.ycombinator.com/companies/torus", c: "yellow" },
+  ". Alongside, I do AI safety research (with funding through grants and awards by ",
+  { link: "BlueDot", href: "https://bluedot.org/programs/rapid-grants", c: "blue" },
+  ", ",
+  { link: "Cosmos Institute", href: "https://blog.cosmos-institute.org/p/announcing-80-new-cosmos-grantees", c: "blue" },
+  ", and ",
+  { link: "FIRE", href: "https://www.fire.org/news/fire-and-cosmos-institute-launch-1-million-grant-program-ai-advances-truth-seeking", c: "blue" },
+  "). I also work on ",
+  { link: "OSS", href: "https://github.com/UKGovernmentBEIS/inspect_evals", c: "yellow" },
+  " projects (including work with the United Kingdom Government on AI). I’m a full elected member of the ",
+  { link: "IOP", href: "https://www.iop.org/", c: "prompt" },
+  " (MInstP), and member of the ",
+  { link: "IMA", href: "https://ima.org.uk/", c: "magenta" },
+  ". I’m also an ambassador for STEM and AI — with ",
+  { link: "Thinking About Thinking Fellowship", href: "https://www.thinkingaboutthinking.org/fellowship", c: "orange" },
+  ", Andrew Ng's DeepLearning.AI (",
+  { link: "Pie & AI", href: "https://www.deeplearning.ai/events", c: "orange" },
+  ")",
+  ", ",
+  { link: "InnovateHer", href: "https://www.innovateher.co.uk/", c: "orange" },
+  ", ",
+  { link: "Stemettes", href: "https://stemettes.org/", c: "orange" },
+  ", and the \"",
+  { link: "I'm a Scientist", href: "https://imascientist.org.uk/", c: "orange" },
+  "\" programme. I write ",
+  { link: "here", href: "/writing/", c: "yellow" },
+  ", and build side projects (including fashion predictors, recommendation systems, IoT artifacts, and more). I like reading and learning new things; the current list lives at ",
   { link: "/now", href: "/now/", c: "orange" },
-  "). I read maths (and dabbled in physics) at ",
-  { em: "Oxford", c: "ochre" },
+  ". I studied maths (and dabbled in physics) at ",
+  { link: "Oxford", href: "https://www.ox.ac.uk/admissions/graduate/courses/msc-mathematics-and-foundations-of-computer-science", c: "magenta" },
   " and computer science at ",
-  { em: "FLAME", c: "ochre" },
-  ", and have held research and software roles across education and startups. I'm also very into rowing, horse riding, and ",
-  { tag: "interactive diagrams", c: "magenta" },
+  { link: "FLAME University", href: "https://www.flame.edu.in/", c: "yellow" },
+  ", and have held research and software roles across universities and startups. I was previously Techstars-backed ",
+  { link: "Orion", href: "https://www.prnewswire.com/news-releases/orion-raises-3-5-million-to-scale-its-ai-powered-risk-intelligence-platform-for-real-world-threat-response-302619603.html", c: "teal" },
+  "'s first engineering hire, to founding engineer, building the 0→1 data + ML spatiotemporal backbone that raised $3.5M. I have worked on research projects across fields- my Oxford thesis advanced automated immune-biomarker detection on multiplex-immunofluorescence tumour data. Earlier, I researched VAEs, a modified optimiser for protein-function prediction, NLP on the ",
+  { link: "Flipkart–Walmart merger", href: "https://doi.org/10.1109/ICCUBEA65967.2025.11284272", c: "purple" },
+  " (Best Paper, IEEE ICCUBEA 2025), water-vapour estimation from GNSS signals, and cloud detection from INSAT-3D imagery). Away from work, I ",
+  { link: "row", href: "https://www.strava.com/athletes/155447309", c: "orange" },
+  ", make art, ride horses, and spend an unreasonable amount of time making ",
+  { link: "interactive diagrams", href: "/writing/", c: "magenta" },
   ".",
 ];
-
-// ---------------------------------------------------------------------------
-// MARGINALIA — rotated red-ink note next to the hero (desktop only)
-// ---------------------------------------------------------------------------
-export const HOME_MARGINALIA = {
-  /** Lines render as <br/>-separated rows inside the marginalia. */
-  lines: ["first solve it", "on paper.", "then in code."],
-  accent: "yellow" as NBAccentKey,
-};
 
 // ---------------------------------------------------------------------------
 // FOOTER under the toolbox — links to the full /work/#toolbox view
@@ -174,18 +202,65 @@ export const HOME_CONTACT_ROWS: ContactRow[] = [
 // ---------------------------------------------------------------------------
 // MISC strings shown around the home page (small, but here for easy edit)
 // ---------------------------------------------------------------------------
-export const HOME_FIG_LABEL = "fig. 01 — wave of advance";
-export const HOME_FIG_CAPTION = "fisher–kpp · july '26";
+export const HOME_FIG_LABEL = "fig. 01 — the threshold";
+export const HOME_FIG_CAPTION = "ross–macdonald · august '26";
 export const HOME_FIG_LINK_TEXT = "see the equation →";
 
-export const HOME_PINNED_SLUGS = ["fisher-wave", "bluedot-unit1", "bluedot-assumptions"] as const;
+export const HOME_PINNED_SLUGS = ["ross-threshold", "bluedot-unit1", "bluedot-assumptions"] as const;
 export const HOME_PINNED_LABEL = "§03  PINNED · FEATURED WRITING";
-export const HOME_PINNED_COMMENT = `${HOME_PINNED_SLUGS.length} open on the desk`;
+export const HOME_PINNED_COMMENT = (count: number) => `${count} open on the desk`;
 export const HOME_VIEW_ALL_TEXT = (count: number) => `all ${count} essays →`;
 
 export const HOME_LAST_UPDATED_LABEL = "NOTEBOOK";
-export const HOME_LAST_UPDATED_DATE = "23 jul 2026";
+export const HOME_LAST_UPDATED_DATE = SITE_LAST_UPDATED_DATE;
 
 export const HOME_CONTACT_HEADER = "contact —";
 export const HOME_ANNOTATED_CV_LINK = "annotated cv →";
 export const HOME_TOOLBOX_SEE_ALL = "see all skills + provenance →";
+
+// ---------------------------------------------------------------------------
+// ABOUTFETCH — the bio as a neofetch-style key–value panel (V6). Each row is
+// one claim from BIO, ≤10 words, pen-coloured; `prose` is the original BIO
+// sentence, shown when the row is hovered/tapped. The full BIO paragraph
+// stays available behind the panel's "read as prose" toggle.
+// ---------------------------------------------------------------------------
+export type AboutRow = { key: string; value: Span[]; prose: string };
+
+export const ABOUTFETCH_CMD = "aboutfetch";
+
+export const ABOUTFETCH_ROWS: AboutRow[] = [
+  { key: "role", prose: "I'm a founding member of technical staff at Torus (YC S26).",
+    value: [{ link: "Torus", href: "https://www.usetorus.com/", c: "yellow" }, " ", { link: "(YC S26)", href: "https://www.ycombinator.com/companies/torus", c: "yellow" }, " · founding member of technical staff"] },
+  { key: "research", prose: "Alongside, I do AI safety research (with funding through grants and awards by BlueDot, Cosmos Institute, and FIRE).",
+    value: [{ tag: "AI safety", c: "blue" }, " — alignment · multi-agent control · evals"] },
+  { key: "funded by", prose: "AI safety research funded through grants and awards by BlueDot, the Cosmos Institute, and FIRE.",
+    value: [{ link: "BlueDot", href: "https://bluedot.org/programs/rapid-grants", c: "blue" }, " · ", { link: "Cosmos Institute", href: "https://blog.cosmos-institute.org/p/announcing-80-new-cosmos-grantees", c: "blue" }, " · ", { link: "FIRE", href: "https://www.fire.org/news/fire-and-cosmos-institute-launch-1-million-grant-program-ai-advances-truth-seeking", c: "blue" }] },
+  { key: "oss", prose: "I also work on OSS projects (including work with the United Kingdom Government on AI).",
+    value: [{ link: "open source", href: "https://github.com/UKGovernmentBEIS/inspect_evals", c: "yellow" }, " · incl. UK Government work on AI"] },
+  { key: "bodies", prose: "I'm a full elected member of the IOP (MInstP), and member of the IMA.",
+    value: ["Full elected member of ", { link: "IOP", href: "https://www.iop.org/", c: "prompt" }, " (MInstP) · member of ", { link: "IMA", href: "https://ima.org.uk/", c: "magenta" }] },
+  { key: "ambassador", prose: "I'm also an ambassador for STEM and AI — with Thinking About Thinking Fellowship, Andrew Ng's DeepLearning.AI (Pie & AI), InnovateHer, Stemettes, and the \"I'm a Scientist\" programme.",
+    value: [{ link: "ThAT", href: "https://www.thinkingaboutthinking.org/fellowship", c: "orange" }, " · ", { link: "Pie & AI", href: "https://www.deeplearning.ai/events", c: "orange" }, " · ", { link: "InnovateHer", href: "https://www.innovateher.co.uk/", c: "orange" }, " · ", { link: "Stemettes", href: "https://stemettes.org/", c: "orange" }, " · ", { link: "I'm a Scientist", href: "https://imascientist.org.uk/", c: "orange" }] },
+  { key: "makes", prose: "I write here, and build side projects (including fashion predictors, recommendation systems, IoT artifacts, and more).",
+    value: [{ link: "essays", href: "/writing/", c: "yellow" }, " · fashion predictors · rec systems · IoT artifacts"] },
+  { key: "reading", prose: "I like reading and learning new things; the current list lives at /now.",
+    value: ["always — the live list at ", { link: "/now", href: "/now/", c: "orange" }] },
+  { key: "education", prose: "I studied maths (and dabbled in physics) at Oxford and computer science at FLAME University, and have held research and software roles across universities and startups.",
+    value: [{ link: "Oxford", href: "https://www.ox.ac.uk/admissions/graduate/courses/msc-mathematics-and-foundations-of-computer-science", c: "magenta" }, " maths + CS · ", { link: "FLAME", href: "https://www.flame.edu.in/", c: "yellow" }, " CS"] },
+  { key: "previously", prose: "I was previously Techstars-backed Orion's first engineering hire, to founding engineer, building the 0→1 data + ML spatiotemporal backbone that raised $3.5M.",
+    value: ["Techstars-backed ", { link: "Orion", href: "https://www.prnewswire.com/news-releases/orion-raises-3-5-million-to-scale-its-ai-powered-risk-intelligence-platform-for-real-world-threat-response-302619603.html", c: "teal" }, " — first hire → founding engineer · the $3.5M data+ML backbone"] },
+  { key: "research log", prose: "My Oxford thesis advanced automated immune-biomarker detection on multiplex-immunofluorescence tumour data. Earlier: VAEs, a modified optimiser for protein-function prediction, NLP on the Flipkart–Walmart merger (Best Paper, IEEE ICCUBEA 2025), water-vapour estimation from GNSS signals, and cloud detection from INSAT-3D imagery.",
+    value: ["biomarkers · VAEs · JAYA · ", { link: "NLP (IEEE Best Paper)", href: "https://doi.org/10.1109/ICCUBEA65967.2025.11284272", c: "purple" }, " · GNSS · INSAT-3D"] },
+  { key: "offline", prose: "Away from work, I row, make art, ride horses, and spend an unreasonable amount of time making interactive diagrams.",
+    value: ["Away from work, I ", { link: "row", href: "https://www.strava.com/athletes/155447309", c: "orange" }, ", make art, ride horses, and spend an unreasonable amount of time making ", { link: "interactive diagrams", href: "/writing/", c: "magenta" }, "."] },
+];
+
+export const ABOUTFETCH_PROSE_TOGGLE = ["read as prose →", "← back to the panel"];
+
+// Extra detail for the office display, not a paraphrase of the linked summary.
+// ABOUTFETCH_ROWS.prose remains the full source record for other consumers.
+export const OFFICE_CONTEXT: Record<string, string> = {
+  ambassador: "ThAT is the Thinking About Thinking Fellowship; Pie & AI is Andrew Ng's DeepLearning.AI programme.",
+  education: "I also dabbled in physics at Oxford, and have held research and software roles across universities and startups.",
+  "research log": "My Oxford thesis advanced automated immune-biomarker detection on multiplex-immunofluorescence tumour data. The protein-function project used a modified optimiser, and the merger paper won Best Paper at IEEE ICCUBEA 2025. The satellite work estimated water vapour from GNSS signals and detected clouds in INSAT-3D imagery.",
+};

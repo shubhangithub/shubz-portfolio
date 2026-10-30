@@ -1,8 +1,8 @@
 // @ts-nocheck
 import React from 'react';
 
-export function JayaSwarm({ palette: p }) {
-  const [running, setRunning] = React.useState(true);
+export function JayaSwarm({ palette: p, initialRunning = true }) {
+  const [running, setRunning] = React.useState(initialRunning);
   const [popSize, setPopSize] = React.useState(30);
   const [crossover, setCrossover] = React.useState(0.4);
   const [seed, setSeed] = React.useState(1);

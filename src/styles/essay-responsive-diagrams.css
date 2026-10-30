@@ -1,0 +1,18 @@
+/* Contain wide source diagrams within the actual essay column, not viewport. */
+.assumption-study,.kill-chain-study{min-width:0;max-width:100%;width:100%;container-type:inline-size}
+.assumption-matrix,.assumption-detail{min-width:0;max-width:100%}
+.assumption-scroll{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;padding-bottom:8px}
+.assumption-table{min-width:620px;table-layout:fixed}
+.assumption-table th:first-child{min-width:150px}
+.assumption-table th:first-child,.assumption-table td:first-child{position:sticky;left:0;z-index:1;background:var(--assumption-paper)}
+.assumption-table th:not(:first-child){min-width:40px}
+.assumption-scroll-hint{font:12px/1.5 var(--f-ui);margin:0 0 14px}
+.assumption-detail{margin-top:20px}
+.assumption-label{display:block;min-height:44px;padding:4px 0;background:none;border:0;color:inherit;font:inherit;text-align:left;white-space:normal;cursor:pointer}
+.assumption-scroll:focus-visible,.assumption-label:focus-visible{outline:2px solid var(--nb-cyan);outline-offset:2px}
+.kill-chain-phase{flex:1 1 140px;min-width:0;min-height:44px;overflow-wrap:anywhere}
+@container(max-width:480px){
+ .kill-chain-phases{flex-direction:column}
+ .kill-chain-phase{flex:none;width:100%}
+ .kill-chain-arrow{transform:rotate(90deg);line-height:1;min-height:18px}
+}

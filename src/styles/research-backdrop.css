@@ -1,0 +1,69 @@
+/* Personal drawings sit below every control and never capture a gesture. */
+.research-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+  mask-image: linear-gradient(90deg, #000 0%, #0008 18%, #0002 35%, #0002 65%, #0008 82%, #000 100%);
+}
+.research-drawing {
+  position: absolute;
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: .38;
+}
+.research-topology { width: 380px; left: -110px; top: 12%; color: var(--nb-magenta); }
+.research-terrain { width: 430px; right: -125px; top: 9%; color: var(--nb-teal); }
+.research-infrastructure { width: 440px; left: -85px; bottom: -45px; color: var(--nb-yellow); }
+.research-cities { width: 540px; right: -95px; bottom: 4%; color: var(--nb-yellow); }
+.research-songbook { width: 230px; right: -60px; top: 47%; color: var(--nb-ochre); }
+.research-helix {width:170px;left:-38px;top:46%;color:var(--nb-red);}
+.research-node { fill: currentColor; animation: research-breathe 8s ease-in-out infinite; }
+.research-orbit { transform-origin: 180px 180px; animation: research-orbit 160s linear infinite; }
+.research-contours { transform-origin: 200px 200px; animation: research-terrain 32s ease-in-out infinite alternate; }
+.research-signal { stroke-width: 2.5; stroke-dasharray: 12 640; animation: research-signal 22s linear infinite; }
+.research-cities .research-signal { animation-delay: -9s; }
+.research-terrain .research-signal { animation-delay: -14s; }
+.research-infrastructure .research-signal { animation-delay: -4s; }
+.research-backdrop[data-sleeping="true"] * { animation-play-state: paused; }
+html:not([data-theme="dark"]) .research-drawing { opacity: .28; }
+/* Keep every motif in the phone composition; the reading centre stays quiet. */
+@media (max-width: 700px) {
+  .research-backdrop { mask-image:linear-gradient(90deg,#000 0%,#0008 18%,#0002 42%,#0002 58%,#0008 82%,#000 100%); }
+  .research-drawing { opacity:.46;stroke-width:1.25; }
+  html:not([data-theme="dark"]) .research-drawing { opacity:.33; }
+  .research-topology { width:230px;left:-100px;top:8%; }
+  .research-terrain { width:230px;right:-100px;top:22%; }
+  .research-infrastructure { width:250px;left:-90px;bottom:-12px; }
+  .research-songbook { width:170px;right:-65px;top:50%; }
+  .research-cities { width:290px;right:-95px;bottom:10%; }
+  .research-helix { width:120px;left:-40px;top:44%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .research-backdrop * { animation: none; }
+  .research-signal { display: none; }
+}
+@media print { .research-backdrop { display: none; } }
+@keyframes research-orbit { to { transform: rotate(360deg); } }
+@keyframes research-terrain { to { transform: translate(6px, -7px) rotate(5deg); } }
+@keyframes research-signal { to { stroke-dashoffset: -652; } }
+@keyframes research-breathe { 50% { opacity: .3; } }
+/* Section progress drives the outer scene; only the inner studies idle. */
+.research-drawing {transform-origin:center;}
+.research-signal {animation:none;}
+
+/* More independent studies, with fine lines and a quiet reading centre. */
+.research-phase {width:250px;right:10%;top:-85px;color:var(--nb-magenta);}
+.research-boat {width:270px;left:8%;top:32%;color:var(--nb-orange);}
+.research-circuit {width:280px;right:8%;bottom:-45px;color:var(--nb-cyan);}
+.research-phase-orbit {transform-origin:120px 120px;animation:research-orbit 48s linear infinite;}
+.research-drawing {opacity:.44;}
+@media(max-width:700px){
+ .research-phase{width:170px;right:-45px;top:-15px;}
+ .research-boat{width:180px;left:-75px;top:29%;}
+ .research-circuit{width:190px;right:-65px;bottom:1%;}
+ .research-drawing{opacity:.48;}
+}
+@media(prefers-reduced-motion:reduce){.research-phase-orbit{animation:none;}}

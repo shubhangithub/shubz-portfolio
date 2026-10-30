@@ -1,0 +1,277 @@
+/* Personal reading instruments: shared pens, physical clips and a ruled bookmark. */
+.clip-button,
+.paperclip-trigger,
+.paperclip-tray button {
+  font: 13px var(--f-ui);
+  min-height: 44px;
+  min-width: 44px;
+  border: 1px solid var(--nb-control, var(--nb-rule));
+  background: var(--nb-paper2);
+  color: var(--nb-ink);
+  padding: 8px 12px;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.clip-button {
+  width: fit-content;
+  margin-top: 12px;
+}
+.clip-button[aria-pressed="true"] {
+  color: var(--nb-yellow);
+  border-color: var(--nb-yellow);
+}
+.clip-button:hover,
+.paperclip-tray button:hover {
+  border-color: var(--nb-yellow);
+}
+.clip-button:focus-visible,
+.paperclip-trigger:focus-visible,
+.paperclip-tray :focus-visible,
+.bookmark-ruler :focus-visible {
+  outline: 2px solid var(--nb-cyan);
+  outline-offset: 3px;
+}
+.publication-shelf > li {
+  flex-direction: column;
+}
+.publication-shelf > li > .publication-volume {
+  flex: 1;
+}
+.publication-shelf > li > .clip-button {
+  align-self: flex-start;
+  flex: none;
+  margin: 10px 0 18px 14px;
+}
+.clip-button svg {
+  flex-shrink: 0;
+}
+.paperclip-trigger .clip-count {
+  font: 11px var(--f-mono);
+  color: var(--nb-yellow);
+}
+.paperclip-tray {
+  padding: 0;
+  margin: auto;
+  width: min(680px, calc(100vw - 24px));
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  color: var(--nb-ink);
+  background: var(--nb-paper);
+  border: 1px solid var(--nb-yellow);
+  font: 16px/1.5 var(--f-ui);
+  letter-spacing: normal;
+  box-shadow: 0 24px 80px color-mix(in srgb, var(--nb-ink) 20%, transparent);
+}
+.paperclip-tray::backdrop {
+  background: color-mix(in srgb, var(--nb-paper) 82%, transparent);
+  backdrop-filter: blur(6px);
+}
+.paperclip-inner {
+  padding: 28px;
+}
+.paperclip-inner > header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+}
+.paperclip-inner h2 {
+  font: 500 30px/1.1 var(--f-ui);
+  margin: 8px 0;
+}
+.paperclip-inner > p {
+  color: var(--nb-softInk);
+  font-size: 14px;
+}
+.paperclip-inner ol {
+  list-style: none;
+  padding: 0;
+  margin: 28px 0;
+  display: grid;
+  gap: 13px;
+}
+.paperclip-inner li {
+  border: 1px solid var(--nb-rule);
+  border-left: 3px solid var(--clip-pen);
+  background: var(--nb-paper2);
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+.paperclip-inner li > svg {
+  color: var(--clip-pen);
+  align-self: start;
+  transform: rotate(-12deg);
+}
+.paperclip-inner li a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 5px 10px;
+  color: var(--nb-ink);
+  text-decoration: none;
+  min-height: 44px;
+}
+.paperclip-inner small {
+  grid-column: 1/-1;
+  color: var(--clip-pen);
+  font: 11px var(--f-mono);
+}
+.paperclip-inner strong {
+  font-weight: 500;
+  line-height: 1.35;
+}
+.paperclip-inner li a:hover strong {
+  text-decoration: underline;
+}
+.clip-empty {
+  padding: 32px 16px;
+  border: 1px dashed var(--nb-rule);
+}
+.bookmark-ruler {
+  border: 1px solid var(--nb-rule);
+  border-top: 3px solid var(--ruler-pen, var(--nb-yellow));
+  background: var(--nb-paper2);
+  padding: 12px 10px 16px;
+  margin-bottom: 26px;
+  font: 13px/1.4 var(--f-ui);
+  position: relative;
+}
+.bookmark-ruler:before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 10px;
+  bottom: 10px;
+  width: 5px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--nb-muted) 0 1px,
+    transparent 1px 9px
+  );
+}
+.ruler-heading {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 0 2px 12px;
+  color: var(--nb-ink);
+}
+.ruler-heading > span {
+  font-size: 22px;
+  color: var(--ruler-pen, var(--nb-yellow));
+}
+.ruler-heading small {
+  font: 10px var(--f-mono);
+  margin-left: auto;
+  white-space: nowrap;
+  color: var(--nb-muted);
+}
+.bookmark-ruler ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.bookmark-ruler a {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 5px;
+  border-left: 2px solid transparent;
+  color: var(--nb-softInk);
+  text-decoration: none;
+}
+.bookmark-ruler a > span {
+  font: 10px var(--f-mono);
+  color: var(--nb-muted);
+}
+.bookmark-ruler a[aria-current="location"] {
+  border-left-color: var(--ruler-pen, var(--nb-yellow));
+  color: var(--nb-ink);
+  background: color-mix(
+    in srgb,
+    var(--ruler-pen, var(--nb-yellow)) 9%,
+    transparent
+  );
+}
+.bookmark-ruler-mobile {
+  margin: 0 20px 24px;
+}
+.bookmark-ruler label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+}
+.bookmark-ruler select {
+  min-height: 44px;
+  min-width: 0;
+  flex: 1;
+  width: 100%;
+  font: 14px var(--f-ui);
+  color: var(--nb-ink);
+  background: var(--nb-paper);
+  border: 1px solid var(--nb-control, var(--nb-rule));
+  padding: 8px;
+}
+@media (max-width: 700px) {
+  .folio .workbench-utilities {
+    gap: 5px;
+  }
+  .folio .workbench-utilities > button {
+    padding: 0 6px;
+    font-size: 11px;
+    gap: 4px;
+  }
+  .paperclip-trigger > svg {
+    width: 13px;
+  }
+  .workbench-status {
+    gap: 7px;
+  }
+  .workbench-status > a {
+    padding-left: 8px;
+  }
+  .paperclip-inner {
+    padding: 20px;
+  }
+  .paperclip-inner h2 {
+    font-size: 25px;
+  }
+  .paperclip-inner > header {
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .paperclip-inner li {
+    grid-template-columns: 16px minmax(0, 1fr);
+    padding: 13px;
+    gap: 10px;
+  }
+  .paperclip-inner li > button {
+    grid-column: 2;
+    justify-self: start;
+  }
+  .paperclip-inner li strong {
+    font-size: 16px;
+  }
+}
+@media (min-width: 1021px) {
+  .bookmark-ruler ol {
+    max-height: min(45dvh, 420px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+/* UI labels use the same readable sans, with mono reserved for actual code. */
+.folio .clip-button,.folio .paperclip-trigger,.folio .paperclip-tray button {font:500 13px/1.4 var(--f-ui);letter-spacing:normal;}
+.folio .clip-button {margin:12px 0;}
+.folio .project-folio-index .project-metrics>span {font:13px/1.5 var(--f-ui);letter-spacing:normal;padding:6px 9px;}
+.folio .project-folio-index .project-metrics {gap:8px;margin-top:8px;}
+.folio .workbench-selector button,.folio .topic-filters button {font:13px/1.4 var(--f-ui);}

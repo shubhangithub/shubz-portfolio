@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, { useState } from 'react';
 import { withAlpha } from '../../data/palette';
+import '../../styles/repo-evolution.css';
 
 const OLD_URL = "https://github.com/shubhangithub/shubz-taylor-rec-engine-R";
 const NEW_URL = "https://github.com/shubhangithub/updated-shubz-taylor-rec-engine";
@@ -111,7 +112,8 @@ export function RepoEvolution({ palette: p }) {
   const accent = "#28CA41";
 
   return (
-    <div style={{ display: "flex", alignItems: "stretch", gap: 0 }}>
+    <div className="repo-evolution">
+    <div className="repo-evolution-panels">
       <Panel
         label="v1 · 2023"
         path="~/taylor-rec-R"
@@ -125,7 +127,7 @@ export function RepoEvolution({ palette: p }) {
       />
 
       {/* middle arrow */}
-      <div style={{
+      <div className="repo-evolution-connector" style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -177,6 +179,7 @@ export function RepoEvolution({ palette: p }) {
         onEnter={() => setHover("new")}
         onLeave={() => setHover(null)}
       />
+    </div>
     </div>
   );
 }

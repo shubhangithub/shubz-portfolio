@@ -1,0 +1,104 @@
+.not-found-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 64px 40px 90px;
+  color: var(--nb-ink);
+  font-family: var(--f-ui);
+}
+.not-found-page header > .eyebrow {
+  color: var(--nb-yellow);
+}
+.not-found-page h1 {
+  font: 500 clamp(36px, 6vw, 66px)/1.05 var(--f-ui);
+  letter-spacing: -0.04em;
+  max-width: 14ch;
+  margin: 20px 0;
+}
+.not-found-page header > p:not(.eyebrow) {
+  color: var(--nb-softInk);
+  font-size: 17px;
+  line-height: 1.7;
+  max-width: 58ch;
+}
+.not-found-exits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 26px 0 36px;
+}
+.not-found-exits > a {
+  min-height: 44px;
+}
+.not-found-essays {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--nb-rule);
+}
+.not-found-essays li {
+  border-bottom: 1px solid var(--nb-rule);
+}
+.not-found-essays a {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 58px;
+  gap: 18px;
+  padding: 24px 0;
+  text-decoration: none;
+  color: var(--nb-ink);
+  align-items: baseline;
+}
+.not-found-essays h2 {
+  font: 500 21px/1.3 var(--f-ui);
+  margin: 0;
+  color: var(--record-pen);
+}
+.not-found-essays p {
+  font: 15px/1.6 var(--f-ui);
+  color: var(--nb-softInk);
+  margin: 8px 0 0;
+}
+.not-found-number,
+.not-found-time {
+  font: 11px/1.5 var(--f-mono);
+  color: var(--nb-muted);
+}
+.not-found-time {
+  text-align: right;
+  white-space: nowrap;
+}
+.not-found-closing {
+  margin-top: 30px;
+  color: var(--nb-softInk);
+}
+.not-found-closing a {
+  color: var(--nb-yellow);
+  text-underline-offset: 3px;
+}
+.not-found-essays a:hover h2 {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.not-found-essays a:focus-visible {
+  outline: 2px solid var(--record-pen);
+  outline-offset: 5px;
+}
+@media (max-width: 700px) {
+  .not-found-page {
+    padding: 34px 24px 60px;
+  }
+  .not-found-page h1 {
+    font-size: 40px;
+  }
+  .not-found-essays a {
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 12px;
+    padding: 22px 0;
+  }
+  .not-found-time {
+    grid-column: 2;
+    text-align: left;
+  }
+  .not-found-essays h2 {
+    font-size: 20px;
+  }
+}

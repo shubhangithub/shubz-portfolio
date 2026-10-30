@@ -5,9 +5,12 @@
 //
 // Cadence: weekly-ish. See EDITING.md for the update recipe.
 //
+// RULE: exactly ONE LinkedIn entry at a time — always the latest post on
+// the profile. When a new post goes up, REPLACE the old entry (don't
+// append). Link the post's permalink (/feed/update/urn:li:activity:<id>/),
+// not the generic recent-activity page.
+//
 // Each entry shows up as a small chip on the home page's "latest" row.
-// To remove an entry, delete its object. To reorder, reorder the array
-// (newest first).
 
 import type { NBAccentKey } from "./palette";
 
@@ -34,12 +37,15 @@ export type SocialPost = {
 
 export const SOCIAL_POSTS: SocialPost[] = [
   {
-    date: "Jul 2026",
+    date: "Sep 2026",
     platform: "linkedin",
     text:
-      "Through InnovateHer, I've now spoken to 200+ students across UK schools about careers in tech — and the roles we don't have names for yet. Named an InnovateHer Ambassador for the year.",
-    url: "https://www.linkedin.com/in/shubhangi-s-sharma/recent-activity/all/",
-    family: "orange", // orange = Outreach (STEM-ed)
+      "Delighted and honoured to share that I've been awarded a Cosmos Institute × FIRE grant, as part of their AI for Truth-Seeking track, for my work on studying consensus dynamics in AI committees.",
+    url: "https://www.linkedin.com/feed/update/urn:li:activity:7504448867954974720/",
+    family: "blue", // blue = AI safety (Cosmos / truth-seeking grant)
+    image: "/social/cosmos-dissentcheck.jpg",
+    imageAlt:
+      "FIRE × Cosmos Institute card: DissentCheck — a toolkit and experimental framework for studying and testing consensus dynamics in AI committees. Shubz Sharma, AI x Truth-Seeking Grant Winner.",
   },
 ];
 

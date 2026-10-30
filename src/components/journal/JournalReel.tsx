@@ -1,0 +1,72 @@
+import { PixelStation } from "../chrome/RoboCat";
+import { useEffect, useRef, useState } from 'react';
+import { JOURNAL_ENTRIES } from '../../data/now';
+import { JOURNAL_REEL_COPY as COPY } from '../../data/journalPresentation';
+import { PENS } from '../../data/notebook';
+import type { NBTheme } from '../../data/palette';
+import '../../styles/journal-reel.css';
+
+const years = [...new Set(JOURNAL_ENTRIES.map(entry => entry.date.slice(0,4)))];
+export function JournalReel({ t, selected, onChoose }: {
+  t: NBTheme; selected: number[];
+  onChoose: (kind: 'entry' | 'year', value: string) => void;
+}) {
+  const active = selected[0] ?? 0;
+  const [enhanced, setEnhanced] = useState(false);
+  const [reduced, setReduced] = useState(true);
+  const [turn, setTurn] = useState<{from:number; direction:'forward'|'backward'}|null>(null);
+  const previous = useRef(active);
+  const touch = useRef<{x:number;y:number}|null>(null);
+  useEffect(() => {
+    const media = matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => setReduced(media.matches);
+    update(); media.addEventListener('change', update); setEnhanced(true);
+    return () => media.removeEventListener('change', update);
+  }, []);
+  useEffect(() => {
+    const from = previous.current;
+    previous.current = active;
+    if (from === active || reduced) { setTurn(null); return; }
+    setTurn({from, direction:active > from ? 'forward':'backward'});
+    const timer = window.setTimeout(() => setTurn(null), 760);
+    return () => window.clearTimeout(timer);
+  }, [active, reduced]);
+  const entry = JOURNAL_ENTRIES[active];
+  const turningEntry = turn ? JOURNAL_ENTRIES[turn.direction === "backward" ? active : turn.from] : entry;
+  const book = enhanced;
+  const step = (direction:number) => {
+    const next = active + direction;
+    if (next >= 0 && next < JOURNAL_ENTRIES.length) onChoose('entry',String(next));
+  };
+  return <div className="journal-reel" data-book={book || undefined} style={{'--reel-ink':t[entry.family]} as React.CSSProperties}>
+    <div className="journal-time-rail">
+      <nav className="journal-year-scale" aria-label={COPY.timeline}>{years.map(year=><a key={year} href={`?year=${year}#journal-year-${year}`} aria-current={entry.date.startsWith(year)?'location':undefined} onClick={e=>{e.preventDefault();onChoose('year',year)}}>{year}</a>)}</nav>
+      <span className="journal-frame-count" aria-live="polite">{COPY.page} {active+1} / {JOURNAL_ENTRIES.length} · {entry.date}</span>
+      <div className="journal-reel-controls"><button aria-label={COPY.previous} disabled={active===0} onClick={()=>step(-1)}>← <span>{COPY.newer}</span></button><button aria-label={COPY.next} disabled={active===JOURNAL_ENTRIES.length-1} onClick={()=>step(1)}><span>{COPY.older}</span> →</button></div>
+    </div>
+    <div className="journal-bound-book" onTouchStart={e=>{if(!book || (e.target as Element).closest('a,button,select'))return;const p=e.touches[0];touch.current={x:p.clientX,y:p.clientY};}} onTouchEnd={e=>{const start=touch.current;touch.current=null;if(!start)return;const p=e.changedTouches[0],dx=p.clientX-start.x,dy=p.clientY-start.y;if(Math.abs(dx)>65 && Math.abs(dx)>Math.abs(dy)*1.5)step(dx<0?1:-1);}}>
+      {book && <aside className="journal-verso" aria-hidden="true">
+        <span className="journal-bookplate">{COPY.bookplate}</span>
+        <div className="journal-date-study"><span>{entry.date.slice(0,4)}</span><strong>{entry.date.slice(5)}</strong></div>
+        <div className="journal-stitch"/>
+        <span className="journal-page-foot">{COPY.hand}</span>
+      </aside>}
+      <div className="journal-leaves">
+        {JOURNAL_ENTRIES.map((e,i)=><article key={i} hidden={book && active!==i} className="journal-memory" id={`journal-entry-${i}`} tabIndex={-1} style={{'--item-accent':t[e.family]} as React.CSSProperties}>
+          {JOURNAL_ENTRIES.findIndex(n=>n.date.slice(0,4)===e.date.slice(0,4))===i && <span id={`journal-year-${e.date.slice(0,4)}`} tabIndex={-1}/>}
+          <header><span>{PENS.find(p=>p.key===e.family)?.label}</span><span>{String(i+1).padStart(2,'0')}</span></header>
+          <time dateTime={e.date}>{e.date}</time>
+          <p>{e.note}</p>
+          {e.artifact && <a className="journal-memory-artifact" href={e.artifact.href}><img src={e.artifact.image} alt={e.artifact.alt} loading="lazy"/><span>{e.artifact.label}</span></a>}
+          <footer><span>{COPY.record}</span><a href={`?entry=${i}#journal-entry-${i}`} aria-label={`${COPY.link}: ${e.date}`} onClick={event=>{event.preventDefault();onChoose('entry',String(i))}}>{COPY.link} ↗</a></footer>
+        </article>)}
+        {book && turn && <div className={`journal-turning-leaf turn-${turn.direction}`} key={`${active}-${turn.from}`} aria-hidden="true">
+          <div className="journal-leaf-front" style={{'--item-accent':t[turningEntry.family]} as React.CSSProperties}><small>{COPY.record}</small><strong>{turningEntry.date}</strong><p>{turningEntry.note}</p></div>
+          <div className="journal-leaf-back"><span>{COPY.bookplate}</span></div>
+        </div>}
+      </div>
+    </div>
+    <PixelStation scene="journal"/>
+
+  </div>;
+}

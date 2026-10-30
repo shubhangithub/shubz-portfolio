@@ -76,7 +76,7 @@ export function JaggedFrontier({ palette: p }) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "0.7rem" }}>
-      <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center" }}>
         <span style={{ fontFamily: "var(--f-ui)", fontSize: 10, color: p.muted, marginRight: 4 }}>build order:</span>
         <button style={btnStyle(mode === "defense")} onClick={() => { setMode("defense"); setTick(0); }}>defence-first</button>
         <button style={btnStyle(mode === "offense")} onClick={() => { setMode("offense"); setTick(0); }}>capability-first</button>

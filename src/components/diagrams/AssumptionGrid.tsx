@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
+import '../../styles/essay-responsive-diagrams.css';
 
 const ASSUMPTIONS = [
   {
@@ -76,13 +77,15 @@ export function AssumptionGrid({ palette: p }) {
   const assumption = hoveredRow !== null ? ASSUMPTIONS[hoveredRow] : null;
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "0.8rem", alignItems: "start", overflowX: "auto" }}>
+    <div className="assumption-study" style={{ color: p.muted, "--assumption-paper": `color-mix(in srgb, ${p.paper} 88%, ${p.ink})` }}>
       {/* grid */}
-      <div style={{ overflowX: "auto" }}>
-        <table style={{ borderCollapse: "collapse", fontFamily: "var(--f-ui)", fontSize: 11, width: "100%" }}>
+      <div className="assumption-matrix">
+        <p className="assumption-scroll-hint">Scroll across all eight readings ↔ · Select an assumption for its explanation.</p>
+        <div className="assumption-scroll" tabIndex={0} role="region" aria-label="Assumptions against eight readings, horizontally scrollable">
+        <table className="assumption-table" style={{ borderCollapse: "collapse", fontFamily: "var(--f-ui)", fontSize: 11, width: "100%" }}>
           <thead>
             <tr>
-              <th style={{ width: 170, textAlign: "left", padding: "0 0.5rem 0.5rem 0", color: p.muted, fontWeight: 400, fontSize: 10, letterSpacing: "0.06em" }}>ASSUMPTION</th>
+              <th style={{ width: 150, textAlign: "left", padding: "0 0.5rem 0.5rem 0", color: p.muted, fontWeight: 400, fontSize: 10, letterSpacing: "0.06em" }}>ASSUMPTION</th>
               {READINGS.map((r, i) => (
                 <th key={i} style={{
                   padding: "0 4px 0.5rem",
@@ -124,7 +127,7 @@ export function AssumptionGrid({ palette: p }) {
                     borderBottom: `1px solid ${p.line}`,
                     transition: "color 150ms",
                   }}>
-                    {a.label}
+                    <button className="assumption-label" type="button" aria-pressed={isHov} onFocus={() => setHoveredRow(ri)} onClick={() => setHoveredRow(ri)}>{a.label}</button>
                   </td>
                   {GRID[ri].map((v, ci) => (
                     <td key={ci} style={{
@@ -145,9 +148,10 @@ export function AssumptionGrid({ palette: p }) {
             })}
           </tbody>
         </table>
+        </div>
 
         {/* legend */}
-        <div style={{ display: "flex", gap: "1.2rem", marginTop: "0.7rem", fontFamily: "var(--f-ui)", fontSize: 10, color: p.muted }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem 1.2rem", marginTop: "0.7rem", fontFamily: "var(--f-ui)", fontSize: 10, color: p.muted }}>
           <span><span style={{ color: p.accent }}>●</span> depends on</span>
           <span><span style={{ color: p.muted }}>◐</span> neutral</span>
           <span><span style={{ color: "#C44" }}>✗</span> violates</span>
@@ -155,9 +159,8 @@ export function AssumptionGrid({ palette: p }) {
       </div>
 
       {/* detail panel */}
-      <div style={{
-        minWidth: 200,
-        maxWidth: 240,
+      <div className="assumption-detail" style={{
+        minWidth: 0,
         minHeight: 100,
         padding: "0.7rem 0.8rem",
         border: `1px solid ${p.line}`,
@@ -180,7 +183,7 @@ export function AssumptionGrid({ palette: p }) {
             {assumption.breaks}
           </>
         ) : (
-          "Hover a row to see what breaks if that assumption is false."
+          "Hover or select a row to see what breaks if that assumption is false."
         )}
       </div>
     </div>

@@ -1,0 +1,41 @@
+/* Current theme refinements. Design contract: /design.md. */
+.folio .home-intro h1 em { color:var(--nb-yellow); }
+.folio .skip-link { color:var(--nb-ink); }
+
+/* Separate the cool desk, white paper and functional outlines. Topic inks
+   still come from the ten canonical pens; neutral control is not a new pen. */
+html:not([data-theme="dark"]) .folio {
+  --bench-line:color-mix(in srgb,var(--nb-cyan) 18%,var(--nb-rule));
+  --bench-grid:color-mix(in srgb,var(--nb-ink) 5%,transparent);
+  --folio-shadow:color-mix(in srgb,var(--nb-ink) 13%,transparent);
+}
+html:not([data-theme="dark"]) .folio-header { background:var(--nb-paper2); }
+html:not([data-theme="dark"]) .terminal-bar > span:nth-child(2) { opacity:1; }
+/* V4 essay bodies still carry a literal green on their section counters. */
+html:not([data-theme="dark"]) .folio-essay article h2 > .mono { color:var(--nb-prompt)!important; }
+html:not([data-theme="dark"]) .essay-pull-quote > span:first-child { opacity:1!important; }
+html:not([data-theme="dark"]) .folio :is(input,textarea)::placeholder {
+  color:var(--nb-muted);
+  opacity:1;
+}
+html:not([data-theme="dark"]) .folio :is(
+  .theme-toggle,.workbench-utilities button,.folio-button.secondary,
+  .topic-filters button:not([aria-pressed="true"]),.terminal-chips button,
+  .guide-modes button:not([aria-pressed="true"]),.kit-field-jump select,
+  .network-appearance select,.network-searchbar>button,.network-controls button,
+  .field-index-heading>button,.walk-controls>button,#walk-entry
+) { border-color:var(--nb-control); }
+html:not([data-theme="dark"]) .letter-field { border-bottom-color:var(--nb-control); }
+html:not([data-theme="dark"]) .letter-message textarea {
+  outline:1px solid var(--nb-control);
+  outline-offset:6px;
+}
+html:not([data-theme="dark"]) .letter-message textarea:focus-visible {
+  outline:2px solid var(--folio-accent);
+}
+html:not([data-theme="dark"]) .folio :is(.field-index,.network-inspector) {
+  background:var(--nb-paper2);
+}
+html:not([data-theme="dark"]) .field-index::backdrop {
+  background:color-mix(in srgb,var(--nb-ink) 38%,transparent);
+}
