@@ -523,7 +523,8 @@ Keep Now’s Mood, Music and Drink in one three-column strip on phones. The tea
 illustration sits above Drink without taking a grid column. Miniature book titles
 wrap within their covers and truncate with an ellipsis; the selected detail keeps
 the full title. Education and Reading/offline use smaller wall frames clear of
-the work monitor. Attached About notes include a small coloured-link discovery hint.
+the work monitor. Directly below “About me, in full”, a small hint invites visitors to tap the
+laptop, books or other coloured objects. Do not place that hint in the notes panel.
 
 Article sources and citations must remain available on phones, with Details
 below the essay and a direct jump link above it. Never hide these for narrow widths.

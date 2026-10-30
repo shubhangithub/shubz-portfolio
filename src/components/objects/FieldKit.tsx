@@ -259,6 +259,7 @@ export function FieldKit({ t }: { t: NBTheme }) {
       className="folio-section home-about home-field-kit office-kit"
     >
       <SectionLabel n="i" title={GUIDE_COPY.homeAbout} />
+      <p className="office-explore-hint">{COPY.explore}</p>
       <div className="kit-registration">
         <span>{COPY.label}</span>
 
@@ -367,7 +368,6 @@ export function FieldKit({ t }: { t: NBTheme }) {
               </dl>
             </section>
           ))}
-          <p className="office-explore-hint">{COPY.explore}</p>
           <nav className="office-display-controls" aria-label={COPY.scene}>
             <button
               type="button"

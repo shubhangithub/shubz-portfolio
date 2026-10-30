@@ -368,4 +368,4 @@ html:not([data-theme="dark"])
  .office-object[data-office-group="away"]{left:30%;top:37%;}
 }
 
-.office-explore-hint {margin:18px 0 4px;font:12px/1.5 var(--f-ui);color:var(--nb-muted);}
+.office-explore-hint {margin:-12px 0 18px;font:12px/1.5 var(--f-ui);color:var(--nb-muted);}

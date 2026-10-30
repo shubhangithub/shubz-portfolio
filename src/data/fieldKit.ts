@@ -108,7 +108,7 @@ export const FIELD_KIT_COPY = {
   choose: "Choose a field",
   full: "Read the full introduction",
   display: "Attached notes",
-  explore: "Tap coloured links to explore.",
+  explore: "Tap the laptop, books or other coloured objects to explore.",
   previous: "Previous object",
   next: "Next object",
   back: "Back to objects",
