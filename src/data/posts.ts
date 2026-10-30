@@ -56,7 +56,7 @@ export type Post = {
 export const POSTS: Post[] = [
   {
     slug: "october-feedback",
-    title: "The correction arrives late",
+    title: "The correction arrives late · October '26",
     kicker: "Essay · Infrastructure",
     dek: "What happens when a controller keeps correcting an error that has already changed.",
     minutes: 7,
@@ -67,10 +67,11 @@ export const POSTS: Post[] = [
     family: "infra",
     nbAccent: "yellow",
     publishedAt: "2026-10-29",
+    updatedAt: "2026-10-30",
   },
   {
     slug: "september-queue",
-    title: "The queue at ninety per cent",
+    title: "The queue at ninety per cent · September '26",
     kicker: "Essay · Infrastructure",
     dek: "Why spare capacity matters, and what an average can hide about waiting.",
     minutes: 7,
@@ -81,10 +82,11 @@ export const POSTS: Post[] = [
     family: "infra",
     nbAccent: "yellow",
     publishedAt: "2026-10-29",
+    updatedAt: "2026-10-30",
   },
   {
     slug: "ross-threshold",
-    title: "The last mosquito",
+    title: "The last mosquito · August '26",
     kicker: "Essay · Mathematical biology",
     dek: "How malaria transmission can fall below its threshold while mosquitoes remain.",
     minutes: 7,
@@ -95,6 +97,7 @@ export const POSTS: Post[] = [
     family: "biotech",
     nbAccent: "red",
     publishedAt: "2026-10-29",
+    updatedAt: "2026-10-30",
   },
 
   {

@@ -33,6 +33,7 @@ export function essayMeta(slug) {
       tags: "malaria, mathematical biology, transmission thresholds",
       toc: ["Header", "Lede", "Two populations, one loop", "Forty-two per cent of what?", "The mosquitoes that live long enough"],
       sources: [
+        ["Calendar: London School of Hygiene & Tropical Medicine. ", "World Mosquito Day, 20 August. https://www.lshtm.ac.uk/newsevents/events/world-mosquito-day-2022"],
         ["Image: E. Wilson, Cambridge (1901). ", "Anopheles maculipennis, plate VIII in Nuttall & Shipley, Studies in Relation to Malaria. Public domain. https://commons.wikimedia.org/wiki/File:Nuttall_et_Shipley_1901_Anopheles_maculipennis.jpg"],
         ['[1] Ross, R. (1902). ', 'Nobel lecture on malaria.'],
         ['[2] Simoy, M. I. & Aparicio, J. P. (2020). ', 'Ross–Macdonald models and their assumptions. arXiv:2002.11267.'],
@@ -44,6 +45,7 @@ export function essayMeta(slug) {
       tags: "queueing theory, Little’s law, utilisation, latency",
       toc: ["Header", "Lede", "Whose second is it?", "The spare capacity has to clear the queue", "The queue outside the measurement"],
       sources: [
+        ["Calendar: Kendall, D. G. (September 1953). ", "Stochastic Processes Occurring in the Theory of Queues and their Analysis by the Method of the Imbedded Markov Chain. Annals of Mathematical Statistics 24(3):338–354. https://doi.org/10.1214/aoms/1177728975"],
         ["Image: Ministry of Information Photo Division (1945). ", "Queue outside Williamson\u2019s, Wood Green High Road, London. IWM D 25037. Expired Crown copyright; public domain. https://commons.wikimedia.org/wiki/File:Britain_Queues_For_Food-_Rationing_and_Food_Shortages_in_Wartime,_London,_England,_UK,_1945_D25037.jpg"],
         ['[1] Wu, C. (2026). ', 'Queueing models. MIT 1.041 lecture 8.'],
         ['[2] MIT OpenCourseWare (2016). ', 'M/M/1 Queue. Introduction to Manufacturing Systems.'],
@@ -55,6 +57,7 @@ export function essayMeta(slug) {
       tags: "feedback control, delay, stability, discrete time",
       toc: ["Header", "Lede", "Start with an obliging machine", "Two corrections against the same old error", "Follow the amplitude", "The timestamp belongs in the state"],
       sources: [
+        ["Calendar: American Society for Cybernetics. ", "Summary: The Macy Conferences. Second conference, October 1946. https://asc-cybernetics.org/foundations/history/MacySummary.htm"],
         ["Image: R. Routledge (1900). ", "Governor and throttle-valve, Discoveries & Inventions of the Nineteenth Century, 13th edition. Public domain. https://commons.wikimedia.org/wiki/File:Centrifugal_governor.png"],
         ['[1] Haugen, F. ', 'Advanced Dynamics and Control, chapters 13–14. Discrete-time modelling and stability.'],
       ],
