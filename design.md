@@ -719,3 +719,8 @@ Use the space for illustrations, project layouts and separated columns. The
 journal spread grows to 1480px; essay workspaces grow to 1800px with larger
 figures while prose stays within 65ch. Keep layouts below 1600px unchanged.
 Verify 1920px, 2560px and 3440px alongside the existing phone/laptop sizes.
+
+On wide screens the About office stage participates in grid flow: its growing
+aspect-ratio height must contribute to the section height. Never absolutely
+position the enlarged room inside a fixed-height wrapper. Check the room’s
+bottom edge against the following carousel at every large-screen breakpoint.
