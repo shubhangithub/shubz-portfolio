@@ -1,0 +1,90 @@
+/* now-spread.css — the Now page as a notebook spread, not a stack of boxes.
+   Two materials: wire (the mobile, the journal's spine) and paper (the
+   notes sheet, the journal page). Loaded after now-artifact.css. */
+
+/* 1. The mobile hangs free. No outer panel border; the rigging SVG draws
+   the rail and strings; the objects sway on their strings. */
+.journal-studio .now-continuum { border: 0; border-top: 0; background: transparent; }
+.journal-studio .now-continuum .now-artifact { background: transparent; }
+.journal-studio .now-artifact-workspace { gap: 28px; align-items: start; }
+.journal-studio .now-mobile-scene { aspect-ratio: 700 / 650; }
+.journal-studio .now-mobile-string { stroke-width: 1; opacity: .9; }
+.journal-studio .now-focus-object .field-object { transform-origin: 50% -40%; }
+.journal-studio .now-focus-object > span { background: transparent; }
+.journal-studio .now-focus-object::before { top: 44%; }
+@keyframes now-object-sway { from { transform: rotate(-1.6deg); } to { transform: rotate(1.6deg); } }
+
+/* 2. The notes beside it are a sheet of paper, taped at the top. */
+.journal-studio .now-artifact-panel {
+  position: relative; margin: 34px 30px 24px 0; padding: 30px 30px 30px;
+  border: 1px solid var(--nb-rule); border-left: 1px solid var(--nb-rule);
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 27px, color-mix(in srgb, var(--nb-ink) 6%, transparent) 27px 28px),
+    var(--nb-paper2);
+  background-origin: content-box;
+  box-shadow: 0 3px 0 var(--nb-rule), 0 12px 24px color-mix(in srgb, var(--nb-ink) 8%, transparent);
+  transform: rotate(.4deg);
+}
+.journal-studio .now-artifact-panel::before {
+  content: ""; position: absolute; left: 50%; top: -11px; width: 92px; height: 22px;
+  transform: translateX(-50%) rotate(-2deg);
+  background: color-mix(in srgb, var(--artifact-ink) 32%, var(--nb-paper2));
+  opacity: .9; border: 1px solid color-mix(in srgb, var(--artifact-ink) 45%, transparent);
+}
+.journal-studio .now-artifact-panel article { position: relative; }
+.journal-studio .now-artifact-panel h3 { margin-top: 10px; }
+.journal-studio .now-artifact-panel p { line-height: 28px; }
+
+/* 3. Mood · music · drink as a margin note beside the tea cup. */
+.journal-studio .now-continuum .desk-conditions { border-block: 0 !important; background: transparent; padding: 10px 0 26px !important; gap: 20px; }
+.journal-studio .current-combined .desk-conditions .conditions-grid { display: flex !important; flex-wrap: wrap; align-items: baseline; gap: 6px 26px; }
+.journal-studio .current-combined .desk-conditions .conditions-grid > div { display: inline-flex !important; align-items: baseline; gap: 9px; padding: 0 !important; margin: 0 !important; border: 0 !important; background: transparent !important; box-shadow: none !important; }
+.journal-studio .current-combined .desk-conditions .conditions-grid dt { font: 11px var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--nb-muted); }
+.journal-studio .current-combined .desk-conditions .conditions-grid dd { margin: 0; font: italic 18px/1.4 var(--f-display); }
+.journal-studio .current-combined .desk-conditions .conditions-grid dd small { display: inline; margin-left: 8px; font: italic 14px var(--f-display); color: var(--nb-muted); }
+.journal-studio .current-combined .desk-conditions .conditions-grid dd small::before { content: "— "; }
+
+/* 4. The journal index is a spine: a rule with a dot per entry. */
+.journal-studio .journal-index ol { position: relative; padding-left: 18px !important; }
+.journal-studio .journal-index ol::before { content: ""; position: absolute; left: 5px; top: 10px; bottom: 10px; width: 1px; background: var(--nb-rule); }
+.journal-studio .journal-index li { position: relative; }
+.journal-studio .journal-index li::before { content: ""; position: absolute; left: -16px; top: 17px; width: 7px; height: 7px; border-radius: 50%; background: var(--item-accent, var(--nb-control)); box-shadow: 0 0 0 3px var(--nb-paper); }
+.journal-studio .journal-index li:has(button[aria-current="true"])::before { width: 11px; height: 11px; left: -18px; top: 15px; box-shadow: 0 0 0 3px var(--nb-paper), 0 0 0 4px var(--item-accent); }
+.journal-studio .journal-index li button { border-left: 0 !important; padding-left: 10px !important; }
+.journal-studio .journal-index li button[aria-current="true"] { background: color-mix(in srgb, var(--item-accent) 7%, transparent) !important; }
+.journal-studio .journal-index-earlier { border-top: 0 !important; margin-top: 2px !important; }
+.journal-studio .journal-index-earlier > summary { position: relative; padding-left: 28px !important; }
+.journal-studio .journal-index-earlier > summary::before { content: "" !important; position: absolute; left: 1px; top: 14px; width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--nb-muted); background: var(--nb-paper); }
+.journal-studio .journal-index-earlier[open] > summary::before { background: var(--nb-muted); }
+
+/* 5. An entry's artifact is taped onto the page. */
+.journal-studio .journal-memory-artifact { display: block; float: right; width: 190px; margin: 4px 0 14px 22px; padding: 10px 10px 12px; background: var(--nb-paper2); border: 1px solid var(--nb-rule); box-shadow: 0 4px 10px color-mix(in srgb, var(--nb-ink) 18%, transparent); transform: rotate(2.5deg); font: italic 13px/1.4 var(--f-display); color: var(--nb-softInk); position: relative; }
+.journal-studio .journal-memory-artifact::before { content: ""; position: absolute; left: 50%; top: -9px; width: 64px; height: 18px; transform: translateX(-50%) rotate(-3deg); background: color-mix(in srgb, var(--nb-yellow) 28%, var(--nb-paper2)); border: 1px solid color-mix(in srgb, var(--nb-yellow) 40%, transparent); }
+.journal-studio .journal-memory-artifact img { display: block; width: 100%; max-height: 130px; object-fit: cover; border: 0; box-shadow: none; transform: none; margin-bottom: 8px; }
+.journal-studio .journal-memory > p { overflow-wrap: anywhere; }
+
+/* 6. The page's accent is orange (Outreach, DECISIONS-v5 §14). The selected
+   object and its paper take the object's pen; the page furniture does not. */
+.journal-studio .date-stamp.now-ink-stamp { border-color: var(--nb-orange); color: var(--nb-orange); }
+.journal-studio .page-hero h1 em { color: var(--nb-orange); }
+
+@media (max-width: 1000px) {
+  .journal-studio .now-artifact-panel { margin-right: 20px; }
+}
+@media (max-width: 760px) {
+  /* Phone: the two-column grid keeps a rail along the top and a string
+     to each object, instead of the rounded frame. */
+  .journal-studio .now-mobile-scene::before { inset: 16px 20px auto; height: 0; border: 0; border-top: 2px solid var(--nb-control); border-radius: 0; }
+  .journal-studio .now-focus-object::after { top: -26px; height: 30px; border-left-color: var(--nb-control); }
+  .journal-studio .now-artifact-panel { margin: 26px 12px 8px; padding: 24px 20px; border-top: 1px solid var(--nb-rule); transform: none; }
+  .journal-studio .now-continuum .desk-conditions { padding: 8px 12px 22px !important; }
+  .journal-studio .current-combined .desk-conditions { display: block !important; }
+  .journal-studio .current-combined .desk-conditions .tea-study { display: none; }
+  .journal-studio .current-combined .desk-conditions .conditions-grid { display: grid !important; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .journal-studio .current-combined .desk-conditions .conditions-grid > div { display: grid !important; grid-template-columns: 58px minmax(0, 1fr); align-items: baseline; gap: 0 10px; }
+  .journal-studio .current-combined .desk-conditions .conditions-grid dd { font-size: 17px; }
+  .journal-studio .current-combined .desk-conditions .conditions-grid dd small { display: block; margin-left: 0; font-size: 13px; }
+  .journal-studio .current-combined .desk-conditions .conditions-grid dd small::before { content: ""; }
+  .journal-studio .journal-memory-artifact { float: none; width: 100%; max-width: 240px; margin: 6px 0 18px; transform: rotate(-1.5deg); }
+}
+@media (prefers-reduced-motion: reduce) { .now-artifact-panel { transform: none; } }

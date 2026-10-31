@@ -1,4 +1,5 @@
 import { JournalReel } from "../journal/JournalReel";
+import "../../styles/now-spread.css";
 import { NowArtifact } from "../objects/NowArtifact";
 import {
   STUDIO_COPY as STUDIO,

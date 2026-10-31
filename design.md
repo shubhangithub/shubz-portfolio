@@ -70,6 +70,14 @@ are implemented in `src/styles/calm.css`, loaded last:
 - /work/: the walk keeps its city scene and walking narrator above the
   record. (A compact version was tried on 30 October and reverted the same
   day: the scene is the page's character.)
+- /now/ is a spread in two materials, wire and paper (`now-spread.css`): the
+  mobile hangs from a rail by strings (no rack, no ledges, no outer panel);
+  the notes beside it are a taped sheet of ruled paper in the selected
+  object's pen; mood · music · drink is one italic margin note beside the
+  tea cup; the journal index is a spine (a rule with a dot per entry); an
+  entry's artifact is taped onto the page. The page accent is orange
+  (Outreach); only the selected object and its sheet take that object's pen.
+  On phones the mobile keeps its rail and strings in a two-column grid.
 - /now/: Current work is a snapshot and the Journal is the record; they
   share a page, not a link (a per-focus "from the journal" filter was tried
   and removed: it matched by pen, not by the work). Current work carries the

@@ -14,7 +14,9 @@ const COPY = {
 };
 const readingIndex = FOCUSES.findIndex(f=>f.kind==='Reading');
 const activities = FOCUSES.map((f,i)=>({f,i})).filter(({i})=>i!==readingIndex);
-const places = [[30,25],[70,25],[25,48],[75,48]];
+// Two rows, offset so every string from the rail reaches its object without
+// passing through another: the inner pair high, the outer pair low.
+const places = [[34,24],[66,24],[17,50],[83,50]];
 export function NowArtifact({t}:{t:NBTheme}) {
  const [selection,setSelection]=useState('focus-0');
  const [reduced,setReduced]=useState(true),[visible,setVisible]=useState(false);
@@ -92,12 +94,20 @@ export function NowArtifact({t}:{t:NBTheme}) {
   <div className="now-artifact-workspace">
    <div className="now-mobile-scene" role="group" aria-label="Current work and reading objects">
     <svg className="now-mobile-frame" viewBox="0 0 700 650" fill="none" aria-hidden="true">
-     <defs><pattern id="now-rack-perforations" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="1" fill="var(--nb-control)" opacity=".28"/></pattern></defs>
-     <path d="M85 600V165Q85 60 195 60H519Q618 60 618 165V600Z" fill="url(#now-rack-perforations)"/>
-     <g className="now-object-ledges" stroke="var(--nb-control)" fill="var(--nb-paper2)"><path d="M128 210H310L321 219H119Z M389 210H570L581 219H380Z M128 370H310L321 379H119Z M389 370H570L581 379H380Z"/><path d="M145 219V229M294 219V229M406 219V229M554 219V229M145 379V389M294 379V389M406 379V389M554 379V389"/></g>
-     <path d="M70 601H641L601 627H109Z" fill="var(--nb-paper2)" stroke="var(--nb-control)"/><path d="M85 600V165Q85 60 195 60H519Q618 60 618 165V600" stroke="var(--nb-control)" strokeWidth="3"/>
+     {/* A mobile: one rail, a hook, and a string to each object. The reading
+         rack below is a shelf, so it keeps its own base. */}
+     <g className="now-mobile-rigging" stroke="var(--nb-control)" strokeLinecap="round">
+      <path d="M350 0V18" strokeWidth="1.5"/>
+      <path d="M90 26H610" strokeWidth="2.5"/>
+      <path d="M90 26v10M610 26v10" strokeWidth="1.5"/>
+      <path className="now-mobile-string" d="M238 26V96"/>
+      <path className="now-mobile-string" d="M462 26V96"/>
+      <path className="now-mobile-string" d="M119 26V262"/>
+      <path className="now-mobile-string" d="M581 26V262"/>
+      <circle cx="238" cy="26" r="3" fill="var(--nb-control)"/><circle cx="462" cy="26" r="3" fill="var(--nb-control)"/>
+      <circle cx="119" cy="26" r="3" fill="var(--nb-control)"/><circle cx="581" cy="26" r="3" fill="var(--nb-control)"/>
+     </g>
      <g stroke="var(--nb-rule)"><path d="M119 468H580L609 557H96Z" fill="var(--nb-paper)"/><path d="M96 557V569H609V557M119 468V485M580 468V485"/></g>
-     <path d="M73 600L60 619M637 600L650 619" stroke="var(--nb-control)" strokeWidth="5"/>
     </svg>
     {activities.map(({f,i},slot)=><button key={f.kind} className="now-focus-object" data-now-object={`focus-${i}`} style={{'--object-ink':t[f.family],'--object-x':`${places[slot][0]}%`,'--object-y':`${places[slot][1]}%`,'--object-delay':`${-i*1.7}s`} as CSSProperties} aria-pressed={selection===`focus-${i}`} aria-controls={`focus-${i}`} onPointerEnter={event=>{if(event.pointerType==='mouse')preview(`focus-${i}`);}} onFocus={event=>{if(event.currentTarget.matches(':focus-visible'))preview(`focus-${i}`);}} onClick={()=>choose(`focus-${i}`)}><FieldObject kind={FOCUS_OBJECTS[f.kind]||'notebook'}/><span>{f.kind}</span></button>)}
     <div className="now-reading-rack" id="reading-shelf" tabIndex={-1} aria-label={COPY.reading}>
