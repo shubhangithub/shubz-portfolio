@@ -82,7 +82,9 @@ export function JournalReel({ t, selected, onChoose }: {
           {JOURNAL_ENTRIES.findIndex(n=>n.date.slice(0,4)===e.date.slice(0,4))===i && <span id={`journal-year-${e.date.slice(0,4)}`} tabIndex={-1}/>}
           <header><span>{PENS.find(p=>p.key===e.family)?.label}</span><span>{String(i+1).padStart(2,'0')}</span></header>
           <time dateTime={e.date}>{e.date}</time>
-          {e.artifact && <a className="journal-memory-artifact" href={e.artifact.href}><img src={e.artifact.image} alt={e.artifact.alt} loading="lazy"/><span>{e.artifact.label}</span></a>}
+          {e.artifact && (e.artifact.href
+            ? <a className="journal-memory-artifact" href={e.artifact.href}><img src={e.artifact.image} alt={e.artifact.alt} loading="lazy"/><span>{e.artifact.label}</span></a>
+            : <div className="journal-memory-artifact"><img src={e.artifact.image} alt={e.artifact.alt} loading="lazy"/><span>{e.artifact.label}</span></div>)}
           <p>{e.note}</p>
 
         </article>)}

@@ -697,3 +697,7 @@ with a space after the full stop; only that prefix uses 12px mono. Preserve
 existing numbering and attribution; unnumbered photos need no invented figure
 number. Do not restore terminal arrows, slash separators, tiny mobile captions
 or per-component font overrides. Longer labels wrap naturally on phones.
+
+Photographs stay inline: do not add image-file links, full-resolution viewers or
+click-to-zoom behaviour. Journal artifacts may link to a related article, but a
+photo without an article destination is an unlinked image with a caption.
