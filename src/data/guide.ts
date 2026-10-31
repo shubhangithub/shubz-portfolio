@@ -7,6 +7,8 @@ export const DISCOVERY_COPY = {
   metaDescription:
     "Browse every project and tool, follow a subject through the work and writing, or explore their connections in the full network.",
   indexTitle: "Projects & tools",
+  /** The hero, in the same shape as the other pages: a sentence with two emphasised words. */
+  indexHero: [{ text: "Things I’ve " }, { em: "made" }, { text: ", and what I made them " }, { em: "with" }, { text: "." }],
   indexIntro:
     "Open a project, find a tool, or follow a subject across the work and writing.",
   network: "Full network",

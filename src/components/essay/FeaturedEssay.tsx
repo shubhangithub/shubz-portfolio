@@ -44,7 +44,11 @@ export function FeaturedEssay({ dark }: { dark: boolean }) {
     >
       <div className="front-door-topline">
         <div className="eyebrow"><span className="chapter">05</span>{WRITING_COPY.label}</div>
+      </div>
+      {/* The featured set sits under the open essay as a tab row. */}
+      {(() => { const tabs = (
         <div className="front-door-tabs" role="tablist" aria-label="Featured essays">
+          <span className="front-door-tabs-label">Featured</span>
           {FEATURED_ESSAYS.map((p, i) => (
             <button
               key={p.slug}
@@ -60,8 +64,7 @@ export function FeaturedEssay({ dark }: { dark: boolean }) {
             </button>
           ))}
         </div>
-      </div>
-
+      ); return <>
       <div className="front-door-stage" id="front-door-panel" role="tabpanel">
         <div className="front-door-text">
           <div className="front-door-kicker">
@@ -91,6 +94,8 @@ export function FeaturedEssay({ dark }: { dark: boolean }) {
           </div>
         )}
       </div>
+      {tabs}
+      </>; })()}
     </section>
   );
 }

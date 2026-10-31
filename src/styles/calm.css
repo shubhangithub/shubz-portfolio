@@ -210,3 +210,10 @@ html[data-theme="dark"] .folio:not(.folio-home)[data-live-grid="true"] { backgro
 .folio .now-artifact-heading.section-label::before { left: 30px; top: 0; }
 .folio .now-artifact-heading.section-label h2 { font: 500 24px var(--f-ui); letter-spacing: -.035em; margin: 0; }
 @media (max-width: 760px) { .folio .now-artifact-heading.section-label { padding: 18px 16px 6px; } .folio .now-artifact-heading.section-label::before { left: 16px; } }
+
+/* /builds/ hero: the same shape as the other pages. */
+.folio .guide-main:not(.guide-graph) .guide-header h1 em { font-style: normal; color: var(--nb-yellow); }
+/* /writing/: the featured row sits under the open essay. */
+.folio .front-door-tabs { margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--nb-rule); align-items: center; }
+.folio .front-door-tabs-label { font: 11px var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--nb-muted); margin-right: 8px; }
+@media (max-width: 700px) { .folio .front-door-tabs { margin-top: 22px; } }
