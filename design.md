@@ -114,6 +114,25 @@ are implemented in `src/styles/calm.css`, loaded last:
   and essays. The ten-pen shelf was removed; the subject register on /builds/
   is the way into a pen.
 
+## Small physical responses (`whimsy.css`, `lib/nudge.ts`)
+
+Every one respects `prefers-reduced-motion`, none carries information, and
+each belongs to an object that already exists:
+
+- Home: the notebook and the narrator can be picked up and let go (they
+  follow the hand with resistance and spring back; a drag never opens the
+  notebook, a tap still does). Selecting "Shubz." in the hero makes the
+  narrator hop.
+- Sound: the notebook's open/close cue is split, the first note on
+  pointer-down and the second on release (`press` / `release` cues).
+- /now/: the mobile swings when the window is resized, then settles.
+- Terminal: `walk` opens /work and starts the walk (`?walk=play`).
+- Pixel carries a paperclip for a moment whenever a clip is saved
+  (`notebook:clipped` event from the paperclip context).
+
+Tested with `scratchpad/whimsy-test.js`-style runs on desktop (mouse),
+phone (touch) and reduced-motion before shipping.
+
 ## Colour, type and contrast
 
 - Use the existing ten pens and neutral surface tokens from

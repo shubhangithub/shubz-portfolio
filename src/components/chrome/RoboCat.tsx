@@ -35,7 +35,7 @@ export function CompanionProvider({ children }: { children: React.ReactNode }) {
 }
 
 /** A small articulated machine: body, sensor face, ears, tail and four feet. */
-export function RoboCatDrawing({ mood = 'idle', prop }: { mood?: Mood; prop?: 'book' | 'lens' | 'letter' }) {
+export function RoboCatDrawing({ mood = 'idle', prop }: { mood?: Mood; prop?: 'book' | 'lens' | 'letter' | 'clip' }) {
   return <svg className={`robo-cat-art cat-${mood}`} viewBox="0 0 180 150" fill="none" aria-hidden="true">
     <ellipse className="cat-shadow" cx="90" cy="132" rx="57" ry="7"/>
     <g className="cat-tail"><path d="M125 103C152 108 163 88 151 77C140 66 149 49 160 53"/><path className="cat-tail-light" d="M151 77C140 66 149 49 160 53"/><circle cx="160" cy="53" r="4"/></g>
@@ -76,9 +76,27 @@ export function RoboCatDrawing({ mood = 'idle', prop }: { mood?: Mood; prop?: 'b
       <circle cx="94" cy="121" r="5" fill="var(--nb-yellow)" stroke="var(--nb-yellow)"/>
       <path className="pixel-prop-paw" d="M52 114Q60 106 65 115L64 123H54M121 110Q129 103 134 112L132 121H123"/>
     </g>}
+    {prop === 'clip' && <g className="pixel-prop pixel-prop-clip">
+      <path d="M118 96l-16 18a7 7 0 0 0 10 10l20-22a12 12 0 0 0-17-17l-22 24a17 17 0 0 0 24 24l16-18" stroke="var(--nb-yellow)" strokeWidth="2.2" fill="none"/>
+      <path className="pixel-prop-paw" d="M108 118Q114 112 120 118L118 126H110Z"/>
+    </g>}
     <g className="cat-hearts"><path d="M27 43C18 33 24 27 29 32C34 25 42 32 34 39L27 43Z"/><path d="M144 25C137 18 142 13 147 17C151 12 156 18 151 22L144 25Z"/></g>
     <g className="cat-zzz"><path d="M136 38h10l-10 10h10M149 20h14l-14 14h14"/></g>
   </svg>;
+}
+
+
+/** True for a moment after a clip is saved anywhere on the page: Pixel
+ *  carries it to the tray. Dispatched by the paperclip context. */
+function useClipCarry() {
+  const [carrying, setCarrying] = useState(false);
+  useEffect(() => {
+    let timer = 0;
+    const carry = () => { setCarrying(true); window.clearTimeout(timer); timer = window.setTimeout(() => setCarrying(false), 1800); };
+    window.addEventListener('notebook:clipped', carry);
+    return () => { window.removeEventListener('notebook:clipped', carry); window.clearTimeout(timer); };
+  }, []);
+  return carrying;
 }
 
 export function CatCompanion({ placement = 'desk', walking = false, compact = false }: {
@@ -87,12 +105,13 @@ export function CatCompanion({ placement = 'desk', walking = false, compact = fa
   const pet = useCompanion();
   const [curious,setCurious] = useState(false);
   const [inspecting,setInspecting] = useState(false);
+  const carrying = useClipCarry();
   if(!pet) return null;
-  const mood:Mood = pet.purring ? 'purring' : walking ? 'walking' : curious ? 'curious' : 'idle';
+  const mood:Mood = pet.purring ? 'purring' : walking ? 'walking' : curious || carrying ? 'curious' : 'idle';
   return <div className={`companion companion-${placement} ${compact?'companion-compact':''} ${pet.hidden?'companion-hidden':''} ${inspecting?'companion-inspecting':''}`} data-quiet={pet.reduced ? 'true':'false'}>
     {pet.hidden ? <button className="companion-restore" onClick={()=>pet.hide(false)}>{COPY.show} ↗</button> : <>
-      <button className="companion-pet" aria-label={COPY.pet} onClick={()=>{pet.pet();setInspecting(!inspecting);}} onMouseEnter={()=>setCurious(true)} onMouseLeave={()=>setCurious(false)} onFocus={()=>setCurious(true)} onBlur={()=>setCurious(false)}><RoboCatDrawing mood={mood}/></button>
-      <div className="companion-console"><span className="companion-name">{COPY.name}<small>PX–01</small></span><p className="companion-status" role="status" aria-live="polite">{COPY[mood]}</p><div className="companion-controls"><button onClick={()=>pet.hide(true)} aria-label={COPY.hide}>×</button></div></div>
+      <button className="companion-pet" aria-label={COPY.pet} onClick={()=>{pet.pet();setInspecting(!inspecting);}} onMouseEnter={()=>setCurious(true)} onMouseLeave={()=>setCurious(false)} onFocus={()=>setCurious(true)} onBlur={()=>setCurious(false)}><RoboCatDrawing mood={mood} prop={carrying ? 'clip' : undefined}/></button>
+      <div className="companion-console"><span className="companion-name">{COPY.name}<small>PX–01</small></span><p className="companion-status" role="status" aria-live="polite">{carrying ? COPY.carrying : COPY[mood]}</p><div className="companion-controls"><button onClick={()=>pet.hide(true)} aria-label={COPY.hide}>×</button></div></div>
     </>}
   </div>;
 }
@@ -109,6 +128,7 @@ export function PixelStation({ scene }: PixelStationProps) {
   const restore = useRef<HTMLButtonElement>(null);
   const [visible, setVisible] = useState(false);
   const [curious, setCurious] = useState(false);
+  const carrying = useClipCarry();
   useEffect(() => {
     let intersecting = false;
     const update = () => setVisible(intersecting && !document.hidden);
@@ -129,7 +149,7 @@ export function PixelStation({ scene }: PixelStationProps) {
   return <div ref={station} className={`pixel-station pixel-station-${scene}`} data-pose={context.pose} data-still={still || undefined} data-quiet={pet.reduced ? 'true' : 'false'} data-hidden={pet.hidden || undefined} aria-label={`${PIXEL_COPY.name} · ${context.label}`}>
     {pet.hidden ? <button ref={restore} className="pixel-station-restore" onClick={show}>{COPY.show} ↗</button> : <>
       <button ref={avatar} className="pixel-station-avatar" aria-label={COPY.pet} onClick={pet.pet} onMouseEnter={()=>setCurious(true)} onMouseLeave={()=>setCurious(false)} onFocus={()=>setCurious(true)} onBlur={()=>setCurious(false)}>
-        <RoboCatDrawing mood={mood} prop={context.pose === 'reading' ? 'book' : context.pose === 'carrying' ? 'letter' : 'lens'}/>
+        <RoboCatDrawing mood={carrying ? 'curious' : mood} prop={carrying ? 'clip' : context.pose === 'reading' ? 'book' : context.pose === 'carrying' ? 'letter' : 'lens'}/>
       </button>
         <details className="pixel-station-settings">
           <summary aria-label={PIXEL_COPY.settings}>···</summary>

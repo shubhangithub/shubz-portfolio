@@ -1,11 +1,12 @@
 import { FigureCaption } from "../shared/FigureCaption";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { nbTheme, type NBTheme } from "../../data/palette";
 import { NOTEBOOK_NAV, NOTEBOOK_COPY, PENS, COMPANION_COPY, DISCOVERY_COPY } from "../../data/notebook";
 import { SITE_LAST_UPDATED_DATE } from "../../data/site";
 import { BIO, type Span } from "../../data/home";
 import { JOURNAL } from "../../data/now";
 import { useHeaderHidden } from "../../lib/v6";
+import { useNudge } from "../../lib/nudge";
 import { VISIBLE_POSTS, isAvailableSiteLink } from "../../data/posts";
 
 import { WorkbenchGrid } from "./WorkbenchGrid";
@@ -96,12 +97,30 @@ export function PenShelf() {
 export function DeskScene() {
   const sound=useWorkbenchSound();
   const [open, setOpen] = useState(false);
-  return <div className={`desk-scene ${open ? "book-is-open" : ""}`}>
+  const book = useRef<HTMLDivElement>(null);
+  const scene = useRef<HTMLDivElement>(null);
+  const girl = useRef<HTMLElement | null>(null);
+  // The sprite keeps its own absolute position; the nudge attaches to it directly.
+  useLayoutEffect(() => { girl.current = scene.current?.querySelector<HTMLElement>(".desk-girl") ?? null; }, []);
+  useNudge(book); useNudge(girl, { limit: 40 });
+  // Select the name in the hero and the narrator says hello.
+  const [greeting, setGreeting] = useState(false);
+  useEffect(() => {
+    let timer = 0;
+    const onSelect = () => {
+      const sel = document.getSelection(); const text = sel?.toString().trim() ?? "";
+      if (!/shubz/i.test(text) || !sel?.anchorNode || !(sel.anchorNode.parentElement?.closest(".home-intro"))) return;
+      setGreeting(true); window.clearTimeout(timer); timer = window.setTimeout(() => setGreeting(false), 1400);
+    };
+    document.addEventListener("selectionchange", onSelect);
+    return () => { document.removeEventListener("selectionchange", onSelect); window.clearTimeout(timer); };
+  }, []);
+  return <div className={`desk-scene ${open ? "book-is-open" : ""} ${greeting ? "narrator-greets" : ""}`} ref={scene}>
     <div className="desk-objects">
     <div className="desk-orbit" aria-hidden="true"><span>notes from a work in progress</span></div>
-    <div className="desk-book">
+    <div className="desk-book" ref={book}>
       <div className="book-leaves"><span className="eyebrow">Contents</span><p>{NOTEBOOK_COPY.bookInscription}</p>{NOTEBOOK_NAV.slice(1).map(n => <a href={n.path} key={n.key}><span>{n.act}</span>{n.label}<span>↗</span></a>)}</div>
-      <button type="button" className="book-cover" onClick={() => {sound.play(open?"close":"open");setOpen(!open);}} aria-expanded={open} aria-label={open ? NOTEBOOK_COPY.bookClose : NOTEBOOK_COPY.bookHint}><span className="book-cover-front"><span className="book-cover-top">OBSERVATIONS / EXPERIMENTS</span><span className="book-emblem"><NotebookMark/></span><strong>{NOTEBOOK_COPY.bookTitle}</strong><span className="book-cover-byline">{NOTEBOOK_COPY.bookByline}</span><span className="book-band"/><span className="book-open-label">{NOTEBOOK_COPY.bookHint} ↗</span></span><span className="book-cover-back" aria-hidden="true"><NotebookMark/><span>Shubz Sharma</span></span></button>
+      <button type="button" className="book-cover" onPointerDown={() => sound.play("press")} onClick={() => {sound.play("release");setOpen(!open);}} aria-expanded={open} aria-label={open ? NOTEBOOK_COPY.bookClose : NOTEBOOK_COPY.bookHint}><span className="book-cover-front"><span className="book-cover-top">OBSERVATIONS / EXPERIMENTS</span><span className="book-emblem"><NotebookMark/></span><strong>{NOTEBOOK_COPY.bookTitle}</strong><span className="book-cover-byline">{NOTEBOOK_COPY.bookByline}</span><span className="book-band"/><span className="book-open-label">{NOTEBOOK_COPY.bookHint} ↗</span></span><span className="book-cover-back" aria-hidden="true"><NotebookMark/><span>Shubz Sharma</span></span></button>
     </div>
     <NarratorSprite className="desk-girl"/>
     <CatCompanion placement="desk"/>
@@ -162,6 +181,7 @@ export function NotebookTerminal({ full = false, onTheme }: { full?: boolean; on
       } else output = "Pens: " + PENS.map(p => p.key).join(", ") + ".";
     }
     if (verb === "theme") { onTheme?.(); output = "Switched the desk light."; }
+    if (verb === "walk") { output = <a href="/work/?walk=play#walk">Starting the walk — /work ↗</a>; window.location.assign("/work/?walk=play#walk"); }
     if (cmd.toLowerCase() === "sudo hire-me") output = <a href="/contact/">That probably calls for a letter. /contact ↗</a>;
     setEntries(e => [...e, { command: cmd, output }].slice(-30)); setCommand(""); setHistoryIndex(-1);
     input.current?.focus();

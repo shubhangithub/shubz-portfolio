@@ -20,6 +20,13 @@ const places = [[34,24],[66,24],[17,50],[83,50]];
 export function NowArtifact({t}:{t:NBTheme}) {
  const [selection,setSelection]=useState('focus-0');
  const [reduced,setReduced]=useState(true),[visible,setVisible]=useState(false);
+ const [swinging,setSwinging]=useState(false);
+ // A resize is the room moving: the mobile swings, then settles.
+ useEffect(()=>{
+  let timer=0,last=innerWidth;
+  const onResize=()=>{if(reduced||Math.abs(innerWidth-last)<24)return;last=innerWidth;setSwinging(true);window.clearTimeout(timer);timer=window.setTimeout(()=>setSwinging(false),1500);};
+  window.addEventListener('resize',onResize);return()=>{window.removeEventListener('resize',onResize);window.clearTimeout(timer);};
+ },[reduced]);
  const root=useRef<HTMLDivElement>(null),panel=useRef<HTMLDivElement>(null);
  const sound=useWorkbenchSound();
  const motions=useRef(new Set<Animation>()),motionFrame=useRef(0);
@@ -89,7 +96,7 @@ export function NowArtifact({t}:{t:NBTheme}) {
  const focusIndex=selection.startsWith('focus-')?Number(selection.slice(6)):-1;
  const bookIndex=selection.startsWith('reading-book-')?Number(selection.slice(13)):-1;
  const accent=focusIndex>=0?t[FOCUSES[focusIndex].family]:t[FOCUSES[readingIndex].family];
- return <div className="now-artifact" ref={root} style={{'--artifact-ink':accent} as CSSProperties} data-moving={!reduced&&visible||undefined}>
+ return <div className="now-artifact" ref={root} style={{'--artifact-ink':accent} as CSSProperties} data-moving={!reduced&&visible||undefined} data-swing={swinging||undefined}>
   <div className="section-label now-artifact-heading"><h2 id="current-desk-title"><span>i</span>{COPY.title}</h2></div>
   <div className="now-artifact-workspace">
    <div className="now-mobile-scene" role="group" aria-label="Current work and reading objects">

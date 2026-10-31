@@ -131,6 +131,15 @@ export function WalkScene({
       setScrollMode(false);
     }
   }, [selectedEvent, moments, defaultIndex]);
+  // `?walk=play` (the terminal's `walk` command) starts the walk on arrival.
+  // Declared after the selection effect above, which resets playing on mount.
+  useEffect(() => {
+    if (new URLSearchParams(location.search).get("walk") !== "play") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    setIndex(0);
+    setPlaying(true);
+    requestAnimationFrame(() => root.current?.scrollIntoView({ block: "start", behavior: "instant" }));
+  }, []);
   const moment = moments[index];
   const start = moments[0].time,
     end = moments[moments.length - 1].time;

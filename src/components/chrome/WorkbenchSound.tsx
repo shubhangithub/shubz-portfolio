@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { DISCOVERY_COPY as COPY } from '../../data/notebook';
 
-type Cue = 'open' | 'close' | 'terminal' | 'pen' | 'pet' | 'step';
+type Cue = 'open' | 'close' | 'terminal' | 'pen' | 'pet' | 'step' | 'press' | 'release';
 type SoundState = { enabled: boolean; available: boolean; toggle: () => void; play: (cue: Cue) => void };
 const SoundContext = createContext<SoundState>({enabled:false,available:true,toggle:()=>{},play:()=>{}});
 export const useWorkbenchSound = () => useContext(SoundContext);
@@ -10,6 +10,9 @@ const audioConstructor = () => window.AudioContext || (window as unknown as {web
 const NOTES: Record<Cue,number[]> = {
   open:[330,495], close:[330,247], terminal:[440,660,880],
   pen:[740,990], pet:[180,240,210], step:[280,350],
+  // The notebook's cue split in two: the first note on pointer-down, the
+  // second on release, so the sound follows the hand.
+  press:[330], release:[495],
 };
 export function WorkbenchSoundProvider({children}:{children:React.ReactNode}) {
   const [enabled,setEnabled]=useState(false);
@@ -30,7 +33,7 @@ export function WorkbenchSoundProvider({children}:{children:React.ReactNode}) {
   },[]);
   const play=useCallback((cue:Cue)=>{
     if(!enabledRef.current||typeof audioConstructor()!=='function'||document.visibilityState!=='visible')return;
-    const now=performance.now();if(now-last.current<110)return;last.current=now;
+    const now=performance.now();if(now-last.current<110&&cue!=='release')return;last.current=now;
     try {
       // This function is invoked by deliberate controls, never a mount/timer effect.
       const Constructor=audioConstructor()!;

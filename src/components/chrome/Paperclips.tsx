@@ -70,12 +70,11 @@ export function PaperclipProvider({ children }: { children: React.ReactNode }) {
         temporary,
         clear: () => update([]),
         toggle: (id) => {
-          if (known.has(id))
-            update(
-              latest.current.includes(id)
-                ? latest.current.filter((x) => x !== id)
-                : [...latest.current, id],
-            );
+          if (!known.has(id)) return;
+          const adding = !latest.current.includes(id);
+          update(adding ? [...latest.current, id] : latest.current.filter((x) => x !== id));
+          // Pixel carries a new clip to the tray (RoboCat listens).
+          if (adding) window.dispatchEvent(new CustomEvent("notebook:clipped"));
         },
       }}
     >

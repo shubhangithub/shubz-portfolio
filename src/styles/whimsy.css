@@ -1,0 +1,33 @@
+/* whimsy.css — the small physical responses. Every one respects
+   prefers-reduced-motion and none of them carries information. */
+
+/* Nudge: pick up the notebook or the narrator on the home desk; it follows
+   the hand with resistance and springs back when let go. */
+.desk-book, .desk-scene .desk-girl { translate: var(--nudge-x, 0) var(--nudge-y, 0); transition: translate 720ms cubic-bezier(.34, 1.56, .64, 1); touch-action: pan-y; }
+.desk-book.is-nudging, .desk-scene .desk-girl.is-nudging { transition: none; cursor: grabbing; }
+.desk-book.is-held, .desk-scene .desk-girl.is-held { cursor: grab; }
+
+/* Greeting: select "Shubz." and the narrator hops. */
+.narrator-greets .desk-girl { animation: narrator-hop 1.1s cubic-bezier(.3, .8, .4, 1) 1; }
+@keyframes narrator-hop {
+  0% { transform: translateY(0) rotate(0); }
+  30% { transform: translateY(-16px) rotate(-2deg); }
+  55% { transform: translateY(0) rotate(0); }
+  72% { transform: translateY(-7px) rotate(1.5deg); }
+  100% { transform: translateY(0) rotate(0); }
+}
+
+/* Swing: the mobile on /now reacts to the window being resized. */
+.journal-studio .now-artifact[data-swing] .now-focus-object .field-object { animation: now-object-swing 1.5s cubic-bezier(.3, .8, .4, 1) 1 !important; }
+@keyframes now-object-swing {
+  0% { transform: rotate(0); } 25% { transform: rotate(7deg); } 55% { transform: rotate(-5deg); } 80% { transform: rotate(2deg); } 100% { transform: rotate(0); }
+}
+
+/* Pixel carrying a clip lifts a little. */
+.pixel-prop-clip { transform-origin: 110px 110px; animation: clip-lift .9s ease-out 1; }
+@keyframes clip-lift { 0% { transform: translateY(12px) scale(.6); opacity: 0; } 40% { transform: translateY(-4px) scale(1.05); opacity: 1; } 100% { transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .desk-book, .desk-scene .desk-girl { transition: none; }
+  .narrator-greets .desk-girl, .journal-studio .now-artifact[data-swing] .now-focus-object .field-object, .pixel-prop-clip { animation: none !important; }
+}
