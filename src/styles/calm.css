@@ -58,13 +58,15 @@ html[data-theme="dark"] .folio:not(.folio-home)[data-live-grid="true"] { backgro
    Best Paper…) get a larger title and their first sentence in the row.
    --------------------------------------------------------------------------- */
 .folio .career-featured summary { padding-top: 28px; padding-bottom: 28px; }
-.folio .career-featured strong { font-size: 28px; }
+.folio .career-entry:not(.career-featured) strong { font-size: 21px; }
+.folio .career-featured strong { font-size: 30px; }
 .folio .career-featured .career-lead { display: block; margin-top: 8px; font: 15px/1.55 var(--f-ui); color: var(--nb-softInk); max-width: 62ch; }
 .folio .career-featured .career-dot { width: 9px; height: 9px; }
 /* The full note opens below the row, so the lead sentence steps aside. */
 .folio .career-featured[open] .career-lead { display: none; }
 @media (max-width: 700px) {
-  .folio .career-featured strong { font-size: 22px; }
+  .folio .career-entry:not(.career-featured) strong { font-size: 18px; }
+  .folio .career-featured strong { font-size: 25px; }
   .folio .career-featured .career-lead { font-size: 14px; }
 }
 

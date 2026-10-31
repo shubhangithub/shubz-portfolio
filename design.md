@@ -705,3 +705,8 @@ photo without an article destination is an unlinked image with a caption.
 The current opening featured essay is “Feedback with a delay · October '26”,
 with its delayed-feedback diagram. October takes the first featured slot on
 Writing and Home; the August mosquito essay remains in the essay index.
+
+Career record title hierarchy must survive phone breakpoints: featured (`big`)
+entries use 30px titles on desktop and 25px on phones; supporting entries use
+21px and 18px respectively. Keep the featured lead sentence and larger marker.
+Never give both tiers the same mobile font size.
