@@ -1,0 +1,23 @@
+/* Large displays get a larger workspace; phones and laptops keep their layout. */
+@media screen and (min-width:1600px) {
+  :root { --wide-page: min(92vw, 2100px); }
+  .folio .folio-main,
+  .folio .folio-header-inner,
+  .folio .folio-footer,
+  .folio .workbench-status { max-width:var(--wide-page); padding-inline:40px; }
+  .folio .home-intro { grid-template-columns:minmax(0,1fr) minmax(430px,.8fr); gap:clamp(40px,4vw,120px); }
+  .folio .desk-scene { transform:scale(1.15); transform-origin:center; }
+  .folio .home-intro { min-height:660px; }
+  .folio .now-mobile-scene { width:100%; max-width:780px; justify-self:center; }
+  .folio .home-role { max-width:54ch; }
+  .folio .page-hero { gap:clamp(70px,7vw,160px); }
+  .folio .front-door-stage { gap:clamp(48px,4vw,100px); }
+  .folio .front-door-figure { min-width:0; }
+  .folio .journal-reel { grid-template-columns:minmax(300px,1fr) minmax(0,900px); gap:48px; max-width:1480px; }
+  .folio .journal-memory > p { max-width:65ch; }
+  .folio .article-shell { max-width:var(--wide-page); }
+  .folio .article-wide-header { max-width:1800px!important; }
+  .folio .article-wide-layout { max-width:1800px!important; grid-template-columns:220px minmax(0,1fr) 260px!important; gap:48px!important; }
+  .folio .article-wide-body { max-width:900px!important; }
+  .folio #essay-body > :is(p,h2,h3,ul,ol,blockquote) { max-width:65ch; margin-inline:auto; }
+}

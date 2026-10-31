@@ -710,3 +710,12 @@ Career record title hierarchy must survive phone breakpoints: featured (`big`)
 entries use 30px titles on desktop and 25px on phones; supporting entries use
 21px and 18px respectively. Keep the featured lead sentence and larger marker.
 Never give both tiers the same mobile font size.
+
+## Large monitors
+
+At 1600px and wider, the shared page, navigation and footer grow to 92vw,
+capped at 2100px. Do not leave large monitors in the 1248px laptop container.
+Use the space for illustrations, project layouts and separated columns. The
+journal spread grows to 1480px; essay workspaces grow to 1800px with larger
+figures while prose stays within 65ch. Keep layouts below 1600px unchanged.
+Verify 1920px, 2560px and 3440px alongside the existing phone/laptop sizes.

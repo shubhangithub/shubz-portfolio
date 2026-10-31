@@ -145,7 +145,7 @@ export function ArticleV5({
       {/* HERO — outer container caps at 1380px so the body grid below
           doesn't sprawl on ultra-wide displays. Centred. The hero itself
           spans this max-width; the H1 + dek still cap typographically. */}
-      <div style={{ padding: PAGE_PAD, maxWidth: 1380, margin: "0 auto" }}>
+      <div className="article-wide-header" style={{ padding: PAGE_PAD, maxWidth: 1380, margin: "0 auto" }}>
         <div style={{ borderBottom: `2px solid ${t.ink}`, paddingBottom: 22, marginBottom: 36, position: "relative" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 22, marginTop: 18, gap: 12, flexWrap: "wrap" }}>
             <div className="caps" style={{ fontFamily: "var(--f-ui)", color: accent, fontSize: 12, letterSpacing: "0.16em", display: "flex", alignItems: "center", gap: 12 }}>
@@ -189,7 +189,7 @@ export function ArticleV5({
           Outer container caps at 1380px so columns sit close together on
           wide displays (otherwise the 62ch middle leaves big empty gaps
           inside its 1fr cell; the article itself is 56ch ≈ 66 characters). Mobile stacks single-column. */}
-      <div style={{
+      <div className="article-wide-layout" style={{
         padding: isMobile ? "0 20px" : "0 48px",
         maxWidth: isMobile ? "100%" : 1380,
         margin: "0 auto",
@@ -224,7 +224,7 @@ export function ArticleV5({
 
         {/* MIDDLE — essay body. Capped at 62ch for readable line-length;
             margin: 0 auto centres it inside the (wider) middle column. */}
-        <article style={{
+        <article className="article-wide-body" style={{
           fontFamily: "var(--f-body)",
           fontSize: isMobile ? "1.08rem" : "1.12rem",
           lineHeight: 1.72,
