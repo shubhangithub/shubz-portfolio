@@ -66,7 +66,9 @@ export type Post = {
 export const POSTS: Post[] = [
   {
     slug: "october-feedback",
-    title: "The correction arrives late · October '26",
+    featured: 1,
+    opening: "Turn up a shower that feels too cold, wait for the warmer water to reach you, and there is an interval when another turn of the tap could respond to water that was already on its way. By the time the first adjustment reaches you, the second is already in the pipes, and the shower is heading past the temperature you wanted.",
+    title: "Feedback with a delay · October '26",
     kicker: "Essay · Infrastructure",
     dek: "What happens when a controller keeps correcting an error that has already changed.",
     minutes: 7,
@@ -96,7 +98,6 @@ export const POSTS: Post[] = [
   },
   {
     slug: "ross-threshold",
-    featured: 1,
     opening: "A mosquito can pick up the malaria parasite when it bites an infected person, then pass it to someone else through a later bite. That gives the parasite a route back into the human population, where another mosquito can pick it up and continue the chain. Malaria can stop sustaining itself while mosquitoes remain, provided transmission falls far enough that each infection produces fewer replacements.",
     title: "The last mosquito · August '26",
     kicker: "Essay · Mathematical biology",

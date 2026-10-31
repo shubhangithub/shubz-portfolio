@@ -701,3 +701,7 @@ or per-component font overrides. Longer labels wrap naturally on phones.
 Photographs stay inline: do not add image-file links, full-resolution viewers or
 click-to-zoom behaviour. Journal artifacts may link to a related article, but a
 photo without an article destination is an unlinked image with a caption.
+
+The current opening featured essay is “Feedback with a delay · October '26”,
+with its delayed-feedback diagram. October takes the first featured slot on
+Writing and Home; the August mosquito essay remains in the essay index.

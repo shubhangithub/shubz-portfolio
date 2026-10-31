@@ -6,6 +6,7 @@
  * rather than a picture of it.
  */
 import React from "react";
+import { DelayedCorrection } from "../diagrams/OctoberFeedbackDiagrams";
 import { MosquitoThreshold } from "../diagrams/RossThreshold";
 import { BottleneckMap } from "../diagrams/BottleneckMap";
 import { KillChainPhases } from "../diagrams/KillChainPhases";
@@ -23,6 +24,11 @@ export type FeaturedFigure = {
 };
 
 const FIGURES: Record<string, FeaturedFigure> = {
+  "october-feedback": {
+    file: "a.py",
+    caption: "A correction based on the current error, compared with the same correction based on the previous sample. Both start from the same specified history; the signed vertical scale adapts to the trace.",
+    render: (p) => <DelayedCorrection palette={p} />,
+  },
   "ross-threshold": {
     file: "human.py",
     caption: "Human infection over 600 days, with the eventual equilibrium marked separately. The parameters illustrate the threshold; they are not fitted to a location or an outbreak.",
