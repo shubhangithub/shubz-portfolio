@@ -730,3 +730,7 @@ where supported; muting, hiding or unmounting releases it. Recreate closed audio
 contexts, resume suspended/interrupted ones from a gesture, and show a retry
 state if playback fails instead of leaving a misleading enabled icon. Verify
 an actual non-zero audio signal, mute, persisted preference and recovery.
+
+Petting Pixel plays a soft three-second pulsed purr, matching the happy animation,
+rather than a sequence of notification notes. Repeat pets restart the purr;
+muting or leaving the page stops it. Sounds still require explicit opt-in.

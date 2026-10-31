@@ -30,7 +30,8 @@ export function WorkbenchSoundProvider({children}:{children:React.ReactNode}) {
   const context=useRef<AudioContext>();
   const output=useRef<GainNode>();
   const last=useRef(0);
-  const active=useRef(new Set<OscillatorNode>());
+  const active=useRef(new Set<AudioScheduledSourceNode>());
+  const purr=useRef<AudioBufferSourceNode>();
   useEffect(()=>{
     setAvailable(typeof audioConstructor()==='function');
     try {enabledRef.current=localStorage.getItem('notebook-sound')==='on';setEnabled(enabledRef.current);}catch{}
@@ -65,10 +66,28 @@ export function WorkbenchSoundProvider({children}:{children:React.ReactNode}) {
         if(ctx.state!=='running'){playbackFailed();return;}
         setFailed(false);
         master.gain.setValueAtTime(.32,ctx.currentTime);
+        if(cue==='pet'){
+          // Three seconds of softly pulsed low harmonics, with a breathing
+          // envelope and a little texture; duration matches Pixel's animation.
+          if(purr.current){try{purr.current.stop();}catch{}}
+          const duration=3,buffer=ctx.createBuffer(1,Math.ceil(ctx.sampleRate*duration),ctx.sampleRate);
+          const samples=buffer.getChannelData(0);
+          for(let i=0;i<samples.length;i++){
+            const t=i/ctx.sampleRate;
+            const fade=Math.min(1,t/.12,(duration-t)/.3);
+            const breath=.65+.35*Math.pow(Math.sin(Math.PI*t/1.25),2);
+            const pulse=.3+.7*Math.pow(.5+.5*Math.sin(2*Math.PI*26*t),2);
+            samples[i]=fade*breath*pulse*(.28*Math.sin(2*Math.PI*105*t)+.1*Math.sin(2*Math.PI*210*t)+.025*(Math.random()*2-1));
+          }
+          const source=ctx.createBufferSource();source.buffer=buffer;source.connect(master);
+          purr.current=source;active.current.add(source);
+          source.onended=()=>{active.current.delete(source);source.disconnect();if(purr.current===source)purr.current=undefined;};
+          source.start();return;
+        }
         NOTES[cue].forEach((frequency,i)=>{
           const osc=ctx.createOscillator(),gain=ctx.createGain();
           const start=ctx.currentTime+i*.045,end=start+.105;
-          osc.type=cue==='pet'?'triangle':'sine';osc.frequency.setValueAtTime(frequency,start);
+          osc.type='sine';osc.frequency.setValueAtTime(frequency,start);
           gain.gain.setValueAtTime(0,start);gain.gain.linearRampToValueAtTime(.3,start+.009);gain.gain.exponentialRampToValueAtTime(.001,end);
           osc.connect(gain);gain.connect(master);active.current.add(osc);
           osc.onended=()=>{active.current.delete(osc);osc.disconnect();gain.disconnect();};
