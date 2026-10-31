@@ -724,3 +724,9 @@ On wide screens the About office stage participates in grid flow: its growing
 aspect-ratio height must contribute to the section height. Never absolutely
 position the enlarged room inside a fixed-height wrapper. Check the room’s
 bottom edge against the following carousel at every large-screen breakpoint.
+
+Sound stays opt-in. An explicit sound action requests Safari’s playback session
+where supported; muting, hiding or unmounting releases it. Recreate closed audio
+contexts, resume suspended/interrupted ones from a gesture, and show a retry
+state if playback fails instead of leaving a misleading enabled icon. Verify
+an actual non-zero audio signal, mute, persisted preference and recovery.
