@@ -13,4 +13,4 @@ export const SITE_OG_TAGLINE =
 /** The one site-wide "last updated" date. Every page's banner reads this —
  *  update it here once per editing session and all five pages move together.
  *  Format: "dd Mmm yyyy" — the same case as the stamp on /now. */
-export const SITE_LAST_UPDATED_DATE = "29 Oct 2026";
+export const SITE_LAST_UPDATED_DATE = "30 Oct 2026";
