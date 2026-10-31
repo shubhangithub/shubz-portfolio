@@ -33,6 +33,6 @@ export function RossThresholdEssay({ palette: p }: {palette:Palette}) {
  <span className="sidenote"><strong>4.</strong> The exponential comes from constant mortality over a fixed interval. It is absent from the two-equation illustration above; adding an incubation process changes the model being evaluated.</span></p>
  <p>Killing mosquitoes earlier can therefore affect which ones live long enough to transmit, as well as how many are present. A comparison between “fewer mosquitoes” and “fewer bites” cannot settle the choice between real interventions without accounting for these mechanisms and what it costs to change them. Neither axis in the figure supplies that missing information.</p>
  <p>The remaining mosquitoes also leave a continuing obligation. If the conditions that brought R below one are allowed to reverse while infection remains, growth can resume. The mathematical permission to leave mosquitoes alive comes with a requirement to keep measuring the circumstances in which they bite, which is a less tidy stopping point than counting down to zero.</p>
- <p style={{color:p.muted,fontStyle:'italic',marginTop:'2.4rem',borderTop:`1px solid ${p.line}`,paddingTop:'1.4rem'}}>— in the field notebook, October 2026, revisiting the August mosquito.</p>
+ <p style={{color:p.muted,fontStyle:'italic',marginTop:'2.4rem',borderTop:`1px solid ${p.line}`,paddingTop:'1.4rem'}}>— revisiting Ross for August; finished in October 2026.</p>
  </>);
 }
